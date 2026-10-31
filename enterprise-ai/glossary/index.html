@@ -27,7 +27,7 @@
 
 <link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
-<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
 <noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
 
 </head>
@@ -69,7 +69,7 @@
       <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
     </summary>
     <ul>
-      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
     </ul>
   </details>
 </li>
@@ -121,6 +121,11 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
     </ul>
   </details>
@@ -145,12 +150,26 @@
 <li class="nav-tree__item">
   <details>
     <summary>
-      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
     </summary>
     <ul>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
     </ul>
   </details>
 </li>
@@ -173,7 +192,7 @@
     <header class="article__header">
       <h1 itemprop="headline">Glossary</h1><p class="article__lede" itemprop="description">Short definitions of the enterprise AI and agentic AI terms used across the handbook, with links to the articles that explain them.</p>
 <ul class="article-meta" aria-label="Article details">
-  <li>4 min read</li>
+  <li>6 min read</li>
   <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
   <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a>
   </li>
@@ -187,10 +206,20 @@
 <dl>
 <dt><strong>A2A (Agent2Agent protocol)</strong></dt>
 <dd>An open protocol for agents to discover each other through agent cards and delegate tasks. See <a href="/enterprise-ai/agentic-ai/multi-agent-systems/#agent-to-agent-protocols">Multi-agent systems</a>.</dd>
+<dt><strong>AG-UI (Agent–User Interaction protocol)</strong></dt>
+<dd>An open protocol streaming typed events between an agent and a user interface. See <a href="/enterprise-ai/agentic-ai/agent-protocols/#ag-ui">Agent protocol stack</a>.</dd>
 <dt><strong>Advisor (Spring AI)</strong></dt>
 <dd>An interceptor around a ChatClient call, used for memory, RAG, logging, tool loops and custom concerns. See <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/#advisors-the-interception-chain">Spring AI fundamentals</a>.</dd>
 <dt><strong>Agent</strong></dt>
 <dd>An LLM-driven system that loops — reason, act through tools, observe — until a goal is met. See <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></dd>
+<dt><strong>Agent framework</strong></dt>
+<dd>A library that runs the agent loop and adds state, tools, multi-agent coordination, guardrails and tracing. See <a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a>.</dd>
+<dt><strong>Agent harness</strong></dt>
+<dd>Everything around the model that makes an agent reliable: loop, tools, permissions, context management, skills, checkpoints, verification. See <a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a>.</dd>
+<dt><strong>Agent Skills</strong></dt>
+<dd>Folders with a <code>SKILL.md</code> and resources that agents load on demand. See <a href="/enterprise-ai/agentic-ai/agent-protocols/#agent-skills">Agent protocol stack</a>.</dd>
+<dt><strong>AGENTS.md</strong></dt>
+<dd>A Markdown file in a repository with instructions for coding agents. See <a href="/enterprise-ai/agentic-ai/agent-protocols/#agentsmd">Agent protocol stack</a>.</dd>
 <dt><strong>Agentic RAG</strong></dt>
 <dd>RAG where an agent decides when and where to retrieve, possibly several times. See <a href="/enterprise-ai/rag/advanced-retrieval/#agentic-rag">Advanced retrieval</a>.</dd>
 <dt><strong>AI gateway</strong></dt>
@@ -199,6 +228,8 @@
 <dd>Search that finds most of the closest vectors quickly without comparing all of them. See <a href="/enterprise-ai/rag/vector-databases/">Vector databases</a>.</dd>
 <dt><strong>Attention</strong></dt>
 <dd>The transformer mechanism by which each token weighs and uses information from other tokens. See <a href="/enterprise-ai/foundations/how-llms-work/#3-the-transformer-and-attention">How LLMs work</a>.</dd>
+<dt><strong>AgentOps</strong></dt>
+<dd>Operating agents like production services: SLOs, monitoring, incidents, cost and continuous evaluation. See <a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/#operating-model-agentops">Agentic AI strategy</a>.</dd>
 </dl>
 <h3 id="bc">B–C<a class="heading-anchor" href="#bc" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -206,6 +237,8 @@
 <dd>A classic keyword relevance ranking function used in sparse/keyword search. See <a href="/enterprise-ai/rag/advanced-retrieval/#hybrid-search">Advanced retrieval</a>.</dd>
 <dt><strong>Chunking</strong></dt>
 <dd>Splitting documents into passages for retrieval. See <a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking and embeddings</a>.</dd>
+<dt><strong>Computer-use agent</strong></dt>
+<dd>An agent that operates graphical interfaces from screenshots with clicks and keystrokes. See <a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a>.</dd>
 <dt><strong>Context engineering</strong></dt>
 <dd>Deciding everything that goes into the context window on each call. See <a href="/enterprise-ai/foundations/prompt-engineering/#context-engineering">Prompt and context engineering</a>.</dd>
 <dt><strong>Context window</strong></dt>
@@ -225,6 +258,8 @@
 <dd>The EU regulation classifying AI systems by risk tier with matching obligations. See <a href="/enterprise-ai/spring-ai-governance/ai-governance/#the-eu-ai-act">AI governance</a>.</dd>
 <dt><strong>Evaluator–optimizer</strong></dt>
 <dd>A loop where one LLM generates and another critiques until criteria are met. See <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow patterns</a>.</dd>
+<dt><strong>Embabel</strong></dt>
+<dd>A JVM agent framework on Spring AI that plans typed actions toward goals with GOAP. See <a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/#embabel-goal-oriented-action-planning">JVM frameworks</a>.</dd>
 <dt><strong>Excessive agency</strong></dt>
 <dd>An LLM system with more tools, permissions or autonomy than it needs. See <a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a>.</dd>
 </dl>
@@ -234,6 +269,8 @@
 <dd>Whether every claim in an answer is supported by the retrieved context. See <a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a>.</dd>
 <dt><strong>Fine-tuning</strong></dt>
 <dd>Further training of a model&rsquo;s weights on your examples. See <a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a>.</dd>
+<dt><strong>GOAP (goal-oriented action planning)</strong></dt>
+<dd>A planning algorithm from game AI that chains actions by preconditions and effects to reach a goal. See <a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM frameworks</a>.</dd>
 <dt><strong>Golden dataset</strong></dt>
 <dd>A versioned set of test cases with expected answers used for evaluation. See <a href="/enterprise-ai/rag/rag-evaluation/#the-golden-dataset">RAG evaluation</a>.</dd>
 <dt><strong>GraphRAG</strong></dt>
@@ -257,6 +294,8 @@
 <dd>Stored attention keys and values that speed up generation. See <a href="/enterprise-ai/foundations/inference-and-serving/#kv-cache">Inference</a>.</dd>
 <dt><strong>Lethal trifecta</strong></dt>
 <dd>Private data + untrusted content + external communication in one agent. See <a href="/enterprise-ai/spring-ai-governance/ai-security/#the-lethal-trifecta">AI security</a>.</dd>
+<dt><strong>LangGraph</strong></dt>
+<dd>A graph runtime for agents with durable checkpoints and interrupts. See <a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/#langgraph-and-langchain">Python &amp; TypeScript frameworks</a>.</dd>
 <dt><strong>LLM-as-a-judge</strong></dt>
 <dd>Using an LLM with a rubric to grade outputs. See <a href="/enterprise-ai/rag/rag-evaluation/#llm-as-a-judge">RAG evaluation</a>.</dd>
 <dt><strong>LLMOps</strong></dt>
@@ -268,6 +307,8 @@
 <dl>
 <dt><strong>MCP (Model Context Protocol)</strong></dt>
 <dd>An open protocol for AI applications to use tools, resources and prompts from servers. See <a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a>.</dd>
+<dt><strong>Managed agent platform</strong></dt>
+<dd>A cloud service that runs agents with session isolation, memory, identity, tool gateways and observability. See <a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a>.</dd>
 <dt><strong>Mixture of Experts (MoE)</strong></dt>
 <dd>A model architecture that routes each token to a few expert sub-networks. See <a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a>.</dd>
 <dt><strong>Model routing</strong></dt>
@@ -306,6 +347,8 @@
 <dd>A sampling setting controlling randomness. See <a href="/enterprise-ai/foundations/how-llms-work/#4-sampling-turning-scores-into-text">How LLMs work</a>.</dd>
 <dt><strong>Token</strong></dt>
 <dd>The sub-word unit models read and write. See <a href="/enterprise-ai/foundations/how-llms-work/#1-tokens">How LLMs work</a>.</dd>
+<dt><strong>Token exchange (on-behalf-of)</strong></dt>
+<dd>An OAuth flow giving an agent a short-lived, scoped token to act for a user. See <a href="/enterprise-ai/agentic-ai/agent-identity-and-access/#delegation-with-oauth-token-exchange">Agent identity</a>.</dd>
 <dt><strong>Tool calling (function calling)</strong></dt>
 <dd>The model requesting your application to run a function. See <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>.</dd>
 <dt><strong>ToolContext (Spring AI)</strong></dt>
@@ -325,9 +368,9 @@
       </a>
     </li>
     <li class="card">
-      <a class="card__link" href="/enterprise-ai/interview-prep/cheat-sheet/">
-        <span class="card__eyebrow">Interview Prep</span>
-        <span class="card__title">Cheat sheet</span>
+      <a class="card__link" href="/enterprise-ai/review/quick-reference/">
+        <span class="card__eyebrow">Review</span>
+        <span class="card__title">Quick reference</span>
       </a>
     </li>
   </ul>
@@ -353,7 +396,7 @@
   <div class="site-footer__inner">
     <div class="site-footer__about">
       <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
-      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
     </div>
     <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
       <li><a href="/">samirsahoo.github.io</a></li>

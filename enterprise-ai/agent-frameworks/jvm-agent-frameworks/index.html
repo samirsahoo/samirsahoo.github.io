@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Frameworks for Java, Kotlin and .NET · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Building agents in enterprise stacks: Spring AI agentic patterns, Embabel&#39;s goal-oriented action planning (GOAP), LangChain4j AI Services and the agentic module, JetBrains Koog, Google ADK for Java and Microsoft Agent Framework for .NET — with code, a comparison and guidance for Spring shops.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Agent Frameworks for Java, Kotlin and .NET">
+<meta property="og:description" content="Building agents in enterprise stacks: Spring AI agentic patterns, Embabel&#39;s goal-oriented action planning (GOAP), LangChain4j AI Services and the agentic module, JetBrains Koog, Google ADK for Java and Microsoft Agent Framework for .NET — with code, a comparison and guidance for Spring shops.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agent Frameworks for Java, Kotlin and .NET">
+<meta name="twitter:description" content="Building agents in enterprise stacks: Spring AI agentic patterns, Embabel&#39;s goal-oriented action planning (GOAP), LangChain4j AI Services and the agentic module, JetBrains Koog, Google ADK for Java and Microsoft Agent Framework for .NET — with code, a comparison and guidance for Spring shops.">
+<meta name="keywords" content="agents, frameworks, java, spring-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Building agents in enterprise stacks: Spring AI agentic patterns, Embabel's goal-oriented action planning (GOAP), LangChain4j AI Services and the agentic module, JetBrains Koog, Google ADK for Java and Microsoft Agent Framework for .NET — with code, a comparison and guidance for Spring shops.","headline":"Agent Frameworks for Java, Kotlin and .NET","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, frameworks, java, spring-ai","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/jvm-agent-frameworks/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/","name":"5 · Agent Frameworks","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/jvm-agent-frameworks/","name":"JVM \u0026 .NET frameworks","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agent-frameworks">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/" aria-current="page">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a></li>
+    <li><span aria-current="page">JVM &amp; .NET frameworks</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Agent Frameworks for Java, Kotlin and .NET</h1><p class="article__lede" itemprop="description">Building agents in enterprise stacks: Spring AI agentic patterns, Embabel&#39;s goal-oriented action planning (GOAP), LangChain4j AI Services and the agentic module, JetBrains Koog, Google ADK for Java and Microsoft Agent Framework for .NET — with code, a comparison and guidance for Spring shops.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/frameworks/">#Frameworks</a><a class="tag" href="/enterprise-ai/tags/java/">#Java</a><a class="tag" href="/enterprise-ai/tags/spring-ai/">#Spring-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a>, <a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#why-jvm-native-agents-matter">Why JVM-native agents matter</a></li>
+    <li><a href="#spring-ai-patterns-on-a-solid-core">Spring AI: patterns on a solid core</a></li>
+    <li><a href="#embabel-goal-oriented-action-planning">Embabel: goal-oriented action planning</a></li>
+    <li><a href="#langchain4j-ai-services-and-the-agentic-module">LangChain4j: AI Services and the agentic module</a></li>
+    <li><a href="#koog-jetbrains">Koog (JetBrains)</a></li>
+    <li><a href="#google-adk-for-java">Google ADK for Java</a></li>
+    <li><a href="#microsoft-agent-framework-for-net">Microsoft Agent Framework for .NET</a></li>
+    <li><a href="#comparison">Comparison</a></li>
+    <li><a href="#guidance-for-a-spring-based-enterprise">Guidance for a Spring-based enterprise</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="why-jvm-native-agents-matter">Why JVM-native agents matter<a class="heading-anchor" href="#why-jvm-native-agents-matter" aria-label="Link to this section">#</a></h2>
+<p>Most enterprise systems of record — banking cores, insurance platforms, ERP integrations — run on the JVM or .NET. Building agents in the same stack reuses existing security (Spring Security, OAuth), transactions, data access, messaging, observability and deployment pipelines, and keeps agents close to the services they call. Since 2025 the JVM has gained a real choice of agent frameworks.</p>
+<figure class="diagram" aria-label="JVM agent stack"><figcaption class="diagram__title">JVM agent stack</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph Planning[&#34;Agent frameworks&#34;]
+        EMB[&#34;Embabel&lt;br/&gt;goal-oriented planning&#34;]
+        LCA[&#34;LangChain4j agentic&lt;br/&gt;sequence, parallel, supervisor&#34;]
+        KOOG[&#34;Koog&lt;br/&gt;Kotlin strategy graphs&#34;]
+        ADKJ[&#34;ADK for Java&#34;]
+    end
+    subgraph Primitives[&#34;LLM primitives&#34;]
+        SAI[&#34;Spring AI&lt;br/&gt;ChatClient, advisors, tools, MCP&#34;]
+        LC4J[&#34;LangChain4j&lt;br/&gt;AI Services, tools, RAG&#34;]
+    end
+    EMB --&gt; SAI
+    LCA --&gt; LC4J
+    KOOG --&gt; P1[&#34;Own model clients&#34;]
+    ADKJ --&gt; P2[&#34;Own model clients&#34;]
+    SAI --&gt; GW[&#34;AI gateway → models&#34;]
+    LC4J --&gt; GW</pre>
+</figure>
+<h2 id="spring-ai-patterns-on-a-solid-core">Spring AI: patterns on a solid core<a class="heading-anchor" href="#spring-ai-patterns-on-a-solid-core" aria-label="Link to this section">#</a></h2>
+<p>Spring AI provides the primitives — <code>ChatClient</code>, advisors, <code>@Tool</code>, MCP client/server, chat memory, structured output, observability (see <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a>). Agentic behaviour is built from those primitives using the <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">workflow patterns</a>: the tool-calling loop (optionally inside <code>ToolCallingAdvisor</code>), routing, chaining, orchestrator–workers and evaluator–optimizer.</p>
+<p><strong>Orchestrator–workers in plain Spring AI:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">record</span> <span class="nc">SubTask</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">description</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">record</span> <span class="nc">Plan</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">SubTask</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tasks</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nd">@Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">ImpactAnalysis</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ChatClient</span><span class="w"> </span><span class="n">planner</span><span class="p">;</span><span class="w">   </span><span class="c1">// stronger model</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ChatClient</span><span class="w"> </span><span class="n">worker</span><span class="p">;</span><span class="w">    </span><span class="c1">// cheaper model</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ImpactAnalysis</span><span class="p">(</span><span class="nd">@Qualifier</span><span class="p">(</span><span class="s">&#34;smartClient&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">ChatClient</span><span class="w"> </span><span class="n">planner</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                   </span><span class="nd">@Qualifier</span><span class="p">(</span><span class="s">&#34;fastClient&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">ChatClient</span><span class="w"> </span><span class="n">worker</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">planner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">planner</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">worker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">worker</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">analyse</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">regulationText</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Plan</span><span class="w"> </span><span class="n">plan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">planner</span><span class="p">.</span><span class="na">prompt</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">system</span><span class="p">(</span><span class="s">&#34;Split the impact analysis into 2-5 independent sub-tasks.&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">user</span><span class="p">(</span><span class="n">regulationText</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">call</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">entity</span><span class="p">(</span><span class="n">Plan</span><span class="p">.</span><span class="na">class</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plan</span><span class="p">.</span><span class="na">tasks</span><span class="p">().</span><span class="na">parallelStream</span><span class="p">()</span><span class="w">        </span><span class="c1">// workers in parallel</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="na">prompt</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="na">system</span><span class="p">(</span><span class="s">&#34;You are a &#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="na">type</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&#34; analyst. Be concise.&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="na">user</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="na">description</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&#34;\n\n&#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regulationText</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="na">call</span><span class="p">().</span><span class="na">content</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">toList</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">planner</span><span class="p">.</span><span class="na">prompt</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">system</span><span class="p">(</span><span class="s">&#34;Combine the findings into one impact report with actions.&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">user</span><span class="p">(</span><span class="n">String</span><span class="p">.</span><span class="na">join</span><span class="p">(</span><span class="s">&#34;\n---\n&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">results</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">call</span><span class="p">().</span><span class="na">content</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><strong>Good at:</strong> Spring Boot estates; full control in plain Java; MCP server and client starters; memory repositories; Micrometer observability.</li>
+<li><strong>Watch out:</strong> orchestration is yours to design — which is a feature for regulated systems, but more code than an opinionated framework.</li>
+</ul>
+<h2 id="embabel-goal-oriented-action-planning">Embabel: goal-oriented action planning<a class="heading-anchor" href="#embabel-goal-oriented-action-planning" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> Created by Rod Johnson (founder of Spring) and built on Spring AI. You declare <strong>actions</strong> (typed methods) and <strong>goals</strong>; a deterministic <strong>GOAP planner</strong> (Goal-Oriented Action Planning, from game AI) works out which sequence of actions reaches the goal from the current state — based on the <strong>types</strong> each action consumes and produces and on declared <strong>conditions</strong>. LLMs do the work <em>inside</em> actions; the plan itself is not left to the LLM.</p>
+<figure class="diagram" aria-label="Embabel: the planner chains actions by their types"><figcaption class="diagram__title">Embabel: the planner chains actions by their types</figcaption>
+  <pre class="mermaid">flowchart LR
+    IN[&#34;UserInput&#34;] --&gt;|&#34;@Action extractApplicant&#34;| A[&#34;Applicant&#34;]
+    A --&gt;|&#34;@Action fetchCreditFile&#34;| C[&#34;CreditFile&#34;]
+    A --&gt;|&#34;@Action fetchAccounts&#34;| B[&#34;BankAccounts&#34;]
+    C --&gt; D{&#34;@Action assessRisk&lt;br/&gt;needs both&#34;}
+    B --&gt; D
+    D --&gt; R[&#34;RiskAssessment&#34;]
+    R --&gt;|&#34;@AchievesGoal writeDecision&#34;| G[&#34;CreditDecision&lt;br/&gt;GOAL&#34;]</pre>
+</figure>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Agent</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;Assess a small-business credit application&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CreditAgent</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Action</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Applicant</span><span class="w"> </span><span class="nf">extractApplicant</span><span class="p">(</span><span class="n">UserInput</span><span class="w"> </span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">OperationContext</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ctx</span><span class="p">.</span><span class="na">ai</span><span class="p">().</span><span class="na">withDefaultLlm</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">createObject</span><span class="p">(</span><span class="s">&#34;Extract the applicant from: &#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">input</span><span class="p">.</span><span class="na">getContent</span><span class="p">(),</span><span class="w"> </span><span class="n">Applicant</span><span class="p">.</span><span class="na">class</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Action</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">CreditFile</span><span class="w"> </span><span class="nf">fetchCreditFile</span><span class="p">(</span><span class="n">Applicant</span><span class="w"> </span><span class="n">applicant</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">       </span><span class="c1">// plain Java, no LLM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">creditBureau</span><span class="p">.</span><span class="na">lookup</span><span class="p">(</span><span class="n">applicant</span><span class="p">.</span><span class="na">registrationNumber</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Action</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">BankAccounts</span><span class="w"> </span><span class="nf">fetchAccounts</span><span class="p">(</span><span class="n">Applicant</span><span class="w"> </span><span class="n">applicant</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">openBanking</span><span class="p">.</span><span class="na">accounts</span><span class="p">(</span><span class="n">applicant</span><span class="p">.</span><span class="na">id</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Action</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">RiskAssessment</span><span class="w"> </span><span class="nf">assessRisk</span><span class="p">(</span><span class="n">CreditFile</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">BankAccounts</span><span class="w"> </span><span class="n">accounts</span><span class="p">,</span><span class="w"> </span><span class="n">OperationContext</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ctx</span><span class="p">.</span><span class="na">ai</span><span class="p">().</span><span class="na">withDefaultLlm</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">createObject</span><span class="p">(</span><span class="s">&#34;Assess credit risk using: &#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">accounts</span><span class="p">,</span><span class="w"> </span><span class="n">RiskAssessment</span><span class="p">.</span><span class="na">class</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@AchievesGoal</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;A credit decision with reasons&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Action</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">CreditDecision</span><span class="w"> </span><span class="nf">writeDecision</span><span class="p">(</span><span class="n">Applicant</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">RiskAssessment</span><span class="w"> </span><span class="n">risk</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">policy</span><span class="p">.</span><span class="na">decide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">risk</span><span class="p">);</span><span class="w">                               </span><span class="c1">// deterministic rules</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Check annotation names for your version</span></p>
+  <div class="callout__body"><p>Embabel&rsquo;s documentation and examples use <code>@Agent</code>, <code>@Action</code>, <code>@Condition</code> and <code>@AchievesGoal</code>; some early material refers to <code>@Goal</code>. Follow the docs for the version you use.</p></div>
+</aside><ul>
+<li><strong>Good at:</strong> explainable, re-plannable flows; mixing LLM steps with deterministic Java; strong typing; Spring integration; replanning after each action when conditions change.</li>
+<li><strong>Watch out:</strong> a newer project with a smaller community; think in types and preconditions rather than prompts.</li>
+</ul>
+<h2 id="langchain4j-ai-services-and-the-agentic-module">LangChain4j: AI Services and the agentic module<a class="heading-anchor" href="#langchain4j-ai-services-and-the-agentic-module" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> Framework-agnostic Java (works with Quarkus, Micronaut, Spring, plain Java). <strong>AI Services</strong> turn an annotated interface into an LLM-backed implementation with tools, memory and RAG. The <strong>agentic</strong> module adds workflow patterns (sequence, parallel, loop, conditional) and a <strong>supervisor</strong> agent, plus MCP and A2A integration.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">interface</span> <span class="nc">CreditAnalyst</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@SystemMessage</span><span class="p">(</span><span class="s">&#34;You are a credit analyst. Be factual and concise.&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@UserMessage</span><span class="p">(</span><span class="s">&#34;Assess this application: {{application}}&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Agent</span><span class="p">(</span><span class="s">&#34;Assesses SME credit applications&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">assess</span><span class="p">(</span><span class="nd">@V</span><span class="p">(</span><span class="s">&#34;application&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">application</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">interface</span> <span class="nc">MemoWriter</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@UserMessage</span><span class="p">(</span><span class="s">&#34;Write a one-page credit memo from this assessment: {{assessment}}&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Agent</span><span class="p">(</span><span class="s">&#34;Writes credit memos&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="nd">@V</span><span class="p">(</span><span class="s">&#34;assessment&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">assessment</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">CreditAnalyst</span><span class="w"> </span><span class="n">analyst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AgenticServices</span><span class="p">.</span><span class="na">agentBuilder</span><span class="p">(</span><span class="n">CreditAnalyst</span><span class="p">.</span><span class="na">class</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">chatModel</span><span class="p">(</span><span class="n">model</span><span class="p">).</span><span class="na">outputKey</span><span class="p">(</span><span class="s">&#34;assessment&#34;</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">MemoWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AgenticServices</span><span class="p">.</span><span class="na">agentBuilder</span><span class="p">(</span><span class="n">MemoWriter</span><span class="p">.</span><span class="na">class</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">chatModel</span><span class="p">(</span><span class="n">model</span><span class="p">).</span><span class="na">outputKey</span><span class="p">(</span><span class="s">&#34;memo&#34;</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">UntypedAgent</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AgenticServices</span><span class="p">.</span><span class="na">sequenceBuilder</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">subAgents</span><span class="p">(</span><span class="n">analyst</span><span class="p">,</span><span class="w"> </span><span class="n">writer</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">outputKey</span><span class="p">(</span><span class="s">&#34;memo&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">Object</span><span class="w"> </span><span class="n">memo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pipeline</span><span class="p">.</span><span class="na">invoke</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&#34;application&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">applicationText</span><span class="p">));</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><strong>Good at:</strong> non-Spring Java, Quarkus (via Quarkus LangChain4j), declarative AI Services, broad model and store support.</li>
+<li><strong>Watch out:</strong> agentic APIs are younger than the core; pin versions.</li>
+</ul>
+<h2 id="koog-jetbrains">Koog (JetBrains)<a class="heading-anchor" href="#koog-jetbrains" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> A Kotlin-first framework with a type-safe DSL for agents and <strong>strategy graphs</strong>, tool registries, history compression, persistence for <strong>fault-tolerant, resumable</strong> agents, and Kotlin Multiplatform targets (JVM, Android, iOS, web).</p>
+<ul>
+<li><strong>Good at:</strong> Kotlin teams; long-running agents that must resume after failures; on-device and multiplatform agents.</li>
+<li><strong>Watch out:</strong> Kotlin-centric; smaller enterprise integration ecosystem than Spring.</li>
+</ul>
+<h2 id="google-adk-for-java">Google ADK for Java<a class="heading-anchor" href="#google-adk-for-java" aria-label="Link to this section">#</a></h2>
+<p>The Java edition of <a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/#google-agent-development-kit-adk">Google ADK</a>: LLM agents, workflow agents, tools and A2A, deployable to Google Cloud. A good fit for Java teams on Google Cloud.</p>
+<h2 id="microsoft-agent-framework-for-net">Microsoft Agent Framework for .NET<a class="heading-anchor" href="#microsoft-agent-framework-for-net" aria-label="Link to this section">#</a></h2>
+<p>For .NET estates, Microsoft Agent Framework (1.0, April 2026) is the default: agents, graph workflows with checkpointing and human-in-the-loop, MCP and A2A, OpenTelemetry, Azure AI Foundry integration. It replaces Semantic Kernel&rsquo;s agent features and AutoGen.</p>
+<h2 id="comparison">Comparison<a class="heading-anchor" href="#comparison" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Spring AI</th>
+      <th>Embabel</th>
+      <th>LangChain4j agentic</th>
+      <th>Koog</th>
+      <th>ADK Java</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Style</td>
+      <td>Primitives + patterns</td>
+      <td>Goals, actions, GOAP planner</td>
+      <td>Annotated AI Services + workflow builders</td>
+      <td>Kotlin DSL, strategy graphs</td>
+      <td>LLM + workflow agents</td>
+    </tr>
+    <tr>
+      <td>Planning</td>
+      <td>You code it</td>
+      <td>Deterministic planner</td>
+      <td>Workflow builders / supervisor LLM</td>
+      <td>Strategy graph</td>
+      <td>Workflow agents / LLM</td>
+    </tr>
+    <tr>
+      <td>Spring integration</td>
+      <td>Native</td>
+      <td>Native (on Spring AI)</td>
+      <td>Spring Boot starters</td>
+      <td>Possible</td>
+      <td>Possible</td>
+    </tr>
+    <tr>
+      <td>MCP</td>
+      <td>Client + server starters</td>
+      <td>Via Spring AI</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>A2A</td>
+      <td>Community/integrations</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Native</td>
+    </tr>
+    <tr>
+      <td>Best for</td>
+      <td>Spring shops, full control</td>
+      <td>Explainable goal-driven flows</td>
+      <td>Non-Spring Java, Quarkus</td>
+      <td>Kotlin, resumable agents</td>
+      <td>Java on Google Cloud</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="guidance-for-a-spring-based-enterprise">Guidance for a Spring-based enterprise<a class="heading-anchor" href="#guidance-for-a-spring-based-enterprise" aria-label="Link to this section">#</a></h2>
+<ol>
+<li>Standardise on <strong>Spring AI</strong> for model access, RAG, tools, MCP and memory.</li>
+<li>Implement most use cases as <strong>explicit workflows</strong> with Spring AI patterns — easiest to test and audit.</li>
+<li>Use <strong>Embabel</strong> where goal-driven planning over many typed actions helps (onboarding, credit, claims, case handling).</li>
+<li>Expose domain capabilities as <strong>MCP servers</strong> (Spring AI MCP server starter) so any agent, in any framework, can use them.</li>
+<li>Use <strong>A2A</strong> to integrate agents built by other teams or vendors in Python or .NET.</li>
+</ol>
+<h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>Why build agents on the JVM?</strong>
+To reuse the enterprise stack — security, transactions, data access, messaging, observability, deployment — and keep agents close to systems of record.</p>
+<p><strong>How does Embabel differ from LLM-driven agents?</strong>
+A deterministic GOAP planner chains typed actions toward a declared goal, using preconditions and the types each action produces; LLMs work inside actions but do not decide the plan, which makes flows explainable and re-plannable.</p>
+<p><strong>When would you choose LangChain4j over Spring AI?</strong>
+When the application is not Spring-based (Quarkus, Micronaut, plain Java) or the team prefers declarative AI Services and its agentic workflow builders.</p>
+<p><strong>What is the recommended .NET agent framework in 2026?</strong>
+Microsoft Agent Framework, the successor to Semantic Kernel and AutoGen.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Spring AI provides robust primitives; build agentic patterns explicitly on top.</li>
+<li>Embabel adds goal-oriented, explainable planning on Spring AI.</li>
+<li>LangChain4j (AI Services + agentic module) serves non-Spring Java; Koog serves Kotlin; ADK Java serves Google Cloud.</li>
+<li>Microsoft Agent Framework is the .NET choice.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://docs.spring.io/spring-ai/reference/" rel="noopener">Spring AI reference</a> and Spring blog, <a href="https://spring.io/blog/2025/01/21/spring-ai-agentic-patterns" rel="noopener">Building Effective Agents with Spring AI</a>.</li>
+<li><a href="https://github.com/embabel/embabel-agent" rel="noopener">Embabel Agent</a> and <a href="https://docs.embabel.com/" rel="noopener">Embabel documentation</a>.</li>
+<li><a href="https://docs.langchain4j.dev/" rel="noopener">LangChain4j</a> — AI Services and agents.</li>
+<li><a href="https://docs.koog.ai/" rel="noopener">Koog</a>.</li>
+<li><a href="https://google.github.io/adk-docs/" rel="noopener">Google ADK for Java</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/agent-framework/" rel="noopener">Microsoft Agent Framework</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Python &amp; TypeScript frameworks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI fundamentals</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI tools, MCP &amp; memory</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/framework-landscape/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Framework landscape</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Managed platforms</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Python &amp; TypeScript frameworks</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agent-frameworks/managed-agent-platforms/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Managed platforms</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-jvm-native-agents-matter">Why JVM-native agents matter</a></li>
+    <li><a href="#spring-ai-patterns-on-a-solid-core">Spring AI: patterns on a solid core</a></li>
+    <li><a href="#embabel-goal-oriented-action-planning">Embabel: goal-oriented action planning</a></li>
+    <li><a href="#langchain4j-ai-services-and-the-agentic-module">LangChain4j: AI Services and the agentic module</a></li>
+    <li><a href="#koog-jetbrains">Koog (JetBrains)</a></li>
+    <li><a href="#google-adk-for-java">Google ADK for Java</a></li>
+    <li><a href="#microsoft-agent-framework-for-net">Microsoft Agent Framework for .NET</a></li>
+    <li><a href="#comparison">Comparison</a></li>
+    <li><a href="#guidance-for-a-spring-based-enterprise">Guidance for a Spring-based enterprise</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

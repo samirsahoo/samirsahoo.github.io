@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Identity and Access Control · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Who is the agent acting as? Agent identities, acting on behalf of users with OAuth token exchange, least-privilege scopes, per-hop authorisation across tools and agents, credential vaults, consent, and audit — the access-control architecture enterprise agents need.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Agent Identity and Access Control">
+<meta property="og:description" content="Who is the agent acting as? Agent identities, acting on behalf of users with OAuth token exchange, least-privilege scopes, per-hop authorisation across tools and agents, credential vaults, consent, and audit — the access-control architecture enterprise agents need.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agent Identity and Access Control">
+<meta name="twitter:description" content="Who is the agent acting as? Agent identities, acting on behalf of users with OAuth token exchange, least-privilege scopes, per-hop authorisation across tools and agents, credential vaults, consent, and audit — the access-control architecture enterprise agents need.">
+<meta name="keywords" content="agents, security, agentic-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Who is the agent acting as? Agent identities, acting on behalf of users with OAuth token exchange, least-privilege scopes, per-hop authorisation across tools and agents, credential vaults, consent, and audit — the access-control architecture enterprise agents need.","headline":"Agent Identity and Access Control","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, security, agentic-ai","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/","name":"Agent identity \u0026 access","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/" aria-current="page">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Agent identity &amp; access</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Agent Identity and Access Control</h1><p class="article__lede" itemprop="description">Who is the agent acting as? Agent identities, acting on behalf of users with OAuth token exchange, least-privilege scopes, per-hop authorisation across tools and agents, credential vaults, consent, and audit — the access-control architecture enterprise agents need.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/security/">#Security</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>, <a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#identity-models">Identity models</a></li>
+    <li><a href="#delegation-with-oauth-token-exchange">Delegation with OAuth token exchange</a></li>
+    <li><a href="#authorisation-at-every-hop">Authorisation at every hop</a></li>
+    <li><a href="#credentials-and-secrets">Credentials and secrets</a></li>
+    <li><a href="#consent-and-transparency">Consent and transparency</a></li>
+    <li><a href="#agent-registry">Agent registry</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Agent identity and access control</strong> answers three questions for every action an agent takes: <strong>who</strong> is acting (the agent, the user, or both), <strong>what</strong> are they allowed to do, and <strong>how</strong> can we prove later what happened. Agents are a new kind of non-human identity that often act <em>on behalf of</em> a human, so classic service-account thinking is not enough.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>Common anti-patterns:</p>
+<ul>
+<li>One powerful <strong>service account</strong> shared by the agent for all users — every prompt injection gets admin rights.</li>
+<li>The user&rsquo;s <strong>full token passed through</strong> to every downstream API — far more scope than any single task needs.</li>
+<li>Identity taken from <strong>model-generated arguments</strong> — the model can be tricked into acting as someone else.</li>
+<li>No record of <strong>which agent</strong> performed an action for <strong>which user</strong>.</li>
+</ul>
+<h2 id="identity-models">Identity models<a class="heading-anchor" href="#identity-models" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Who acts</th>
+      <th>Use for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>User-delegated (on behalf of)</strong></td>
+      <td>Agent acts for a specific user, with that user&rsquo;s permissions narrowed to the task</td>
+      <td>Assistants and copilots acting for employees or customers</td>
+    </tr>
+    <tr>
+      <td><strong>Agent&rsquo;s own identity</strong></td>
+      <td>Agent acts as itself, with its own least-privilege permissions</td>
+      <td>Autonomous back-office agents, scheduled jobs</td>
+    </tr>
+    <tr>
+      <td><strong>Hybrid</strong></td>
+      <td>Agent identity + user context; access = intersection of both</td>
+      <td>Most enterprise agents: agent may only do what <em>both</em> the agent and the user are allowed</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="diagram" aria-label="Effective permission = user ∩ agent ∩ task scope"><figcaption class="diagram__title">Effective permission = user ∩ agent ∩ task scope</figcaption>
+  <pre class="mermaid">flowchart LR
+    U[&#34;User permissions&lt;br/&gt;what this person may do&#34;] --&gt; I((&#34;∩&#34;))
+    A[&#34;Agent permissions&lt;br/&gt;what this agent may ever do&#34;] --&gt; I
+    T[&#34;Task scope&lt;br/&gt;what this request needs&#34;] --&gt; I
+    I --&gt; E[&#34;Effective permission&lt;br/&gt;for this call&#34;]</pre>
+</figure>
+<h2 id="delegation-with-oauth-token-exchange">Delegation with OAuth token exchange<a class="heading-anchor" href="#delegation-with-oauth-token-exchange" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="On-behalf-of flow across agent, MCP server and API"><figcaption class="diagram__title">On-behalf-of flow across agent, MCP server and API</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    actor U as User
+    participant APP as Agent app
+    participant IDP as Identity provider
+    participant AG as Agent runtime
+    participant MCP as MCP server (CRM)
+    participant API as CRM API
+    U-&gt;&gt;APP: sign in (OIDC)
+    APP-&gt;&gt;IDP: user token for agent app
+    APP-&gt;&gt;AG: task + user token
+    AG-&gt;&gt;IDP: token exchange: user token + agent identity, audience=CRM MCP, scope=crm.read
+    IDP--&gt;&gt;AG: short-lived delegated token
+    AG-&gt;&gt;MCP: tools/call + delegated token
+    MCP-&gt;&gt;MCP: validate audience, scope, user, agent
+    MCP-&gt;&gt;IDP: exchange for API token (scope=contacts.read)
+    IDP--&gt;&gt;MCP: API token
+    MCP-&gt;&gt;API: GET /contacts (as user via agent)
+    API--&gt;&gt;MCP: data the user may see
+    MCP--&gt;&gt;AG: result</pre>
+</figure>
+<p>Principles:</p>
+<ul>
+<li><strong>Short-lived, audience-bound tokens</strong> for each hop (OAuth 2.0 Token Exchange, RFC 8693; resource indicators, RFC 8707).</li>
+<li><strong>No token passthrough</strong> — each service obtains its own token for the next hop (the MCP specification requires this).</li>
+<li><strong>Scopes per task</strong>, not per agent lifetime.</li>
+<li>The token carries <strong>both identities</strong> (user and agent, for example an <code>act</code> claim) so every service can authorise and audit correctly.</li>
+</ul>
+<h2 id="authorisation-at-every-hop">Authorisation at every hop<a class="heading-anchor" href="#authorisation-at-every-hop" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Per-hop authorisation"><figcaption class="diagram__title">Per-hop authorisation</figcaption>
+  <pre class="mermaid">flowchart LR
+    AG[&#34;Agent&#34;] --&gt;|&#34;token A&#34;| G[&#34;MCP gateway&lt;br/&gt;is this agent allowed this tool?&#34;]
+    G --&gt; S[&#34;MCP server&lt;br/&gt;is this user allowed this record?&#34;]
+    S --&gt; B[&#34;Business service&lt;br/&gt;limits, ownership, approvals&#34;]
+    B --&gt; D[(&#34;Data&#34;)]</pre>
+</figure>
+<ul>
+<li><strong>Gateway:</strong> agent-level allow-lists of servers and tools, rate limits.</li>
+<li><strong>MCP server / tool:</strong> user-level authorisation on the specific resource.</li>
+<li><strong>Business service:</strong> domain rules — amount limits, ownership, approval thresholds.</li>
+<li><strong>Multi-agent delegation:</strong> a sub-agent never gets more rights than the delegating agent; re-authorise at each A2A hop.</li>
+</ul>
+<h2 id="credentials-and-secrets">Credentials and secrets<a class="heading-anchor" href="#credentials-and-secrets" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Store third-party credentials in a <strong>token vault</strong>; the harness injects them into tool calls — the model never sees them.</li>
+<li>Prefer <strong>workload identity</strong> (cloud IAM roles, SPIFFE) over static API keys for agent runtimes.</li>
+<li>Rotate and expire; revoke on agent decommissioning.</li>
+</ul>
+<h2 id="consent-and-transparency">Consent and transparency<a class="heading-anchor" href="#consent-and-transparency" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Users should see <strong>what an agent can do on their behalf</strong> and grant consent for sensitive scopes (OAuth consent screens, step-up approval).</li>
+<li>Provide a way to <strong>revoke</strong> an agent&rsquo;s delegated access.</li>
+<li>Show who acted in audit logs and in the UI (&ldquo;Created by Support Agent on behalf of J. Smith&rdquo;).</li>
+</ul>
+<h2 id="agent-registry">Agent registry<a class="heading-anchor" href="#agent-registry" aria-label="Link to this section">#</a></h2>
+<p>Treat agents as first-class identities:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Registry field</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Agent ID and owner</td>
+      <td>Accountability</td>
+    </tr>
+    <tr>
+      <td>Purpose and risk tier</td>
+      <td>Governance</td>
+    </tr>
+    <tr>
+      <td>Allowed tools / MCP servers / A2A peers</td>
+      <td>Least privilege</td>
+    </tr>
+    <tr>
+      <td>Identity model (delegated, own, hybrid)</td>
+      <td>Access design</td>
+    </tr>
+    <tr>
+      <td>Credentials and rotation</td>
+      <td>Hygiene</td>
+    </tr>
+    <tr>
+      <td>Status (active, suspended, retired)</td>
+      <td>Lifecycle and kill switch</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Managed platforms increasingly provide agent identity services; see <a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">managed platforms</a>.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Admin service account for the agent</span></p>
+  <div class="callout__body"><p>Gives every successful prompt injection full access. Use delegated, scoped tokens and the intersection model.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Identity in tool arguments</span></p>
+  <div class="callout__body"><p><code>refund(customerId=…)</code> filled by the model. Take identity from the authenticated context (for example Spring AI&rsquo;s <code>ToolContext</code>).</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How should an agent authenticate when acting for a user?</strong>
+With a short-lived delegated token obtained by OAuth token exchange, bound to the target audience and narrowed to the task&rsquo;s scopes, carrying both user and agent identity — never by passing the user&rsquo;s original token through.</p>
+<p><strong>What is the effective permission of an agent&rsquo;s action?</strong>
+The intersection of the user&rsquo;s permissions, the agent&rsquo;s permissions and the scope the task needs.</p>
+<p><strong>Where should authorisation happen in an agent architecture?</strong>
+At every hop: gateway (agent may use this tool), tool or MCP server (user may access this resource), business service (domain limits and approvals), and again at each agent-to-agent delegation.</p>
+<p><strong>Why keep an agent registry?</strong>
+To know which agents exist, who owns them, what they may access, how they authenticate, and to suspend them quickly.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Agents are non-human identities that often act on behalf of users.</li>
+<li>Use delegated, short-lived, audience-bound tokens via token exchange; never pass tokens through.</li>
+<li>Authorise at every hop; effective permission = user ∩ agent ∩ task.</li>
+<li>Vault credentials, register agents, record both identities in audit logs.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>IETF, <a href="https://www.rfc-editor.org/rfc/rfc8693" rel="noopener">RFC 8693 — OAuth 2.0 Token Exchange</a>.</li>
+<li>IETF, <a href="https://www.rfc-editor.org/rfc/rfc8707" rel="noopener">RFC 8707 — Resource Indicators for OAuth 2.0</a>.</li>
+<li><a href="https://modelcontextprotocol.io/specification" rel="noopener">MCP authorization specification</a>.</li>
+<li>OWASP, <a href="https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/" rel="noopener">Agentic AI — Threats and Mitigations</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/model-context-protocol/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Managed platforms</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Harnesses &amp; skills</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/computer-use-agents/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Computer-use agents</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/agentic-ai-strategy/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Agentic AI strategy</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#identity-models">Identity models</a></li>
+    <li><a href="#delegation-with-oauth-token-exchange">Delegation with OAuth token exchange</a></li>
+    <li><a href="#authorisation-at-every-hop">Authorisation at every hop</a></li>
+    <li><a href="#credentials-and-secrets">Credentials and secrets</a></li>
+    <li><a href="#consent-and-transparency">Consent and transparency</a></li>
+    <li><a href="#agent-registry">Agent registry</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

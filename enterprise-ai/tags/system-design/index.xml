@@ -12,25 +12,25 @@
 		
 			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/system-design/index.xml" rel="self" type="application/rss+xml" />
 			<item>
-				<title>How to Answer AI System Design Interviews</title>
-				<link>https://samirsahoo.github.io/enterprise-ai/interview-prep/ai-system-design-framework/</link>
+				<title>AI Architecture Review Framework</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/review/architecture-review-framework/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-				<guid>https://samirsahoo.github.io/enterprise-ai/interview-prep/ai-system-design-framework/</guid>
-				<description>&lt;h2 id=&#34;why-a-framework&#34;&gt;Why a framework&lt;a class=&#34;heading-anchor&#34; href=&#34;#why-a-framework&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;AI system design interviews test whether you can turn a vague product idea into an architecture that is &lt;strong&gt;useful, safe, measurable and affordable&lt;/strong&gt;. Without a structure, candidates jump to &amp;ldquo;use a vector DB and GPT&amp;rdquo; and miss requirements, evaluation and risk — the parts interviewers weigh most for senior and architect roles.&lt;/p&gt;</description>
+				<guid>https://samirsahoo.github.io/enterprise-ai/review/architecture-review-framework/</guid>
+				<description>&lt;h2 id=&#34;why-a-review-framework&#34;&gt;Why a review framework&lt;a class=&#34;heading-anchor&#34; href=&#34;#why-a-review-framework&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;AI designs fail in predictable places: unclear success criteria, missing permissions in retrieval, agents with too much autonomy, no evaluation, no cost model. A shared framework lets architects, security, risk and product owners review any AI design — your own before you build it, or a team&amp;rsquo;s at an architecture board — consistently and quickly.&lt;/p&gt;</description>
 			</item>
 			<item>
 				<title>System Design: Enterprise Knowledge Assistant (RAG)</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/rag/case-study-knowledge-assistant/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/rag/case-study-knowledge-assistant/</guid>
-				<description>&lt;h2 id=&#34;the-interview-question&#34;&gt;The interview question&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-interview-question&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design an AI assistant that lets 50,000 employees ask questions about internal policies, procedures and technical documentation, with answers grounded in company documents.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;p&gt;This walk-through follows the &lt;a href=&#34;https://samirsahoo.github.io/enterprise-ai/interview-prep/ai-system-design-framework/&#34;&gt;AI system design framework&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-requirements&#34;&gt;1. Requirements&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Functional&lt;/strong&gt;&lt;/p&gt;</description>
+				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design an AI assistant that lets 50,000 employees ask questions about internal policies, procedures and technical documentation, with answers grounded in company documents.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;p&gt;This walk-through follows the &lt;a href=&#34;https://samirsahoo.github.io/enterprise-ai/review/architecture-review-framework/&#34;&gt;AI system design framework&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-requirements&#34;&gt;1. Requirements&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Functional&lt;/strong&gt;&lt;/p&gt;</description>
 			</item>
 			<item>
 				<title>System Design: Agentic Customer-Support Platform</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/</guid>
-				<description>&lt;h2 id=&#34;the-interview-question&#34;&gt;The interview question&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-interview-question&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design an AI agent for an e-commerce company that resolves customer-support requests — order status, returns, refunds, address changes — over chat and email, escalating to humans when needed.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;1-requirements&#34;&gt;1. Requirements&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Functional&lt;/strong&gt;&lt;/p&gt;</description>
+				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design an AI agent for an e-commerce company that resolves customer-support requests — order status, returns, refunds, address changes — over chat and email, escalating to humans when needed.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;1-requirements&#34;&gt;1. Requirements&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Functional&lt;/strong&gt;&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>

@@ -12,11 +12,25 @@
 		
 			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/agentic-ai/index.xml" rel="self" type="application/rss+xml" />
 			<item>
+				<title>The AI Agent Framework Landscape</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;agent framework&lt;/strong&gt; is a library or SDK that implements the plumbing every agent needs — the loop that calls the model, executes tools and feeds results back — plus state, memory, multi-agent coordination, human-in-the-loop, guardrails and tracing. You write the instructions, tools and business logic; the framework runs them.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>What Is an AI Agent?</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/what-is-an-agent/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/what-is-an-agent/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;AI agent&lt;/strong&gt; is a system where an LLM &lt;strong&gt;decides what to do next&lt;/strong&gt;, does it by &lt;strong&gt;calling tools&lt;/strong&gt;, &lt;strong&gt;observes&lt;/strong&gt; the result, and &lt;strong&gt;repeats&lt;/strong&gt; until the goal is reached or it must stop.&lt;/p&gt;&#xA;&lt;p&gt;A chatbot answers. An agent &lt;em&gt;acts&lt;/em&gt;: it can look up an order, check a policy, issue a refund, and email the customer — choosing the steps itself.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Python and TypeScript Agent Frameworks</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/python-typescript-frameworks/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/python-typescript-frameworks/</guid>
+				<description>&lt;h2 id=&#34;how-to-read-this-page&#34;&gt;How to read this page&lt;a class=&#34;heading-anchor&#34; href=&#34;#how-to-read-this-page&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Each profile answers the same questions: &lt;strong&gt;what is the core idea, what does minimal code look like, what is it good at, and what should you watch out for.&lt;/strong&gt; Code is deliberately minimal and uses a placeholder &lt;code&gt;MODEL&lt;/code&gt;; check each project&amp;rsquo;s documentation for current model identifiers and options.&lt;/p&gt;</description>
 			</item>
 			<item>
 				<title>Tool Calling (Function Calling)</title>
@@ -59,6 +73,34 @@
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Agent reliability is the engineering that makes an agent do the right thing consistently, stop when it should, and fail safely when it cannot succeed. It combines &lt;strong&gt;guardrails&lt;/strong&gt; (prevent bad actions), &lt;strong&gt;budgets&lt;/strong&gt; (bound cost and time), &lt;strong&gt;evaluation&lt;/strong&gt; (measure behaviour before and after release) and &lt;strong&gt;observability&lt;/strong&gt; (see what happened).&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>The Agent Protocol Stack: MCP, A2A, AG-UI, Agent Skills and AGENTS.md</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-protocols/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-protocols/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Agents need to talk to three kinds of counterpart: &lt;strong&gt;tools and data&lt;/strong&gt;, &lt;strong&gt;other agents&lt;/strong&gt;, and &lt;strong&gt;people through a user interface&lt;/strong&gt;. Since 2024 an open standard has emerged for each, plus two lightweight file conventions for giving agents know-how and instructions:&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agent Harnesses, Skills and Long-Running Agents</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-harness-and-skills/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-harness-and-skills/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;agent harness&lt;/strong&gt; is everything around the model that turns it into a working agent: the loop, tools, permissions, context management, memory files, sub-agents, skills, checkpoints and verification. Two agents using the same model can perform very differently because of their harnesses — which is why &amp;ldquo;harness engineering&amp;rdquo; became a discipline of its own in 2025–2026.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Computer-Use and Browser Agents</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;computer-use agent&lt;/strong&gt; operates software the way a person does: it looks at the screen (screenshots or the page structure), decides what to click or type, performs the action, and repeats. &lt;strong&gt;Browser agents&lt;/strong&gt; are the web-only variant. They let agents work with applications that have no API.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agent Identity and Access Control</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Agent identity and access control&lt;/strong&gt; answers three questions for every action an agent takes: &lt;strong&gt;who&lt;/strong&gt; is acting (the agent, the user, or both), &lt;strong&gt;what&lt;/strong&gt; are they allowed to do, and &lt;strong&gt;how&lt;/strong&gt; can we prove later what happened. Agents are a new kind of non-human identity that often act &lt;em&gt;on behalf of&lt;/em&gt; a human, so classic service-account thinking is not enough.&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>

@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The AI Agent Framework Landscape · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="What an agent framework actually does, the categories of frameworks (graph runtimes, multi-agent SDKs, agent harnesses, JVM frameworks, managed platforms, low-code builders), where they sit in an enterprise platform, a comparison table and a decision guide.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="The AI Agent Framework Landscape">
+<meta property="og:description" content="What an agent framework actually does, the categories of frameworks (graph runtimes, multi-agent SDKs, agent harnesses, JVM frameworks, managed platforms, low-code builders), where they sit in an enterprise platform, a comparison table and a decision guide.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The AI Agent Framework Landscape">
+<meta name="twitter:description" content="What an agent framework actually does, the categories of frameworks (graph runtimes, multi-agent SDKs, agent harnesses, JVM frameworks, managed platforms, low-code builders), where they sit in an enterprise platform, a comparison table and a decision guide.">
+<meta name="keywords" content="agents, frameworks, agentic-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"What an agent framework actually does, the categories of frameworks (graph runtimes, multi-agent SDKs, agent harnesses, JVM frameworks, managed platforms, low-code builders), where they sit in an enterprise platform, a comparison table and a decision guide.","headline":"The AI Agent Framework Landscape","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, frameworks, agentic-ai","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/","name":"5 · Agent Frameworks","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/","name":"Framework landscape","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agent-frameworks">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/" aria-current="page">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a></li>
+    <li><span aria-current="page">Framework landscape</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">The AI Agent Framework Landscape</h1><p class="article__lede" itemprop="description">What an agent framework actually does, the categories of frameworks (graph runtimes, multi-agent SDKs, agent harnesses, JVM frameworks, managed platforms, low-code builders), where they sit in an enterprise platform, a comparison table and a decision guide.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/frameworks/">#Frameworks</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a>, <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#what-a-framework-gives-you">What a framework gives you</a></li>
+    <li><a href="#where-frameworks-sit-in-the-platform">Where frameworks sit in the platform</a></li>
+    <li><a href="#categories-of-frameworks">Categories of frameworks</a></li>
+    <li><a href="#the-main-frameworks-at-a-glance">The main frameworks at a glance</a></li>
+    <li><a href="#how-to-choose">How to choose</a>
+      <ul>
+        <li><a href="#evaluation-criteria">Evaluation criteria</a></li>
+      </ul>
+    </li>
+    <li><a href="#avoiding-framework-lock-in">Avoiding framework lock-in</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>An <strong>agent framework</strong> is a library or SDK that implements the plumbing every agent needs — the loop that calls the model, executes tools and feeds results back — plus state, memory, multi-agent coordination, human-in-the-loop, guardrails and tracing. You write the instructions, tools and business logic; the framework runs them.</p>
+<h2 id="what-a-framework-gives-you">What a framework gives you<a class="heading-anchor" href="#what-a-framework-gives-you" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Capability</th>
+      <th>Without a framework</th>
+      <th>With a framework</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Agent loop</strong></td>
+      <td>Hand-written loop over model responses and tool calls</td>
+      <td><code>agent.run(...)</code> with step limits</td>
+    </tr>
+    <tr>
+      <td><strong>Tools</strong></td>
+      <td>JSON Schemas written by hand</td>
+      <td>Generated from functions/annotations; MCP client built in</td>
+    </tr>
+    <tr>
+      <td><strong>State &amp; checkpoints</strong></td>
+      <td>Your own tables and resume logic</td>
+      <td>Pluggable checkpointers, sessions, durable runs</td>
+    </tr>
+    <tr>
+      <td><strong>Multi-agent</strong></td>
+      <td>Custom routing code</td>
+      <td>Handoffs, supervisors, graphs, crews</td>
+    </tr>
+    <tr>
+      <td><strong>Human-in-the-loop</strong></td>
+      <td>Custom pause/resume</td>
+      <td>Interrupts, approvals, resumable runs</td>
+    </tr>
+    <tr>
+      <td><strong>Guardrails</strong></td>
+      <td>Ad-hoc checks</td>
+      <td>Input/output guardrail hooks, middleware</td>
+    </tr>
+    <tr>
+      <td><strong>Observability</strong></td>
+      <td>Manual logging</td>
+      <td>Tracing (often OpenTelemetry) out of the box</td>
+    </tr>
+    <tr>
+      <td><strong>Protocols</strong></td>
+      <td>Your own integrations</td>
+      <td>MCP, A2A and AG-UI adapters</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">You may not need one</span></p>
+  <div class="callout__body"><p>A single tool-calling loop is 30–50 lines with a provider SDK. Frameworks pay off when you need durable state, human approval, multi-agent coordination, standard tracing and team-wide conventions.</p></div>
+</aside><h2 id="where-frameworks-sit-in-the-platform">Where frameworks sit in the platform<a class="heading-anchor" href="#where-frameworks-sit-in-the-platform" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/agent-platform.html" title="Where agent frameworks sit in an enterprise platform" loading="lazy" style="height: 700px"></iframe>
+  <figcaption>
+    <span>Where agent frameworks sit in an enterprise platform · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/enterprise-ai/diagrams/agent-platform.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<p>The framework is one layer. Around it: the <strong>agent UI</strong> (connected with AG-UI or a custom stream), the <strong>AI gateway</strong> that governs model calls, <strong>MCP servers</strong> for tools, <strong>remote agents</strong> via A2A, and a <strong>runtime</strong> that keeps state and traces — either your own Kubernetes deployment or a <a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">managed agent platform</a>.</p>
+<h2 id="categories-of-frameworks">Categories of frameworks<a class="heading-anchor" href="#categories-of-frameworks" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Agent framework categories"><figcaption class="diagram__title">Agent framework categories</figcaption>
+  <pre class="mermaid">flowchart TB
+    A[&#34;Agent frameworks&#34;] --&gt; G[&#34;Graph / workflow runtimes&lt;br/&gt;explicit state machines&#34;]
+    A --&gt; M[&#34;Agent SDKs&lt;br/&gt;agents, tools, handoffs&#34;]
+    A --&gt; H[&#34;Agent harnesses&lt;br/&gt;batteries-included autonomous agents&#34;]
+    A --&gt; J[&#34;JVM &amp; .NET frameworks&lt;br/&gt;enterprise stacks&#34;]
+    A --&gt; P[&#34;Managed agent platforms&lt;br/&gt;cloud runtimes&#34;]
+    A --&gt; L[&#34;Low-code builders&lt;br/&gt;visual flows&#34;]
+    G --- G1[&#34;LangGraph · LlamaIndex Workflows ·&lt;br/&gt;ADK workflow agents · MAF workflows&#34;]
+    M --- M1[&#34;OpenAI Agents SDK · Google ADK ·&lt;br/&gt;Microsoft Agent Framework · CrewAI ·&lt;br/&gt;Pydantic AI · Strands · smolagents&#34;]
+    H --- H1[&#34;Claude Agent SDK · LangChain Deep Agents ·&lt;br/&gt;coding-agent CLIs&#34;]
+    J --- J1[&#34;Spring AI · Embabel · LangChain4j ·&lt;br/&gt;Koog · ADK Java · MAF .NET&#34;]
+    P --- P1[&#34;Bedrock AgentCore · Vertex AI Agent Engine ·&lt;br/&gt;Azure AI Foundry Agent Service&#34;]
+    L --- L1[&#34;Copilot Studio · n8n · Dify ·&lt;br/&gt;vendor agent builders&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Mental model</th>
+      <th>Best when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Graph / workflow runtimes</strong></td>
+      <td>You draw the state machine; nodes are LLM calls, tools or code</td>
+      <td>You need precise control, branching, retries, durable checkpoints and human interrupts</td>
+    </tr>
+    <tr>
+      <td><strong>Agent SDKs</strong></td>
+      <td>Agents with instructions + tools; hand off to other agents</td>
+      <td>You want a clean, lightweight way to build tool-using and multi-agent apps</td>
+    </tr>
+    <tr>
+      <td><strong>Agent harnesses</strong></td>
+      <td>A ready-made autonomous agent (file system, shell, sub-agents, skills, context management) you configure</td>
+      <td>Open-ended, long-running tasks: coding, research, operations</td>
+    </tr>
+    <tr>
+      <td><strong>JVM &amp; .NET frameworks</strong></td>
+      <td>Agents as Spring beans / services in the enterprise stack</td>
+      <td>Your estate is Java or .NET, with existing security, data and ops</td>
+    </tr>
+    <tr>
+      <td><strong>Managed platforms</strong></td>
+      <td>Deploy any framework onto a serverless agent runtime with memory, identity and tool gateways</td>
+      <td>You want the cloud to run sessions, isolation, identity and observability</td>
+    </tr>
+    <tr>
+      <td><strong>Low-code builders</strong></td>
+      <td>Visual flow designers with connectors</td>
+      <td>Business-led automation with moderate complexity</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="the-main-frameworks-at-a-glance">The main frameworks at a glance<a class="heading-anchor" href="#the-main-frameworks-at-a-glance" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Framework</th>
+      <th>Languages</th>
+      <th>Core abstraction</th>
+      <th>Standout strengths</th>
+      <th>Watch out for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>LangGraph</strong> (LangChain)</td>
+      <td>Python, TS</td>
+      <td>State graph with checkpoints</td>
+      <td>Fine-grained control, durable execution, interrupts, large ecosystem</td>
+      <td>More code and concepts than lighter SDKs</td>
+    </tr>
+    <tr>
+      <td><strong>LangChain <code>create_agent</code> / Deep Agents</strong></td>
+      <td>Python, TS</td>
+      <td>Agent + middleware; batteries-included harness</td>
+      <td>Fast start on the LangGraph runtime; sub-agents, file system, skills</td>
+      <td>Deep Agents still evolving quickly</td>
+    </tr>
+    <tr>
+      <td><strong>OpenAI Agents SDK</strong></td>
+      <td>Python, TS</td>
+      <td>Agents, tools, handoffs, guardrails, sessions</td>
+      <td>Minimal abstractions, built-in tracing</td>
+      <td>Best experience with OpenAI models</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Agent SDK</strong></td>
+      <td>Python, TS</td>
+      <td>The Claude Code agent harness as a library</td>
+      <td>Context management, sub-agents, skills, hooks, permissions, MCP</td>
+      <td>Harness opinionated around Claude models</td>
+    </tr>
+    <tr>
+      <td><strong>Google ADK</strong></td>
+      <td>Python, Java, Go, TS</td>
+      <td>LLM agents + workflow agents (sequential, parallel, loop)</td>
+      <td>Native A2A, deploys to Vertex AI Agent Engine</td>
+      <td>Strongest fit on Google Cloud</td>
+    </tr>
+    <tr>
+      <td><strong>Microsoft Agent Framework</strong></td>
+      <td>Python, .NET</td>
+      <td>Agents + graph workflows</td>
+      <td>Successor to AutoGen and Semantic Kernel (1.0 in April 2026); MCP, A2A, checkpointing, HITL</td>
+      <td>Migration needed from AutoGen/SK</td>
+    </tr>
+    <tr>
+      <td><strong>CrewAI</strong></td>
+      <td>Python</td>
+      <td>Role-based crews + Flows</td>
+      <td>Very fast to prototype multi-agent teams</td>
+      <td>Less low-level control; heavier runtime</td>
+    </tr>
+    <tr>
+      <td><strong>LlamaIndex</strong></td>
+      <td>Python, TS</td>
+      <td>Event-driven Workflows + agents</td>
+      <td>Best-in-class data/RAG connectors</td>
+      <td>Agent features secondary to RAG</td>
+    </tr>
+    <tr>
+      <td><strong>Pydantic AI</strong></td>
+      <td>Python</td>
+      <td>Type-safe agents with validated outputs</td>
+      <td>Strong typing, dependency injection, testability</td>
+      <td>Smaller multi-agent feature set</td>
+    </tr>
+    <tr>
+      <td><strong>AWS Strands Agents</strong></td>
+      <td>Python, TS</td>
+      <td>Model-driven agent loop</td>
+      <td>Simple; integrates with Bedrock AgentCore</td>
+      <td>AWS-centric ecosystem</td>
+    </tr>
+    <tr>
+      <td><strong>Spring AI</strong></td>
+      <td>Java</td>
+      <td>ChatClient, advisors, tools, MCP</td>
+      <td>Spring Boot native; enterprise integration</td>
+      <td>Agent orchestration is pattern-based, less opinionated</td>
+    </tr>
+    <tr>
+      <td><strong>Embabel</strong></td>
+      <td>Java, Kotlin</td>
+      <td>Goal-oriented actions planned by GOAP</td>
+      <td>Deterministic, explainable planning on Spring</td>
+      <td>Newer; smaller community</td>
+    </tr>
+    <tr>
+      <td><strong>LangChain4j</strong></td>
+      <td>Java</td>
+      <td>AI Services + agentic module</td>
+      <td>Framework-agnostic Java (Quarkus, Micronaut, Spring)</td>
+      <td>Agentic module younger than core</td>
+    </tr>
+    <tr>
+      <td><strong>Koog</strong> (JetBrains)</td>
+      <td>Kotlin</td>
+      <td>Type-safe agent DSL and strategy graphs</td>
+      <td>Kotlin multiplatform, persistence/fault tolerance</td>
+      <td>Kotlin-first</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Details: <a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python and TypeScript frameworks</a>, <a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM frameworks</a>, <a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">managed platforms</a>.</p>
+<h2 id="how-to-choose">How to choose<a class="heading-anchor" href="#how-to-choose" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Framework decision guide"><figcaption class="diagram__title">Framework decision guide</figcaption>
+  <pre class="mermaid">flowchart TD
+    S[&#34;New agent use case&#34;] --&gt; Q1{&#34;Main language&lt;br/&gt;of the team?&#34;}
+    Q1 --&gt;|&#34;Java / Kotlin&#34;| J{&#34;Spring Boot estate?&#34;}
+    J --&gt;|&#34;yes&#34;| J1[&#34;Spring AI; add Embabel for&lt;br/&gt;goal-driven planning&#34;]
+    J --&gt;|&#34;no&#34;| J2[&#34;LangChain4j, or Koog for Kotlin&#34;]
+    Q1 --&gt;|&#34;.NET&#34;| N1[&#34;Microsoft Agent Framework&#34;]
+    Q1 --&gt;|&#34;Python / TS&#34;| Q2{&#34;Open-ended, long-running&lt;br/&gt;autonomous task?&#34;}
+    Q2 --&gt;|&#34;yes&#34;| H1[&#34;Agent harness: Claude Agent SDK&lt;br/&gt;or Deep Agents&#34;]
+    Q2 --&gt;|&#34;no&#34;| Q3{&#34;Need explicit control flow,&lt;br/&gt;durable state, interrupts?&#34;}
+    Q3 --&gt;|&#34;yes&#34;| G1[&#34;LangGraph or MAF workflows&#34;]
+    Q3 --&gt;|&#34;no&#34;| Q4{&#34;Committed cloud / model vendor?&#34;}
+    Q4 --&gt;|&#34;Google&#34;| A1[&#34;Google ADK&#34;]
+    Q4 --&gt;|&#34;Microsoft&#34;| A2[&#34;Microsoft Agent Framework&#34;]
+    Q4 --&gt;|&#34;AWS&#34;| A3[&#34;Strands Agents&#34;]
+    Q4 --&gt;|&#34;OpenAI&#34;| A4[&#34;OpenAI Agents SDK&#34;]
+    Q4 --&gt;|&#34;neutral&#34;| A5[&#34;LangGraph, Pydantic AI or CrewAI&#34;]</pre>
+</figure>
+<h3 id="evaluation-criteria">Evaluation criteria<a class="heading-anchor" href="#evaluation-criteria" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion</th>
+      <th>Questions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Control</strong></td>
+      <td>Can you define exact control flow, branching and retries? Can you see and edit the prompts the framework sends?</td>
+    </tr>
+    <tr>
+      <td><strong>State &amp; durability</strong></td>
+      <td>Checkpointing, resumable runs, human interrupts, long-running tasks?</td>
+    </tr>
+    <tr>
+      <td><strong>Model neutrality</strong></td>
+      <td>Works well with several providers and with your AI gateway?</td>
+    </tr>
+    <tr>
+      <td><strong>Protocols</strong></td>
+      <td>MCP client (and server), A2A, AG-UI support?</td>
+    </tr>
+    <tr>
+      <td><strong>Observability</strong></td>
+      <td>OpenTelemetry tracing? Integrations with your LLMOps tools?</td>
+    </tr>
+    <tr>
+      <td><strong>Testing</strong></td>
+      <td>Easy to unit-test steps, mock models and run evaluation suites?</td>
+    </tr>
+    <tr>
+      <td><strong>Security</strong></td>
+      <td>Tool permission hooks, guardrails, sandboxing, identity propagation?</td>
+    </tr>
+    <tr>
+      <td><strong>Deployment</strong></td>
+      <td>Runs in your containers; supported by managed agent runtimes?</td>
+    </tr>
+    <tr>
+      <td><strong>Maturity</strong></td>
+      <td>1.0+ API stability, release cadence, docs, community, commercial support?</td>
+    </tr>
+    <tr>
+      <td><strong>Fit</strong></td>
+      <td>Language, team skills, existing platform (Spring, Azure, GCP, AWS)?</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tradeoff" role="note">
+  <p class="callout__title"><span class="callout__label">Trade-off</span><span class="callout__heading">Control vs speed</span></p>
+  <div class="callout__body"><p>Higher-level SDKs and harnesses get a demo running in an hour but hide control flow and prompts. Graph runtimes take longer but make behaviour explicit and testable. Many teams prototype with an SDK and productionise critical flows as explicit graphs or workflows.</p></div>
+</aside><h2 id="avoiding-framework-lock-in">Avoiding framework lock-in<a class="heading-anchor" href="#avoiding-framework-lock-in" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Tools as MCP servers</strong>, not framework-specific tool classes — every framework can call them.</li>
+<li><strong>Prompts and evaluation sets in your repository</strong>, independent of framework.</li>
+<li><strong>Agent-to-agent via A2A</strong>, so agents built with different frameworks can cooperate.</li>
+<li><strong>OpenTelemetry tracing</strong>, so observability survives a framework change.</li>
+<li><strong>Thin adapters</strong> around the framework API in your code.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Choosing by GitHub stars</span></p>
+  <div class="callout__body"><p>Popularity says little about fit for your language, control needs and operational model. Prototype the same use case in two candidates and compare code clarity, traces and evaluation results.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Letting the framework own your domain logic</span></p>
+  <div class="callout__body"><p>Business rules, permissions and limits belong in your services and tools, not in framework callbacks or prompts.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What does an agent framework provide beyond a model SDK?</strong>
+The agent loop, tool schema generation and execution, state and checkpointing, multi-agent coordination, human-in-the-loop, guardrails, tracing and protocol adapters (MCP, A2A, AG-UI).</p>
+<p><strong>When would you choose a graph runtime such as LangGraph over a lightweight SDK?</strong>
+When you need explicit, testable control flow — branching, retries, durable checkpoints, human interrupts and long-running workflows — rather than letting the model decide every step.</p>
+<p><strong>What is the difference between an agent SDK and an agent harness?</strong>
+An SDK gives building blocks (agents, tools, handoffs) that you assemble. A harness is a ready-made autonomous agent — file system, shell, sub-agents, skills, context compaction, permissions — that you configure and extend.</p>
+<p><strong>How do you avoid lock-in to an agent framework?</strong>
+Put tools behind MCP, use A2A between agents, keep prompts and evaluation data in your own repository, trace with OpenTelemetry and wrap the framework behind thin adapters.</p>
+<p><strong>Which framework would you pick for a Spring Boot bank?</strong>
+Spring AI for model access, RAG, tools, MCP and memory inside the existing Spring estate; Embabel when goal-driven, explainable planning helps; managed or Kubernetes runtime with the bank&rsquo;s identity, gateway and observability.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Frameworks run the agent loop and add state, multi-agent, HITL, guardrails, tracing and protocols.</li>
+<li>Categories: graph runtimes, agent SDKs, harnesses, JVM/.NET frameworks, managed platforms, low-code builders.</li>
+<li>Choose by language, control, durability, model neutrality, protocols, observability and maturity.</li>
+<li>Keep tools, prompts, evaluation and tracing framework-independent.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>LangChain, <a href="https://docs.langchain.com/oss/python/langchain/overview" rel="noopener">Frameworks, runtimes and harnesses</a>.</li>
+<li>OpenAI, <a href="https://openai.github.io/openai-agents-python/" rel="noopener">Agents SDK</a>.</li>
+<li>Anthropic, <a href="https://docs.claude.com/en/api/agent-sdk/overview" rel="noopener">Claude Agent SDK</a>.</li>
+<li>Google, <a href="https://google.github.io/adk-docs/" rel="noopener">Agent Development Kit</a>.</li>
+<li>Microsoft, <a href="https://learn.microsoft.com/en-us/agent-framework/" rel="noopener">Agent Framework</a>.</li>
+<li><a href="https://github.com/embabel/embabel-agent" rel="noopener">Embabel Agent</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Python &amp; TypeScript frameworks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">JVM &amp; .NET frameworks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Managed platforms</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Harnesses &amp; skills</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent identity &amp; access</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Python &amp; TypeScript frameworks</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#what-a-framework-gives-you">What a framework gives you</a></li>
+    <li><a href="#where-frameworks-sit-in-the-platform">Where frameworks sit in the platform</a></li>
+    <li><a href="#categories-of-frameworks">Categories of frameworks</a></li>
+    <li><a href="#the-main-frameworks-at-a-glance">The main frameworks at a glance</a></li>
+    <li><a href="#how-to-choose">How to choose</a>
+      <ul>
+        <li><a href="#evaluation-criteria">Evaluation criteria</a></li>
+      </ul>
+    </li>
+    <li><a href="#avoiding-framework-lock-in">Avoiding framework lock-in</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

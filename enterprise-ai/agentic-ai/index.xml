@@ -61,11 +61,46 @@
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Agent reliability is the engineering that makes an agent do the right thing consistently, stop when it should, and fail safely when it cannot succeed. It combines &lt;strong&gt;guardrails&lt;/strong&gt; (prevent bad actions), &lt;strong&gt;budgets&lt;/strong&gt; (bound cost and time), &lt;strong&gt;evaluation&lt;/strong&gt; (measure behaviour before and after release) and &lt;strong&gt;observability&lt;/strong&gt; (see what happened).&lt;/p&gt;</description>
 			</item>
 			<item>
+				<title>The Agent Protocol Stack: MCP, A2A, AG-UI, Agent Skills and AGENTS.md</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-protocols/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-protocols/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Agents need to talk to three kinds of counterpart: &lt;strong&gt;tools and data&lt;/strong&gt;, &lt;strong&gt;other agents&lt;/strong&gt;, and &lt;strong&gt;people through a user interface&lt;/strong&gt;. Since 2024 an open standard has emerged for each, plus two lightweight file conventions for giving agents know-how and instructions:&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agent Harnesses, Skills and Long-Running Agents</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-harness-and-skills/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-harness-and-skills/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;agent harness&lt;/strong&gt; is everything around the model that turns it into a working agent: the loop, tools, permissions, context management, memory files, sub-agents, skills, checkpoints and verification. Two agents using the same model can perform very differently because of their harnesses — which is why &amp;ldquo;harness engineering&amp;rdquo; became a discipline of its own in 2025–2026.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Computer-Use and Browser Agents</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;computer-use agent&lt;/strong&gt; operates software the way a person does: it looks at the screen (screenshots or the page structure), decides what to click or type, performs the action, and repeats. &lt;strong&gt;Browser agents&lt;/strong&gt; are the web-only variant. They let agents work with applications that have no API.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agent Identity and Access Control</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Agent identity and access control&lt;/strong&gt; answers three questions for every action an agent takes: &lt;strong&gt;who&lt;/strong&gt; is acting (the agent, the user, or both), &lt;strong&gt;what&lt;/strong&gt; are they allowed to do, and &lt;strong&gt;how&lt;/strong&gt; can we prove later what happened. Agents are a new kind of non-human identity that often act &lt;em&gt;on behalf of&lt;/em&gt; a human, so classic service-account thinking is not enough.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agentic AI Strategy and Operating Model</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;agentic AI strategy&lt;/strong&gt; decides where agents should do work in the organisation, how much autonomy they get, what platform they run on, how value and risk are measured, and how people and processes change around them. It turns isolated pilots into a governed, scalable capability.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>System Design: Agentic Customer-Support Platform</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/</guid>
-				<description>&lt;h2 id=&#34;the-interview-question&#34;&gt;The interview question&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-interview-question&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design an AI agent for an e-commerce company that resolves customer-support requests — order status, returns, refunds, address changes — over chat and email, escalating to humans when needed.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;1-requirements&#34;&gt;1. Requirements&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Functional&lt;/strong&gt;&lt;/p&gt;</description>
+				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design an AI agent for an e-commerce company that resolves customer-support requests — order status, returns, refunds, address changes — over chat and email, escalating to humans when needed.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;1-requirements&#34;&gt;1. Requirements&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Functional&lt;/strong&gt;&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>

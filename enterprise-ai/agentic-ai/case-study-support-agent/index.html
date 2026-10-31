@@ -3,23 +3,23 @@
 <head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>System Design: Agentic Customer-Support Platform · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
-<meta name="description" content="A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.">
+<meta name="description" content="A complete system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.">
 <link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
 <meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
 <meta property="og:title" content="System Design: Agentic Customer-Support Platform">
-<meta property="og:description" content="A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.">
+<meta property="og:description" content="A complete system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.">
 <meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="System Design: Agentic Customer-Support Platform">
-<meta name="twitter:description" content="A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.">
+<meta name="twitter:description" content="A complete system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.">
 <meta name="keywords" content="agents, system-design, case-study, mcp">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.","headline":"System Design: Agentic Customer-Support Platform","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, system-design, case-study, mcp","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/"}
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"A complete system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.","headline":"System Design: Agentic Customer-Support Platform","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, system-design, case-study, mcp","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/","name":"Case study: support agent","position":3}]}
@@ -27,7 +27,7 @@
 
 <link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
-<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
 <noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
 
 </head>
@@ -69,7 +69,7 @@
       <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
     </summary>
     <ul>
-      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
     </ul>
   </details>
 </li>
@@ -121,6 +121,11 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/" aria-current="page">Case study: support agent</a></li>
     </ul>
   </details>
@@ -145,12 +150,26 @@
 <li class="nav-tree__item">
   <details>
     <summary>
-      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
     </summary>
     <ul>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
     </ul>
   </details>
 </li>
@@ -172,10 +191,10 @@
 </nav>
 
     <header class="article__header">
-      <h1 itemprop="headline">System Design: Agentic Customer-Support Platform</h1><p class="article__lede" itemprop="description">A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.</p>
+      <h1 itemprop="headline">System Design: Agentic Customer-Support Platform</h1><p class="article__lede" itemprop="description">A complete system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.</p>
 <ul class="article-meta" aria-label="Article details">
   <li><span class="badge badge--advanced">Advanced</span></li>
-  <li>6 min read</li>
+  <li>5 min read</li>
   <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
   <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/system-design/">#System-Design</a><a class="tag" href="/enterprise-ai/tags/case-study/">#Case-Study</a><a class="tag" href="/enterprise-ai/tags/mcp/">#Mcp</a>
   </li>
@@ -191,7 +210,7 @@
       <summary>On this page</summary>
       <nav>
   <ul>
-    <li><a href="#the-interview-question">The interview question</a></li>
+    <li><a href="#the-design-brief">The design brief</a></li>
     <li><a href="#1-requirements">1. Requirements</a></li>
     <li><a href="#2-estimates">2. Estimates</a></li>
     <li><a href="#3-agent-topology">3. Agent topology</a></li>
@@ -207,7 +226,7 @@
 </nav>
     </details>
     <div class="prose" itemprop="articleBody">
-      <h2 id="the-interview-question">The interview question<a class="heading-anchor" href="#the-interview-question" aria-label="Link to this section">#</a></h2>
+      <h2 id="the-design-brief">The design brief<a class="heading-anchor" href="#the-design-brief" aria-label="Link to this section">#</a></h2>
 <blockquote><p><em>&ldquo;Design an AI agent for an e-commerce company that resolves customer-support requests — order status, returns, refunds, address changes — over chat and email, escalating to humans when needed.&rdquo;</em></p>
 </blockquote><h2 id="1-requirements">1. Requirements<a class="heading-anchor" href="#1-requirements" aria-label="Link to this section">#</a></h2>
 <p><strong>Functional</strong></p>
@@ -279,28 +298,14 @@
 </figure>
 <p>Why this split: each specialist has a <strong>small tool set</strong> and a focused prompt; the read-only agent cannot change anything (security boundary); refunds are isolated with stricter limits; triage runs on a cheap model.</p>
 <h2 id="4-architecture">4. Architecture<a class="heading-anchor" href="#4-architecture" aria-label="Link to this section">#</a></h2>
-<figure class="diagram" aria-label="Platform architecture"><figcaption class="diagram__title">Platform architecture</figcaption>
-  <pre class="mermaid">flowchart TB
-    subgraph Channels
-        CH[&#34;Chat widget&#34;]
-        EM[&#34;Email ingestion&#34;]
-    end
-    CH --&gt; CONV[&#34;Conversation service&lt;br/&gt;sessions, routing, hand-off&#34;]
-    EM --&gt; CONV
-    CONV --&gt; RT[&#34;Agent runtime&lt;br/&gt;Spring AI: triage + specialist agents&#34;]
-    RT --&gt; MEM[(&#34;State &amp; memory&lt;br/&gt;PostgreSQL: conversation,&lt;br/&gt;checkpoints, summaries&#34;)]
-    RT --&gt; KB[&#34;Policy RAG&lt;br/&gt;returns policy, FAQs&#34;]
-    RT --&gt; AIGW[&#34;AI gateway&lt;br/&gt;routing, caching, guardrails, cost&#34;]
-    AIGW --&gt; LLMS[&#34;LLMs: small + mid-tier&lt;br/&gt;+ fallback provider&#34;]
-    RT --&gt; MGW[&#34;MCP gateway&lt;br/&gt;authZ, allow-lists, rate limits, audit&#34;]
-    MGW --&gt; M1[&#34;Orders MCP server&#34;]
-    MGW --&gt; M2[&#34;Shipping MCP server&#34;]
-    MGW --&gt; M3[&#34;Payments MCP server&lt;br/&gt;refunds, vouchers&#34;]
-    MGW --&gt; M4[&#34;CRM MCP server&#34;]
-    RT --&gt; APQ[&#34;Approval service&lt;br/&gt;human-in-the-loop UI&#34;]
-    CONV --&gt; DESK[&#34;Human agent desk&lt;br/&gt;with AI summary&#34;]
-    RT -.-&gt; OBS[&#34;Tracing, evals,&lt;br/&gt;dashboards, audit store&#34;]</pre>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/support-agent.html" title="Agentic customer-support platform" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>Agentic customer-support platform · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/enterprise-ai/diagrams/support-agent.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
 </figure>
+
 <h2 id="5-tools-exposed-via-mcp-servers-owned-by-domain-teams">5. Tools (exposed via MCP servers owned by domain teams)<a class="heading-anchor" href="#5-tools-exposed-via-mcp-servers-owned-by-domain-teams" aria-label="Link to this section">#</a></h2>
 <div class="table-wrap" tabindex="0" role="region" aria-label="Table">
 <table>
@@ -444,7 +449,7 @@
 </table>
 </div>
 <aside class="callout callout--interview" role="note">
-  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">What makes this answer strong</span></p>
+  <p class="callout__title"><span class="callout__label">Review tip</span><span class="callout__heading">What makes this design strong</span></p>
   <div class="callout__body"><p>Clear autonomy boundaries (what the agent may do alone), controls enforced in services not prompts, identity propagation, human-in-the-loop with durable state, a concrete evaluation and rollout plan, and cost per resolution compared with the human baseline.</p></div>
 </aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
 <ul>
@@ -465,9 +470,9 @@
       </a>
     </li>
     <li class="card">
-      <a class="card__link" href="/enterprise-ai/interview-prep/ai-system-design-framework/">
-        <span class="card__eyebrow">Interview Prep</span>
-        <span class="card__title">AI system design framework</span>
+      <a class="card__link" href="/enterprise-ai/review/architecture-review-framework/">
+        <span class="card__eyebrow">Review</span>
+        <span class="card__title">Architecture review framework</span>
       </a>
     </li>
     <li class="card">
@@ -483,9 +488,9 @@
       </a>
     </li>
     <li class="card">
-      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
-        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
-        <span class="card__title">AI security</span>
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-protocols/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent protocol stack</span>
       </a>
     </li>
   </ul>
@@ -493,9 +498,9 @@
 
 
 <nav class="prev-next" aria-label="Previous and next articles">
-  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/" rel="prev">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/agentic-ai-strategy/" rel="prev">
     <span class="prev-next__label">← Previous</span>
-    <span class="prev-next__title">Reliability &amp; evaluation</span>
+    <span class="prev-next__title">Agentic AI strategy</span>
   </a>
 </nav>
 
@@ -504,7 +509,7 @@
     <p class="toc__title">On this page</p>
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#the-interview-question">The interview question</a></li>
+    <li><a href="#the-design-brief">The design brief</a></li>
     <li><a href="#1-requirements">1. Requirements</a></li>
     <li><a href="#2-estimates">2. Estimates</a></li>
     <li><a href="#3-agent-topology">3. Agent topology</a></li>
@@ -526,7 +531,7 @@
   <div class="site-footer__inner">
     <div class="site-footer__about">
       <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
-      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
     </div>
     <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
       <li><a href="/">samirsahoo.github.io</a></li>

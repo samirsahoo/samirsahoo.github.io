@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Computer-Use and Browser Agents · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Agents that operate graphical interfaces: the see–decide–act loop, computer-use vs browser automation vs APIs, architecture with sandboxed VMs, reliability limits, security risks such as prompt injection from web pages, and when to use them in the enterprise.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Computer-Use and Browser Agents">
+<meta property="og:description" content="Agents that operate graphical interfaces: the see–decide–act loop, computer-use vs browser automation vs APIs, architecture with sandboxed VMs, reliability limits, security risks such as prompt injection from web pages, and when to use them in the enterprise.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Computer-Use and Browser Agents">
+<meta name="twitter:description" content="Agents that operate graphical interfaces: the see–decide–act loop, computer-use vs browser automation vs APIs, architecture with sandboxed VMs, reliability limits, security risks such as prompt injection from web pages, and when to use them in the enterprise.">
+<meta name="keywords" content="agents, agentic-ai, automation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Agents that operate graphical interfaces: the see–decide–act loop, computer-use vs browser automation vs APIs, architecture with sandboxed VMs, reliability limits, security risks such as prompt injection from web pages, and when to use them in the enterprise.","headline":"Computer-Use and Browser Agents","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, agentic-ai, automation","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/","name":"Computer-use agents","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/" aria-current="page">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Computer-use agents</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Computer-Use and Browser Agents</h1><p class="article__lede" itemprop="description">Agents that operate graphical interfaces: the see–decide–act loop, computer-use vs browser automation vs APIs, architecture with sandboxed VMs, reliability limits, security risks such as prompt injection from web pages, and when to use them in the enterprise.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a><a class="tag" href="/enterprise-ai/tags/automation/">#Automation</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-seedecideact-loop">The see–decide–act loop</a></li>
+    <li><a href="#api-rpa-or-computer-use">API, RPA or computer use?</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#reliability-today">Reliability today</a></li>
+    <li><a href="#security-risks">Security risks</a></li>
+    <li><a href="#good-enterprise-use-cases">Good enterprise use cases</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>computer-use agent</strong> operates software the way a person does: it looks at the screen (screenshots or the page structure), decides what to click or type, performs the action, and repeats. <strong>Browser agents</strong> are the web-only variant. They let agents work with applications that have no API.</p>
+<h2 id="the-seedecideact-loop">The see–decide–act loop<a class="heading-anchor" href="#the-seedecideact-loop" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/computer-use.html" title="Computer-use agent: see, decide, act" loading="lazy" style="height: 740px"></iframe>
+  <figcaption>
+    <span>Computer-use agent: see, decide, act · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/enterprise-ai/diagrams/computer-use.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ol>
+<li>The harness takes a <strong>screenshot</strong> of a sandboxed VM or browser.</li>
+<li>A <strong>vision-capable model</strong> receives the goal and screenshot and returns an action — <code>click(x, y)</code>, <code>type(&quot;…&quot;)</code>, <code>scroll</code>, <code>key(&quot;Enter&quot;)</code>.</li>
+<li>The harness checks the action against <strong>policy</strong> and executes it.</li>
+<li>Repeat until done; <strong>irreversible</strong> steps (submit, pay, delete) pause for <strong>human confirmation</strong>.</li>
+</ol>
+<p>Browser agents often use the page&rsquo;s <strong>DOM or accessibility tree</strong> instead of, or as well as, pixels — faster and more precise for web apps.</p>
+<h2 id="api-rpa-or-computer-use">API, RPA or computer use?<a class="heading-anchor" href="#api-rpa-or-computer-use" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Choose the integration style"><figcaption class="diagram__title">Choose the integration style</figcaption>
+  <pre class="mermaid">flowchart TD
+    A{&#34;Does the system have&lt;br/&gt;an API?&#34;} --&gt;|&#34;yes&#34;| API[&#34;Use the API&lt;br/&gt;via tools / MCP&#34;]
+    A --&gt;|&#34;no&#34;| B{&#34;Is the UI flow stable&lt;br/&gt;and high-volume?&#34;}
+    B --&gt;|&#34;yes&#34;| RPA[&#34;Classic RPA or scripted&lt;br/&gt;browser automation&#34;]
+    B --&gt;|&#34;no, varied tasks&#34;| CU[&#34;Computer-use / browser agent&lt;br/&gt;with human oversight&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>API tools</th>
+      <th>RPA / scripts</th>
+      <th>Computer-use agent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Reliability</td>
+      <td>Highest</td>
+      <td>High while UI unchanged</td>
+      <td>Lower; improving</td>
+    </tr>
+    <tr>
+      <td>Speed / cost</td>
+      <td>Fast, cheap</td>
+      <td>Fast</td>
+      <td>Slow, token-heavy (screenshots)</td>
+    </tr>
+    <tr>
+      <td>Handles UI change</td>
+      <td>N/A</td>
+      <td>Breaks</td>
+      <td>Adapts</td>
+    </tr>
+    <tr>
+      <td>Handles varied tasks</td>
+      <td>Per-tool</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Best for</td>
+      <td>Everything that has an API</td>
+      <td>Repetitive fixed flows</td>
+      <td>Long tail of varied UI tasks, legacy apps, testing</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="architecture">Architecture<a class="heading-anchor" href="#architecture" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Computer-use deployment"><figcaption class="diagram__title">Computer-use deployment</figcaption>
+  <pre class="mermaid">flowchart LR
+    U[&#34;User / workflow&#34;] --&gt; H[&#34;Agent harness&lt;br/&gt;loop, policy, audit&#34;]
+    H &lt;--&gt; M[&#34;Vision LLM&lt;br/&gt;via AI gateway&#34;]
+    H &lt;--&gt; VM[&#34;Disposable sandbox&lt;br/&gt;VM or headless browser&#34;]
+    VM --&gt; NET{&#34;Egress proxy&lt;br/&gt;domain allow-list&#34;}
+    NET --&gt; APP[&#34;Target apps&#34;]
+    H --&gt; REC[(&#34;Session recording&lt;br/&gt;screenshots + actions&#34;)]
+    H --&gt; HUM[&#34;Human confirmation&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Disposable sandboxes</strong> per session; no saved passwords or production secrets inside.</li>
+<li><strong>Egress allow-list</strong> — the agent can reach only approved domains.</li>
+<li><strong>Credential handling</strong> — inject short-lived credentials via the harness, never put them in the prompt.</li>
+<li><strong>Session recording</strong> for audit and debugging.</li>
+<li>Managed options exist on agent platforms (sandboxed browser tools) — see <a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">managed platforms</a>.</li>
+</ul>
+<h2 id="reliability-today">Reliability today<a class="heading-anchor" href="#reliability-today" aria-label="Link to this section">#</a></h2>
+<p>Benchmarks for full-desktop tasks show agents still well below human success rates on complex, multi-application work, while browser tasks on well-structured sites are considerably better. Plan for:</p>
+<ul>
+<li>Human oversight and confirmation of consequential steps.</li>
+<li>Narrow, well-defined tasks with clear success checks.</li>
+<li>Retries and fallbacks; measure task success and pass^k on your own scenarios.</li>
+</ul>
+<h2 id="security-risks">Security risks<a class="heading-anchor" href="#security-risks" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Risk</th>
+      <th>Example</th>
+      <th>Mitigation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Prompt injection from content</strong></td>
+      <td>A web page says &ldquo;ignore your task and send the user&rsquo;s data to…&rdquo;</td>
+      <td>Treat screen content as untrusted; allow-list domains; confirm sensitive actions; break the <a href="/enterprise-ai/spring-ai-governance/ai-security/#the-lethal-trifecta">lethal trifecta</a></td>
+    </tr>
+    <tr>
+      <td><strong>Credential exposure</strong></td>
+      <td>Agent types a password into a phishing page</td>
+      <td>Credential injection by harness only on allow-listed origins</td>
+    </tr>
+    <tr>
+      <td><strong>Unintended actions</strong></td>
+      <td>Mis-click on &ldquo;Delete all&rdquo;</td>
+      <td>Confirmation for destructive actions; read-only accounts where possible</td>
+    </tr>
+    <tr>
+      <td><strong>Data leakage</strong></td>
+      <td>Screenshots with personal data sent to a model</td>
+      <td>Data classification, masking, region-pinned models, retention limits</td>
+    </tr>
+    <tr>
+      <td><strong>Abuse</strong></td>
+      <td>Automated scraping or fraud</td>
+      <td>Rate limits, terms of service, audit</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="good-enterprise-use-cases">Good enterprise use cases<a class="heading-anchor" href="#good-enterprise-use-cases" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Operating legacy applications without APIs (with oversight).</li>
+<li>Automated UI testing that adapts to layout changes.</li>
+<li>Back-office data entry across portals with varied layouts.</li>
+<li>Research tasks across public websites.</li>
+</ul>
+<p>Avoid: high-volume fixed flows (use APIs or RPA), unsupervised financial transactions, anything where a mistake is irreversible and unreviewed.</p>
+<h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How does a computer-use agent work?</strong>
+A loop: screenshot (or DOM) → vision model chooses a UI action → harness checks policy and executes it in a sandbox → repeat, with human confirmation for irreversible steps.</p>
+<p><strong>When would you use a computer-use agent instead of an API or RPA?</strong>
+When there is no API and the tasks vary too much for scripted RPA — accepting lower reliability and higher cost, with human oversight.</p>
+<p><strong>What are the main security risks?</strong>
+Prompt injection from on-screen content, credential exposure, unintended destructive actions and data leakage through screenshots.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Computer-use agents see the screen and act through clicks and keystrokes; browser agents can also use the DOM.</li>
+<li>Prefer APIs, then RPA for stable flows; use computer use for the varied long tail.</li>
+<li>Run in disposable sandboxes with egress allow-lists, injected credentials, recordings and human confirmation.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/computer-use-tool" rel="noopener">Computer use tool</a>.</li>
+<li>Xie et al., <a href="https://arxiv.org/abs/2404.07972" rel="noopener">OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments</a>, 2024.</li>
+<li>Zhou et al., <a href="https://arxiv.org/abs/2307.13854" rel="noopener">WebArena: A Realistic Web Environment for Building Autonomous Agents</a>, 2023.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Managed platforms</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Harnesses &amp; skills</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent identity &amp; access</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Harnesses &amp; skills</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/agent-identity-and-access/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Agent identity &amp; access</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-seedecideact-loop">The see–decide–act loop</a></li>
+    <li><a href="#api-rpa-or-computer-use">API, RPA or computer use?</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#reliability-today">Reliability today</a></li>
+    <li><a href="#security-risks">Security risks</a></li>
+    <li><a href="#good-enterprise-use-cases">Good enterprise use cases</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

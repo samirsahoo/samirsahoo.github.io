@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Agent Frameworks &amp; Platforms on Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/</link>
+		<description>Recent content in Agent Frameworks &amp; Platforms on Enterprise AI &amp; Agentic AI Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/enterprise-ai/agent-frameworks/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>The AI Agent Framework Landscape</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;agent framework&lt;/strong&gt; is a library or SDK that implements the plumbing every agent needs — the loop that calls the model, executes tools and feeds results back — plus state, memory, multi-agent coordination, human-in-the-loop, guardrails and tracing. You write the instructions, tools and business logic; the framework runs them.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Python and TypeScript Agent Frameworks</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/python-typescript-frameworks/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/python-typescript-frameworks/</guid>
+				<description>&lt;h2 id=&#34;how-to-read-this-page&#34;&gt;How to read this page&lt;a class=&#34;heading-anchor&#34; href=&#34;#how-to-read-this-page&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Each profile answers the same questions: &lt;strong&gt;what is the core idea, what does minimal code look like, what is it good at, and what should you watch out for.&lt;/strong&gt; Code is deliberately minimal and uses a placeholder &lt;code&gt;MODEL&lt;/code&gt;; check each project&amp;rsquo;s documentation for current model identifiers and options.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agent Frameworks for Java, Kotlin and .NET</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/jvm-agent-frameworks/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/jvm-agent-frameworks/</guid>
+				<description>&lt;h2 id=&#34;why-jvm-native-agents-matter&#34;&gt;Why JVM-native agents matter&lt;a class=&#34;heading-anchor&#34; href=&#34;#why-jvm-native-agents-matter&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Most enterprise systems of record — banking cores, insurance platforms, ERP integrations — run on the JVM or .NET. Building agents in the same stack reuses existing security (Spring Security, OAuth), transactions, data access, messaging, observability and deployment pipelines, and keeps agents close to the services they call. Since 2025 the JVM has gained a real choice of agent frameworks.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Managed Agent Platforms and Low-Code Builders</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/managed-agent-platforms/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/managed-agent-platforms/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;managed agent platform&lt;/strong&gt; runs agents for you. You bring agent code written with almost any framework; the platform provides an isolated, scalable &lt;strong&gt;runtime&lt;/strong&gt;, managed &lt;strong&gt;memory&lt;/strong&gt;, &lt;strong&gt;identity&lt;/strong&gt; for agents, a &lt;strong&gt;tool gateway&lt;/strong&gt; that turns APIs into MCP tools, sandboxed &lt;strong&gt;browser&lt;/strong&gt; and &lt;strong&gt;code&lt;/strong&gt; tools, and &lt;strong&gt;observability&lt;/strong&gt; — the operational layer most teams would otherwise build on Kubernetes.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Harnesses, Skills and Long-Running Agents · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="What an agent harness is and why it matters as much as the model: context engineering for long tasks, compaction, sub-agents, file-based memory and progress notes, Agent Skills with progressive disclosure, permissions and hooks, durable checkpoints, and patterns for coding and operations agents.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Agent Harnesses, Skills and Long-Running Agents">
+<meta property="og:description" content="What an agent harness is and why it matters as much as the model: context engineering for long tasks, compaction, sub-agents, file-based memory and progress notes, Agent Skills with progressive disclosure, permissions and hooks, durable checkpoints, and patterns for coding and operations agents.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agent Harnesses, Skills and Long-Running Agents">
+<meta name="twitter:description" content="What an agent harness is and why it matters as much as the model: context engineering for long tasks, compaction, sub-agents, file-based memory and progress notes, Agent Skills with progressive disclosure, permissions and hooks, durable checkpoints, and patterns for coding and operations agents.">
+<meta name="keywords" content="agents, agentic-ai, context-engineering">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"What an agent harness is and why it matters as much as the model: context engineering for long tasks, compaction, sub-agents, file-based memory and progress notes, Agent Skills with progressive disclosure, permissions and hooks, durable checkpoints, and patterns for coding and operations agents.","headline":"Agent Harnesses, Skills and Long-Running Agents","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, agentic-ai, context-engineering","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-harness-and-skills/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-harness-and-skills/","name":"Harnesses \u0026 skills","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/" aria-current="page">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Harnesses &amp; skills</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Agent Harnesses, Skills and Long-Running Agents</h1><p class="article__lede" itemprop="description">What an agent harness is and why it matters as much as the model: context engineering for long tasks, compaction, sub-agents, file-based memory and progress notes, Agent Skills with progressive disclosure, permissions and hooks, durable checkpoints, and patterns for coding and operations agents.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a><a class="tag" href="/enterprise-ai/tags/context-engineering/">#Context-Engineering</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a>, <a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-harnesses-matter-for-long-tasks">Why harnesses matter for long tasks</a></li>
+    <li><a href="#inside-one-working-session">Inside one working session</a></li>
+    <li><a href="#context-engineering-techniques">Context engineering techniques</a></li>
+    <li><a href="#patterns-for-long-running-work">Patterns for long-running work</a></li>
+    <li><a href="#durable-progress">Durable progress</a></li>
+    <li><a href="#agent-skills-in-practice">Agent Skills in practice</a></li>
+    <li><a href="#coding-agents-in-the-enterprise">Coding agents in the enterprise</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>An <strong>agent harness</strong> is everything around the model that turns it into a working agent: the loop, tools, permissions, context management, memory files, sub-agents, skills, checkpoints and verification. Two agents using the same model can perform very differently because of their harnesses — which is why &ldquo;harness engineering&rdquo; became a discipline of its own in 2025–2026.</p>
+<h2 id="why-harnesses-matter-for-long-tasks">Why harnesses matter for long tasks<a class="heading-anchor" href="#why-harnesses-matter-for-long-tasks" aria-label="Link to this section">#</a></h2>
+<p>A single context window cannot hold a multi-hour task: history grows, old tool results crowd out instructions, and quality decays (&ldquo;context rot&rdquo;). Long-running agents need a harness that keeps the window <strong>small, relevant and recoverable</strong>.</p>
+<figure class="diagram" aria-label="Harness = model &#43; everything that makes it reliable"><figcaption class="diagram__title">Harness = model &#43; everything that makes it reliable</figcaption>
+  <pre class="mermaid">flowchart LR
+    M((&#34;Model&#34;)) --- H[&#34;Harness&#34;]
+    H --- L[&#34;Agent loop&lt;br/&gt;+ step budgets&#34;]
+    H --- T[&#34;Tools&lt;br/&gt;files, shell, browser, MCP&#34;]
+    H --- P[&#34;Permissions &amp; hooks&#34;]
+    H --- C[&#34;Context management&lt;br/&gt;compaction, clearing&#34;]
+    H --- S[&#34;Skills&lt;br/&gt;loaded on demand&#34;]
+    H --- SA[&#34;Sub-agents&lt;br/&gt;isolated contexts&#34;]
+    H --- F[&#34;File-based memory&lt;br/&gt;progress notes, plans&#34;]
+    H --- V[&#34;Verification&lt;br/&gt;tests, linters, evals&#34;]</pre>
+</figure>
+<h2 id="inside-one-working-session">Inside one working session<a class="heading-anchor" href="#inside-one-working-session" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/agent-harness.html" title="Inside an agent harness: one working session" loading="lazy" style="height: 700px"></iframe>
+  <figcaption>
+    <span>Inside an agent harness: one working session · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/enterprise-ai/diagrams/agent-harness.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ol>
+<li><strong>Start session</strong> with a task and budget.</li>
+<li><strong>Build context</strong>: instructions (system prompt, AGENTS.md), the progress notes from previous sessions, and only the skills relevant to the step.</li>
+<li><strong>Compact</strong> when the window gets long: summarise older turns, clear stale tool output.</li>
+<li>The <strong>model decides</strong> the next step and proposes a tool call.</li>
+<li>The <strong>permission check</strong> allows, asks a human, or denies.</li>
+<li><strong>Run the tool</strong> in a sandbox (shell, browser, MCP server).</li>
+<li><strong>Verify</strong> the result with real signals — tests, linters, schema checks, evaluations.</li>
+<li><strong>Save progress</strong> — commit work, update the progress file, checkpoint state — so a fresh session can resume.</li>
+</ol>
+<h2 id="context-engineering-techniques">Context engineering techniques<a class="heading-anchor" href="#context-engineering-techniques" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Compaction</strong></td>
+      <td>Summarise the conversation when nearing the limit; continue with the summary plus recent turns</td>
+    </tr>
+    <tr>
+      <td><strong>Tool-result clearing</strong></td>
+      <td>Drop or shorten bulky outputs once they have been used</td>
+    </tr>
+    <tr>
+      <td><strong>Just-in-time retrieval</strong></td>
+      <td>Give the agent search/read tools rather than preloading files</td>
+    </tr>
+    <tr>
+      <td><strong>Structured notes</strong></td>
+      <td>The agent writes plans, decisions and progress to files it can re-read later</td>
+    </tr>
+    <tr>
+      <td><strong>Sub-agents</strong></td>
+      <td>Delegate exploration to a sub-agent with a fresh window; receive a short summary back</td>
+    </tr>
+    <tr>
+      <td><strong>Progressive disclosure</strong></td>
+      <td>Show only short descriptions of skills/tools; load details when needed</td>
+    </tr>
+    <tr>
+      <td><strong>Stable prefix</strong></td>
+      <td>Keep system prompt and tool definitions stable for prompt caching</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="patterns-for-long-running-work">Patterns for long-running work<a class="heading-anchor" href="#patterns-for-long-running-work" aria-label="Link to this section">#</a></h2>
+<p>Published guidance on long-running agents converges on a few patterns:</p>
+<ul>
+<li><strong>Initializer + worker sessions.</strong> A first session sets up the environment: task list, progress file, test harness. Every later session reads the state from disk, picks <strong>one</strong> task, works, verifies, commits and updates the notes.</li>
+<li><strong>State lives in files, not in the window.</strong> A fresh session must be able to resume from the repository and progress notes alone.</li>
+<li><strong>Small, verifiable increments.</strong> One feature or fix per step, each with a test that proves it.</li>
+<li><strong>Explicit definition of done.</strong> Acceptance tests written before work begins; the agent may not mark a task complete until they pass.</li>
+<li><strong>Budgets and escalation.</strong> Step, token and time limits; escalate to a human when stuck.</li>
+</ul>
+<h2 id="durable-progress">Durable progress<a class="heading-anchor" href="#durable-progress" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/long-running-agent.html" title="Long-running agent task with durable checkpoints" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>Long-running agent task with durable checkpoints · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/enterprise-ai/diagrams/long-running-agent.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<p>Checkpoints after every step make restarts cheap: a crashed pod, a deployment or a multi-day approval wait resumes from the last saved state instead of repeating work or side effects. Combine with idempotent tools (see <a href="/enterprise-ai/agentic-ai/agent-memory-and-state/#durable-execution-and-checkpoints">memory and state</a>).</p>
+<h2 id="agent-skills-in-practice">Agent Skills in practice<a class="heading-anchor" href="#agent-skills-in-practice" aria-label="Link to this section">#</a></h2>
+<p>Skills package <strong>how your organisation does things</strong> so agents can do it the same way:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">credit-memo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l">Write a credit memo for an SME loan application in the bank&#39;s standard format.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="l">Use when asked to prepare, draft or review a credit memo.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># Credit memo
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">1.</span> Collect: applicant, facility requested, financials (3 years), collateral.
+</span></span><span class="line"><span class="cl"><span class="k">2.</span> Run <span class="sb">`scripts/ratios.py`</span> on the financials; never compute ratios by hand.
+</span></span><span class="line"><span class="cl"><span class="k">3.</span> Fill <span class="sb">`template.md`</span> section by section. Keep the risk summary under 150 words.
+</span></span><span class="line"><span class="cl"><span class="k">4.</span> Flag any covenant breach or ratio outside policy limits in <span class="gs">**bold**</span>.
+</span></span><span class="line"><span class="cl"><span class="k">5.</span> Finish with the checklist in <span class="sb">`checklist.md`</span>.
+</span></span></code></pre></div><ul>
+<li><strong>Progressive disclosure:</strong> only <code>name</code> and <code>description</code> sit in context until the skill is needed.</li>
+<li><strong>Deterministic helpers:</strong> scripts do calculations and transformations reliably.</li>
+<li><strong>Governance:</strong> store skills in Git, review them like code, sign and version them, and install only trusted skills — a malicious skill is a supply-chain attack.</li>
+</ul>
+<h2 id="coding-agents-in-the-enterprise">Coding agents in the enterprise<a class="heading-anchor" href="#coding-agents-in-the-enterprise" aria-label="Link to this section">#</a></h2>
+<p>Coding agents (CLI and IDE agents, cloud agents that open pull requests) are the most mature agentic use case. Architecture guidance:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Practice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sandbox</td>
+      <td>Containerised workspace; no production credentials; network egress allow-list</td>
+    </tr>
+    <tr>
+      <td>Permissions</td>
+      <td>Read freely; ask before shell commands outside an allow-list; never push to protected branches</td>
+    </tr>
+    <tr>
+      <td>Context</td>
+      <td>AGENTS.md per repo; skills for internal frameworks; MCP servers for issue trackers and docs</td>
+    </tr>
+    <tr>
+      <td>Verification</td>
+      <td>CI must pass; agent-written code reviewed by humans; security scanning</td>
+    </tr>
+    <tr>
+      <td>Audit</td>
+      <td>Agent identity on commits; traces of sessions</td>
+    </tr>
+    <tr>
+      <td>Metrics</td>
+      <td>Lead time, change failure rate, review load — not lines of code</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One giant session</span></p>
+  <div class="callout__body"><p>Letting one session run until the window overflows. Split work into sessions that resume from files.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Trusting &ldquo;done&rdquo; without verification</span></p>
+  <div class="callout__body"><p>Agents can declare success prematurely. Require passing tests or checks before a task is marked complete.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Unreviewed third-party skills and tools</span></p>
+  <div class="callout__body"><p>Skills and MCP servers run with the agent&rsquo;s permissions. Treat them as code dependencies.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What is an agent harness?</strong>
+The runtime around the model — loop, tools, permissions, context management, memory files, sub-agents, skills, checkpoints and verification — that makes an agent reliable.</p>
+<p><strong>How do long-running agents cope with limited context windows?</strong>
+Compaction, tool-result clearing, just-in-time retrieval, structured notes in files, sub-agents with isolated contexts and progressive disclosure of skills.</p>
+<p><strong>What is progressive disclosure in Agent Skills?</strong>
+Only each skill&rsquo;s short description is in context at first; the full instructions and resources load only when the agent decides the skill is relevant.</p>
+<p><strong>How do you make a multi-session agent resumable?</strong>
+Keep state in files and checkpoints (task list, progress notes, commits), make each session pick one task, verify it and save progress, and make tools idempotent.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>The harness, not just the model, determines agent reliability.</li>
+<li>Keep context small: compaction, clearing, just-in-time retrieval, notes, sub-agents, skills.</li>
+<li>Long tasks: initializer + worker sessions, state in files, small verified increments, budgets.</li>
+<li>Skills package know-how with progressive disclosure; govern them like code.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="noopener">Effective context engineering for AI agents</a>, 2025.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" rel="noopener">Effective harnesses for long-running agents</a>, 2025.</li>
+<li>Anthropic, <a href="https://claude.com/blog/equipping-agents-for-the-real-world-with-agent-skills" rel="noopener">Equipping agents for the real world with Agent Skills</a>, 2025.</li>
+<li>LangChain, <a href="https://github.com/langchain-ai/deepagents" rel="noopener">Deep Agents</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-protocols/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent protocol stack</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Python &amp; TypeScript frameworks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/framework-landscape/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Framework landscape</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent identity &amp; access</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/agent-protocols/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Agent protocol stack</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/computer-use-agents/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Computer-use agents</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-harnesses-matter-for-long-tasks">Why harnesses matter for long tasks</a></li>
+    <li><a href="#inside-one-working-session">Inside one working session</a></li>
+    <li><a href="#context-engineering-techniques">Context engineering techniques</a></li>
+    <li><a href="#patterns-for-long-running-work">Patterns for long-running work</a></li>
+    <li><a href="#durable-progress">Durable progress</a></li>
+    <li><a href="#agent-skills-in-practice">Agent Skills in practice</a></li>
+    <li><a href="#coding-agents-in-the-enterprise">Coding agents in the enterprise</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

@@ -3,23 +3,23 @@
 <head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prompting vs RAG vs Fine-Tuning · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
-<meta name="description" content="The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree for interviews.">
+<meta name="description" content="The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.">
 <link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
 <meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
 <meta property="og:title" content="Prompting vs RAG vs Fine-Tuning">
-<meta property="og:description" content="The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree for interviews.">
+<meta property="og:description" content="The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.">
 <meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Prompting vs RAG vs Fine-Tuning">
-<meta name="twitter:description" content="The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree for interviews.">
+<meta name="twitter:description" content="The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.">
 <meta name="keywords" content="llm, foundations, fine-tuning, rag">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree for interviews.","headline":"Prompting vs RAG vs Fine-Tuning","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, fine-tuning, rag","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/"}
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.","headline":"Prompting vs RAG vs Fine-Tuning","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, fine-tuning, rag","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/","name":"Prompting vs RAG vs fine-tuning","position":3}]}
@@ -27,7 +27,7 @@
 
 <link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
-<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
 <noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
 
 </head>
@@ -69,7 +69,7 @@
       <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
     </summary>
     <ul>
-      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
     </ul>
   </details>
 </li>
@@ -121,6 +121,11 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
     </ul>
   </details>
@@ -145,12 +150,26 @@
 <li class="nav-tree__item">
   <details>
     <summary>
-      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
     </summary>
     <ul>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
     </ul>
   </details>
 </li>
@@ -172,7 +191,7 @@
 </nav>
 
     <header class="article__header">
-      <h1 itemprop="headline">Prompting vs RAG vs Fine-Tuning</h1><p class="article__lede" itemprop="description">The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree for interviews.</p>
+      <h1 itemprop="headline">Prompting vs RAG vs Fine-Tuning</h1><p class="article__lede" itemprop="description">The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.</p>
 <ul class="article-meta" aria-label="Article details">
   <li><span class="badge badge--intermediate">Intermediate</span></li>
   <li>5 min read</li>
@@ -200,7 +219,7 @@
       </ul>
     </li>
     <li><a href="#common-mistakes">Common mistakes</a></li>
-    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
     <li><a href="#summary">Summary</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -392,7 +411,7 @@
 </aside><aside class="callout callout--mistake" role="note">
   <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Training on sensitive data without governance</span></p>
   <div class="callout__body"><p>Anything in training data can resurface in outputs to any user. Classify and minimise training data and record lineage. See <a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a>.</p></div>
-</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
 <p><strong>When would you choose RAG over fine-tuning?</strong>
 When the model needs knowledge that is private, changes often, must be cited, or must respect per-user permissions. RAG updates instantly by re-indexing and keeps sources traceable.</p>
 <p><strong>When is fine-tuning the right answer?</strong>
@@ -404,7 +423,7 @@ Yes, and it is common: fine-tune for format and domain language, use RAG for cur
 <p><strong>What is distillation and why would an enterprise use it?</strong>
 Training a small model to reproduce a large model&rsquo;s outputs on a specific task. It reduces cost and latency for high-volume workloads while keeping most of the quality on that task.</p>
 <aside class="callout callout--interview" role="note">
-  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Lead with the decision process</span></p>
+  <p class="callout__title"><span class="callout__label">Review tip</span><span class="callout__heading">Lead with the decision process</span></p>
   <div class="callout__body"><p>Say: &ldquo;I start with prompting and an evaluation set. If knowledge is missing I add RAG; if behaviour is inconsistent or cost is too high at scale, I consider fine-tuning — usually LoRA on a smaller model — and I compare against the prompt baseline.&rdquo;</p></div>
 </aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
 <ul>
@@ -483,7 +502,7 @@ Training a small model to reproduce a large model&rsquo;s outputs on a specific 
       </ul>
     </li>
     <li><a href="#common-mistakes">Common mistakes</a></li>
-    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
     <li><a href="#summary">Summary</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -496,7 +515,7 @@ Training a small model to reproduce a large model&rsquo;s outputs on a specific 
   <div class="site-footer__inner">
     <div class="site-footer__about">
       <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
-      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
     </div>
     <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
       <li><a href="/">samirsahoo.github.io</a></li>

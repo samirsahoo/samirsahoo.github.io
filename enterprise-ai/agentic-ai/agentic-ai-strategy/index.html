@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic AI Strategy and Operating Model · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How an enterprise moves from chatbots to agents: a maturity model, use-case selection and portfolio, build vs buy, value and cost measurement, the AgentOps operating model, workforce and change considerations, and a 12-month roadmap.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Agentic AI Strategy and Operating Model">
+<meta property="og:description" content="How an enterprise moves from chatbots to agents: a maturity model, use-case selection and portfolio, build vs buy, value and cost measurement, the AgentOps operating model, workforce and change considerations, and a 12-month roadmap.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agentic AI Strategy and Operating Model">
+<meta name="twitter:description" content="How an enterprise moves from chatbots to agents: a maturity model, use-case selection and portfolio, build vs buy, value and cost measurement, the AgentOps operating model, workforce and change considerations, and a 12-month roadmap.">
+<meta name="keywords" content="agents, strategy, governance">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"How an enterprise moves from chatbots to agents: a maturity model, use-case selection and portfolio, build vs buy, value and cost measurement, the AgentOps operating model, workforce and change considerations, and a 12-month roadmap.","headline":"Agentic AI Strategy and Operating Model","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, strategy, governance","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/","name":"Agentic AI strategy","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/" aria-current="page">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Agentic AI strategy</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Agentic AI Strategy and Operating Model</h1><p class="article__lede" itemprop="description">How an enterprise moves from chatbots to agents: a maturity model, use-case selection and portfolio, build vs buy, value and cost measurement, the AgentOps operating model, workforce and change considerations, and a 12-month roadmap.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/strategy/">#Strategy</a><a class="tag" href="/enterprise-ai/tags/governance/">#Governance</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a>, <a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#maturity-model">Maturity model</a></li>
+    <li><a href="#choosing-use-cases">Choosing use cases</a></li>
+    <li><a href="#build-buy-or-configure">Build, buy or configure?</a></li>
+    <li><a href="#measuring-value-and-cost">Measuring value and cost</a></li>
+    <li><a href="#operating-model-agentops">Operating model: AgentOps</a></li>
+    <li><a href="#people-and-change">People and change</a></li>
+    <li><a href="#a-12-month-roadmap">A 12-month roadmap</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>An <strong>agentic AI strategy</strong> decides where agents should do work in the organisation, how much autonomy they get, what platform they run on, how value and risk are measured, and how people and processes change around them. It turns isolated pilots into a governed, scalable capability.</p>
+<h2 id="maturity-model">Maturity model<a class="heading-anchor" href="#maturity-model" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Agentic AI maturity"><figcaption class="diagram__title">Agentic AI maturity</figcaption>
+  <pre class="mermaid">flowchart LR
+    L1[&#34;1 · Assist&lt;br/&gt;chat and copilots,&lt;br/&gt;human does the work&#34;] --&gt; L2[&#34;2 · Automate steps&lt;br/&gt;workflows with LLM steps,&lt;br/&gt;RAG, tool reads&#34;]
+    L2 --&gt; L3[&#34;3 · Act with oversight&lt;br/&gt;agents take actions,&lt;br/&gt;approvals for risky ones&#34;]
+    L3 --&gt; L4[&#34;4 · Orchestrate&lt;br/&gt;multi-agent processes across&lt;br/&gt;teams via MCP/A2A&#34;]
+    L4 --&gt; L5[&#34;5 · Autonomous operations&lt;br/&gt;agents run processes end to end,&lt;br/&gt;humans manage exceptions&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Typical capabilities</th>
+      <th>Platform needs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1 Assist</td>
+      <td>Knowledge assistants, drafting, coding assistants</td>
+      <td>AI gateway, RAG, acceptable-use policy</td>
+    </tr>
+    <tr>
+      <td>2 Automate steps</td>
+      <td>Document processing, classification, summaries inside workflows</td>
+      <td>Evaluation in CI, LLMOps, structured output</td>
+    </tr>
+    <tr>
+      <td>3 Act with oversight</td>
+      <td>Agents with write tools, HITL approvals</td>
+      <td>MCP servers, agent identity, guardrails, audit</td>
+    </tr>
+    <tr>
+      <td>4 Orchestrate</td>
+      <td>Cross-domain agents, A2A, shared agent registry</td>
+      <td>MCP/A2A gateways, durable runtime, agent registry</td>
+    </tr>
+    <tr>
+      <td>5 Autonomous ops</td>
+      <td>Agents own processes with SLAs</td>
+      <td>Mature evaluation, incident response, governance at scale</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Most large enterprises in 2026 operate at levels 2–3, with selected level-4 processes.</p>
+<h2 id="choosing-use-cases">Choosing use cases<a class="heading-anchor" href="#choosing-use-cases" aria-label="Link to this section">#</a></h2>
+<p>Score each candidate on:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Questions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Value</strong></td>
+      <td>Volume × time saved, revenue, risk reduction, customer experience</td>
+    </tr>
+    <tr>
+      <td><strong>Agent fit</strong></td>
+      <td>Is the work varied, judgment-based, multi-system? (If fixed, use a workflow or RPA)</td>
+    </tr>
+    <tr>
+      <td><strong>Data &amp; tool readiness</strong></td>
+      <td>APIs or MCP servers available? Clean data and permissions?</td>
+    </tr>
+    <tr>
+      <td><strong>Risk</strong></td>
+      <td>Regulatory tier, harm if wrong, reversibility of actions</td>
+    </tr>
+    <tr>
+      <td><strong>Measurability</strong></td>
+      <td>Clear success metric and evaluation data?</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="diagram" aria-label="Use-case portfolio"><figcaption class="diagram__title">Use-case portfolio</figcaption>
+  <pre class="mermaid">quadrantChart
+    title Agentic use-case portfolio
+    x-axis Low feasibility --&gt; High feasibility
+    y-axis Low value --&gt; High value
+    quadrant-1 Do now
+    quadrant-2 Prepare foundations
+    quadrant-3 Avoid
+    quadrant-4 Quick wins
+    &#34;IT service desk agent&#34;: [0.8, 0.7]
+    &#34;Coding agents&#34;: [0.85, 0.8]
+    &#34;Claims triage&#34;: [0.6, 0.75]
+    &#34;Credit decisioning&#34;: [0.3, 0.85]
+    &#34;Meeting notes&#34;: [0.9, 0.35]
+    &#34;Autonomous trading&#34;: [0.15, 0.6]</pre>
+</figure>
+<p>Good early agentic candidates: IT and HR service desks, software engineering, customer-service case handling with approvals, document-heavy back-office processes, research and analysis for internal teams.</p>
+<h2 id="build-buy-or-configure">Build, buy or configure?<a class="heading-anchor" href="#build-buy-or-configure" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>When</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Buy agents inside SaaS</strong> (CRM, ITSM, ERP vendors)</td>
+      <td>The process lives in that SaaS and differentiation is low</td>
+    </tr>
+    <tr>
+      <td><strong>Configure low-code agents</strong></td>
+      <td>Departmental, moderate-risk automations</td>
+    </tr>
+    <tr>
+      <td><strong>Build on a framework + platform</strong></td>
+      <td>Differentiating processes, cross-system work, strict control and governance</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Whatever you choose, insist on <strong>open protocols</strong> (MCP, A2A), <strong>exportable traces</strong>, <strong>evaluation access</strong> and <strong>identity integration</strong>, so bought and built agents can work together and be governed centrally.</p>
+<h2 id="measuring-value-and-cost">Measuring value and cost<a class="heading-anchor" href="#measuring-value-and-cost" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Outcome</td>
+      <td>Cases resolved without human touch; cycle time; error rate</td>
+    </tr>
+    <tr>
+      <td>Quality</td>
+      <td>Task success rate on evaluation set; customer satisfaction; human override rate</td>
+    </tr>
+    <tr>
+      <td>Efficiency</td>
+      <td>Cost per completed task (tokens + platform + human review) vs baseline</td>
+    </tr>
+    <tr>
+      <td>Risk</td>
+      <td>Policy violations, incidents, escalation rate</td>
+    </tr>
+    <tr>
+      <td>Adoption</td>
+      <td>Active users, tasks delegated, trust surveys</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Measure cost per successful outcome</span></p>
+  <div class="callout__body"><p>Token cost per call is misleading for agents. Compare <strong>total cost per successfully completed task</strong>, including retries, human review and failures, with the current process.</p></div>
+</aside><h2 id="operating-model-agentops">Operating model: AgentOps<a class="heading-anchor" href="#operating-model-agentops" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Agent operating model"><figcaption class="diagram__title">Agent operating model</figcaption>
+  <pre class="mermaid">flowchart TB
+    GOV[&#34;AI governance council&lt;br/&gt;policy, risk tiers, approvals&#34;] --&gt; PLAT[&#34;Agent platform team&lt;br/&gt;runtime, gateways, registry,&lt;br/&gt;eval tooling, guardrails&#34;]
+    PLAT --&gt; DOM[&#34;Domain teams&lt;br/&gt;own agents, tools (MCP),&lt;br/&gt;evals and outcomes&#34;]
+    DOM --&gt; OPS[&#34;AgentOps&lt;br/&gt;monitoring, incidents,&lt;br/&gt;cost, continuous evaluation&#34;]
+    OPS --&gt; DOM
+    HR[&#34;People &amp; change&lt;br/&gt;roles, skills, job redesign&#34;] -.-&gt; DOM</pre>
+</figure>
+<ul>
+<li><strong>Agent product owners</strong> in domain teams own outcomes, autonomy levels and evaluation sets.</li>
+<li><strong>Platform team</strong> provides runtime, MCP/A2A gateways, agent registry, identity, observability and guardrails as paved roads.</li>
+<li><strong>AgentOps</strong> runs agents like services: SLOs, dashboards, on-call, incident playbooks, cost management.</li>
+<li><strong>Governance</strong> sets risk tiers, approves autonomy increases, audits.</li>
+</ul>
+<h2 id="people-and-change">People and change<a class="heading-anchor" href="#people-and-change" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Redesign work around <strong>human + agent</strong> roles: who supervises, approves, handles exceptions.</li>
+<li>Train staff to <strong>delegate to, review and correct</strong> agents (AI literacy is also a legal duty under the EU AI Act).</li>
+<li>Communicate openly about impact on jobs; involve works councils where required.</li>
+<li>Track <strong>trust</strong>: override rates and user feedback show whether autonomy can grow.</li>
+</ul>
+<h2 id="a-12-month-roadmap">A 12-month roadmap<a class="heading-anchor" href="#a-12-month-roadmap" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Quarter</th>
+      <th>Focus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Q1</td>
+      <td>Platform foundations: AI gateway, agent framework standard, MCP servers for 3–5 key systems, evaluation tooling, governance tiers; 2 pilot agents at level 2–3</td>
+    </tr>
+    <tr>
+      <td>Q2</td>
+      <td>Production for pilots with HITL; agent identity and registry; AgentOps dashboards; skills repository</td>
+    </tr>
+    <tr>
+      <td>Q3</td>
+      <td>Scale to 5–10 agents; A2A between domains; progressive autonomy on proven actions; cost-per-outcome reporting</td>
+    </tr>
+    <tr>
+      <td>Q4</td>
+      <td>Cross-domain orchestrated processes; continuous evaluation and red teaming; review of operating model and value</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Pilot purgatory</span></p>
+  <div class="callout__body"><p>Dozens of demos, none in production, because platform, evaluation and governance foundations were never built. Build the paved road with the first two use cases.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Autonomy before evidence</span></p>
+  <div class="callout__body"><p>Granting agents full autonomy on day one. Increase autonomy per action as evaluation and production metrics prove reliability.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How would you prioritise agentic use cases?</strong>
+By value, agent fit (varied, judgment-based, multi-system work), data and tool readiness, risk and measurability — starting with high-value, feasible, lower-risk cases and building the platform through them.</p>
+<p><strong>How do you measure an agent&rsquo;s ROI?</strong>
+Total cost per successfully completed task — tokens, platform, human review, failures — against the current process cost, plus quality, risk and adoption metrics.</p>
+<p><strong>What does an agent operating model look like?</strong>
+A governance council setting policy and risk tiers, a platform team providing runtime, gateways, registry and evaluation tooling, domain teams owning agents and outcomes, and AgentOps running agents with SLOs, monitoring and incident response.</p>
+<p><strong>How do you decide when to increase an agent&rsquo;s autonomy?</strong>
+Per action, based on evidence: evaluation results, production success and override rates, incident history, and the action&rsquo;s impact and reversibility — approved through governance.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Maturity runs from assist → automate steps → act with oversight → orchestrate → autonomous operations.</li>
+<li>Choose use cases by value, agent fit, readiness, risk and measurability.</li>
+<li>Buy, configure or build — but require open protocols, traces, evaluation and identity integration.</li>
+<li>Measure cost per successful outcome; run agents with AgentOps; grow autonomy on evidence.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>McKinsey, <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/seizing-the-agentic-ai-advantage" rel="noopener">Seizing the agentic AI advantage</a>, 2025.</li>
+<li>NIST, <a href="https://www.nist.gov/itl/ai-risk-management-framework" rel="noopener">AI Risk Management Framework</a>.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/research/building-effective-agents" rel="noopener">Building effective agents</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-governance/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI governance</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/framework-landscape/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Framework landscape</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">JVM &amp; .NET frameworks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Harnesses &amp; skills</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/agent-identity-and-access/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Agent identity &amp; access</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/case-study-support-agent/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Case study: support agent</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#maturity-model">Maturity model</a></li>
+    <li><a href="#choosing-use-cases">Choosing use cases</a></li>
+    <li><a href="#build-buy-or-configure">Build, buy or configure?</a></li>
+    <li><a href="#measuring-value-and-cost">Measuring value and cost</a></li>
+    <li><a href="#operating-model-agentops">Operating model: AgentOps</a></li>
+    <li><a href="#people-and-change">People and change</a></li>
+    <li><a href="#a-12-month-roadmap">A 12-month roadmap</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

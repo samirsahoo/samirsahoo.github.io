@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python and TypeScript Agent Frameworks · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Profiles of the main Python and TypeScript agent frameworks — LangGraph and LangChain (create_agent, Deep Agents), OpenAI Agents SDK, Claude Agent SDK, Google ADK, Microsoft Agent Framework, CrewAI, LlamaIndex, Pydantic AI, AWS Strands, smolagents, Mastra and the Vercel AI SDK — with minimal code, strengths and trade-offs.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agent-frameworks/python-typescript-frameworks/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Python and TypeScript Agent Frameworks">
+<meta property="og:description" content="Profiles of the main Python and TypeScript agent frameworks — LangGraph and LangChain (create_agent, Deep Agents), OpenAI Agents SDK, Claude Agent SDK, Google ADK, Microsoft Agent Framework, CrewAI, LlamaIndex, Pydantic AI, AWS Strands, smolagents, Mastra and the Vercel AI SDK — with minimal code, strengths and trade-offs.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agent-frameworks/python-typescript-frameworks/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python and TypeScript Agent Frameworks">
+<meta name="twitter:description" content="Profiles of the main Python and TypeScript agent frameworks — LangGraph and LangChain (create_agent, Deep Agents), OpenAI Agents SDK, Claude Agent SDK, Google ADK, Microsoft Agent Framework, CrewAI, LlamaIndex, Pydantic AI, AWS Strands, smolagents, Mastra and the Vercel AI SDK — with minimal code, strengths and trade-offs.">
+<meta name="keywords" content="agents, frameworks, agentic-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Profiles of the main Python and TypeScript agent frameworks — LangGraph and LangChain (create_agent, Deep Agents), OpenAI Agents SDK, Claude Agent SDK, Google ADK, Microsoft Agent Framework, CrewAI, LlamaIndex, Pydantic AI, AWS Strands, smolagents, Mastra and the Vercel AI SDK — with minimal code, strengths and trade-offs.","headline":"Python and TypeScript Agent Frameworks","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, frameworks, agentic-ai","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/python-typescript-frameworks/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/","name":"5 · Agent Frameworks","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/python-typescript-frameworks/","name":"Python \u0026 TypeScript frameworks","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agent-frameworks">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/" aria-current="page">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a></li>
+    <li><span aria-current="page">Python &amp; TypeScript frameworks</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Python and TypeScript Agent Frameworks</h1><p class="article__lede" itemprop="description">Profiles of the main Python and TypeScript agent frameworks — LangGraph and LangChain (create_agent, Deep Agents), OpenAI Agents SDK, Claude Agent SDK, Google ADK, Microsoft Agent Framework, CrewAI, LlamaIndex, Pydantic AI, AWS Strands, smolagents, Mastra and the Vercel AI SDK — with minimal code, strengths and trade-offs.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/frameworks/">#Frameworks</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#how-to-read-this-page">How to read this page</a></li>
+    <li><a href="#langgraph-and-langchain">LangGraph and LangChain</a></li>
+    <li><a href="#openai-agents-sdk">OpenAI Agents SDK</a></li>
+    <li><a href="#claude-agent-sdk">Claude Agent SDK</a></li>
+    <li><a href="#google-agent-development-kit-adk">Google Agent Development Kit (ADK)</a></li>
+    <li><a href="#microsoft-agent-framework">Microsoft Agent Framework</a></li>
+    <li><a href="#crewai">CrewAI</a></li>
+    <li><a href="#llamaindex">LlamaIndex</a></li>
+    <li><a href="#pydantic-ai">Pydantic AI</a></li>
+    <li><a href="#aws-strands-agents">AWS Strands Agents</a></li>
+    <li><a href="#smolagents-hugging-face">smolagents (Hugging Face)</a></li>
+    <li><a href="#typescript-options">TypeScript options</a></li>
+    <li><a href="#side-by-side-the-same-pattern">Side-by-side: the same pattern</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="how-to-read-this-page">How to read this page<a class="heading-anchor" href="#how-to-read-this-page" aria-label="Link to this section">#</a></h2>
+<p>Each profile answers the same questions: <strong>what is the core idea, what does minimal code look like, what is it good at, and what should you watch out for.</strong> Code is deliberately minimal and uses a placeholder <code>MODEL</code>; check each project&rsquo;s documentation for current model identifiers and options.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Status as of November 2026</span></p>
+  <div class="callout__body"><p>LangChain and LangGraph reached 1.0 in October 2025. Microsoft Agent Framework 1.0 (successor to AutoGen and Semantic Kernel) shipped in April 2026. Agent Skills became an open standard in December 2025. Other version numbers move monthly — verify before you adopt.</p></div>
+</aside><h2 id="langgraph-and-langchain">LangGraph and LangChain<a class="heading-anchor" href="#langgraph-and-langchain" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> Three layers from the same team: <strong>LangChain</strong> is the framework (models, tools, <code>create_agent</code> with middleware), <strong>LangGraph</strong> is the runtime (state graphs with durable checkpoints, interrupts and streaming), and <strong>Deep Agents</strong> is a batteries-included harness on top (planning, file system, sub-agents, skills, context management).</p>
+<figure class="diagram" aria-label="LangChain, LangGraph and Deep Agents"><figcaption class="diagram__title">LangChain, LangGraph and Deep Agents</figcaption>
+  <pre class="mermaid">flowchart TB
+    DA[&#34;Deep Agents — harness&lt;br/&gt;sub-agents, file system, skills&#34;] --&gt; CA[&#34;LangChain create_agent&lt;br/&gt;agent + middleware&#34;]
+    CA --&gt; LG[&#34;LangGraph runtime&lt;br/&gt;state graph, checkpoints, interrupts&#34;]
+    CUSTOM[&#34;Your custom graphs&lt;br/&gt;deterministic + agentic steps&#34;] --&gt; LG</pre>
+</figure>
+<p><strong>Quick agent with <code>create_agent</code>:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain.agents</span> <span class="kn">import</span> <span class="n">create_agent</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Return status of a customer&#39;s order, e.g. A-10293.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">orders_api</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="n">order_id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">agent</span> <span class="o">=</span> <span class="n">create_agent</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">MODEL</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_order</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">system_prompt</span><span class="o">=</span><span class="s2">&#34;You are a concise support agent.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&#34;messages&#34;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;Where is A-10293?&#34;</span><span class="p">}]})</span>
+</span></span></code></pre></div><p><strong>Explicit control with a LangGraph state graph:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langgraph.graph</span> <span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">START</span><span class="p">,</span> <span class="n">END</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langgraph.checkpoint.memory</span> <span class="kn">import</span> <span class="n">InMemorySaver</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Claim</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">decision</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Claim</span><span class="p">):</span> <span class="k">return</span> <span class="p">{</span><span class="s2">&#34;category&#34;</span><span class="p">:</span> <span class="n">llm_classify</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">&#34;text&#34;</span><span class="p">])}</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">auto_settle</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Claim</span><span class="p">):</span> <span class="k">return</span> <span class="p">{</span><span class="s2">&#34;decision&#34;</span><span class="p">:</span> <span class="s2">&#34;settled&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">to_adjuster</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Claim</span><span class="p">):</span> <span class="k">return</span> <span class="p">{</span><span class="s2">&#34;decision&#34;</span><span class="p">:</span> <span class="s2">&#34;queued for adjuster&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">g</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">Claim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&#34;classify&#34;</span><span class="p">,</span> <span class="n">classify</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&#34;auto_settle&#34;</span><span class="p">,</span> <span class="n">auto_settle</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&#34;to_adjuster&#34;</span><span class="p">,</span> <span class="n">to_adjuster</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">START</span><span class="p">,</span> <span class="s2">&#34;classify&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">g</span><span class="o">.</span><span class="n">add_conditional_edges</span><span class="p">(</span><span class="s2">&#34;classify&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="s2">&#34;auto_settle&#34;</span> <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="s2">&#34;category&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;simple&#34;</span> <span class="k">else</span> <span class="s2">&#34;to_adjuster&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&#34;auto_settle&#34;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s2">&#34;to_adjuster&#34;</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">app</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">checkpointer</span><span class="o">=</span><span class="n">InMemorySaver</span><span class="p">())</span>   <span class="c1"># use a Postgres checkpointer in production</span>
+</span></span><span class="line"><span class="cl"><span class="n">app</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&#34;text&#34;</span><span class="p">:</span> <span class="n">claim_text</span><span class="p">},</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;configurable&#34;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&#34;thread_id&#34;</span><span class="p">:</span> <span class="s2">&#34;claim-881&#34;</span><span class="p">}})</span>
+</span></span></code></pre></div><ul>
+<li><strong>Good at:</strong> precise control flow, durable execution, human interrupts (<code>interrupt()</code>), streaming, time-travel debugging; huge integration ecosystem; LangSmith tracing.</li>
+<li><strong>Watch out:</strong> more concepts to learn; keep graphs small and readable; pin versions.</li>
+</ul>
+<h2 id="openai-agents-sdk">OpenAI Agents SDK<a class="heading-anchor" href="#openai-agents-sdk" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> A small set of primitives: <strong>Agents</strong> (instructions + tools), <strong>handoffs</strong> (transfer to another agent), <strong>guardrails</strong> (input/output checks running in parallel), <strong>sessions</strong> (conversation memory) and built-in <strong>tracing</strong>. Uses the Responses API by default.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">agents</span> <span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">Runner</span><span class="p">,</span> <span class="n">function_tool</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@function_tool</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Look up an order&#39;s status.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">orders_api</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="n">order_id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">billing</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;Billing&#34;</span><span class="p">,</span> <span class="n">instructions</span><span class="o">=</span><span class="s2">&#34;Handle refunds and invoices.&#34;</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_order</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">triage</span>  <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;Triage&#34;</span><span class="p">,</span> <span class="n">instructions</span><span class="o">=</span><span class="s2">&#34;Route the customer to the right specialist.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">handoffs</span><span class="o">=</span><span class="p">[</span><span class="n">billing</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run_sync</span><span class="p">(</span><span class="n">triage</span><span class="p">,</span> <span class="s2">&#34;I was charged twice for A-10293&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">final_output</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
+<li><strong>Good at:</strong> minimal abstractions, clean handoff-based multi-agent apps, tracing on by default, voice/realtime agents.</li>
+<li><strong>Watch out:</strong> best experience with OpenAI models; for complex durable workflows add your own state or a workflow engine.</li>
+</ul>
+<h2 id="claude-agent-sdk">Claude Agent SDK<a class="heading-anchor" href="#claude-agent-sdk" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> The agent harness behind Claude Code, available as a library: automatic context management and compaction, built-in tools (files, shell, web), <strong>sub-agents</strong>, <strong>hooks</strong> around tool calls, <strong>permission modes</strong>, MCP servers and <strong>Agent Skills</strong> (folders with a <code>SKILL.md</code> loaded on demand).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">claude_agent_sdk</span> <span class="kn">import</span> <span class="n">query</span><span class="p">,</span> <span class="n">ClaudeAgentOptions</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">options</span> <span class="o">=</span> <span class="n">ClaudeAgentOptions</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">system_prompt</span><span class="o">=</span><span class="s2">&#34;You are an SRE agent. Investigate, then propose a fix; never deploy.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">allowed_tools</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Read&#34;</span><span class="p">,</span> <span class="s2">&#34;Grep&#34;</span><span class="p">,</span> <span class="s2">&#34;Bash&#34;</span><span class="p">],</span>          <span class="c1"># least privilege</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mcp_servers</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;metrics&#34;</span><span class="p">:</span> <span class="n">metrics_server_config</span><span class="p">},</span>   <span class="c1"># company MCP server</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">query</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s2">&#34;Why did checkout latency spike at 14:05?&#34;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
+<li><strong>Good at:</strong> long-running, open-ended tasks (coding, research, operations) where a capable harness matters more than custom control flow; strong permission and hook model.</li>
+<li><strong>Watch out:</strong> opinionated harness centred on Claude models; give it a sandbox and narrow permissions. See <a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">agent harnesses</a>.</li>
+</ul>
+<h2 id="google-agent-development-kit-adk">Google Agent Development Kit (ADK)<a class="heading-anchor" href="#google-agent-development-kit-adk" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> <strong>LLM agents</strong> with tools plus deterministic <strong>workflow agents</strong> — <code>SequentialAgent</code>, <code>ParallelAgent</code>, <code>LoopAgent</code> — composed into hierarchies. Native A2A support; deploy locally, on Cloud Run or on Vertex AI Agent Engine. Available in Python, Java, Go and TypeScript.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">google.adk.agents</span> <span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">SequentialAgent</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_policy</span><span class="p">(</span><span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Return the relevant policy text.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">policy_store</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">researcher</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;researcher&#34;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">MODEL</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">instruction</span><span class="o">=</span><span class="s2">&#34;Find the policy that applies.&#34;</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_policy</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">writer</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;writer&#34;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">MODEL</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">instruction</span><span class="o">=</span><span class="s2">&#34;Write a short answer citing the policy.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">pipeline</span> <span class="o">=</span> <span class="n">SequentialAgent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;policy_answer&#34;</span><span class="p">,</span> <span class="n">sub_agents</span><span class="o">=</span><span class="p">[</span><span class="n">researcher</span><span class="p">,</span> <span class="n">writer</span><span class="p">])</span>
+</span></span></code></pre></div><ul>
+<li><strong>Good at:</strong> mixing deterministic workflow agents with LLM agents; A2A; Google Cloud deployment and evaluation tooling; Java support.</li>
+<li><strong>Watch out:</strong> most value on Google Cloud and Gemini, although other models are supported.</li>
+</ul>
+<h2 id="microsoft-agent-framework">Microsoft Agent Framework<a class="heading-anchor" href="#microsoft-agent-framework" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> The unified successor to <strong>AutoGen</strong> (multi-agent patterns such as group chat, handoff and Magentic-One) and <strong>Semantic Kernel</strong> (enterprise connectors, plugins, telemetry), released as 1.0 for <strong>.NET and Python</strong> in April 2026. Two building blocks: <strong>agents</strong> and graph-based <strong>workflows</strong> with checkpointing and human-in-the-loop; MCP and A2A support; integrates with Azure AI Foundry.</p>
+<ul>
+<li><strong>Good at:</strong> .NET estates, Azure integration, enterprise telemetry, multi-agent orchestration patterns, typed workflows.</li>
+<li><strong>Watch out:</strong> AutoGen and Semantic Kernel are in maintenance mode — plan migrations using Microsoft&rsquo;s guides; start new work on Agent Framework.</li>
+</ul>
+<h2 id="crewai">CrewAI<a class="heading-anchor" href="#crewai" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> Agents defined by <strong>role, goal and backstory</strong>, given <strong>tasks</strong>, assembled into a <strong>crew</strong> that runs sequentially or hierarchically (with a manager agent). <strong>Flows</strong> add event-driven, deterministic orchestration around crews.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">crewai</span> <span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">Task</span><span class="p">,</span> <span class="n">Crew</span><span class="p">,</span> <span class="n">Process</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">analyst</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&#34;Credit analyst&#34;</span><span class="p">,</span> <span class="n">goal</span><span class="o">=</span><span class="s2">&#34;Assess SME loan applications&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">backstory</span><span class="o">=</span><span class="s2">&#34;Ten years in SME lending.&#34;</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">financials_tool</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">writer</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&#34;Credit memo writer&#34;</span><span class="p">,</span> <span class="n">goal</span><span class="o">=</span><span class="s2">&#34;Write clear credit memos&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">backstory</span><span class="o">=</span><span class="s2">&#34;Writes for the credit committee.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assess</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&#34;Assess application </span><span class="si">{app_id}</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">expected_output</span><span class="o">=</span><span class="s2">&#34;Risk summary&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">agent</span><span class="o">=</span><span class="n">analyst</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">memo</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&#34;Write the credit memo&#34;</span><span class="p">,</span> <span class="n">expected_output</span><span class="o">=</span><span class="s2">&#34;One-page memo&#34;</span><span class="p">,</span> <span class="n">agent</span><span class="o">=</span><span class="n">writer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Crew</span><span class="p">(</span><span class="n">agents</span><span class="o">=</span><span class="p">[</span><span class="n">analyst</span><span class="p">,</span> <span class="n">writer</span><span class="p">],</span> <span class="n">tasks</span><span class="o">=</span><span class="p">[</span><span class="n">assess</span><span class="p">,</span> <span class="n">memo</span><span class="p">],</span> <span class="n">process</span><span class="o">=</span><span class="n">Process</span><span class="o">.</span><span class="n">sequential</span><span class="p">)</span> \
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">kickoff</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;app_id&#34;</span><span class="p">:</span> <span class="s2">&#34;SME-2291&#34;</span><span class="p">})</span>
+</span></span></code></pre></div><ul>
+<li><strong>Good at:</strong> fast prototyping of role-based multi-agent teams; readable configuration.</li>
+<li><strong>Watch out:</strong> less fine-grained control; multi-agent token cost; benchmark latency for your workload.</li>
+</ul>
+<h2 id="llamaindex">LlamaIndex<a class="heading-anchor" href="#llamaindex" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> The leading data/RAG framework, with event-driven <strong>Workflows</strong> and agents on top — strongest when the agent&rsquo;s main job is reasoning over documents and data sources (LlamaParse, connectors, indexes).</p>
+<ul>
+<li><strong>Good at:</strong> document-heavy agents, agentic RAG, data connectors.</li>
+<li><strong>Watch out:</strong> pick it for its data strengths; general orchestration is equally good elsewhere.</li>
+</ul>
+<h2 id="pydantic-ai">Pydantic AI<a class="heading-anchor" href="#pydantic-ai" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> &ldquo;FastAPI for agents&rdquo;: type-safe agents with <strong>validated structured outputs</strong>, dependency injection for tools, and easy testing.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pydantic_ai</span> <span class="kn">import</span> <span class="n">Agent</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Triage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">urgent</span><span class="p">:</span> <span class="nb">bool</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">MODEL</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="n">Triage</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">instructions</span><span class="o">=</span><span class="s2">&#34;Classify the customer email into billing, tech or sales.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">run_sync</span><span class="p">(</span><span class="n">email_text</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">urgent</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
+<li><strong>Good at:</strong> typed, testable Python services; strict output contracts; model-agnostic.</li>
+<li><strong>Watch out:</strong> lighter multi-agent features; pair with a workflow engine for complex flows.</li>
+</ul>
+<h2 id="aws-strands-agents">AWS Strands Agents<a class="heading-anchor" href="#aws-strands-agents" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> A <strong>model-driven</strong> agent loop: give the model a prompt and tools and let it plan; simple code, with hooks that integrate with <strong>Amazon Bedrock AgentCore</strong> for runtime, memory, identity and observability.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">strands</span> <span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">tool</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@tool</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Return an order&#39;s status.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">orders_api</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="n">order_id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_order</span><span class="p">],</span> <span class="n">system_prompt</span><span class="o">=</span><span class="s2">&#34;You are a support agent.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">agent</span><span class="p">(</span><span class="s2">&#34;Where is my order A-10293?&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
+<li><strong>Good at:</strong> AWS-centric teams; quick path to AgentCore.</li>
+<li><strong>Watch out:</strong> ecosystem weighted toward AWS.</li>
+</ul>
+<h2 id="smolagents-hugging-face">smolagents (Hugging Face)<a class="heading-anchor" href="#smolagents-hugging-face" aria-label="Link to this section">#</a></h2>
+<p><strong>Core idea.</strong> Minimal <strong>code agents</strong>: the model writes small Python snippets as its actions instead of JSON tool calls, which can be more compact and expressive.</p>
+<ul>
+<li><strong>Good at:</strong> research, open-weight models, learning how agents work.</li>
+<li><strong>Watch out:</strong> generated code must run in a <strong>sandbox</strong>.</li>
+</ul>
+<h2 id="typescript-options">TypeScript options<a class="heading-anchor" href="#typescript-options" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Framework</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>LangGraph.js / LangChain.js</strong></td>
+      <td>Same concepts as Python</td>
+    </tr>
+    <tr>
+      <td><strong>OpenAI Agents SDK (JS)</strong></td>
+      <td>Agents, handoffs, guardrails in TypeScript</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Agent SDK (TS)</strong></td>
+      <td>Same harness as Python</td>
+    </tr>
+    <tr>
+      <td><strong>Google ADK (TS)</strong></td>
+      <td>ADK for Node.js</td>
+    </tr>
+    <tr>
+      <td><strong>Mastra</strong></td>
+      <td>TypeScript-native agents, workflows, memory, evals</td>
+    </tr>
+    <tr>
+      <td><strong>Vercel AI SDK</strong></td>
+      <td>Model calls, tool calling, streaming UI; agent loops in Next.js apps</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="side-by-side-the-same-pattern">Side-by-side: the same pattern<a class="heading-anchor" href="#side-by-side-the-same-pattern" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>LangGraph</th>
+      <th>OpenAI Agents SDK</th>
+      <th>Google ADK</th>
+      <th>CrewAI</th>
+      <th>Claude Agent SDK</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single tool-using agent</td>
+      <td><code>create_agent</code></td>
+      <td><code>Agent</code> + <code>function_tool</code></td>
+      <td><code>Agent(tools=…)</code></td>
+      <td><code>Agent</code> + <code>Task</code></td>
+      <td><code>query()</code> with tools</td>
+    </tr>
+    <tr>
+      <td>Routing / handoff</td>
+      <td>Conditional edges</td>
+      <td><code>handoffs=[…]</code></td>
+      <td>Sub-agents, transfer</td>
+      <td>Hierarchical process</td>
+      <td>Sub-agents</td>
+    </tr>
+    <tr>
+      <td>Deterministic sequence</td>
+      <td>Edges</td>
+      <td>Code around <code>Runner</code></td>
+      <td><code>SequentialAgent</code></td>
+      <td>Sequential process / Flows</td>
+      <td>Hooks, skills</td>
+    </tr>
+    <tr>
+      <td>Parallel work</td>
+      <td>Fan-out edges</td>
+      <td><code>asyncio</code></td>
+      <td><code>ParallelAgent</code></td>
+      <td>Async tasks</td>
+      <td>Parallel sub-agents</td>
+    </tr>
+    <tr>
+      <td>Human approval</td>
+      <td><code>interrupt()</code></td>
+      <td>Guardrails / custom</td>
+      <td>Callbacks / tool confirmation</td>
+      <td><code>human_input</code></td>
+      <td>Permission modes, hooks</td>
+    </tr>
+    <tr>
+      <td>Durable state</td>
+      <td>Checkpointers</td>
+      <td>Sessions</td>
+      <td>Session services</td>
+      <td>Flow state</td>
+      <td>Session resume</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Treating framework demos as architecture</span></p>
+  <div class="callout__body"><p>A ten-line demo hides retries, timeouts, identity, cost limits and evaluation. Budget for these regardless of framework.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Mixing several frameworks inside one service</span></p>
+  <div class="callout__body"><p>Use one framework per service; let services cooperate through MCP and A2A.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How do LangChain, LangGraph and Deep Agents relate?</strong>
+LangChain is the framework with <code>create_agent</code> and middleware; LangGraph is the runtime underneath with state graphs, checkpoints and interrupts; Deep Agents is a batteries-included harness built on <code>create_agent</code> with sub-agents, a file system and skills.</p>
+<p><strong>What are the primitives of the OpenAI Agents SDK?</strong>
+Agents, tools, handoffs, guardrails, sessions and tracing.</p>
+<p><strong>What distinguishes the Claude Agent SDK?</strong>
+It packages a full agent harness — context management, built-in tools, sub-agents, hooks, permissions, MCP and Agent Skills — rather than low-level building blocks.</p>
+<p><strong>What are ADK workflow agents?</strong>
+<code>SequentialAgent</code>, <code>ParallelAgent</code> and <code>LoopAgent</code>: deterministic orchestrators that run sub-agents in a fixed structure without the model deciding the order.</p>
+<p><strong>What happened to AutoGen and Semantic Kernel?</strong>
+Microsoft merged them into Microsoft Agent Framework (1.0 in April 2026); both predecessors are in maintenance mode.</p>
+<p><strong>When is CrewAI a good choice?</strong>
+For quickly prototyping role-based multi-agent teams where readability matters more than low-level control.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>LangGraph for explicit, durable control; <code>create_agent</code>/Deep Agents for speed.</li>
+<li>OpenAI Agents SDK, Google ADK, Microsoft Agent Framework and Strands align with their ecosystems.</li>
+<li>Claude Agent SDK and Deep Agents are harnesses for long-running autonomous work.</li>
+<li>CrewAI for role-based teams, LlamaIndex for data-heavy agents, Pydantic AI for typed services.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://docs.langchain.com/" rel="noopener">LangChain and LangGraph documentation</a> and <a href="https://github.com/langchain-ai/deepagents" rel="noopener">Deep Agents</a>.</li>
+<li><a href="https://openai.github.io/openai-agents-python/" rel="noopener">OpenAI Agents SDK</a>.</li>
+<li><a href="https://docs.claude.com/en/api/agent-sdk/overview" rel="noopener">Claude Agent SDK</a>.</li>
+<li><a href="https://google.github.io/adk-docs/" rel="noopener">Google ADK</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/agent-framework/" rel="noopener">Microsoft Agent Framework</a>.</li>
+<li><a href="https://docs.crewai.com/" rel="noopener">CrewAI</a>, <a href="https://docs.llamaindex.ai/" rel="noopener">LlamaIndex</a>, <a href="https://ai.pydantic.dev/" rel="noopener">Pydantic AI</a>, <a href="https://strandsagents.com/" rel="noopener">Strands Agents</a>, <a href="https://huggingface.co/docs/smolagents" rel="noopener">smolagents</a>, <a href="https://mastra.ai/" rel="noopener">Mastra</a>, <a href="https://ai-sdk.dev/" rel="noopener">Vercel AI SDK</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">JVM &amp; .NET frameworks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Harnesses &amp; skills</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/framework-landscape/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Framework landscape</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent identity &amp; access</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agent-frameworks/framework-landscape/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Framework landscape</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">JVM &amp; .NET frameworks</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#how-to-read-this-page">How to read this page</a></li>
+    <li><a href="#langgraph-and-langchain">LangGraph and LangChain</a></li>
+    <li><a href="#openai-agents-sdk">OpenAI Agents SDK</a></li>
+    <li><a href="#claude-agent-sdk">Claude Agent SDK</a></li>
+    <li><a href="#google-agent-development-kit-adk">Google Agent Development Kit (ADK)</a></li>
+    <li><a href="#microsoft-agent-framework">Microsoft Agent Framework</a></li>
+    <li><a href="#crewai">CrewAI</a></li>
+    <li><a href="#llamaindex">LlamaIndex</a></li>
+    <li><a href="#pydantic-ai">Pydantic AI</a></li>
+    <li><a href="#aws-strands-agents">AWS Strands Agents</a></li>
+    <li><a href="#smolagents-hugging-face">smolagents (Hugging Face)</a></li>
+    <li><a href="#typescript-options">TypeScript options</a></li>
+    <li><a href="#side-by-side-the-same-pattern">Side-by-side: the same pattern</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

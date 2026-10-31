@@ -27,7 +27,7 @@
 
 <link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
-<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
 <noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
 
 </head>
@@ -69,7 +69,7 @@
       <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
     </summary>
     <ul>
-      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
     </ul>
   </details>
 </li>
@@ -121,6 +121,11 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
     </ul>
   </details>
@@ -145,12 +150,26 @@
 <li class="nav-tree__item">
   <details>
     <summary>
-      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
     </summary>
     <ul>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
-      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
     </ul>
   </details>
 </li>
@@ -202,7 +221,7 @@
     <li><a href="#8-human-in-the-loop-hitl">8. Human-in-the-loop (HITL)</a></li>
     <li><a href="#choosing-a-pattern">Choosing a pattern</a></li>
     <li><a href="#common-mistakes">Common mistakes</a></li>
-    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
     <li><a href="#summary">Summary</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -390,7 +409,7 @@
 </aside><aside class="callout callout--mistake" role="note">
   <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Loops without exit criteria</span></p>
   <div class="callout__body"><p>Evaluator–optimizer and reflection loops need a maximum number of rounds and a definition of &ldquo;good enough&rdquo;.</p></div>
-</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
 <p><strong>What is the difference between prompt chaining and an agent?</strong>
 In prompt chaining, code defines a fixed sequence of LLM calls with checks between them. In an agent, the LLM decides the next step at runtime in a loop.</p>
 <p><strong>When would you use orchestrator–workers instead of parallel sectioning?</strong>
@@ -402,8 +421,8 @@ A planner produces an explicit multi-step plan, an executor runs steps with tool
 <p><strong>How do you implement human-in-the-loop in an agent?</strong>
 Define checkpoints for risky actions, persist the agent&rsquo;s state, notify an approver with context, resume from the checkpoint after approval or edit, and log the decision.</p>
 <aside class="callout callout--interview" role="note">
-  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Combine patterns out loud</span></p>
-  <div class="callout__body"><p>A strong design answer composes patterns: &ldquo;A router sends claims to specialised chains; complex claims go to an orchestrator–workers agent; refunds above €100 pause for human approval.&rdquo;</p></div>
+  <p class="callout__title"><span class="callout__label">Review tip</span><span class="callout__heading">Combine patterns out loud</span></p>
+  <div class="callout__body"><p>A strong design composes patterns: &ldquo;A router sends claims to specialised chains; complex claims go to an orchestrator–workers agent; refunds above €100 pause for human approval.&rdquo;</p></div>
 </aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
 <ul>
 <li>Patterns range from code-controlled (chaining, routing, parallelization) to model-controlled (orchestrator–workers, agents).</li>
@@ -436,21 +455,21 @@ Define checkpoints for risky actions, persist the agent&rsquo;s state, notify an
       </a>
     </li>
     <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Harnesses &amp; skills</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent identity &amp; access</span>
+      </a>
+    </li>
+    <li class="card">
       <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
         <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
         <span class="card__title">Memory &amp; state</span>
-      </a>
-    </li>
-    <li class="card">
-      <a class="card__link" href="/enterprise-ai/agentic-ai/model-context-protocol/">
-        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
-        <span class="card__title">MCP</span>
-      </a>
-    </li>
-    <li class="card">
-      <a class="card__link" href="/enterprise-ai/agentic-ai/tool-calling/">
-        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
-        <span class="card__title">Tool calling</span>
       </a>
     </li>
   </ul>
@@ -484,7 +503,7 @@ Define checkpoints for risky actions, persist the agent&rsquo;s state, notify an
     <li><a href="#8-human-in-the-loop-hitl">8. Human-in-the-loop (HITL)</a></li>
     <li><a href="#choosing-a-pattern">Choosing a pattern</a></li>
     <li><a href="#common-mistakes">Common mistakes</a></li>
-    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
     <li><a href="#summary">Summary</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -497,7 +516,7 @@ Define checkpoints for risky actions, persist the agent&rsquo;s state, notify an
   <div class="site-footer__inner">
     <div class="site-footer__about">
       <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
-      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
     </div>
     <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
       <li><a href="/">samirsahoo.github.io</a></li>

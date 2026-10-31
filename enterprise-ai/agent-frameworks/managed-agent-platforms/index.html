@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Managed Agent Platforms and Low-Code Builders · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Cloud agent platforms — Amazon Bedrock AgentCore, Google Vertex AI Agent Engine, Azure AI Foundry Agent Service — what their building blocks do (runtime, memory, identity, tool gateway, browser, code interpreter, observability), how they compare with self-hosting, and where low-code agent builders fit.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agent-frameworks/managed-agent-platforms/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Managed Agent Platforms and Low-Code Builders">
+<meta property="og:description" content="Cloud agent platforms — Amazon Bedrock AgentCore, Google Vertex AI Agent Engine, Azure AI Foundry Agent Service — what their building blocks do (runtime, memory, identity, tool gateway, browser, code interpreter, observability), how they compare with self-hosting, and where low-code agent builders fit.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agent-frameworks/managed-agent-platforms/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Managed Agent Platforms and Low-Code Builders">
+<meta name="twitter:description" content="Cloud agent platforms — Amazon Bedrock AgentCore, Google Vertex AI Agent Engine, Azure AI Foundry Agent Service — what their building blocks do (runtime, memory, identity, tool gateway, browser, code interpreter, observability), how they compare with self-hosting, and where low-code agent builders fit.">
+<meta name="keywords" content="agents, platform, frameworks">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Cloud agent platforms — Amazon Bedrock AgentCore, Google Vertex AI Agent Engine, Azure AI Foundry Agent Service — what their building blocks do (runtime, memory, identity, tool gateway, browser, code interpreter, observability), how they compare with self-hosting, and where low-code agent builders fit.","headline":"Managed Agent Platforms and Low-Code Builders","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, platform, frameworks","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/managed-agent-platforms/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/","name":"5 · Agent Frameworks","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agent-frameworks/managed-agent-platforms/","name":"Managed platforms","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agent-frameworks">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/" aria-current="page">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a></li>
+    <li><span aria-current="page">Managed platforms</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Managed Agent Platforms and Low-Code Builders</h1><p class="article__lede" itemprop="description">Cloud agent platforms — Amazon Bedrock AgentCore, Google Vertex AI Agent Engine, Azure AI Foundry Agent Service — what their building blocks do (runtime, memory, identity, tool gateway, browser, code interpreter, observability), how they compare with self-hosting, and where low-code agent builders fit.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/platform/">#Platform</a><a class="tag" href="/enterprise-ai/tags/frameworks/">#Frameworks</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-building-blocks">The building blocks</a></li>
+    <li><a href="#the-three-hyperscaler-offerings">The three hyperscaler offerings</a></li>
+    <li><a href="#managed-platform-or-self-hosted">Managed platform or self-hosted?</a></li>
+    <li><a href="#low-code-agent-builders">Low-code agent builders</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>managed agent platform</strong> runs agents for you. You bring agent code written with almost any framework; the platform provides an isolated, scalable <strong>runtime</strong>, managed <strong>memory</strong>, <strong>identity</strong> for agents, a <strong>tool gateway</strong> that turns APIs into MCP tools, sandboxed <strong>browser</strong> and <strong>code</strong> tools, and <strong>observability</strong> — the operational layer most teams would otherwise build on Kubernetes.</p>
+<h2 id="the-building-blocks">The building blocks<a class="heading-anchor" href="#the-building-blocks" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/managed-agent-runtime.html" title="Managed agent platform building blocks" loading="lazy" style="height: 700px"></iframe>
+  <figcaption>
+    <span>Managed agent platform building blocks · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/enterprise-ai/diagrams/managed-agent-runtime.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Block</th>
+      <th>What it does</th>
+      <th>Why it matters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Runtime</strong></td>
+      <td>Serverless hosting for agent code; isolated session per user; long-running tasks</td>
+      <td>No cross-session data leaks; scale to zero; hours-long runs</td>
+    </tr>
+    <tr>
+      <td><strong>Memory</strong></td>
+      <td>Short-term session memory and long-term extracted memories</td>
+      <td>No custom memory store to build</td>
+    </tr>
+    <tr>
+      <td><strong>Identity</strong></td>
+      <td>Agent identities; OAuth flows; acting on behalf of users; token vault</td>
+      <td>Least-privilege access to tools (<a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">agent identity</a>)</td>
+    </tr>
+    <tr>
+      <td><strong>Tool gateway</strong></td>
+      <td>Turns REST/OpenAPI, functions and SaaS into MCP tools with auth</td>
+      <td>Governed tool access without writing MCP servers</td>
+    </tr>
+    <tr>
+      <td><strong>Browser tool</strong></td>
+      <td>Managed, sandboxed browser for web tasks</td>
+      <td><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use</a> without your own VMs</td>
+    </tr>
+    <tr>
+      <td><strong>Code interpreter</strong></td>
+      <td>Sandboxed code execution</td>
+      <td>Safe data analysis and calculations</td>
+    </tr>
+    <tr>
+      <td><strong>Observability &amp; evaluation</strong></td>
+      <td>Traces, metrics, online evaluations per session</td>
+      <td>Operability and quality monitoring</td>
+    </tr>
+    <tr>
+      <td><strong>Policy</strong></td>
+      <td>Rules on what agents and tools may do</td>
+      <td>Central governance</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="the-three-hyperscaler-offerings">The three hyperscaler offerings<a class="heading-anchor" href="#the-three-hyperscaler-offerings" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th><strong>Amazon Bedrock AgentCore</strong></th>
+      <th><strong>Vertex AI Agent Engine</strong> (Google)</th>
+      <th><strong>Azure AI Foundry Agent Service</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Positioning</td>
+      <td>Modular services to run any agent framework securely at scale</td>
+      <td>Managed runtime for ADK and other frameworks</td>
+      <td>Managed agents integrated with Foundry models and Microsoft 365</td>
+    </tr>
+    <tr>
+      <td>Typical framework</td>
+      <td>Strands, LangGraph, CrewAI, others</td>
+      <td>ADK, LangGraph, others</td>
+      <td>Microsoft Agent Framework, others</td>
+    </tr>
+    <tr>
+      <td>Building blocks</td>
+      <td>Runtime, Memory, Gateway, Identity, Browser, Code Interpreter, Observability, evaluations, policy</td>
+      <td>Runtime, sessions, Memory Bank, evaluation, tracing (Cloud Trace), A2A</td>
+      <td>Agents, threads, tools (incl. MCP, Logic Apps, OpenAPI), connected agents, tracing</td>
+    </tr>
+    <tr>
+      <td>Protocols</td>
+      <td>MCP (gateway), A2A</td>
+      <td>A2A native, MCP</td>
+      <td>MCP, A2A</td>
+    </tr>
+    <tr>
+      <td>Fits</td>
+      <td>AWS estates</td>
+      <td>Google Cloud estates</td>
+      <td>Azure / Microsoft 365 estates</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>AWS has positioned AgentCore as the platform for new agent builds, with the original Bedrock Agents continuing for existing deployments. Feature sets change frequently — compare current documentation.</p>
+<h2 id="managed-platform-or-self-hosted">Managed platform or self-hosted?<a class="heading-anchor" href="#managed-platform-or-self-hosted" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Run agents where?"><figcaption class="diagram__title">Run agents where?</figcaption>
+  <pre class="mermaid">flowchart TD
+    A{&#34;Strong cloud commitment&lt;br/&gt;and data in that cloud?&#34;} --&gt;|&#34;yes&#34;| B[&#34;Managed platform of that cloud&#34;]
+    A --&gt;|&#34;no / multi-cloud&#34;| C{&#34;Mature Kubernetes platform&lt;br/&gt;+ AI gateway + observability?&#34;}
+    C --&gt;|&#34;yes&#34;| D[&#34;Self-host: framework on Kubernetes,&lt;br/&gt;durable store, MCP gateway&#34;]
+    C --&gt;|&#34;no&#34;| B
+    B --&gt; E[&#34;Keep tools as MCP servers and prompts/evals in Git&lt;br/&gt;to stay portable&#34;]
+    D --&gt; E</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Managed platform</th>
+      <th>Self-hosted on Kubernetes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Time to production</td>
+      <td>Fast</td>
+      <td>Slower — build runtime, memory, identity, sandboxes</td>
+    </tr>
+    <tr>
+      <td>Session isolation</td>
+      <td>Built in (for example micro-VM per session)</td>
+      <td>You design it</td>
+    </tr>
+    <tr>
+      <td>Identity for agents</td>
+      <td>Built in</td>
+      <td>Integrate IdP, token exchange, vault</td>
+    </tr>
+    <tr>
+      <td>Sandboxed browser/code</td>
+      <td>Built in</td>
+      <td>Run your own sandboxes</td>
+    </tr>
+    <tr>
+      <td>Portability</td>
+      <td>Tied to a cloud</td>
+      <td>Portable</td>
+    </tr>
+    <tr>
+      <td>Cost model</td>
+      <td>Pay per use</td>
+      <td>Infrastructure + platform team</td>
+    </tr>
+    <tr>
+      <td>Control and customisation</td>
+      <td>Limited to platform features</td>
+      <td>Full</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="low-code-agent-builders">Low-code agent builders<a class="heading-anchor" href="#low-code-agent-builders" aria-label="Link to this section">#</a></h2>
+<p>Business-facing builders let analysts compose agents visually with connectors:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Microsoft Copilot Studio</strong></td>
+      <td>Agents for Microsoft 365 and Teams; connectors; governance via Power Platform</td>
+    </tr>
+    <tr>
+      <td><strong>Salesforce Agentforce, ServiceNow, SAP Joule and similar</strong></td>
+      <td>Agents inside SaaS platforms, close to their data and workflows</td>
+    </tr>
+    <tr>
+      <td><strong>n8n, Dify, Flowise, Langflow</strong></td>
+      <td>Open-source visual builders for flows, RAG and agents</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud agent builders</strong></td>
+      <td>Visual builders on top of the hyperscaler platforms</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Use them for:</strong> departmental automations, prototypes, SaaS-centred workflows. <strong>Be careful with:</strong> version control, testing, evaluation, security review and sprawl — apply the same <a href="/enterprise-ai/spring-ai-governance/ai-governance/">governance</a> as for coded agents, and register every agent in the AI inventory.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Assuming the platform makes agents safe</span></p>
+  <div class="callout__body"><p>The platform isolates sessions and manages identity; your tools still need authorisation, limits and approvals, and your agent still needs evaluation.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Agent sprawl from low-code tools</span></p>
+  <div class="callout__body"><p>Hundreds of unregistered agents with broad connectors are a security and compliance risk. Require registration, ownership and review.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What does a managed agent platform provide?</strong>
+A session-isolated serverless runtime, memory, agent identity and token handling, a tool gateway exposing APIs as MCP tools, sandboxed browser and code tools, observability and evaluation, and policy controls.</p>
+<p><strong>When would you self-host agents instead?</strong>
+When you need multi-cloud portability, full control, or you already run a mature Kubernetes platform with AI gateway, identity and observability.</p>
+<p><strong>What are the risks of low-code agent builders?</strong>
+Weak version control and testing, inconsistent security review, broad connectors and agent sprawl — mitigated by registration, ownership, governance and evaluation.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Managed platforms supply runtime, memory, identity, tool gateway, sandboxes and observability.</li>
+<li>AgentCore, Vertex AI Agent Engine and Foundry Agent Service align with their clouds; all support MCP and A2A.</li>
+<li>Self-host for portability and control; stay portable with MCP tools and Git-managed prompts and evals.</li>
+<li>Govern low-code agents like any other agent.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>AWS, <a href="https://aws.amazon.com/bedrock/agentcore/" rel="noopener">Amazon Bedrock AgentCore</a>.</li>
+<li>Google Cloud, <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview" rel="noopener">Vertex AI Agent Engine</a>.</li>
+<li>Microsoft, <a href="https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview" rel="noopener">Azure AI Foundry Agent Service</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent identity &amp; access</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/enterprise-ai-stack/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Enterprise AI stack</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">JVM &amp; .NET frameworks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Python &amp; TypeScript frameworks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/framework-landscape/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Framework landscape</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">JVM &amp; .NET frameworks</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-building-blocks">The building blocks</a></li>
+    <li><a href="#the-three-hyperscaler-offerings">The three hyperscaler offerings</a></li>
+    <li><a href="#managed-platform-or-self-hosted">Managed platform or self-hosted?</a></li>
+    <li><a href="#low-code-agent-builders">Low-code agent builders</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>
