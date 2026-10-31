@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samir Sahoo · Architecture Notes</title>
+<meta name="description" content="Architecture write-ups and reference projects by Samir Kumar Sahoo.">
+<style>
+  :root {
+    --bg: #f7f7f5; --surface: #ffffff; --text: #1d1d1b; --muted: #5f5e59;
+    --border: #dcdad3; --accent: #1f5fae; --accent-soft: #e3ecf8;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161614; --surface: #1e1e1b; --text: #ecebe6; --muted: #a5a39b;
+      --border: #3a3934; --accent: #7fb0ec; --accent-soft: #1f2d40;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161614; --surface: #1e1e1b; --text: #ecebe6; --muted: #a5a39b;
+    --border: #3a3934; --accent: #7fb0ec; --accent-soft: #1f2d40;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 72px 16px 80px; }
+  .eyebrow { font: 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: clamp(32px, 6vw, 44px); line-height: 1.1; margin: 12px 0 12px; letter-spacing: -.02em; }
+  .lede { color: var(--muted); font-size: 18px; margin: 0 0 48px; max-width: 56ch; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 12px; font-weight: 600; }
+  ul.cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  a.card { display: block; padding: 20px 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: inherit; text-decoration: none; transition: border-color .15s, transform .15s; }
+  a.card:hover, a.card:focus-visible { border-color: var(--accent); transform: translateY(-1px); outline: none; }
+  .card .title { font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; gap: 12px; }
+  .card .title span.arrow { color: var(--accent); }
+  .card p { margin: 6px 0 10px; color: var(--muted); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tags span { font: 12px/1 var(--mono); padding: 5px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 14px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">samirsahoo.github.io</div>
+  <h1>Samir Kumar Sahoo</h1>
+  <p class="lede">Architecture write-ups and reference implementations: how systems are put together, and why.</p>
+
+  <h2>Write-ups</h2>
+  <ul class="cards">
+    <li>
+      <a class="card" href="data-pipeline/">
+        <div class="title">Order Data Pipeline <span class="arrow">→</span></div>
+        <p>How order CSV files flow from a file poller through a transactional outbox, RabbitMQ and Spring Cloud Data Flow into a Spring Batch task.</p>
+        <div class="tags"><span>Spring Batch</span><span>SCDF</span><span>RabbitMQ</span><span>Outbox</span></div>
+      </a>
+    </li>
+    <li>
+      <a class="card" href="design-patterns-hub/">
+        <div class="title">Java &amp; Software Architecture Knowledge Hub <span class="arrow">→</span></div>
+        <p>A reference collection of design patterns and architecture concepts with Java examples.</p>
+        <div class="tags"><span>Java</span><span>Design patterns</span></div>
+      </a>
+    </li>
+  </ul>
+
+  <footer>
+    Code on <a href="https://github.com/samirsahoo">github.com/samirsahoo</a>
+  </footer>
+</div>
+</body>
+</html>

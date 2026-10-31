@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order Data Pipeline</title>
+<meta name="description" content="How the spring-data-pipeline ingests order CSV files: file-poller, outbox, RabbitMQ, ingestion-event-consumer, Spring Cloud Data Flow and the orders-batch Spring Batch task.">
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --surface-2: #f0efeb;
+    --text: #1d1d1b;
+    --muted: #5f5e59;
+    --border: #dcdad3;
+    --accent: #1f5fae;
+    --accent-soft: #e3ecf8;
+    --ok: #2c7a4b;
+    --ok-soft: #e2f2e8;
+    --warn: #9a5b00;
+    --warn-soft: #fbefd9;
+    --bad: #b03a2e;
+    --bad-soft: #f8e3e0;
+    --code-bg: #f3f2ee;
+    --diagram-stroke: #6b6a64;
+    --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, "Liberation Mono", monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161614;
+      --surface: #1e1e1b;
+      --surface-2: #262622;
+      --text: #ecebe6;
+      --muted: #a5a39b;
+      --border: #3a3934;
+      --accent: #7fb0ec;
+      --accent-soft: #1f2d40;
+      --ok: #6cc591;
+      --ok-soft: #1c3226;
+      --warn: #e5ad55;
+      --warn-soft: #3a2c14;
+      --bad: #ee8a7e;
+      --bad-soft: #3d201c;
+      --code-bg: #232320;
+      --diagram-stroke: #9c9a92;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161614;
+    --surface: #1e1e1b;
+    --surface-2: #262622;
+    --text: #ecebe6;
+    --muted: #a5a39b;
+    --border: #3a3934;
+    --accent: #7fb0ec;
+    --accent-soft: #1f2d40;
+    --ok: #6cc591;
+    --ok-soft: #1c3226;
+    --warn: #e5ad55;
+    --warn-soft: #3a2c14;
+    --bad: #ee8a7e;
+    --bad-soft: #3d201c;
+    --code-bg: #232320;
+    --diagram-stroke: #9c9a92;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 48px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  nav.toc {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    font-size: 14px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+  }
+  nav.toc .label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; }
+  nav.toc li { counter-increment: toc; }
+  nav.toc a {
+    display: block;
+    padding: 4px 0 4px 12px;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 2px solid var(--border);
+  }
+  nav.toc a::before { content: counter(toc) ". "; }
+  nav.toc a:hover { color: var(--accent); border-left-color: var(--accent); }
+
+  main { min-width: 0; }
+  header.hero { margin-bottom: 40px; }
+  header.hero .eyebrow { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); font-weight: 600; }
+  h1 { font-size: 2.2rem; line-height: 1.2; margin: 8px 0 12px; letter-spacing: -.01em; }
+  header.hero p.lede { font-size: 1.1rem; color: var(--muted); max-width: 70ch; margin: 0; }
+  h2 {
+    font-size: 1.5rem;
+    margin: 56px 0 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    scroll-margin-top: 16px;
+  }
+  h3 { font-size: 1.1rem; margin: 28px 0 8px; }
+  p, li { max-width: 78ch; }
+  a { color: var(--accent); }
+  code {
+    font-family: var(--mono);
+    font-size: .88em;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 4px;
+    overflow-wrap: anywhere;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font: 13px/1.5 var(--mono);
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+    margin: 24px 0 0;
+  }
+  .fact {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .fact .k { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .fact .v { font-size: 15px; font-weight: 600; margin-top: 4px; }
+
+  .figure {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .figure svg { display: block; width: 100%; min-width: 640px; height: auto; }
+  .figure figcaption, .caption { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+  svg .box { fill: var(--surface-2); stroke: var(--diagram-stroke); stroke-width: 1.2; }
+  svg .box-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+  svg .box-ok { fill: var(--ok-soft); stroke: var(--ok); stroke-width: 1.4; }
+  svg .box-bad { fill: var(--bad-soft); stroke: var(--bad); stroke-width: 1.4; }
+  svg .box-warn { fill: var(--warn-soft); stroke: var(--warn); stroke-width: 1.4; }
+  svg .t { fill: var(--text); font: 600 13px var(--sans); }
+  svg .s { fill: var(--muted); font: 11px var(--sans); }
+  svg .m { fill: var(--muted); font: 10.5px var(--mono); }
+  svg .edge { stroke: var(--diagram-stroke); stroke-width: 1.4; fill: none; }
+  svg .edge-dash { stroke: var(--diagram-stroke); stroke-width: 1.2; fill: none; stroke-dasharray: 4 4; }
+  svg .edge-retry { stroke: var(--warn); stroke-width: 1.4; fill: none; stroke-dasharray: 5 4; }
+  svg .arrow { fill: var(--diagram-stroke); }
+  svg .arrow-warn { fill: var(--warn); }
+  svg .lbl { fill: var(--text); font: 11px var(--sans); }
+  svg .lbl-warn { fill: var(--warn); font: 600 11px var(--sans); }
+
+  .table-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--surface-2); font-weight: 600; font-size: 13px; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  td code { white-space: nowrap; }
+
+  .steps { counter-reset: step; list-style: none; padding: 0; margin: 16px 0; }
+  .steps > li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 18px 44px;
+    max-width: none;
+  }
+  .steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0; top: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 14px;
+    display: grid;
+    place-items: center;
+  }
+  .steps > li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 13px; top: 32px; bottom: 4px;
+    width: 2px;
+    background: var(--border);
+  }
+  .steps strong { display: block; }
+
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+    max-width: 78ch;
+  }
+  .callout.warn { border-color: var(--warn); background: var(--warn-soft); }
+  .callout p { margin: 0; }
+
+  .pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; font-family: var(--mono); }
+  .pill.ok { background: var(--ok-soft); color: var(--ok); }
+  .pill.bad { background: var(--bad-soft); color: var(--bad); }
+  .pill.warn { background: var(--warn-soft); color: var(--warn); }
+  .pill.info { background: var(--accent-soft); color: var(--accent); }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 16px 0; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .card h4 { margin: 0 0 6px; font-size: 15px; }
+  .card p { margin: 0; font-size: 14px; color: var(--muted); }
+
+  footer { margin-top: 64px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 16px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 24px 16px 64px; }
+    nav.toc { position: static; max-height: none; margin-bottom: 24px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+    h1 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Contents</div>
+    <ol>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#modules">Modules</a></li>
+      <li><a href="#flow">End-to-end flow</a></li>
+      <li><a href="#poller">Stage 1 · file-poller</a></li>
+      <li><a href="#messaging">Stage 2 · Messaging</a></li>
+      <li><a href="#consumer">Stage 3 · Event consumer</a></li>
+      <li><a href="#batch">Stage 4 · orders-batch</a></li>
+      <li><a href="#reporting">Reporting jobs</a></li>
+      <li><a href="#lifecycle">File lifecycle</a></li>
+      <li><a href="#data-model">Data model</a></li>
+      <li><a href="#reliability">Reliability guarantees</a></li>
+      <li><a href="#schema">Schema management</a></li>
+      <li><a href="#operations">Operations &amp; security</a></li>
+      <li><a href="#config">Configuration reference</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">spring-data-pipeline · v1.1.0</div>
+      <h1>Order Data Pipeline</h1>
+      <p class="lede">How order CSV files travel from a landing directory into PostgreSQL: detection, registration, event hand-off,
+        orchestrated batch import, validation, reject handling and daily reporting — and what keeps each hop safe under crashes,
+        redeliveries and retries.</p>
+      <div class="facts">
+        <div class="fact"><div class="k">Runtime</div><div class="v">Java 21 · Spring Boot 3.5</div></div>
+        <div class="fact"><div class="k">Processing</div><div class="v">Spring Batch 5 · Cloud Task 3</div></div>
+        <div class="fact"><div class="k">Messaging</div><div class="v">Cloud Stream 4.3 · RabbitMQ</div></div>
+        <div class="fact"><div class="k">Orchestration</div><div class="v">Spring Cloud Data Flow 2.11</div></div>
+        <div class="fact"><div class="k">Storage</div><div class="v">PostgreSQL · Liquibase</div></div>
+      </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <h2 id="overview">1. Overview</h2>
+    <p>Upstream systems drop order files (<code>*.csv</code>) into a shared <strong>inbox</strong> directory. The pipeline turns
+      each complete file into exactly one Spring Batch <em>JobInstance</em>, which validates every line, upserts good orders into
+      the <code>orders</code> table and records bad lines in <code>order_rejects</code>. Nightly reporting jobs aggregate both into
+      daily summary tables.</p>
+    <p>The design is deliberately split into small, independently scalable pieces connected by durable state:</p>
+    <div class="cards">
+      <div class="card"><h4>Detect &amp; register</h4><p><code>file-poller</code> — a long-running service that notices stable files, de-duplicates them and stages them atomically.</p></div>
+      <div class="card"><h4>Hand off</h4><p>A transactional <strong>outbox</strong> relays an <code>IngestionRequested.v1</code> event to RabbitMQ with publisher confirms.</p></div>
+      <div class="card"><h4>Launch</h4><p><code>ingestion-event-consumer</code> de-duplicates deliveries via an <strong>inbox</strong> table and launches the import task through the SCDF REST API.</p></div>
+      <div class="card"><h4>Process</h4><p><code>orders-batch</code> — a short-lived Spring Cloud Task running <code>ordersImportJob</code> (one file per execution) or the summary jobs.</p></div>
+    </div>
+    <p>The <code>ingestion_file</code> table is the single source of truth for where every file is in its lifecycle; each component
+      owns a well-defined slice of its state machine.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="architecture">2. Architecture</h2>
+    <figure class="figure">
+      <svg viewBox="0 0 950 440" role="img" aria-labelledby="arch-title arch-desc">
+        <title id="arch-title">Pipeline architecture</title>
+        <desc id="arch-desc">Producers write CSV files to the inbox. file-poller registers and stages files, writes an outbox event, and relays it to RabbitMQ. ingestion-event-consumer receives the event and launches the orders-import task through Spring Cloud Data Flow. orders-batch reads the staged file, writes orders and rejects to PostgreSQL, and archives the file.</desc>
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" class="arrow"/>
+          </marker>
+        </defs>
+
+        <!-- row 1 -->
+        <rect class="box" x="20" y="40" width="150" height="70" rx="8"/>
+        <text class="t" x="95" y="68" text-anchor="middle">Producers</text>
+        <text class="s" x="95" y="86" text-anchor="middle">upstream systems</text>
+        <text class="m" x="95" y="100" text-anchor="middle">orders-*.csv</text>
+
+        <rect class="box" x="210" y="40" width="150" height="70" rx="8"/>
+        <text class="t" x="285" y="64" text-anchor="middle">Shared volume</text>
+        <text class="m" x="285" y="82" text-anchor="middle">inbox/ → staging/</text>
+        <text class="m" x="285" y="98" text-anchor="middle">duplicates/</text>
+
+        <rect class="box-accent" x="400" y="40" width="150" height="70" rx="8"/>
+        <text class="t" x="475" y="64" text-anchor="middle">file-poller</text>
+        <text class="s" x="475" y="82" text-anchor="middle">scan · register · stage</text>
+        <text class="s" x="475" y="98" text-anchor="middle">outbox relay</text>
+
+        <rect class="box-warn" x="590" y="40" width="150" height="70" rx="8"/>
+        <text class="t" x="665" y="62" text-anchor="middle">RabbitMQ</text>
+        <text class="m" x="665" y="80" text-anchor="middle">pipeline.ingestion</text>
+        <text class="m" x="665" y="93" text-anchor="middle">.requests</text>
+        <text class="s" x="665" y="106" text-anchor="middle">quorum queue + DLQ</text>
+
+        <rect class="box-accent" x="780" y="40" width="150" height="70" rx="8"/>
+        <text class="t" x="855" y="64" text-anchor="middle">ingestion-event-</text>
+        <text class="t" x="855" y="80" text-anchor="middle">consumer</text>
+        <text class="s" x="855" y="98" text-anchor="middle">inbox de-dup · launch</text>
+
+        <!-- row 2 -->
+        <rect class="box" x="780" y="200" width="150" height="70" rx="8"/>
+        <text class="t" x="855" y="226" text-anchor="middle">SCDF server</text>
+        <text class="s" x="855" y="244" text-anchor="middle">task orchestration</text>
+        <text class="m" x="855" y="259" text-anchor="middle">orders-import</text>
+
+        <rect class="box-accent" x="560" y="200" width="180" height="70" rx="8"/>
+        <text class="t" x="650" y="226" text-anchor="middle">orders-batch (task)</text>
+        <text class="s" x="650" y="244" text-anchor="middle">ordersImportJob</text>
+        <text class="m" x="650" y="259" text-anchor="middle">prepare → import → finalize</text>
+
+        <rect class="box" x="210" y="200" width="150" height="70" rx="8"/>
+        <text class="t" x="285" y="226" text-anchor="middle">Archive</text>
+        <text class="m" x="285" y="244" text-anchor="middle">archive/yyyy/MM/dd/</text>
+        <text class="s" x="285" y="259" text-anchor="middle">completed files</text>
+
+        <!-- database -->
+        <rect class="box-ok" x="20" y="340" width="910" height="84" rx="10"/>
+        <text class="t" x="40" y="366">PostgreSQL</text>
+        <text class="s" x="40" y="386">schema <tspan class="m">pipeline</tspan>: ingestion_file · file_identity · file_observation · pipeline_switch · outbox_event · inbox_message · orders · order_rejects · *_daily_summary</text>
+        <text class="s" x="40" y="406">schema <tspan class="m">dataflow</tspan>: SCDF metadata · BOOT3_TASK_* / BOOT3_BATCH_* (job repository, restart state)</text>
+
+        <!-- edges row 1 -->
+        <path class="edge" d="M170 75 H208" marker-end="url(#ah)"/>
+        <text class="lbl" x="189" y="68" text-anchor="middle">write</text>
+        <path class="edge" d="M398 75 H362" marker-end="url(#ah)"/>
+        <text class="lbl" x="380" y="68" text-anchor="middle">scan</text>
+        <text class="lbl" x="380" y="96" text-anchor="middle">move</text>
+        <path class="edge" d="M550 75 H588" marker-end="url(#ah)"/>
+        <text class="lbl" x="569" y="68" text-anchor="middle">publish</text>
+        <path class="edge" d="M740 75 H778" marker-end="url(#ah)"/>
+        <text class="lbl" x="759" y="68" text-anchor="middle">deliver</text>
+
+        <!-- consumer -> scdf -->
+        <path class="edge" d="M855 110 V198" marker-end="url(#ah)"/>
+        <text class="lbl" x="862" y="150">POST /tasks/</text>
+        <text class="lbl" x="862" y="164">executions/launch</text>
+
+        <!-- scdf -> batch -->
+        <path class="edge" d="M780 235 H742" marker-end="url(#ah)"/>
+        <text class="lbl" x="761" y="228" text-anchor="middle">spawn</text>
+
+        <!-- batch -> staging read / archive -->
+        <path class="edge" d="M560 222 C 470 222, 380 160, 300 112" marker-end="url(#ah)"/>
+        <text class="lbl" x="440" y="180" text-anchor="middle">read staged file</text>
+        <path class="edge" d="M560 250 H362" marker-end="url(#ah)"/>
+        <text class="lbl" x="460" y="264" text-anchor="middle">archive on success</text>
+
+        <!-- db edges -->
+        <path class="edge-dash" d="M475 110 V140 H520 V338" marker-end="url(#ah)"/>
+        <path class="edge-dash" d="M650 270 V338" marker-end="url(#ah)"/>
+        <path class="edge-dash" d="M820 270 V338" marker-end="url(#ah)"/>
+        <path class="edge-dash" d="M900 110 V180 H940 V338 H932" />
+        <text class="s" x="528" y="320">registry, outbox</text>
+        <text class="s" x="658" y="320">orders, rejects</text>
+        <text class="s" x="828" y="320">dataflow</text>
+      </svg>
+      <figcaption>Solid arrows: data and control flow. Dashed arrows: PostgreSQL access (the consumer also reads/writes <code>ingestion_file</code> and <code>inbox_message</code>).</figcaption>
+    </figure>
+
+    <!-- ============================================================ -->
+    <h2 id="modules">3. Modules</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Module</th><th>Kind</th><th>Responsibility</th></tr></thead>
+        <tbody>
+          <tr><td><code>pipeline-schema</code></td><td>Library (resources)</td><td>Liquibase changelogs for all application tables, plus the framework (Batch/Task) changelog. Release tags <code>release-1.0.0</code>, <code>release-1.1.0</code>.</td></tr>
+          <tr><td><code>pipeline-common</code></td><td>Library (auto-config)</td><td>Event contract <code>IngestionRequestedEvent</code>, <code>IngestionFileStatus</code>, <code>SafePaths</code>, <code>Checksums</code>, correlation/MDC helpers, schema-compatibility guard, <code>search_path</code> support, ops security.</td></tr>
+          <tr><td><code>db-migrator</code></td><td>Run-to-completion job</td><td>Applies pending Liquibase changeSets (excluding the <code>contract</code> label), then verifies the expected release tag. Runs as a Kubernetes Job / Helm hook before app rollout.</td></tr>
+          <tr><td><code>file-poller</code></td><td>Long-running service</td><td>Scans the inbox, detects complete files, de-duplicates, stages, writes the outbox event and relays it to RabbitMQ. Exposes the operator API.</td></tr>
+          <tr><td><code>ingestion-event-consumer</code></td><td>Long-running service</td><td>Consumes <code>IngestionRequested.v1</code>, validates, de-duplicates, and launches the <code>orders-import</code> task via SCDF.</td></tr>
+          <tr><td><code>orders-batch</code></td><td>Spring Cloud Task</td><td>Hosts <code>ordersImportJob</code>, <code>ordersDailySummaryJob</code> and <code>rejectDailySummaryJob</code>; the job is selected by <code>spring.batch.job.name</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Supporting assets: <code>orchestration/scdf/scdf.sh</code> (registers the app and defines tasks via the SCDF REST API),
+      <code>deploy/compose/</code> (local Postgres schemas and an SCDF image with a Java 21 runtime), and
+      <code>samples/input/</code> (example order files).</p>
+
+    <!-- ============================================================ -->
+    <h2 id="flow">4. End-to-end flow</h2>
+    <ol class="steps">
+      <li><strong>File lands</strong>A producer writes <code>orders-2026-10-20.csv</code> into the inbox (in-progress names like <code>.tmp</code>/<code>.part</code> are ignored).</li>
+      <li><strong>Stability check</strong>Every 15 s the poller records size and mtime in <code>file_observation</code>. A file qualifies once it is ≥ 30 s old, unchanged across the required number of polls, and (optionally) has a ready marker.</li>
+      <li><strong>Register</strong>SHA-256 is computed; an <code>ingestion_file</code> row is inserted as <span class="pill info">RECEIVED</span> and the identity key is claimed in <code>file_identity</code>. Losing the claim → <span class="pill bad">DUPLICATE</span>.</li>
+      <li><strong>Stage</strong>The file is atomically renamed to <code>staging/&lt;fileId&gt;.csv</code> (duplicates go to <code>duplicates/</code>).</li>
+      <li><strong>Queue</strong>In one transaction the row becomes <span class="pill info">QUEUED</span> and an <code>IngestionRequested.v1</code> event is inserted into <code>outbox_event</code>.</li>
+      <li><strong>Relay</strong>Every 2 s the outbox relay locks a batch (<code>FOR UPDATE SKIP LOCKED</code>), publishes to RabbitMQ and marks rows published only after a positive publisher confirm.</li>
+      <li><strong>Consume</strong>The consumer validates the event, confines its <code>location</code> to allowed roots, claims the <code>eventId</code> in <code>inbox_message</code> and locks the file row.</li>
+      <li><strong>Launch</strong><code>POST /tasks/executions/launch</code> on SCDF with <code>name=orders-import</code> and <code>arguments=fileId=&lt;uuid&gt; correlationId=…</code>. Row → <span class="pill info">LAUNCHED</span> with the task execution id.</li>
+      <li><strong>Import</strong>The <code>orders-batch</code> task runs <code>ordersImportJob</code>: re-verify the file (path, size, checksum) → <span class="pill info">PROCESSING</span>; read/validate/upsert in chunks of 500; skipped lines go to <code>order_rejects</code>.</li>
+      <li><strong>Finalize</strong>The file is moved to <code>archive/yyyy/MM/dd/</code>; counts are written and the row becomes <span class="pill ok">COMPLETED</span>. On failure it becomes <span class="pill warn">FAILED</span> and can be restarted from the last committed chunk.</li>
+      <li><strong>Report</strong>Nightly, the <code>orders-reporting</code> composed task recomputes the last 7 days of <code>order_daily_summary</code> and <code>reject_daily_summary</code> in parallel.</li>
+    </ol>
+
+    <!-- ============================================================ -->
+    <h2 id="poller">5. Stage 1 · file-poller</h2>
+    <p>One poll cycle (<code>FilePoller.poll()</code>, cron <code>*/15 * * * * *</code> UTC) does four things in order:</p>
+    <ol>
+      <li><strong>Honour the runtime switch</strong> — if <code>pipeline_switch['file-poller'].enabled</code> is false, skip. Operators toggle it for all replicas through <code>POST /actuator/poller</code>.</li>
+      <li><strong>Take the cluster-wide lock</strong> — <code>pg_try_advisory_lock</code> on a dedicated connection. Only one replica scans at a time; if a pod dies, PostgreSQL drops the session and releases the lock, so there is no lease to expire.</li>
+      <li><strong>Recover unfinished registrations</strong> — rows left in <code>RECEIVED</code> by a crash are queued if the staged file exists, or marked <code>REJECTED</code> if the file vanished from the inbox.</li>
+      <li><strong>Scan</strong> — list up to <code>max-files-per-poll</code> (100) candidates oldest-first and register the complete ones.</li>
+    </ol>
+
+    <h3>When is a file "complete"?</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Check</th><th>Rule</th><th>Default</th></tr></thead>
+        <tbody>
+          <tr><td>Name filter</td><td>Matches <code>include-glob</code>; not hidden (<code>.</code>-prefixed); not ending in an ignore suffix; regular file only (symlinks, dirs ignored)</td><td><code>*.csv</code>; <code>.tmp .part .partial .filepart .crdownload</code></td></tr>
+          <tr><td>Minimum age</td><td><code>now − mtime ≥ min-file-age</code></td><td>30 s</td></tr>
+          <tr><td>Stability</td><td>Size and mtime unchanged for N consecutive polls (persisted in <code>file_observation</code>, so it survives restarts)</td><td>1 poll</td></tr>
+          <tr><td>Ready marker</td><td>If <code>ready-marker-suffix</code> is set (e.g. <code>.done</code>), <code>&lt;name&gt;.done</code> must exist</td><td>off</td></tr>
+          <tr><td>Hash-time recheck</td><td>Size/mtime are re-read after hashing; if they changed, registration is abandoned until the next poll</td><td>always</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Crash-safe registration (<code>FileRegistrar</code>)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Step</th><th>Action</th><th>If the process dies right after…</th></tr></thead>
+        <tbody>
+          <tr><td>TX1</td><td>Insert <code>ingestion_file</code> (<code>RECEIVED</code>) and claim the identity in <code>file_identity</code>; mark <code>DUPLICATE</code> if the claim is lost</td><td>Next scan finds the row by <code>source_path</code> and resumes staging</td></tr>
+          <tr><td>Move</td><td>Atomic rename into <code>staging/&lt;fileId&gt;.csv</code> (or <code>duplicates/&lt;fileId&gt;-&lt;name&gt;</code>)</td><td><code>recoverUnfinished()</code> sees the staged file and queues it</td></tr>
+          <tr><td>TX2</td><td><code>RECEIVED → QUEUED</code> and outbox insert in the same transaction</td><td>Nothing lost: the outbox relay publishes the event</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn"><p>The inbox and staging directories <strong>must be on the same filesystem</strong> so the claim is an atomic rename. The poller fails fast at startup if they are not, or if any directory is missing or not writable.</p></div>
+
+    <h3>Duplicate detection — identity rules</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th><code>identity-rule</code></th><th>Key</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td><code>CHECKSUM</code> (default)</td><td><code>sha256:&lt;hash&gt;</code></td><td>Same content is a duplicate regardless of file name — robust against re-sends under a new name.</td></tr>
+          <tr><td><code>NAME_AND_CHECKSUM</code></td><td><code>name-sha256:&lt;sha(name)&gt;:&lt;hash&gt;</code></td><td>A re-sent file with a new name is processed again.</td></tr>
+          <tr><td><code>NAME_AND_SIZE</code></td><td><code>name-size:&lt;sha(name)&gt;:&lt;size&gt;</code></td><td>Cheap heuristic, no content check.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The primary key of <code>file_identity</code> is the de-duplication point: exactly one file can win the
+      <code>insert … on conflict do nothing</code> race.</p>
+
+    <h3>Outbox relay (<code>OutboxRelay</code>)</h3>
+    <ul>
+      <li>Runs every <code>relay-interval-ms</code> (2 s); locks up to 50 due rows with <code>FOR UPDATE SKIP LOCKED</code>, so several replicas can relay in parallel without double-sending concurrently.</li>
+      <li>Sends via <code>StreamBridge</code> with headers <code>x-correlation-id</code> and <code>eventType</code>, then waits up to 10 s for the publisher confirm.</li>
+      <li>A row is marked <code>published_at</code> only on an <strong>ack that was not returned as unroutable</strong>. Failures set <code>next_attempt_at</code> with exponential back-off (2<sup>n</sup> s, capped at 5 min).</li>
+      <li>Gauge <code>pipeline.outbox.pending</code> exposes the backlog.</li>
+    </ul>
+
+    <!-- ============================================================ -->
+    <h2 id="messaging">6. Stage 2 · Messaging</h2>
+    <h3>Topology</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Element</th><th>Value</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Destination (exchange)</td><td><code>pipeline.ingestion.requests</code></td><td>Producer binding <code>ingestionRequests</code></td></tr>
+          <tr><td>Consumer group / queue</td><td><code>pipeline.ingestion.requests.orders-pipeline</code></td><td>Quorum queue; declared by the producer (<code>required-groups</code>) so events are retained even before the consumer first starts</td></tr>
+          <tr><td>Dead-letter queue</td><td><code>pipeline.ingestion.requests.orders-pipeline.dlq</code></td><td>Quorum; failed messages are republished with <code>x-exception-*</code> headers</td></tr>
+          <tr><td>Content type</td><td><code>application/json</code></td><td>Event type header <code>IngestionRequested.v1</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Event contract — <code>IngestionRequested.v1</code></h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Constraint</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>eventId</code></td><td>UUID</td><td>required</td><td>Unique per event; consumer inbox de-duplication key</td></tr>
+          <tr><td><code>fileId</code></td><td>UUID</td><td>optional</td><td>Set by the poller; <code>null</code> for external publishers (consumer registers the file itself)</td></tr>
+          <tr><td><code>location</code></td><td>string</td><td>≤ 1024</td><td>File path; must resolve inside the consumer's allowed roots</td></tr>
+          <tr><td><code>originalName</code></td><td>string</td><td>≤ 255</td><td>Name as delivered (operator visibility)</td></tr>
+          <tr><td><code>checksumSha256</code></td><td>string</td><td><code>[0-9a-f]{64}</code></td><td>Content hash</td></tr>
+          <tr><td><code>sizeBytes</code></td><td>long</td><td>≥ 0</td><td>Content size</td></tr>
+          <tr><td><code>source</code></td><td>string</td><td>≤ 64</td><td>Publishing system, e.g. <code>file-poller</code></td></tr>
+          <tr><td><code>correlationId</code></td><td>string</td><td>≤ 64</td><td>End-to-end trace id</td></tr>
+          <tr><td><code>occurredAt</code></td><td>instant</td><td>required</td><td>When the file became available</td></tr>
+        </tbody>
+      </table>
+    </div>
+<pre><code>{
+  "eventId": "6f1c…", "fileId": "0b9e…",
+  "location": "/data/pipeline/staging/0b9e….csv",
+  "originalName": "orders-2026-10-20.csv",
+  "checksumSha256": "9a4f…", "sizeBytes": 1834,
+  "source": "file-poller", "correlationId": "c2d7…",
+  "occurredAt": "2026-10-20T08:15:30Z"
+}</code></pre>
+
+    <!-- ============================================================ -->
+    <h2 id="consumer">7. Stage 3 · ingestion-event-consumer</h2>
+    <p><code>IngestionRequestHandler</code> processes each delivery with at-least-once semantics:</p>
+    <ol>
+      <li><strong>Validate</strong> — Bean Validation on the event and <code>SafePaths.resolveWithin(allowedRoots, location)</code>, which rejects <code>..</code> traversal, paths outside the roots and symlinks escaping a root. Invalid events are <em>never retried</em>.</li>
+      <li><strong>Claim the message</strong> in <code>inbox_message</code> (key: consumer name + <code>eventId</code>) with a 5-minute lease:
+        <ul>
+          <li><code>DONE</code> already → acknowledge and ignore (duplicate delivery);</li>
+          <li>leased by another instance → throw, the binder retries later;</li>
+          <li>otherwise claimed, with an attempt counter.</li>
+        </ul></li>
+      <li><strong>External events</strong> (no <code>fileId</code>) — register a new <code>ingestion_file</code> row directly as <code>QUEUED</code> with identity <code>sha256:&lt;hash&gt;</code>; duplicates are recorded and not launched.</li>
+      <li><strong>Lock the file row</strong> (<code>SELECT … FOR UPDATE</code>), verify that location and checksum match the registration, and skip if status is in <code>LAUNCH_NOT_NEEDED</code> (<code>LAUNCHED, PROCESSING, COMPLETED, DUPLICATE, REJECTED</code>).</li>
+      <li><strong>Launch</strong> the <code>orders-import</code> task via SCDF and, in the same transaction, set the row to <code>LAUNCHED</code> and the inbox entry to <code>DONE</code>.</li>
+    </ol>
+
+    <h3>Failure classification</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Situation</th><th>Exception</th><th>Behaviour</th></tr></thead>
+        <tbody>
+          <tr><td>Bad payload, schema violation, unsafe path, mismatch</td><td><code>InvalidEventException</code></td><td>Not retried → DLQ; inbox entry <code>FAILED</code></td></tr>
+          <tr><td>SCDF 4xx (unknown definition, rejected request)</td><td><code>PermanentLaunchException</code></td><td>Not retried → file <code>LAUNCH_FAILED</code>, message to DLQ</td></tr>
+          <tr><td>SCDF 5xx, timeout, connection error, 429</td><td><code>TransientLaunchException</code></td><td>Retried: 4 attempts, back-off 2 s × 3 up to 60 s; after the last attempt → <code>LAUNCH_FAILED</code> + DLQ</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><p><strong>Launch-then-crash is safe.</strong> If the consumer dies after SCDF accepted the launch but before its commit, the redelivered message launches again — and Spring Batch refuses the second execution because the JobInstance identified by <code>fileId</code> is already running or complete.</p></div>
+
+    <h3>SCDF launch request</h3>
+<pre><code>POST {pipeline.dataflow.uri}/tasks/executions/launch
+Content-Type: application/x-www-form-urlencoded
+
+name=orders-import
+arguments=fileId=0b9e… correlationId=c2d7…,java.lang.String,false
+properties=deployer.orders-batch.kubernetes.limits.memory=1Gi   (optional)
+
+→ {"executionId": 42, "schemaTarget": "boot3"}</code></pre>
+    <p>Only <code>fileId</code> is an <em>identifying</em> job parameter; <code>correlationId</code> is passed as non-identifying so
+      it does not create new JobInstances.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="batch">8. Stage 4 · orders-batch — <code>ordersImportJob</code></h2>
+    <p>A short-lived Spring Cloud Task. One file = one execution = one JobInstance. The job is
+      <code>prepareFile → importOrders → finalizeFile</code>.</p>
+
+    <h3>Step 1 — <code>prepareFile</code> (tasklet, re-runs on every restart)</h3>
+    <ul>
+      <li>Loads the <code>ingestion_file</code> row; refuses terminal statuses (<code>COMPLETED</code>, <code>DUPLICATE</code>, <code>REJECTED</code>).</li>
+      <li>Resolves the staged path inside <code>PIPELINE_BATCH_ALLOWED_ROOTS</code> and requires an existing, readable regular file.</li>
+      <li>Enforces <code>max-file-size-bytes</code> (512 MiB) and re-computes SHA-256 against the registered checksum.</li>
+      <li>Any of these failing marks the row <span class="pill bad">REJECTED</span> in a <code>REQUIRES_NEW</code> transaction (so it survives the step rollback) and fails the job.</li>
+      <li>Otherwise sets <span class="pill info">PROCESSING</span> with the job and task execution ids and stores the input path in the job execution context.</li>
+    </ul>
+
+    <h3>Step 2 — <code>importOrders</code> (chunk-oriented, fault tolerant)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Implementation</th></tr></thead>
+        <tbody>
+          <tr><td>Reader</td><td><code>FlatFileItemReader</code>, UTF-8, header verified (BOM-tolerant, case-insensitive), RFC 4180 tokenizer with strict column count, <code>saveState=true</code> for restart</td></tr>
+          <tr><td>Processor</td><td><code>OrderValidationProcessor</code> — validates and normalises one line into an <code>OrderRecord</code></td></tr>
+          <tr><td>Writer</td><td><code>JdbcBatchItemWriter</code> with an idempotent upsert on <code>order_id</code> that only updates when business columns actually changed</td></tr>
+          <tr><td>Chunk size</td><td>500 items per transaction</td></tr>
+          <tr><td>Skip policy</td><td><code>InvalidOrderException</code>, <code>FlatFileParseException</code>; limit 1000 per file (exceeded → job fails)</td></tr>
+          <tr><td>Retry policy</td><td><code>TransientDataAccessException</code>, 3 attempts</td></tr>
+          <tr><td>Skip listener</td><td><code>RejectRecorder</code> writes <code>order_rejects</code> inside the chunk transaction; unique <code>(file_id, line_number)</code> makes replays harmless</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Input format</h3>
+<pre><code>order_id,customer_id,order_date,product_sku,quantity,unit_price,currency
+ORD-1001,CUST-001,2026-10-20,SKU-AAA,2,19.99,EUR
+ORD-1002,CUST-002,2026-10-20,SKU-BBB,1,249.5,usd
+ord-1003,cust-003,2026/10/19,sku-ccc,10,0.3333,GBP</code></pre>
+
+    <h3>Validation &amp; normalisation rules</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Rule</th><th>Reject codes</th></tr></thead>
+        <tbody>
+          <tr><td><code>order_id</code>, <code>customer_id</code>, <code>product_sku</code></td><td>Required; trimmed and upper-cased; must match <code>[A-Z0-9][A-Z0-9_-]{0,63}</code></td><td><code>MISSING_*</code>, <code>INVALID_*</code></td></tr>
+          <tr><td><code>order_date</code></td><td><code>yyyy-MM-dd</code> or <code>yyyy/MM/dd</code>; not in the future (business zone); not before <code>earliest-order-date</code> (2000-01-01)</td><td><code>MISSING_ORDER_DATE</code>, <code>INVALID_ORDER_DATE</code>, <code>FUTURE_ORDER_DATE</code>, <code>ORDER_DATE_TOO_OLD</code></td></tr>
+          <tr><td><code>quantity</code></td><td>Whole number, 1 … <code>max-quantity</code> (100 000)</td><td><code>MISSING_QUANTITY</code>, <code>INVALID_QUANTITY</code>, <code>QUANTITY_OUT_OF_RANGE</code></td></tr>
+          <tr><td><code>unit_price</code></td><td>Decimal, 0 ≤ price &lt; 10<sup>12</sup>, at most 4 decimal places; stored at scale 4</td><td><code>MISSING_UNIT_PRICE</code>, <code>INVALID_UNIT_PRICE</code>, <code>UNIT_PRICE_OUT_OF_RANGE</code>, <code>UNIT_PRICE_PRECISION</code></td></tr>
+          <tr><td><code>currency</code></td><td>ISO-4217 code (upper-cased); optional allow-list</td><td><code>MISSING_CURRENCY</code>, <code>INVALID_CURRENCY</code>, <code>CURRENCY_NOT_ALLOWED</code></td></tr>
+          <tr><td>Whole line</td><td>Wrong column count / unparseable quoting</td><td><code>MALFORMED_LINE</code> (with a 200-char excerpt)</td></tr>
+          <tr><td>Derived <code>total_amount</code></td><td><code>unit_price × quantity</code>, rounded HALF_EVEN to the currency's minor units (e.g. JPY → 0 decimals)</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Step 3 — <code>finalizeFile</code></h3>
+    <ul>
+      <li>Moves the input to <code>archive/yyyy/MM/dd/</code> (if <code>archive-dir</code> is set). Idempotent: if the source is gone and the target exists, a previous attempt already archived it.</li>
+      <li>Computes <em>written</em> as the sum of the import step's write counts across <strong>all executions</strong> of the JobInstance, and <em>rejected</em> from <code>order_rejects</code>, so counts are correct after restarts.</li>
+      <li>Marks the row <span class="pill ok">COMPLETED</span> with <code>records_read / written / rejected</code> and the final path.</li>
+    </ul>
+    <p>A job listener sets the MDC (<code>fileId</code>, <code>jobExecutionId</code>, <code>correlationId</code>) for the whole run and marks
+      the row <span class="pill warn">FAILED</span> with the collected failure messages if the job does not complete.
+      <code>fail-on-job-failure=true</code> makes the task exit non-zero so SCDF and Kubernetes see the failure.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="reporting">9. Reporting jobs &amp; SCDF task definitions</h2>
+    <p>Both summary jobs recompute a sliding window (<code>lookback-days</code> = 7) with an idempotent upsert, so re-runs,
+      retries and late files always converge to the same result.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Job</th><th>Source</th><th>Target (primary key)</th></tr></thead>
+        <tbody>
+          <tr><td><code>ordersDailySummaryJob</code></td><td><code>orders</code> grouped by date, currency</td><td><code>order_daily_summary (order_date, currency)</code> — count, total amount</td></tr>
+          <tr><td><code>rejectDailySummaryJob</code></td><td><code>order_rejects</code> grouped by local date (business zone), reason code</td><td><code>reject_daily_summary (reject_date, reason_code)</code> — count</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Task definitions created by <code>orchestration/scdf/scdf.sh define</code>:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Definition</th><th>DSL (abridged)</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>orders-import</code></td><td><code>orders-batch --spring.batch.job.name=ordersImportJob</code></td><td>Launched per file by the consumer</td></tr>
+          <tr><td><code>orders-daily-summary</code></td><td><code>orders-batch … ordersDailySummaryJob</code>, single-instance</td><td>Standalone summary</td></tr>
+          <tr><td><code>reject-daily-summary</code></td><td><code>orders-batch … rejectDailySummaryJob</code>, single-instance</td><td>Standalone summary</td></tr>
+          <tr><td><code>orders-reporting</code></td><td><code>&lt;daily: … || rejects: …&gt;</code></td><td>Composed, <strong>parallel</strong> split; fails if either fails. Scheduled nightly (<code>30 1 * * *</code> UTC) on Kubernetes</td></tr>
+          <tr><td><code>orders-reporting-sequential</code></td><td><code>daily: … &amp;&amp; rejects: …</code></td><td>Composed, <strong>sequential</strong>; rejects run only after the order summary succeeded</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><code>scdf.sh</code> commands: <code>register</code>, <code>define</code>, <code>bootstrap</code> (both), <code>schedule</code>,
+      <code>launch-import &lt;fileId&gt;</code>, <code>launch &lt;definition&gt;</code>, <code>execution &lt;id&gt;</code>,
+      <code>executions &lt;definition&gt;</code>. The app is registered with <code>bootVersion=3</code>, so SCDF uses the
+      <code>BOOT3_TASK_*</code> / <code>BOOT3_BATCH_*</code> metadata tables.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="lifecycle">10. File lifecycle (<code>ingestion_file.status</code>)</h2>
+    <figure class="figure">
+      <svg viewBox="0 0 900 300" role="img" aria-labelledby="sm-title sm-desc">
+        <title id="sm-title">ingestion_file state machine</title>
+        <desc id="sm-desc">RECEIVED to QUEUED to LAUNCHED to PROCESSING to COMPLETED. RECEIVED can become DUPLICATE or REJECTED. QUEUED can become LAUNCH_FAILED. PROCESSING can become FAILED or REJECTED. FAILED and LAUNCH_FAILED return to QUEUED by operator retry.</desc>
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" class="arrow"/>
+          </marker>
+          <marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" class="arrow-warn"/>
+          </marker>
+        </defs>
+
+        <rect class="box-accent" x="20" y="40" width="140" height="48" rx="24"/>
+        <text class="t" x="90" y="69" text-anchor="middle">RECEIVED</text>
+        <rect class="box-accent" x="200" y="40" width="140" height="48" rx="24"/>
+        <text class="t" x="270" y="69" text-anchor="middle">QUEUED</text>
+        <rect class="box-accent" x="380" y="40" width="140" height="48" rx="24"/>
+        <text class="t" x="450" y="69" text-anchor="middle">LAUNCHED</text>
+        <rect class="box-accent" x="560" y="40" width="140" height="48" rx="24"/>
+        <text class="t" x="630" y="69" text-anchor="middle">PROCESSING</text>
+        <rect class="box-ok" x="740" y="40" width="140" height="48" rx="24"/>
+        <text class="t" x="810" y="69" text-anchor="middle">COMPLETED</text>
+
+        <rect class="box-bad" x="20" y="170" width="140" height="48" rx="24"/>
+        <text class="t" x="90" y="199" text-anchor="middle">DUPLICATE</text>
+        <rect class="box-bad" x="740" y="170" width="140" height="48" rx="24"/>
+        <text class="t" x="810" y="199" text-anchor="middle">REJECTED</text>
+        <rect class="box-warn" x="290" y="170" width="140" height="48" rx="24"/>
+        <text class="t" x="360" y="199" text-anchor="middle">LAUNCH_FAILED</text>
+        <rect class="box-warn" x="560" y="170" width="140" height="48" rx="24"/>
+        <text class="t" x="630" y="199" text-anchor="middle">FAILED</text>
+
+        <!-- happy path -->
+        <path class="edge" d="M160 64 H198" marker-end="url(#ah2)"/>
+        <path class="edge" d="M340 64 H378" marker-end="url(#ah2)"/>
+        <path class="edge" d="M520 64 H558" marker-end="url(#ah2)"/>
+        <path class="edge" d="M700 64 H738" marker-end="url(#ah2)"/>
+        <text class="s" x="179" y="30" text-anchor="middle">staged</text>
+        <text class="s" x="359" y="30" text-anchor="middle">SCDF ok</text>
+        <text class="s" x="539" y="30" text-anchor="middle">prepare</text>
+        <text class="s" x="719" y="30" text-anchor="middle">finalize</text>
+
+        <!-- side transitions -->
+        <path class="edge" d="M90 88 V168" marker-end="url(#ah2)"/>
+        <text class="s" x="98" y="132">identity taken</text>
+        <path class="edge" d="M270 88 L340 168" marker-end="url(#ah2)"/>
+        <text class="s" x="312" y="122">retries exhausted</text>
+        <path class="edge" d="M630 88 V168" marker-end="url(#ah2)"/>
+        <text class="s" x="638" y="132">job failed</text>
+        <path class="edge" d="M670 88 L770 168" marker-end="url(#ah2)"/>
+        <text class="s" x="735" y="118">unsafe / checksum</text>
+        <path class="edge-dash" d="M130 88 C 300 140, 600 150, 742 186" marker-end="url(#ah2)"/>
+        <text class="s" x="400" y="146">file vanished before staging</text>
+
+        <!-- operator retry -->
+        <path class="edge-retry" d="M630 218 V262 H250 V90" marker-end="url(#ah3)"/>
+        <path class="edge-retry" d="M360 218 V262"/>
+        <text class="lbl-warn" x="440" y="284" text-anchor="middle">operator retry: POST /api/files/{id}/retry → QUEUED (new event via outbox)</text>
+      </svg>
+      <figcaption>Blue: in flight · green: success · amber: retryable · red: terminal. A FAILED job restarts from its last committed chunk; PROCESSING → PROCESSING is also allowed so a crashed task can be restarted.</figcaption>
+    </figure>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Status</th><th>Set by</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill info">RECEIVED</span></td><td>file-poller</td><td>Registered; file may still be in the inbox</td></tr>
+          <tr><td><span class="pill info">QUEUED</span></td><td>file-poller / consumer (external)</td><td>Staged; event in outbox or on the queue</td></tr>
+          <tr><td><span class="pill info">LAUNCHED</span></td><td>consumer</td><td>Task execution started via SCDF</td></tr>
+          <tr><td><span class="pill info">PROCESSING</span></td><td>orders-batch</td><td>Job running</td></tr>
+          <tr><td><span class="pill ok">COMPLETED</span></td><td>orders-batch</td><td>Imported and archived; counts recorded</td></tr>
+          <tr><td><span class="pill warn">FAILED</span></td><td>orders-batch</td><td>Job failed; restartable</td></tr>
+          <tr><td><span class="pill warn">LAUNCH_FAILED</span></td><td>consumer</td><td>Launch retries exhausted or permanent launch error; retryable</td></tr>
+          <tr><td><span class="pill bad">DUPLICATE</span></td><td>file-poller / consumer</td><td>Same identity as an accepted file; terminal</td></tr>
+          <tr><td><span class="pill bad">REJECTED</span></td><td>file-poller / orders-batch</td><td>Unsafe, missing, oversized or altered input; terminal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="data-model">11. Data model (schema <code>pipeline</code>)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Table</th><th>Key</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>ingestion_file</code></td><td><code>id</code> (uuid)</td><td>One row per file seen: source (<code>POLLER</code>/<code>EVENT</code>), names and paths, identity key, SHA-256, size, status (CHECK constraint), attempts, task/job execution ids, record counts, last error, correlation id</td></tr>
+          <tr><td><code>file_identity</code></td><td><code>identity_key</code></td><td>Duplicate-detection claim → <code>file_id</code></td></tr>
+          <tr><td><code>file_observation</code></td><td><code>path</code></td><td>Size/mtime history and <code>stable_count</code> for the stability check</td></tr>
+          <tr><td><code>pipeline_switch</code></td><td><code>name</code></td><td>Operator on/off switches shared by all replicas (seeded <code>file-poller = true</code>)</td></tr>
+          <tr><td><code>outbox_event</code></td><td><code>id</code></td><td>Transactional outbox (jsonb payload, attempts, <code>next_attempt_at</code>, <code>published_at</code>); partial index on unpublished rows</td></tr>
+          <tr><td><code>inbox_message</code></td><td><code>(consumer, message_id)</code></td><td>Consumer de-dup, lease, attempts, outcome (<code>LAUNCHED</code>, <code>SKIPPED_*</code>, <code>DUPLICATE_FILE</code>)</td></tr>
+          <tr><td><code>orders</code></td><td><code>order_id</code></td><td>Business data: customer, date, SKU, quantity, <code>numeric(19,4)</code> unit price, <code>numeric(19,2)</code> total, currency, source file + line</td></tr>
+          <tr><td><code>order_rejects</code></td><td><code>id</code>; unique <code>(file_id, line_number)</code></td><td>Rejected lines with reason code, reason and optional raw excerpt</td></tr>
+          <tr><td><code>order_daily_summary</code></td><td><code>(order_date, currency)</code></td><td>Daily order count and total</td></tr>
+          <tr><td><code>reject_daily_summary</code></td><td><code>(reject_date, reason_code)</code></td><td>Daily reject count per reason</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Spring Batch / Cloud Task metadata lives in the <code>dataflow</code> schema with the <code>BOOT3_</code> prefix when SCDF launches
+      the task. Task pods set <code>pipeline.db.search-path=dataflow,pipeline</code>, so a single connection sees both schemas and chunk
+      writes commit atomically with the batch metadata.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="reliability">12. Reliability guarantees</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Failure scenario</th><th>What happens</th><th>Mechanism</th></tr></thead>
+        <tbody>
+          <tr><td>Producer still writing the file</td><td>Not picked up</td><td>Ignore suffixes, min age, unchanged-poll count, hash-time recheck, optional ready marker</td></tr>
+          <tr><td>Two poller replicas</td><td>Only one scans; both may relay</td><td>PG advisory lock for scanning; <code>SKIP LOCKED</code> for outbox</td></tr>
+          <tr><td>Poller crashes mid-registration</td><td>Registration resumes</td><td>Three-step registrar + <code>recoverUnfinished()</code></td></tr>
+          <tr><td>Same file sent twice (any name)</td><td>Second copy → <code>DUPLICATE</code>, moved aside</td><td><code>file_identity</code> primary key</td></tr>
+          <tr><td>Broker down</td><td>Events wait in the outbox</td><td>Publisher confirms + exponential back-off</td></tr>
+          <tr><td>Crash between confirm and commit</td><td>Event published twice</td><td>Consumer inbox de-dups on <code>eventId</code></td></tr>
+          <tr><td>Two events for the same file</td><td>One launch</td><td>Row lock + <code>LAUNCH_NOT_NEEDED</code> statuses</td></tr>
+          <tr><td>Consumer crashes after launch, before commit</td><td>Redelivery; second execution refused</td><td>JobInstance identity = <code>fileId</code></td></tr>
+          <tr><td>SCDF unavailable</td><td>Retried, then <code>LAUNCH_FAILED</code> + DLQ</td><td>Binder retry/back-off; operator retry</td></tr>
+          <tr><td>Malicious path in event</td><td>Rejected, not retried</td><td><code>SafePaths</code> confinement + symlink check</td></tr>
+          <tr><td>File altered after registration</td><td><code>REJECTED</code></td><td>SHA-256 re-check in <code>prepareFile</code></td></tr>
+          <tr><td>Job crashes mid-file</td><td>Restart from last chunk</td><td>Reader state in step context; upsert + unique reject key make replays harmless</td></tr>
+          <tr><td>Too many bad lines</td><td>Job <code>FAILED</code></td><td>Skip limit (1000)</td></tr>
+          <tr><td>Overlapping summary runs</td><td>Prevented</td><td><code>single-instance-enabled</code> (task lock); idempotent upserts</td></tr>
+          <tr><td>App deployed before migration</td><td>Startup refused</td><td>Schema compatibility guard (required Liquibase tag)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <h2 id="schema">13. Schema management</h2>
+    <ul>
+      <li><strong>Liquibase owns the schema</strong>, and only the <code>db-migrator</code> runs it. All services set <code>spring.liquibase.enabled=false</code>.</li>
+      <li><strong>Release tags</strong>: every release ends with a <code>tagDatabase</code> changeSet. Each service declares <code>pipeline.schema.required-tag</code> (currently <code>release-1.1.0</code>); <code>SchemaCompatibilityGuard</code> fails startup if the tag is missing.</li>
+      <li><strong>Expand / contract</strong>: between releases only additive changes ship (e.g. 1.1.0 adds nullable <code>ingestion_file.correlation_id</code>), so an N app works on schema N+1 during rolling upgrades. Destructive changes carry the label <code>contract</code> and are excluded by the default label filter <code>!contract</code>.</li>
+      <li><strong>Framework tables</strong>: for standalone (non-SCDF) runs the migrator executes the official Spring Batch 5 / Cloud Task 3 PostgreSQL scripts from the framework jars. Disable with <code>pipeline.migration.framework-schema.enabled=false</code> when only SCDF is used.</li>
+      <li><strong>Concurrency</strong>: <code>DATABASECHANGELOGLOCK</code> serialises concurrent migrators; the migrator verifies <code>expected-tag</code> as a post-condition and exits non-zero on failure, failing the deployment.</li>
+    </ul>
+
+    <!-- ============================================================ -->
+    <h2 id="operations">14. Operations &amp; security</h2>
+    <h3>Endpoints</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Service</th><th>Endpoint</th><th>Access</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>both</td><td><code>:8081/actuator/health</code> (liveness, readiness incl. DB), <code>/info</code></td><td>anonymous</td><td>Kubelet probes</td></tr>
+          <tr><td>both</td><td><code>:8081/actuator/prometheus</code></td><td>anonymous (configurable)</td><td>Metrics scrape</td></tr>
+          <tr><td>file-poller</td><td><code>GET /actuator/poller</code></td><td>OPS</td><td>Switch state, outbox backlog, file counts per status</td></tr>
+          <tr><td>file-poller</td><td><code>POST /actuator/poller {"enabled": false}</code></td><td>OPS</td><td>Pause/resume polling for all replicas</td></tr>
+          <tr><td>file-poller</td><td><code>GET /api/files?status=&amp;limit=</code>, <code>GET /api/files/{id}</code></td><td>OPS</td><td>Inspect files (limit ≤ 500)</td></tr>
+          <tr><td>file-poller</td><td><code>POST /api/files/{id}/retry</code></td><td>OPS</td><td><code>FAILED</code>/<code>LAUNCH_FAILED</code> → <code>QUEUED</code> + new event (409 if not retryable or staged file missing)</td></tr>
+          <tr><td>consumer</td><td><code>/actuator/bindings</code></td><td>OPS</td><td>Inspect/stop/start the Rabbit binding</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Security (<code>OpsSecurityAutoConfiguration</code>): stateless HTTP Basic, single in-memory user with role <code>OPS</code>
+      (credentials from <code>PIPELINE_SECURITY_OPS_USERNAME/PASSWORD</code>). The management port 8081 is never exposed through
+      Ingress/Route; use TLS whenever traffic leaves the pod network.</p>
+
+    <h3>Key metrics</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Metric</th><th>Tags</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td><code>pipeline.poller.cycles</code></td><td><code>outcome</code>: completed, locked, disabled, error</td><td>file-poller</td></tr>
+          <tr><td><code>pipeline.poller.cycle.duration</code></td><td>—</td><td>file-poller</td></tr>
+          <tr><td><code>pipeline.poller.files</code></td><td><code>outcome</code>: registered, duplicate, lost, io_error</td><td>file-poller</td></tr>
+          <tr><td><code>pipeline.outbox.pending</code> / <code>.published</code> / <code>.failures</code></td><td><code>type</code></td><td>file-poller</td></tr>
+          <tr><td><code>pipeline.ingestion.events</code></td><td><code>outcome</code>: launched, skipped, duplicate_message, duplicate_file, rejected, failed_attempt</td><td>consumer</td></tr>
+          <tr><td><code>pipeline.ingestion.retries</code></td><td>—</td><td>consumer</td></tr>
+          <tr><td><code>pipeline.orders.rejected</code></td><td><code>reason</code></td><td>orders-batch (OTLP push)</td></tr>
+          <tr><td><code>pipeline.files.completed</code></td><td>—</td><td>orders-batch (OTLP push)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Correlation &amp; logging</h3>
+    <p>A <code>correlationId</code> is generated at registration and carried in the <code>ingestion_file</code> row, the event payload,
+      the <code>x-correlation-id</code> message header and a non-identifying job parameter. Every log line includes it via MDC:</p>
+<pre><code>INFO [corr=c2d7…] [file=0b9e…] [job=17]  Import completed: written=3 rejected=1</code></pre>
+    <p>Logs contain line numbers and reason codes only — never full record contents.</p>
+
+    <!-- ============================================================ -->
+    <h2 id="config">15. Configuration reference</h2>
+    <h3>Required environment</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Variable</th><th>Used by</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>SPRING_DATASOURCE_URL / _USERNAME / _PASSWORD</code></td><td>all</td><td>PostgreSQL connection (from a Secret)</td></tr>
+          <tr><td><code>SPRING_RABBITMQ_*</code></td><td>poller, consumer</td><td>Broker connection</td></tr>
+          <tr><td><code>PIPELINE_POLLER_INBOX_DIR / _STAGING_DIR / _DUPLICATES_DIR</code></td><td>poller</td><td>Landing directories (inbox and staging on the same volume)</td></tr>
+          <tr><td><code>PIPELINE_CONSUMER_ALLOWED_ROOTS</code></td><td>consumer</td><td>Directories event locations must resolve into</td></tr>
+          <tr><td><code>PIPELINE_DATAFLOW_URI</code>, <code>PIPELINE_DATAFLOW_TOKEN</code></td><td>consumer</td><td>SCDF server and optional bearer token</td></tr>
+          <tr><td><code>PIPELINE_BATCH_ALLOWED_ROOTS</code>, <code>PIPELINE_BATCH_ARCHIVE_DIR</code></td><td>orders-batch</td><td>Readable input roots; archive destination (empty = leave in place)</td></tr>
+          <tr><td><code>PIPELINE_BATCH_TABLE_PREFIX</code>, <code>PIPELINE_TASK_TABLE_PREFIX</code></td><td>orders-batch</td><td><code>BATCH_</code>/<code>TASK_</code> standalone; SCDF passes <code>BOOT3_*</code></td></tr>
+          <tr><td><code>PIPELINE_SECURITY_OPS_USERNAME / _PASSWORD</code></td><td>poller, consumer</td><td>Ops API credentials</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Tunables (defaults)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Property</th><th>Default</th><th>Property</th><th>Default</th></tr></thead>
+        <tbody>
+          <tr><td><code>pipeline.poller.cron</code></td><td><code>*/15 * * * * *</code></td><td><code>pipeline.consumer.max-attempts</code></td><td>4</td></tr>
+          <tr><td><code>pipeline.poller.min-file-age</code></td><td>30s</td><td><code>pipeline.consumer.lease</code></td><td>5m</td></tr>
+          <tr><td><code>pipeline.poller.required-unchanged-polls</code></td><td>1</td><td>consumer concurrency / prefetch</td><td>2 / 10</td></tr>
+          <tr><td><code>pipeline.poller.identity-rule</code></td><td><code>CHECKSUM</code></td><td><code>pipeline.dataflow.import-task-name</code></td><td><code>orders-import</code></td></tr>
+          <tr><td><code>pipeline.poller.max-files-per-poll</code></td><td>100</td><td><code>pipeline.batch.chunk-size</code></td><td>500</td></tr>
+          <tr><td><code>pipeline.poller.ready-marker-suffix</code></td><td>(none)</td><td><code>pipeline.batch.skip-limit</code></td><td>1000</td></tr>
+          <tr><td><code>pipeline.poller.outbox.relay-interval-ms</code></td><td>2000</td><td><code>pipeline.batch.retry-limit</code></td><td>3</td></tr>
+          <tr><td><code>pipeline.poller.outbox.batch-size</code></td><td>50</td><td><code>pipeline.batch.max-file-size-bytes</code></td><td>512 MiB</td></tr>
+          <tr><td><code>pipeline.poller.outbox.publish-timeout</code></td><td>10s</td><td><code>pipeline.batch.zone</code></td><td>UTC</td></tr>
+          <tr><td><code>pipeline.poller.outbox.max-backoff</code></td><td>5m</td><td><code>pipeline.batch.summary.lookback-days</code></td><td>7</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn"><p><strong>Version constraint.</strong> The stack is pinned to Spring Boot 3.5 / Batch 5 / Task 3 because SCDF 2.11 (the last OSS line) understands Boot 3 task apps but not Boot 4 / Batch 6. The SCDF local deployer needs a Java 21 runtime inside its image (<code>deploy/compose/scdf/Dockerfile</code>); on Kubernetes each task runs as its own pod.</p></div>
+
+    <footer>Generated from the source of <code>spring-data-pipeline</code> 1.1.0-SNAPSHOT · October 2026.</footer>
+  </main>
+</div>
+</body>
+</html>
