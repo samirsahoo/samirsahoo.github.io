@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Design: A Highly Available Multi-Region Kubernetes Platform · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="A complete system design for a multi-region Kubernetes platform serving a 24x7 digital bank: requirements and SLOs, region and zone topology, traffic management and failover, data replication, GitOps across regions, observability, security, DR runbooks and drills, cost, and trade-offs.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/sre/case-study-multi-region-platform/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="System Design: A Highly Available Multi-Region Kubernetes Platform">
+<meta property="og:description" content="A complete system design for a multi-region Kubernetes platform serving a 24x7 digital bank: requirements and SLOs, region and zone topology, traffic management and failover, data replication, GitOps across regions, observability, security, DR runbooks and drills, cost, and trade-offs.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/sre/case-study-multi-region-platform/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="System Design: A Highly Available Multi-Region Kubernetes Platform">
+<meta name="twitter:description" content="A complete system design for a multi-region Kubernetes platform serving a 24x7 digital bank: requirements and SLOs, region and zone topology, traffic management and failover, data replication, GitOps across regions, observability, security, DR runbooks and drills, cost, and trade-offs.">
+<meta name="keywords" content="sre, system-design, case-study, kubernetes">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"A complete system design for a multi-region Kubernetes platform serving a 24x7 digital bank: requirements and SLOs, region and zone topology, traffic management and failover, data replication, GitOps across regions, observability, security, DR runbooks and drills, cost, and trade-offs.","headline":"System Design: A Highly Available Multi-Region Kubernetes Platform","inLanguage":"en","isAccessibleForFree":true,"keywords":"sre, system-design, case-study, kubernetes","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/sre/case-study-multi-region-platform/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/sre/","name":"4 · SRE \u0026 FinOps","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/sre/case-study-multi-region-platform/","name":"Case study: multi-region platform","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-sre">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/" aria-current="page">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a></li>
+    <li><span aria-current="page">Case study: multi-region platform</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">System Design: A Highly Available Multi-Region Kubernetes Platform</h1><p class="article__lede" itemprop="description">A complete system design for a multi-region Kubernetes platform serving a 24x7 digital bank: requirements and SLOs, region and zone topology, traffic management and failover, data replication, GitOps across regions, observability, security, DR runbooks and drills, cost, and trade-offs.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/sre/">#Sre</a><a class="tag" href="/cloud-native/tags/system-design/">#System-Design</a><a class="tag" href="/cloud-native/tags/case-study/">#Case-Study</a><a class="tag" href="/cloud-native/tags/kubernetes/">#Kubernetes</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a>, <a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a>, <a href="/cloud-native/delivery/gitops/">GitOps</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-requirements-and-slos">1. Requirements and SLOs</a></li>
+    <li><a href="#2-topology">2. Topology</a></li>
+    <li><a href="#3-traffic-management-and-failover">3. Traffic management and failover</a></li>
+    <li><a href="#4-data">4. Data</a></li>
+    <li><a href="#5-delivery-across-regions">5. Delivery across regions</a></li>
+    <li><a href="#6-observability">6. Observability</a></li>
+    <li><a href="#7-security">7. Security</a></li>
+    <li><a href="#8-dr-runbooks-and-drills">8. DR runbooks and drills</a></li>
+    <li><a href="#9-cost">9. Cost</a></li>
+    <li><a href="#10-trade-offs">10. Trade-offs</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="the-design-brief">The design brief<a class="heading-anchor" href="#the-design-brief" aria-label="Link to this section">#</a></h2>
+<blockquote><p><em>&ldquo;A digital bank&rsquo;s customer-facing services (login, accounts, payments) must stay available 24x7 even if an entire cloud region fails. Design the Kubernetes platform and the failover approach.&rdquo;</em></p>
+</blockquote><h2 id="1-requirements-and-slos">1. Requirements and SLOs<a class="heading-anchor" href="#1-requirements-and-slos" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Service tier</th>
+      <th>SLO (availability)</th>
+      <th>RTO</th>
+      <th>RPO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tier 0: login, balances, payments initiation</td>
+      <td>99.95% monthly</td>
+      <td>≤ 15 min regional failover</td>
+      <td>≤ 1 min (payments ledger: 0 for committed transactions)</td>
+    </tr>
+    <tr>
+      <td>Tier 1: statements, notifications</td>
+      <td>99.9%</td>
+      <td>≤ 1 h</td>
+      <td>≤ 15 min</td>
+    </tr>
+    <tr>
+      <td>Tier 2: analytics, back-office</td>
+      <td>99.5%</td>
+      <td>≤ 24 h</td>
+      <td>≤ 24 h</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Other requirements: EU data residency (two EU regions), PCI DSS scope isolation, peak 3,000 requests/s, deployments several times a day without downtime.</p>
+<h2 id="2-topology">2. Topology<a class="heading-anchor" href="#2-topology" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/multi-region-platform.html" title="Multi-region Kubernetes platform" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>Multi-region Kubernetes platform · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/multi-region-platform.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ul>
+<li><strong>Two regions</strong>, each with production clusters spread across <strong>three availability zones</strong>.</li>
+<li><strong>Tier 0</strong> runs <strong>active-active</strong> for stateless services with a single-writer ledger (see data below); Tier 1 <strong>warm standby</strong>; Tier 2 <strong>backup and restore</strong>.</li>
+<li>Separate <strong>PCI cluster</strong> per region for card-processing workloads.</li>
+<li>A <strong>GitOps hub</strong> (Argo CD with ApplicationSets, itself deployed in both regions) keeps both regions on the same reviewed configuration.</li>
+</ul>
+<h2 id="3-traffic-management-and-failover">3. Traffic management and failover<a class="heading-anchor" href="#3-traffic-management-and-failover" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Health-based regional failover"><figcaption class="diagram__title">Health-based regional failover</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant U as Users
+    participant G as Global DNS / GSLB
+    participant A as Region A gateway
+    participant B as Region B gateway
+    participant O as On-call + runbook
+    U-&gt;&gt;G: resolve api.bank.example
+    G-&gt;&gt;A: health checks OK → route 50/50 (Tier 0)
+    G-&gt;&gt;B: health checks OK
+    Note over A: Region A degraded: SLO burn, health checks failing
+    G-&gt;&gt;G: mark A unhealthy (automatic)
+    G--&gt;&gt;U: answers point to region B only
+    O-&gt;&gt;B: scale up (pre-approved), promote replicas for Tier 1
+    O-&gt;&gt;O: comms, status page, incident command</pre>
+</figure>
+<ul>
+<li><strong>Global DNS / anycast load balancing</strong> with health checks on synthetic transactions, not just TCP.</li>
+<li>Low DNS TTLs (30–60 s) and clients that honour them.</li>
+<li><strong>Capacity</strong>: each region can carry 100% of Tier 0 peak (N+1 at region level) — the single most important cost decision.</li>
+<li><strong>Automatic</strong> traffic failover for stateless tiers; <strong>human-approved</strong> promotion for data stores where split-brain risk exists.</li>
+</ul>
+<h2 id="4-data">4. Data<a class="heading-anchor" href="#4-data" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Approach</th>
+      <th>Trade-off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Payments ledger</td>
+      <td>Single-writer primary in region A with <strong>synchronous</strong> replica in another zone and <strong>semi-sync/async</strong> cross-region replica; or a globally consistent database (for example Spanner-class or CockroachDB/YugabyteDB)</td>
+      <td>Synchronous cross-region adds latency; async risks small data loss → business decides</td>
+    </tr>
+    <tr>
+      <td>Customer profile</td>
+      <td>Multi-region database with async replication; conflict-free updates via ownership by region</td>
+      <td>Eventual consistency for reads</td>
+    </tr>
+    <tr>
+      <td>Sessions / cache</td>
+      <td>Regional Redis; sessions in signed tokens to survive failover</td>
+      <td>Cache warm-up after failover</td>
+    </tr>
+    <tr>
+      <td>Events</td>
+      <td>Kafka per region with MirrorMaker 2 / cluster linking</td>
+      <td>Duplicate handling via idempotent consumers</td>
+    </tr>
+    <tr>
+      <td>Object storage</td>
+      <td>Cross-region replication</td>
+      <td>Replication lag</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="5-delivery-across-regions">5. Delivery across regions<a class="heading-anchor" href="#5-delivery-across-regions" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Same artifacts (by digest) and same Git state in both regions; ApplicationSets with region labels.</li>
+<li><strong>Progressive rollout across regions</strong>: canary in region A → full region A → region B, with automated analysis (Argo Rollouts) and an error-budget gate.</li>
+<li>Infrastructure (clusters, networks, databases) as code (Terraform/OpenTofu or Crossplane), reproducible in a new region.</li>
+</ul>
+<h2 id="6-observability">6. Observability<a class="heading-anchor" href="#6-observability" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>OpenTelemetry in all services; per-region Collector gateways; global query layer (Thanos/Mimir) so dashboards see both regions.</li>
+<li>SLOs per tier and region with multi-window burn-rate alerts.</li>
+<li>Synthetic probes from several external locations per critical journey.</li>
+</ul>
+<h2 id="7-security">7. Security<a class="heading-anchor" href="#7-security" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Separate cloud accounts/subscriptions per environment and PCI scope; private clusters; WAF and DDoS protection at the edge.</li>
+<li>mTLS (service mesh ambient mode) for Tier 0 services; default-deny NetworkPolicies.</li>
+<li>Signed images only; secrets in a replicated Vault/KMS per region; break-glass access audited.</li>
+</ul>
+<h2 id="8-dr-runbooks-and-drills">8. DR runbooks and drills<a class="heading-anchor" href="#8-dr-runbooks-and-drills" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Drill</th>
+      <th>Frequency</th>
+      <th>Success criterion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Zone failure (drain all nodes in a zone)</td>
+      <td>Monthly in staging, quarterly in prod</td>
+      <td>SLO maintained</td>
+    </tr>
+    <tr>
+      <td>Regional failover of Tier 0</td>
+      <td>Quarterly</td>
+      <td>RTO ≤ 15 min, no data loss beyond RPO</td>
+    </tr>
+    <tr>
+      <td>Restore Tier 2 from backup into a new cluster</td>
+      <td>Twice a year</td>
+      <td>Within RTO</td>
+    </tr>
+    <tr>
+      <td>Dependency failure (IdP, DNS, payment network latency)</td>
+      <td>Game days</td>
+      <td>Graceful degradation works</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Automate failover steps in runbooks-as-code; record timings; feed gaps into the backlog.</p>
+<h2 id="9-cost">9. Cost<a class="heading-anchor" href="#9-cost" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Region-level N+1 roughly doubles Tier 0 compute — offset by spot for stateless non-critical services, rightsizing, Karpenter consolidation and commitments for the baseline.</li>
+<li>Warm standby for Tier 1 runs at ~25–30% capacity, scaling on failover.</li>
+<li>Cross-region data transfer is a material line item; design replication volume consciously.</li>
+</ul>
+<h2 id="10-trade-offs">10. Trade-offs<a class="heading-anchor" href="#10-trade-offs" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Decision</th>
+      <th>Chosen</th>
+      <th>Alternative</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tier 0 compute</td>
+      <td>Active-active</td>
+      <td>Warm standby: cheaper, longer RTO</td>
+    </tr>
+    <tr>
+      <td>Ledger</td>
+      <td>Single writer + replicas</td>
+      <td>Globally consistent DB: simpler failover, higher latency and cost</td>
+    </tr>
+    <tr>
+      <td>Failover trigger</td>
+      <td>Automatic for traffic, human for data promotion</td>
+      <td>Fully automatic: faster, split-brain risk</td>
+    </tr>
+    <tr>
+      <td>Cluster model</td>
+      <td>Per region × tier, PCI separate</td>
+      <td>Single large cluster per region: cheaper, larger blast radius</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">What makes this design strong</span></p>
+  <div class="callout__body"><p>Tiered RTO/RPO agreed with the business, capacity for a full region loss, data consistency treated explicitly, identical Git-defined regions, and drills that prove the numbers.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>Why must each region be able to carry 100% of Tier 0 load?</strong>
+Because after a regional failure the surviving region receives all traffic; without that headroom, failover becomes an outage.</p>
+<p><strong>Why is data promotion often human-approved while traffic failover is automatic?</strong>
+Promoting a database replica during a partial failure risks split-brain and data loss; a brief human decision is safer, while stateless traffic can shift automatically.</p>
+<p><strong>How do GitOps and IaC help DR?</strong>
+Regions and clusters are reproducible from code, so standby regions stay identical and new environments can be built quickly.</p>
+<p><strong>What should DR drills prove?</strong>
+That actual RTO and RPO meet objectives, runbooks work and dependencies are understood.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Tier services by RTO/RPO and choose active-active, warm standby or backup-restore accordingly.</li>
+<li>Multi-AZ clusters in two regions; health-based global traffic management; region-level capacity headroom.</li>
+<li>Treat data consistency explicitly; GitOps keeps regions identical.</li>
+<li>Prove it with regular drills and SLO monitoring.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/case-study-developer-platform/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Case study: developer platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/self-review/platform-review-checklist/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Platform review checklist</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/finops/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">FinOps</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/helm-charts/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Helm charts</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/kubernetes-architecture/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Kubernetes architecture</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/sre/finops/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">FinOps</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-requirements-and-slos">1. Requirements and SLOs</a></li>
+    <li><a href="#2-topology">2. Topology</a></li>
+    <li><a href="#3-traffic-management-and-failover">3. Traffic management and failover</a></li>
+    <li><a href="#4-data">4. Data</a></li>
+    <li><a href="#5-delivery-across-regions">5. Delivery across regions</a></li>
+    <li><a href="#6-observability">6. Observability</a></li>
+    <li><a href="#7-security">7. Security</a></li>
+    <li><a href="#8-dr-runbooks-and-drills">8. DR runbooks and drills</a></li>
+    <li><a href="#9-cost">9. Cost</a></li>
+    <li><a href="#10-trade-offs">10. Trade-offs</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

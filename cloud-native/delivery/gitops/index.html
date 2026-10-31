@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitOps with Argo CD and Flux · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="GitOps explained: the four OpenGitOps principles, push vs pull deployment, Argo CD and Flux architectures, repository structures, environment promotion, multi-cluster with ApplicationSets, secrets, drift detection and self-healing, and common pitfalls.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/delivery/gitops/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="GitOps with Argo CD and Flux">
+<meta property="og:description" content="GitOps explained: the four OpenGitOps principles, push vs pull deployment, Argo CD and Flux architectures, repository structures, environment promotion, multi-cluster with ApplicationSets, secrets, drift detection and self-healing, and common pitfalls.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/delivery/gitops/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GitOps with Argo CD and Flux">
+<meta name="twitter:description" content="GitOps explained: the four OpenGitOps principles, push vs pull deployment, Argo CD and Flux architectures, repository structures, environment promotion, multi-cluster with ApplicationSets, secrets, drift detection and self-healing, and common pitfalls.">
+<meta name="keywords" content="gitops, delivery, argo-cd">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"GitOps explained: the four OpenGitOps principles, push vs pull deployment, Argo CD and Flux architectures, repository structures, environment promotion, multi-cluster with ApplicationSets, secrets, drift detection and self-healing, and common pitfalls.","headline":"GitOps with Argo CD and Flux","inLanguage":"en","isAccessibleForFree":true,"keywords":"gitops, delivery, argo-cd","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/delivery/gitops/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/","name":"2 · Delivery","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/gitops/","name":"GitOps","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-delivery">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/" aria-current="page">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/delivery/">2 · Delivery</a></li>
+    <li><span aria-current="page">GitOps</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">GitOps with Argo CD and Flux</h1><p class="article__lede" itemprop="description">GitOps explained: the four OpenGitOps principles, push vs pull deployment, Argo CD and Flux architectures, repository structures, environment promotion, multi-cluster with ApplicationSets, secrets, drift detection and self-healing, and common pitfalls.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/gitops/">#Gitops</a><a class="tag" href="/cloud-native/tags/delivery/">#Delivery</a><a class="tag" href="/cloud-native/tags/argo-cd/">#Argo-Cd</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a>, <a href="/cloud-native/delivery/helm-charts/">Helm charts</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-four-opengitops-principles">The four OpenGitOps principles</a></li>
+    <li><a href="#push-vs-pull">Push vs pull</a></li>
+    <li><a href="#the-end-to-end-flow">The end-to-end flow</a></li>
+    <li><a href="#argo-cd">Argo CD</a></li>
+    <li><a href="#flux">Flux</a></li>
+    <li><a href="#repository-structure">Repository structure</a></li>
+    <li><a href="#promotion-between-environments">Promotion between environments</a></li>
+    <li><a href="#secrets-in-gitops">Secrets in GitOps</a></li>
+    <li><a href="#drift-and-self-healing">Drift and self-healing</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>GitOps</strong> manages infrastructure and applications by keeping their <strong>desired state in Git</strong> and running <strong>agents in the cluster</strong> that continuously pull that state and reconcile the cluster to match it. Git becomes the audit log, the review process and the rollback mechanism.</p>
+<h2 id="the-four-opengitops-principles">The four OpenGitOps principles<a class="heading-anchor" href="#the-four-opengitops-principles" aria-label="Link to this section">#</a></h2>
+<ol>
+<li><strong>Declarative</strong> — the system&rsquo;s desired state is expressed declaratively.</li>
+<li><strong>Versioned and immutable</strong> — desired state is stored in a way that keeps full history (Git).</li>
+<li><strong>Pulled automatically</strong> — software agents pull the desired state from the source.</li>
+<li><strong>Continuously reconciled</strong> — agents observe actual state and correct drift.</li>
+</ol>
+<h2 id="push-vs-pull">Push vs pull<a class="heading-anchor" href="#push-vs-pull" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Push-based CD vs pull-based GitOps"><figcaption class="diagram__title">Push-based CD vs pull-based GitOps</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Push[&#34;Push-based&#34;]
+        CI1[&#34;CI pipeline&lt;br/&gt;holds cluster credentials&#34;] --&gt;|&#34;kubectl / helm&#34;| K1[&#34;Cluster&#34;]
+    end
+    subgraph Pull[&#34;Pull-based GitOps&#34;]
+        CI2[&#34;CI pipeline&lt;br/&gt;no cluster credentials&#34;] --&gt;|&#34;PR: new digest&#34;| G[(&#34;Git config repo&#34;)]
+        AG[&#34;Agent in cluster&lt;br/&gt;Argo CD / Flux&#34;] --&gt;|&#34;pull&#34;| G
+        AG --&gt;|&#34;reconcile&#34;| K2[&#34;Cluster&#34;]
+    end</pre>
+</figure>
+<p>Pull wins on security (no cluster credentials outside), drift correction and auditability.</p>
+<h2 id="the-end-to-end-flow">The end-to-end flow<a class="heading-anchor" href="#the-end-to-end-flow" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/gitops-flow.html" title="GitOps: from pull request to running release" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>GitOps: from pull request to running release · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/gitops-flow.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h2 id="argo-cd">Argo CD<a class="heading-anchor" href="#argo-cd" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Argo CD architecture"><figcaption class="diagram__title">Argo CD architecture</figcaption>
+  <pre class="mermaid">flowchart LR
+    UI[&#34;UI / CLI / API&#34;] --&gt; SRV[&#34;argocd-server&#34;]
+    SRV --&gt; CTRL[&#34;application-controller&lt;br/&gt;compare + sync&#34;]
+    CTRL --&gt; REPO[&#34;repo-server&lt;br/&gt;render Helm, Kustomize, YAML&#34;]
+    REPO --&gt; GIT[(&#34;Git / OCI&#34;)]
+    CTRL --&gt; CL1[&#34;Cluster A&#34;]
+    CTRL --&gt; CL2[&#34;Cluster B&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Application</strong> — source (repo, path, chart, revision) + destination (cluster, namespace) + sync policy (auto, prune, self-heal).</li>
+<li><strong>ApplicationSet</strong> — generate many Applications from templates (per cluster, per environment, per Git directory or pull request).</li>
+<li><strong>App of apps</strong> — a parent Application that manages others; useful for bootstrapping clusters.</li>
+<li><strong>Sync waves and hooks</strong> — order resources (CRDs before CRs, migrations before deployments).</li>
+<li><strong>Projects</strong> — RBAC boundaries: which repos, clusters and namespaces a team may use.</li>
+<li>Argo CD 3.x (2025–2026) tightened RBAC defaults, removed deprecated features and improved ApplicationSet scale; releases arrive roughly quarterly.</li>
+</ul>
+<h2 id="flux">Flux<a class="heading-anchor" href="#flux" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>A set of controllers (GitOps Toolkit): <strong>source-controller</strong> (Git, OCI, Helm repos), <strong>kustomize-controller</strong>, <strong>helm-controller</strong>, <strong>notification-controller</strong>, image automation.</li>
+<li>Fully CRD-driven and CLI-first; native <strong>OCI artifact</strong> sources; multi-tenancy via namespaced controllers and impersonation.</li>
+<li>CNCF graduated, like Argo.</li>
+</ul>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Argo CD</th>
+      <th>Flux</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>UX</td>
+      <td>Rich UI, visual diff and health</td>
+      <td>CLI/CRDs, UI via add-ons</td>
+    </tr>
+    <tr>
+      <td>Helm</td>
+      <td>Renders templates (no Helm release objects)</td>
+      <td>Real Helm releases via helm-controller</td>
+    </tr>
+    <tr>
+      <td>Multi-cluster</td>
+      <td>Central instance managing many clusters, or agents per cluster</td>
+      <td>Usually one Flux per cluster, hub patterns possible</td>
+    </tr>
+    <tr>
+      <td>Tenancy</td>
+      <td>Projects + RBAC + SSO</td>
+      <td>Namespaced controllers + impersonation</td>
+    </tr>
+    <tr>
+      <td>Ecosystem</td>
+      <td>Argo Rollouts, Workflows, Events; Kargo for promotion</td>
+      <td>Flagger for progressive delivery</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="repository-structure">Repository structure<a class="heading-anchor" href="#repository-structure" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">platform-config/                 # owned by the platform team
+</span></span><span class="line"><span class="cl">├── clusters/
+</span></span><span class="line"><span class="cl">│   ├── prod-eu-1/               # cluster add-ons: ingress/gateway, cert-manager, policies
+</span></span><span class="line"><span class="cl">│   └── prod-us-1/
+</span></span><span class="line"><span class="cl">└── applicationsets/             # generate apps per cluster/team
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">team-shop-config/                # owned by the shop team
+</span></span><span class="line"><span class="cl">├── apps/orders/
+</span></span><span class="line"><span class="cl">│   ├── base/                    # Kustomize base or Helm values defaults
+</span></span><span class="line"><span class="cl">│   └── overlays/
+</span></span><span class="line"><span class="cl">│       ├── dev/
+</span></span><span class="line"><span class="cl">│       ├── staging/
+</span></span><span class="line"><span class="cl">│       └── prod/                # image digest, replicas, resources
+</span></span></code></pre></div><ul>
+<li>Separate <strong>application source</strong> repos from <strong>configuration</strong> repos (different change rates and permissions).</li>
+<li>Prefer <strong>directories per environment</strong> over long-lived branches per environment.</li>
+<li>Protect production paths with code owners and required reviews.</li>
+</ul>
+<h2 id="promotion-between-environments">Promotion between environments<a class="heading-anchor" href="#promotion-between-environments" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>CI or a bot (Renovate, Argo CD Image Updater, Flux image automation) opens a PR to bump the image digest in <code>dev</code>.</li>
+<li>After tests pass, promotion to <code>staging</code>/<code>prod</code> is another PR (manual or automated).</li>
+<li><strong>Kargo</strong> (from the Argo ecosystem) and release orchestrators such as <a href="/cloud-native/delivery/release-orchestration/">Digital.ai Release</a> manage multi-stage promotion with verification and approvals.</li>
+</ul>
+<h2 id="secrets-in-gitops">Secrets in GitOps<a class="heading-anchor" href="#secrets-in-gitops" aria-label="Link to this section">#</a></h2>
+<p>Never store plaintext secrets in Git. Options:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>How</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>External Secrets Operator</strong></td>
+      <td>Git stores a reference; the operator fetches from Vault/cloud secret managers</td>
+    </tr>
+    <tr>
+      <td><strong>Sealed Secrets</strong></td>
+      <td>Encrypt with the cluster&rsquo;s public key; only the controller decrypts</td>
+    </tr>
+    <tr>
+      <td><strong>SOPS</strong></td>
+      <td>Encrypt values with KMS/age; Flux/Argo plugins decrypt</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="drift-and-self-healing">Drift and self-healing<a class="heading-anchor" href="#drift-and-self-healing" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Detect drift</strong>: someone runs <code>kubectl edit</code> in production → the app shows <em>OutOfSync</em>.</li>
+<li><strong>Self-heal</strong>: the controller reverts the change automatically.</li>
+<li>Allow intentional runtime changes (HPA replica counts, injected fields) with <strong>ignoreDifferences</strong> rules.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Branch per environment</span></p>
+  <div class="callout__body"><p>Merges between long-lived branches drift and conflict. Use folders/overlays per environment on one main branch.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">GitOps for everything, including secrets in plain text</span></p>
+  <div class="callout__body"><p>Use external secret references or encryption.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One Argo CD admin for all teams</span></p>
+  <div class="callout__body"><p>Use Projects, SSO groups and least-privilege destinations so teams manage only their own apps.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What are the OpenGitOps principles?</strong>
+Declarative, versioned and immutable, pulled automatically, continuously reconciled.</p>
+<p><strong>Why is pull-based deployment more secure?</strong>
+CI never holds cluster credentials; the in-cluster agent pulls from Git, and every change is a reviewed commit.</p>
+<p><strong>What is an ApplicationSet?</strong>
+An Argo CD resource that generates Applications from templates and generators (clusters, Git directories, lists, pull requests) — ideal for fleets and many teams.</p>
+<p><strong>How do you promote a release between environments in GitOps?</strong>
+By changing the environment&rsquo;s desired state in Git — usually a pull request that updates the image digest or chart version in that environment&rsquo;s overlay.</p>
+<p><strong>How do you handle secrets with GitOps?</strong>
+External Secrets Operator references, Sealed Secrets or SOPS-encrypted values — never plaintext in Git.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>GitOps = desired state in Git + agents that pull and reconcile.</li>
+<li>Argo CD (UI, ApplicationSets, Rollouts) and Flux (toolkit, real Helm releases, OCI) are both CNCF graduated.</li>
+<li>Separate app and config repos; folders per environment; promotion by PR.</li>
+<li>External secrets, drift detection, self-heal and tenant isolation.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://opengitops.dev/" rel="noopener">OpenGitOps principles</a>.</li>
+<li><a href="https://argo-cd.readthedocs.io/" rel="noopener">Argo CD documentation</a> and <a href="https://fluxcd.io/flux/" rel="noopener">Flux documentation</a>.</li>
+<li><a href="https://kargo.io/" rel="noopener">Kargo</a>, <a href="https://external-secrets.io/" rel="noopener">External Secrets Operator</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/release-orchestration/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Release orchestration (Digital.ai)</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/internal-developer-platforms/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Internal developer platforms</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/ci-cd-pipelines/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">CI/CD &amp; progressive delivery</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/containers-and-docker/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Containers &amp; Docker</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/helm-charts/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Helm charts</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/delivery/ci-cd-pipelines/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">CI/CD &amp; progressive delivery</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/delivery/release-orchestration/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Release orchestration (Digital.ai)</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-four-opengitops-principles">The four OpenGitOps principles</a></li>
+    <li><a href="#push-vs-pull">Push vs pull</a></li>
+    <li><a href="#the-end-to-end-flow">The end-to-end flow</a></li>
+    <li><a href="#argo-cd">Argo CD</a></li>
+    <li><a href="#flux">Flux</a></li>
+    <li><a href="#repository-structure">Repository structure</a></li>
+    <li><a href="#promotion-between-environments">Promotion between environments</a></li>
+    <li><a href="#secrets-in-gitops">Secrets in GitOps</a></li>
+    <li><a href="#drift-and-self-healing">Drift and self-healing</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

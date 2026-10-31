@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running Kubernetes in Practice · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="Day-1 and day-2 Kubernetes for architects: manifests and kubectl essentials, Kustomize overlays, operators, managed Kubernetes (EKS, AKS, GKE) vs self-managed, cluster topology choices, upgrades, backup with Velero, and fleet management with Cluster API.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/delivery/kubernetes-in-practice/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Running Kubernetes in Practice">
+<meta property="og:description" content="Day-1 and day-2 Kubernetes for architects: manifests and kubectl essentials, Kustomize overlays, operators, managed Kubernetes (EKS, AKS, GKE) vs self-managed, cluster topology choices, upgrades, backup with Velero, and fleet management with Cluster API.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/delivery/kubernetes-in-practice/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Running Kubernetes in Practice">
+<meta name="twitter:description" content="Day-1 and day-2 Kubernetes for architects: manifests and kubectl essentials, Kustomize overlays, operators, managed Kubernetes (EKS, AKS, GKE) vs self-managed, cluster topology choices, upgrades, backup with Velero, and fleet management with Cluster API.">
+<meta name="keywords" content="kubernetes, operations, delivery">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Day-1 and day-2 Kubernetes for architects: manifests and kubectl essentials, Kustomize overlays, operators, managed Kubernetes (EKS, AKS, GKE) vs self-managed, cluster topology choices, upgrades, backup with Velero, and fleet management with Cluster API.","headline":"Running Kubernetes in Practice","inLanguage":"en","isAccessibleForFree":true,"keywords":"kubernetes, operations, delivery","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/delivery/kubernetes-in-practice/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/","name":"2 · Delivery","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/kubernetes-in-practice/","name":"Kubernetes in practice","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-delivery">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/" aria-current="page">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/delivery/">2 · Delivery</a></li>
+    <li><span aria-current="page">Kubernetes in practice</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Running Kubernetes in Practice</h1><p class="article__lede" itemprop="description">Day-1 and day-2 Kubernetes for architects: manifests and kubectl essentials, Kustomize overlays, operators, managed Kubernetes (EKS, AKS, GKE) vs self-managed, cluster topology choices, upgrades, backup with Velero, and fleet management with Cluster API.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/kubernetes/">#Kubernetes</a><a class="tag" href="/cloud-native/tags/operations/">#Operations</a><a class="tag" href="/cloud-native/tags/delivery/">#Delivery</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#a-minimal-application">A minimal application</a></li>
+    <li><a href="#kubectl-essentials">kubectl essentials</a></li>
+    <li><a href="#managing-configuration-kustomize-vs-helm">Managing configuration: Kustomize vs Helm</a></li>
+    <li><a href="#operators">Operators</a></li>
+    <li><a href="#managed-or-self-managed">Managed or self-managed?</a></li>
+    <li><a href="#how-many-clusters">How many clusters?</a></li>
+    <li><a href="#fleet-management-and-lifecycle">Fleet management and lifecycle</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>&ldquo;Running Kubernetes&rdquo; covers <strong>day 1</strong> (creating clusters and deploying apps) and <strong>day 2</strong> (upgrading, scaling, securing, backing up and operating them for years). Most of the cost and risk of Kubernetes is in day 2.</p>
+<h2 id="a-minimal-application">A minimal application<a class="heading-anchor" href="#a-minimal-application" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nt">orders, namespace</span><span class="p">:</span><span class="w"> </span><span class="nt">shop, labels</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">orders } }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">orders } }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">labels</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">orders } }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">ghcr.io/acme/orders@sha256:3f1c...    </span><span class="w"> </span><span class="c"># deploy by digest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">ports</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span>}<span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">requests</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="nt">250m, memory</span><span class="p">:</span><span class="w"> </span><span class="l">512Mi }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">limits</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l">512Mi }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">readinessProbe</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="nt">/actuator/health/readiness, port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span>}<span class="w"> </span>}<span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">livenessProbe</span><span class="p">:</span><span class="w">  </span>{<span class="w"> </span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="nt">/actuator/health/liveness,  port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span>}<span class="w"> </span>}<span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nt">orders, namespace</span><span class="p">:</span><span class="w"> </span><span class="l">shop }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">orders }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="w"> </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="nt">80, targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span>}<span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">gateway.networking.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">HTTPRoute</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nt">orders, namespace</span><span class="p">:</span><span class="w"> </span><span class="l">shop }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">parentRefs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nt">public, namespace</span><span class="p">:</span><span class="w"> </span><span class="l">gateway }]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hostnames</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;shop.example.com&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">rules</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">matches</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="nt">PathPrefix, value</span><span class="p">:</span><span class="w"> </span><span class="l">/orders } }]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">backendRefs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nt">orders, port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w"> </span>}<span class="p">]</span><span class="w">
+</span></span></span></code></pre></div><h2 id="kubectl-essentials">kubectl essentials<a class="heading-anchor" href="#kubectl-essentials" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Command</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apply desired state</td>
+      <td><code>kubectl apply -f k8s/</code> (or server-side: <code>--server-side</code>)</td>
+    </tr>
+    <tr>
+      <td>See what changes</td>
+      <td><code>kubectl diff -f k8s/</code></td>
+    </tr>
+    <tr>
+      <td>Inspect</td>
+      <td><code>kubectl get pods -n shop -o wide</code>, <code>kubectl describe pod &lt;p&gt;</code></td>
+    </tr>
+    <tr>
+      <td>Logs</td>
+      <td><code>kubectl logs deploy/orders -f --since=10m</code></td>
+    </tr>
+    <tr>
+      <td>Debug</td>
+      <td><code>kubectl debug -it &lt;pod&gt; --image=busybox --target=orders</code> (ephemeral container)</td>
+    </tr>
+    <tr>
+      <td>Rollout</td>
+      <td><code>kubectl rollout status deploy/orders</code>, <code>kubectl rollout undo deploy/orders</code></td>
+    </tr>
+    <tr>
+      <td>Events</td>
+      <td><code>kubectl events -n shop --types=Warning</code></td>
+    </tr>
+    <tr>
+      <td>Permissions</td>
+      <td><code>kubectl auth can-i create deployments -n shop --as=jane</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>In production, humans should rarely <code>apply</code> by hand — use <a href="/cloud-native/delivery/gitops/">GitOps</a>.</p>
+<h2 id="managing-configuration-kustomize-vs-helm">Managing configuration: Kustomize vs Helm<a class="heading-anchor" href="#managing-configuration-kustomize-vs-helm" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Kustomize overlays"><figcaption class="diagram__title">Kustomize overlays</figcaption>
+  <pre class="mermaid">flowchart TB
+    B[&#34;base/&lt;br/&gt;deployment, service, route&#34;] --&gt; D[&#34;overlays/dev&lt;br/&gt;1 replica, dev image&#34;]
+    B --&gt; S[&#34;overlays/staging&lt;br/&gt;2 replicas&#34;]
+    B --&gt; P[&#34;overlays/prod&lt;br/&gt;3 replicas, HPA, PDB&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Kustomize</th>
+      <th>Helm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Approach</td>
+      <td>Patch plain YAML (overlays)</td>
+      <td>Templates + values</td>
+    </tr>
+    <tr>
+      <td>Packaging/distribution</td>
+      <td>No</td>
+      <td>Charts in OCI registries, versioned</td>
+    </tr>
+    <tr>
+      <td>Best for</td>
+      <td>Your own apps, environment differences</td>
+      <td>Reusable, distributable packages; third-party software</td>
+    </tr>
+    <tr>
+      <td>Built into kubectl</td>
+      <td>Yes (<code>kubectl apply -k</code>)</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Many teams combine them: Helm for third-party charts, Kustomize for internal apps — both rendered by Argo CD or Flux. See <a href="/cloud-native/delivery/helm-charts/">Helm</a>.</p>
+<h2 id="operators">Operators<a class="heading-anchor" href="#operators" aria-label="Link to this section">#</a></h2>
+<p>Operators run complex software on Kubernetes by encoding operational knowledge in a controller:</p>
+<figure class="diagram" aria-label="Operator pattern"><figcaption class="diagram__title">Operator pattern</figcaption>
+  <pre class="mermaid">flowchart LR
+    CR[&#34;Custom resource&lt;br/&gt;PostgresCluster: 3 instances, v16, backups daily&#34;] --&gt; OP[&#34;Operator controller&#34;]
+    OP --&gt; K[&#34;StatefulSets, Services,&lt;br/&gt;Secrets, backups, failover&#34;]
+    K --&gt;|&#34;status&#34;| CR</pre>
+</figure>
+<p>Use mature operators for databases (CloudNativePG, Crunchy), Kafka (Strimzi), certificates (cert-manager), monitoring (Prometheus Operator). Assess maturity (capability levels: install → upgrade → lifecycle → insights → autopilot) before trusting critical data to one.</p>
+<h2 id="managed-or-self-managed">Managed or self-managed?<a class="heading-anchor" href="#managed-or-self-managed" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Examples</th>
+      <th>Fit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Managed Kubernetes</strong></td>
+      <td>Amazon EKS, Azure AKS, Google GKE (incl. Autopilot)</td>
+      <td>Default for cloud workloads</td>
+    </tr>
+    <tr>
+      <td><strong>Enterprise distributions</strong></td>
+      <td>Red Hat OpenShift, SUSE Rancher, VMware VKS</td>
+      <td>Hybrid/on-premises, integrated platform, vendor support</td>
+    </tr>
+    <tr>
+      <td><strong>Lightweight</strong></td>
+      <td>k3s, k0s, Talos</td>
+      <td>Edge, labs, small footprints</td>
+    </tr>
+    <tr>
+      <td><strong>DIY (kubeadm)</strong></td>
+      <td>—</td>
+      <td>Rarely justified; maximum effort</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="how-many-clusters">How many clusters?<a class="heading-anchor" href="#how-many-clusters" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Pros</th>
+      <th>Cons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Few large shared clusters</td>
+      <td>Efficient, fewer upgrades</td>
+      <td>Larger blast radius; noisy neighbours; complex tenancy</td>
+    </tr>
+    <tr>
+      <td>Cluster per environment (dev/test/prod)</td>
+      <td>Clear separation</td>
+      <td>Still shared between teams</td>
+    </tr>
+    <tr>
+      <td>Cluster per team or app</td>
+      <td>Strong isolation, autonomy</td>
+      <td>Many clusters to upgrade and secure</td>
+    </tr>
+    <tr>
+      <td>Cluster per region/zone group</td>
+      <td>Resilience, data residency</td>
+      <td>Needs fleet management</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Most enterprises land on <strong>per-environment and per-region clusters shared by teams</strong>, with dedicated clusters for regulated or special workloads — managed as a <strong>fleet</strong>.</p>
+<h2 id="fleet-management-and-lifecycle">Fleet management and lifecycle<a class="heading-anchor" href="#fleet-management-and-lifecycle" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Cluster API</strong> — Kubernetes-style declarative management of clusters themselves (create, upgrade, scale) across clouds.</li>
+<li><strong>GitOps across the fleet</strong> — Argo CD ApplicationSets or Flux with cluster labels to roll out add-ons consistently.</li>
+<li><strong>Upgrades</strong> — one minor version at a time; test add-ons; use surge node pools or blue/green node pools; respect PodDisruptionBudgets.</li>
+<li><strong>Backup and restore</strong> — <strong>Velero</strong> (objects + volume snapshots); etcd snapshots for self-managed control planes; rebuild from Git for stateless config.</li>
+<li><strong>Capacity</strong> — node pools by workload type (general, memory, GPU, spot); autoscaling (Karpenter / Cluster Autoscaler).</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Snowflake clusters built by hand</span></p>
+  <div class="callout__body"><p>Clusters must be reproducible from code (Terraform/OpenTofu, Cluster API, GitOps). Otherwise recovery and upgrades become guesswork.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One giant cluster for everything</span></p>
+  <div class="callout__body"><p>A single misconfiguration or upgrade problem affects every team. Balance efficiency with blast radius.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>Kustomize or Helm?</strong>
+Kustomize for patching your own YAML per environment; Helm for packaging and distributing reusable, versioned charts — often both, rendered by GitOps.</p>
+<p><strong>What is an operator?</strong>
+A controller plus CRDs that automates the lifecycle of complex software, such as a database&rsquo;s provisioning, upgrades, backups and failover.</p>
+<p><strong>Why prefer managed Kubernetes?</strong>
+The provider operates the control plane, etcd and upgrades, reducing operational risk and effort.</p>
+<p><strong>How do you back up a cluster?</strong>
+Keep configuration in Git, use Velero for objects and volume snapshots, back up etcd for self-managed control planes, and regularly test restores.</p>
+<p><strong>What is Cluster API?</strong>
+A Kubernetes project that manages the lifecycle of clusters declaratively, using Kubernetes resources and controllers.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Deploy declaratively; kubectl is for inspection and debugging, Git for change.</li>
+<li>Kustomize for overlays, Helm for packages; operators for complex software.</li>
+<li>Prefer managed Kubernetes; choose cluster topology by isolation vs efficiency.</li>
+<li>Treat clusters as a fleet: reproducible, upgraded regularly, backed up and tested.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kubernetes documentation, <a href="https://kubernetes.io/docs/reference/kubectl/" rel="noopener">kubectl reference</a> and <a href="https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/" rel="noopener">Kustomize</a>.</li>
+<li><a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/" rel="noopener">Operator pattern</a> and <a href="https://operatorframework.io/operator-capabilities/" rel="noopener">OperatorHub capability levels</a>.</li>
+<li><a href="https://cluster-api.sigs.k8s.io/" rel="noopener">Cluster API</a>, <a href="https://velero.io/" rel="noopener">Velero</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/helm-charts/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Helm charts</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/gitops/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">GitOps</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/openshift/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">OpenShift</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/ci-cd-pipelines/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">CI/CD &amp; progressive delivery</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/containers-and-docker/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Containers &amp; Docker</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/delivery/containers-and-docker/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Containers &amp; Docker</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/delivery/openshift/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">OpenShift</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#a-minimal-application">A minimal application</a></li>
+    <li><a href="#kubectl-essentials">kubectl essentials</a></li>
+    <li><a href="#managing-configuration-kustomize-vs-helm">Managing configuration: Kustomize vs Helm</a></li>
+    <li><a href="#operators">Operators</a></li>
+    <li><a href="#managed-or-self-managed">Managed or self-managed?</a></li>
+    <li><a href="#how-many-clusters">How many clusters?</a></li>
+    <li><a href="#fleet-management-and-lifecycle">Fleet management and lifecycle</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

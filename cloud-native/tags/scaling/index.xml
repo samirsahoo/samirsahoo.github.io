@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Scaling on Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/cloud-native/tags/scaling/</link>
+		<description>Recent content in Scaling on Cloud Native &amp; Platform Engineering Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/cloud-native/tags/scaling/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Workloads, Scheduling, Autoscaling and Storage</title>
+				<link>https://samirsahoo.github.io/cloud-native/kubernetes/workloads-and-scheduling/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/kubernetes/workloads-and-scheduling/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;workload&lt;/strong&gt; is an application running on Kubernetes. The smallest unit is a &lt;strong&gt;Pod&lt;/strong&gt; — one or more containers that share a network identity and storage. You rarely create Pods directly; you use &lt;strong&gt;controllers&lt;/strong&gt; (Deployment, StatefulSet, DaemonSet, Job) that create and manage Pods for you.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

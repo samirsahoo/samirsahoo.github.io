@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Platform-Engineering on Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/cloud-native/tags/platform-engineering/</link>
+		<description>Recent content in Platform-Engineering on Cloud Native &amp; Platform Engineering Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/cloud-native/tags/platform-engineering/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Platform Engineering Fundamentals</title>
+				<link>https://samirsahoo.github.io/cloud-native/platform-engineering/platform-engineering-fundamentals/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/platform-engineering/platform-engineering-fundamentals/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Platform engineering&lt;/strong&gt; is the discipline of building and running &lt;strong&gt;internal platforms&lt;/strong&gt; — curated, self-service capabilities for infrastructure, delivery, security and operations — so that application teams can deliver software quickly and safely without each team becoming an expert in Kubernetes, cloud, networking and compliance.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Internal Developer Platforms: Architecture and Tools</title>
+				<link>https://samirsahoo.github.io/cloud-native/platform-engineering/internal-developer-platforms/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/platform-engineering/internal-developer-platforms/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;internal developer platform (IDP)&lt;/strong&gt; is the sum of tools, APIs, templates and automation that a platform team integrates into self-service golden paths. A &lt;strong&gt;developer portal&lt;/strong&gt; (such as Backstage) is the &lt;em&gt;front door&lt;/em&gt; to the IDP — but the portal is not the platform; the automation behind it is.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Developer Experience: Measuring and Improving It</title>
+				<link>https://samirsahoo.github.io/cloud-native/platform-engineering/developer-experience/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/platform-engineering/developer-experience/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Developer experience (DevEx)&lt;/strong&gt; is how developers feel about, think about and value their work environment — tools, processes, platforms and culture. Good DevEx lets developers spend their time on valuable work instead of waiting, searching and fighting friction. It is the main outcome a platform team should improve.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>System Design: An Internal Developer Platform for 300 Teams</title>
+				<link>https://samirsahoo.github.io/cloud-native/platform-engineering/case-study-developer-platform/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/platform-engineering/case-study-developer-platform/</guid>
+				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;A bank with 300 delivery teams (about 2,500 developers) runs a mix of VMs and early Kubernetes clusters. New services take six weeks to reach production through tickets. Design an internal developer platform that gets a new service to production in under a day — securely and compliantly.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+	</channel>
+</rss>

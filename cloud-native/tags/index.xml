@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Tags on Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/cloud-native/tags/</link>
+		<description>Recent content in Tags on Cloud Native &amp; Platform Engineering Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/cloud-native/tags/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Architecture</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/architecture/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/architecture/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Argo-Cd</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/argo-cd/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/argo-cd/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Backstage</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/backstage/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/backstage/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Case-Study</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/case-study/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/case-study/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Ci-Cd</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/ci-cd/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/ci-cd/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Containers</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/containers/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/containers/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Cost</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/cost/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/cost/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Delivery</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/delivery/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/delivery/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Devex</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/devex/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/devex/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Devsecops</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/devsecops/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/devsecops/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Digital-Ai</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/digital-ai/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/digital-ai/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Disaster-Recovery</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/disaster-recovery/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/disaster-recovery/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Docker</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/docker/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/docker/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Finops</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/finops/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/finops/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Gitops</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/gitops/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/gitops/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Helm</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/helm/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/helm/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Idp</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/idp/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/idp/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Kubernetes</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/kubernetes/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/kubernetes/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Networking</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/networking/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/networking/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Observability</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/observability/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/observability/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Openshift</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/openshift/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/openshift/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Opentelemetry</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/opentelemetry/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/opentelemetry/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Operations</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/operations/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/operations/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Platform-Engineering</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/platform-engineering/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/platform-engineering/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Reference</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/reference/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/reference/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Release-Orchestration</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/release-orchestration/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/release-orchestration/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Reliability</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/reliability/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/reliability/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Resilience</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/resilience/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/resilience/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Scaling</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/scaling/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/scaling/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Security</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/security/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/security/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Self-Review</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/self-review/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/self-review/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Sre</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/sre/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/sre/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Storage</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/storage/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/storage/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>System-Design</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/system-design/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/system-design/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Workloads</title>
+				<link>https://samirsahoo.github.io/cloud-native/tags/workloads/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/tags/workloads/</guid>
+				<description></description>
+			</item>
+	</channel>
+</rss>

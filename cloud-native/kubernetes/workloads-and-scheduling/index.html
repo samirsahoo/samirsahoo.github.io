@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workloads, Scheduling, Autoscaling and Storage · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="Pods, Deployments, StatefulSets, DaemonSets, Jobs; probes and the Pod lifecycle; requests, limits and QoS; scheduling with affinity, taints and topology spread; HPA, VPA, KEDA, Cluster Autoscaler and Karpenter; persistent volumes, CSI and stateful workloads.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/kubernetes/workloads-and-scheduling/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Workloads, Scheduling, Autoscaling and Storage">
+<meta property="og:description" content="Pods, Deployments, StatefulSets, DaemonSets, Jobs; probes and the Pod lifecycle; requests, limits and QoS; scheduling with affinity, taints and topology spread; HPA, VPA, KEDA, Cluster Autoscaler and Karpenter; persistent volumes, CSI and stateful workloads.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/kubernetes/workloads-and-scheduling/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Workloads, Scheduling, Autoscaling and Storage">
+<meta name="twitter:description" content="Pods, Deployments, StatefulSets, DaemonSets, Jobs; probes and the Pod lifecycle; requests, limits and QoS; scheduling with affinity, taints and topology spread; HPA, VPA, KEDA, Cluster Autoscaler and Karpenter; persistent volumes, CSI and stateful workloads.">
+<meta name="keywords" content="kubernetes, workloads, scaling, storage">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Pods, Deployments, StatefulSets, DaemonSets, Jobs; probes and the Pod lifecycle; requests, limits and QoS; scheduling with affinity, taints and topology spread; HPA, VPA, KEDA, Cluster Autoscaler and Karpenter; persistent volumes, CSI and stateful workloads.","headline":"Workloads, Scheduling, Autoscaling and Storage","inLanguage":"en","isAccessibleForFree":true,"keywords":"kubernetes, workloads, scaling, storage","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/kubernetes/workloads-and-scheduling/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/kubernetes/","name":"1 · Kubernetes","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/kubernetes/workloads-and-scheduling/","name":"Workloads \u0026 scheduling","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-kubernetes">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/" aria-current="page">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/kubernetes/">1 · Kubernetes</a></li>
+    <li><span aria-current="page">Workloads &amp; scheduling</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Workloads, Scheduling, Autoscaling and Storage</h1><p class="article__lede" itemprop="description">Pods, Deployments, StatefulSets, DaemonSets, Jobs; probes and the Pod lifecycle; requests, limits and QoS; scheduling with affinity, taints and topology spread; HPA, VPA, KEDA, Cluster Autoscaler and Karpenter; persistent volumes, CSI and stateful workloads.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/kubernetes/">#Kubernetes</a><a class="tag" href="/cloud-native/tags/workloads/">#Workloads</a><a class="tag" href="/cloud-native/tags/scaling/">#Scaling</a><a class="tag" href="/cloud-native/tags/storage/">#Storage</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#workload-types">Workload types</a></li>
+    <li><a href="#pod-lifecycle-and-probes">Pod lifecycle and probes</a></li>
+    <li><a href="#resources-requests-limits-and-qos">Resources: requests, limits and QoS</a></li>
+    <li><a href="#scheduling-controls">Scheduling controls</a></li>
+    <li><a href="#autoscaling">Autoscaling</a></li>
+    <li><a href="#storage">Storage</a></li>
+    <li><a href="#configuration">Configuration</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>workload</strong> is an application running on Kubernetes. The smallest unit is a <strong>Pod</strong> — one or more containers that share a network identity and storage. You rarely create Pods directly; you use <strong>controllers</strong> (Deployment, StatefulSet, DaemonSet, Job) that create and manage Pods for you.</p>
+<h2 id="workload-types">Workload types<a class="heading-anchor" href="#workload-types" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Which controller for which workload?"><figcaption class="diagram__title">Which controller for which workload?</figcaption>
+  <pre class="mermaid">flowchart TD
+    Q{&#34;What kind of workload?&#34;} --&gt;|&#34;stateless service, web API&#34;| D[&#34;Deployment&lt;br/&gt;replicas, rolling updates&#34;]
+    Q --&gt;|&#34;needs stable identity + own disk&lt;br/&gt;databases, Kafka&#34;| S[&#34;StatefulSet&lt;br/&gt;ordered, stable names, PVC per Pod&#34;]
+    Q --&gt;|&#34;one per node&lt;br/&gt;log/metrics agents, CNI&#34;| DS[&#34;DaemonSet&#34;]
+    Q --&gt;|&#34;run to completion&#34;| J[&#34;Job&lt;br/&gt;batch, migrations&#34;]
+    Q --&gt;|&#34;on a schedule&#34;| CJ[&#34;CronJob&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Object</th>
+      <th>Key behaviour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Pod</strong></td>
+      <td>Containers sharing IP, ports, volumes; ephemeral — replaced, never repaired</td>
+    </tr>
+    <tr>
+      <td><strong>Deployment</strong></td>
+      <td>Manages ReplicaSets; rolling update and rollback; for stateless apps</td>
+    </tr>
+    <tr>
+      <td><strong>StatefulSet</strong></td>
+      <td>Stable names (<code>db-0</code>, <code>db-1</code>), ordered start/stop, a PersistentVolumeClaim per Pod</td>
+    </tr>
+    <tr>
+      <td><strong>DaemonSet</strong></td>
+      <td>One Pod per (matching) node</td>
+    </tr>
+    <tr>
+      <td><strong>Job / CronJob</strong></td>
+      <td>Run until success; retries; schedules</td>
+    </tr>
+    <tr>
+      <td><strong>Init containers</strong></td>
+      <td>Run before app containers (setup, migrations)</td>
+    </tr>
+    <tr>
+      <td><strong>Sidecar containers</strong></td>
+      <td>Long-running helpers (proxies, log shippers) with proper start/stop ordering — stable since 1.33</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="pod-lifecycle-and-probes">Pod lifecycle and probes<a class="heading-anchor" href="#pod-lifecycle-and-probes" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Pod lifecycle with probes"><figcaption class="diagram__title">Pod lifecycle with probes</figcaption>
+  <pre class="mermaid">stateDiagram-v2
+    [*] --&gt; Pending: scheduled? image pulled?
+    Pending --&gt; Running: containers started
+    Running --&gt; Running: liveness fails → container restarted
+    Running --&gt; Succeeded: all containers exit 0
+    Running --&gt; Failed: container exits non-zero, no restart
+    Succeeded --&gt; [*]
+    Failed --&gt; [*]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Probe</th>
+      <th>Question</th>
+      <th>On failure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td>Has the app finished starting?</td>
+      <td>Keep waiting (other probes disabled) until threshold, then restart</td>
+    </tr>
+    <tr>
+      <td><strong>Readiness</strong></td>
+      <td>Can it receive traffic now?</td>
+      <td>Removed from Service endpoints (no restart)</td>
+    </tr>
+    <tr>
+      <td><strong>Liveness</strong></td>
+      <td>Is it stuck?</td>
+      <td>Container restarted</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Liveness probes that check dependencies</span></p>
+  <div class="callout__body"><p>If the database is down and every Pod&rsquo;s liveness probe fails, Kubernetes restarts everything — making the outage worse. Liveness should check only the process itself; use readiness for dependency health.</p></div>
+</aside><h2 id="resources-requests-limits-and-qos">Resources: requests, limits and QoS<a class="heading-anchor" href="#resources-requests-limits-and-qos" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Request</strong> — what the scheduler reserves for the container; the basis of bin-packing and cost.</li>
+<li><strong>Limit</strong> — the maximum. Exceeding a memory limit gets the container <strong>OOM-killed</strong>; exceeding CPU limit gets it <strong>throttled</strong>.</li>
+</ul>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>QoS class</th>
+      <th>Rule</th>
+      <th>Eviction priority</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Guaranteed</strong></td>
+      <td>requests = limits for CPU and memory in every container</td>
+      <td>Last</td>
+    </tr>
+    <tr>
+      <td><strong>Burstable</strong></td>
+      <td>Some requests set, not equal to limits</td>
+      <td>Middle</td>
+    </tr>
+    <tr>
+      <td><strong>BestEffort</strong></td>
+      <td>No requests or limits</td>
+      <td>First</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Practical defaults: always set memory requests and limits (equal for critical apps); set CPU requests; consider omitting CPU limits for latency-sensitive services to avoid throttling, while enforcing namespace quotas. <strong>In-place Pod resize</strong> (stable in 1.35) lets you change CPU and memory of running Pods without restarting them.</p>
+<h2 id="scheduling-controls">Scheduling controls<a class="heading-anchor" href="#scheduling-controls" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Mechanism</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>nodeSelector / node affinity</strong></td>
+      <td>Run on nodes with certain labels (GPU, zone, instance type)</td>
+    </tr>
+    <tr>
+      <td><strong>Pod affinity / anti-affinity</strong></td>
+      <td>Co-locate with, or keep apart from, other Pods</td>
+    </tr>
+    <tr>
+      <td><strong>Taints and tolerations</strong></td>
+      <td>Reserve nodes (for example GPU or system nodes); only tolerating Pods land there</td>
+    </tr>
+    <tr>
+      <td><strong>Topology spread constraints</strong></td>
+      <td>Spread replicas evenly across zones and nodes</td>
+    </tr>
+    <tr>
+      <td><strong>PriorityClass and preemption</strong></td>
+      <td>Important Pods can evict less important ones</td>
+    </tr>
+    <tr>
+      <td><strong>PodDisruptionBudget</strong></td>
+      <td>Limit voluntary disruptions (drains, upgrades)</td>
+    </tr>
+    <tr>
+      <td><strong>Dynamic Resource Allocation (DRA)</strong></td>
+      <td>Request GPUs and other devices with rich parameters; supports sharing and partitioning</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="autoscaling">Autoscaling<a class="heading-anchor" href="#autoscaling" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="The autoscaling layers"><figcaption class="diagram__title">The autoscaling layers</figcaption>
+  <pre class="mermaid">flowchart TB
+    L[&#34;Load rises&#34;] --&gt; HPA[&#34;HPA / KEDA&lt;br/&gt;more Pods&#34;]
+    HPA --&gt; P{&#34;Pods pending?&lt;br/&gt;no room&#34;}
+    P --&gt;|&#34;yes&#34;| NA[&#34;Node autoscaler&lt;br/&gt;Cluster Autoscaler or Karpenter&lt;br/&gt;adds nodes&#34;]
+    P --&gt;|&#34;no&#34;| OK[&#34;Pods scheduled&#34;]
+    NA --&gt; OK
+    VPA[&#34;VPA / in-place resize&lt;br/&gt;right-size requests&#34;] -.-&gt; HPA</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Autoscaler</th>
+      <th>Scales</th>
+      <th>On</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>HPA</strong></td>
+      <td>Replica count</td>
+      <td>CPU, memory, custom/external metrics</td>
+    </tr>
+    <tr>
+      <td><strong>KEDA</strong></td>
+      <td>Replica count, including to zero</td>
+      <td>Event sources: queue length, Kafka lag, cron, Prometheus queries</td>
+    </tr>
+    <tr>
+      <td><strong>VPA</strong></td>
+      <td>Requests/limits</td>
+      <td>Observed usage (recommend, or apply — increasingly in place)</td>
+    </tr>
+    <tr>
+      <td><strong>Cluster Autoscaler</strong></td>
+      <td>Node groups</td>
+      <td>Pending Pods; scale-down of idle nodes</td>
+    </tr>
+    <tr>
+      <td><strong>Karpenter</strong></td>
+      <td>Individual nodes, chosen to fit</td>
+      <td>Pending Pods; consolidation to cheaper/fewer nodes; spot support</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="storage">Storage<a class="heading-anchor" href="#storage" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Dynamic provisioning with CSI"><figcaption class="diagram__title">Dynamic provisioning with CSI</figcaption>
+  <pre class="mermaid">flowchart LR
+    POD[&#34;Pod&#34;] --&gt; PVC[&#34;PersistentVolumeClaim&lt;br/&gt;10Gi, ReadWriteOnce&#34;]
+    PVC --&gt; SC[&#34;StorageClass&lt;br/&gt;gp3, premium-ssd, ceph&#34;]
+    SC --&gt; CSI[&#34;CSI driver&#34;]
+    CSI --&gt; DISK[(&#34;Cloud disk / SAN / Ceph&#34;)]
+    CSI --&gt; PV[&#34;PersistentVolume&lt;br/&gt;created and bound&#34;]
+    PV --&gt; PVC</pre>
+</figure>
+<ul>
+<li><strong>PersistentVolumeClaim (PVC)</strong> — what the app asks for. <strong>StorageClass</strong> — how to provision it. <strong>CSI driver</strong> — vendor plug-in that creates disks, snapshots and resizes.</li>
+<li><strong>Access modes:</strong> ReadWriteOnce (one node), ReadOnlyMany, ReadWriteMany (shared file systems), ReadWriteOncePod.</li>
+<li><strong>Snapshots</strong> and <strong>volume group snapshots</strong> (stable in 1.36) for consistent backups; tools such as Velero back up objects and volumes.</li>
+<li><strong>Stateful workloads:</strong> prefer managed databases; when running databases on Kubernetes, use mature <strong>operators</strong> (CloudNativePG, Strimzi for Kafka) and test failover and restore.</li>
+</ul>
+<h2 id="configuration">Configuration<a class="heading-anchor" href="#configuration" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>ConfigMaps</strong> for non-secret config; <strong>Secrets</strong> for credentials (base64, not encryption — enable etcd encryption and prefer external secret stores, see <a href="/cloud-native/kubernetes/kubernetes-security/#secrets">security</a>).</li>
+<li><strong>Namespaces</strong> separate teams and environments; <strong>ResourceQuotas</strong> and <strong>LimitRanges</strong> set budgets and defaults.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No requests or limits</span></p>
+  <div class="callout__body"><p>BestEffort Pods are evicted first and make capacity planning and cost allocation impossible. Set requests on everything.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">All replicas in one zone</span></p>
+  <div class="callout__body"><p>A zone outage takes the service down. Use topology spread constraints and a PodDisruptionBudget.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">HPA on CPU for I/O-bound services</span></p>
+  <div class="callout__body"><p>Queue consumers and I/O-bound services scale better on queue length or latency (KEDA, custom metrics).</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>Deployment or StatefulSet for PostgreSQL?</strong>
+StatefulSet (or better, a database operator or managed service): it provides stable identities and a dedicated volume per replica with ordered rollout.</p>
+<p><strong>What is the difference between readiness and liveness probes?</strong>
+Readiness controls whether a Pod receives traffic; liveness decides whether a container is restarted.</p>
+<p><strong>What happens when a container exceeds its memory limit? Its CPU limit?</strong>
+Memory: OOM-killed. CPU: throttled.</p>
+<p><strong>What are the three QoS classes?</strong>
+Guaranteed, Burstable and BestEffort — evicted in reverse order under node pressure.</p>
+<p><strong>HPA, VPA, KEDA, Karpenter — what does each scale?</strong>
+HPA: replicas on metrics. VPA: requests/limits. KEDA: replicas from event sources, including to zero. Karpenter: nodes, chosen to fit pending Pods and consolidated for cost.</p>
+<p><strong>How do you make a service survive a zone failure?</strong>
+Multiple replicas spread with topology spread constraints across zones, a PodDisruptionBudget, zone-redundant storage or data replication, and a zone-aware load balancer.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Pods are ephemeral; controllers (Deployment, StatefulSet, DaemonSet, Job) manage them.</li>
+<li>Probes decide traffic (readiness) and restarts (liveness).</li>
+<li>Requests drive scheduling and cost; limits cap usage; QoS decides eviction.</li>
+<li>Autoscale Pods (HPA/KEDA/VPA) and nodes (Cluster Autoscaler/Karpenter).</li>
+<li>Storage via PVC → StorageClass → CSI; prefer operators or managed services for databases.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kubernetes documentation, <a href="https://kubernetes.io/docs/concepts/workloads/" rel="noopener">Workloads</a>, <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/" rel="noopener">Scheduling</a>, <a href="https://kubernetes.io/docs/concepts/storage/" rel="noopener">Storage</a>.</li>
+<li><a href="https://keda.sh/" rel="noopener">KEDA</a>, <a href="https://karpenter.sh/" rel="noopener">Karpenter</a>.</li>
+<li>Kubernetes blog, <a href="https://kubernetes.io/blog/" rel="noopener">In-place Pod resize graduates to stable</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/finops/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">FinOps</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/resilience-and-dr/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">Resilience &amp; DR</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/helm-charts/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Helm charts</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/kubernetes-architecture/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Kubernetes architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/kubernetes-networking/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Kubernetes networking</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/kubernetes/kubernetes-architecture/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Kubernetes architecture</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/kubernetes/kubernetes-networking/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Kubernetes networking</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#workload-types">Workload types</a></li>
+    <li><a href="#pod-lifecycle-and-probes">Pod lifecycle and probes</a></li>
+    <li><a href="#resources-requests-limits-and-qos">Resources: requests, limits and QoS</a></li>
+    <li><a href="#scheduling-controls">Scheduling controls</a></li>
+    <li><a href="#autoscaling">Autoscaling</a></li>
+    <li><a href="#storage">Storage</a></li>
+    <li><a href="#configuration">Configuration</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

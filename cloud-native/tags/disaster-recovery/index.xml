@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Disaster-Recovery on Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/cloud-native/tags/disaster-recovery/</link>
+		<description>Recent content in Disaster-Recovery on Cloud Native &amp; Platform Engineering Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/cloud-native/tags/disaster-recovery/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Resilience Engineering and Disaster Recovery</title>
+				<link>https://samirsahoo.github.io/cloud-native/sre/resilience-and-dr/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/sre/resilience-and-dr/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Resilience&lt;/strong&gt; is a system&amp;rsquo;s ability to keep serving users — perhaps in a degraded way — when parts fail, and to recover quickly. &lt;strong&gt;Disaster recovery (DR)&lt;/strong&gt; is the plan and capability to restore service and data after a large failure such as losing a region.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

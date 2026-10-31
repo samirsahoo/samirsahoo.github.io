@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quick Check: Cloud Native &amp; Platform Engineering · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="Over 90 short self-review questions with answers across Kubernetes architecture, networking and security; containers, OpenShift, Helm, CI/CD, GitOps and release orchestration; platform engineering and developer experience; SRE, observability, resilience and FinOps.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/self-review/quick-check/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Quick Check: Cloud Native &amp; Platform Engineering">
+<meta property="og:description" content="Over 90 short self-review questions with answers across Kubernetes architecture, networking and security; containers, OpenShift, Helm, CI/CD, GitOps and release orchestration; platform engineering and developer experience; SRE, observability, resilience and FinOps.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/self-review/quick-check/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Quick Check: Cloud Native &amp; Platform Engineering">
+<meta name="twitter:description" content="Over 90 short self-review questions with answers across Kubernetes architecture, networking and security; containers, OpenShift, Helm, CI/CD, GitOps and release orchestration; platform engineering and developer experience; SRE, observability, resilience and FinOps.">
+<meta name="keywords" content="self-review">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Over 90 short self-review questions with answers across Kubernetes architecture, networking and security; containers, OpenShift, Helm, CI/CD, GitOps and release orchestration; platform engineering and developer experience; SRE, observability, resilience and FinOps.","headline":"Quick Check: Cloud Native \u0026 Platform Engineering","inLanguage":"en","isAccessibleForFree":true,"keywords":"self-review","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/self-review/quick-check/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/self-review/","name":"Self Review","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/self-review/quick-check/","name":"Quick check","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-self-review">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/" aria-current="page">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/self-review/">Self Review</a></li>
+    <li><span aria-current="page">Quick check</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Quick Check: Cloud Native &amp; Platform Engineering</h1><p class="article__lede" itemprop="description">Over 90 short self-review questions with answers across Kubernetes architecture, networking and security; containers, OpenShift, Helm, CI/CD, GitOps and release orchestration; platform engineering and developer experience; SRE, observability, resilience and FinOps.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/self-review/">#Self-Review</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#1-kubernetes-architecture">1. Kubernetes architecture</a></li>
+    <li><a href="#2-workloads-scheduling-and-storage">2. Workloads, scheduling and storage</a></li>
+    <li><a href="#3-networking-and-service-mesh">3. Networking and service mesh</a></li>
+    <li><a href="#4-kubernetes-security">4. Kubernetes security</a></li>
+    <li><a href="#5-containers-kubernetes-operations-and-openshift">5. Containers, Kubernetes operations and OpenShift</a></li>
+    <li><a href="#6-helm-cicd-gitops-and-release-orchestration">6. Helm, CI/CD, GitOps and release orchestration</a></li>
+    <li><a href="#7-platform-engineering-and-developer-experience">7. Platform engineering and developer experience</a></li>
+    <li><a href="#8-sre-observability-resilience-and-finops">8. SRE, observability, resilience and FinOps</a></li>
+    <li><a href="#scores-and-next-steps">Scores and next steps</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <p>Answers are short — enough to check your understanding. Each section links to the articles with full explanations.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">How to use this page</span></p>
+  <div class="callout__body"><p>Cover the answer, explain it in your own words, then compare. Mark anything you hesitated on and reread the linked article. Aim for 80% before moving on.</p></div>
+</aside><h2 id="1-kubernetes-architecture">1. Kubernetes architecture<a class="heading-anchor" href="#1-kubernetes-architecture" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a>.</p>
+<p><strong>What does &ldquo;declarative&rdquo; mean in Kubernetes?</strong>
+You store desired state as API objects; controllers continuously reconcile actual state toward it.</p>
+<p><strong>Which component is the only one that talks to etcd?</strong>
+The kube-apiserver.</p>
+<p><strong>What do the scheduler and the kubelet each do?</strong>
+The scheduler assigns Pods to nodes; the kubelet on each node runs the assigned Pods through the container runtime and reports status.</p>
+<p><strong>Why 3 or 5 etcd members?</strong>
+Raft needs a majority for quorum; odd sizes maximise tolerated failures (1 of 3, 2 of 5).</p>
+<p><strong>What is a CRD and an operator?</strong>
+A CRD adds a new API type; an operator is a controller that reconciles it to automate an application&rsquo;s lifecycle.</p>
+<p><strong>What runtime interfaces does Kubernetes use?</strong>
+CRI (runtimes), CNI (networking), CSI (storage).</p>
+<p><strong>How often does Kubernetes release, and how should you upgrade?</strong>
+About three minor releases a year; upgrade one minor version at a time, control plane before nodes.</p>
+<h2 id="2-workloads-scheduling-and-storage">2. Workloads, scheduling and storage<a class="heading-anchor" href="#2-workloads-scheduling-and-storage" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a>.</p>
+<p><strong>Deployment vs StatefulSet vs DaemonSet?</strong>
+Stateless replicas; stable identity with per-Pod storage; one Pod per node.</p>
+<p><strong>Readiness vs liveness vs startup probes?</strong>
+Readiness gates traffic; liveness restarts stuck containers; startup delays other probes until the app has started.</p>
+<p><strong>What happens when a container exceeds memory vs CPU limits?</strong>
+Memory: OOM-killed. CPU: throttled.</p>
+<p><strong>What are the QoS classes?</strong>
+Guaranteed, Burstable, BestEffort.</p>
+<p><strong>What do taints and tolerations do?</strong>
+Taints repel Pods from nodes; only Pods with matching tolerations may be scheduled there.</p>
+<p><strong>HPA vs KEDA vs VPA vs Karpenter?</strong>
+Replicas on metrics; replicas on events including scale to zero; right-sizing requests; node provisioning and consolidation.</p>
+<p><strong>What chain provides persistent storage?</strong>
+PVC → StorageClass → CSI driver → PersistentVolume.</p>
+<p><strong>What is in-place Pod resize?</strong>
+Changing CPU and memory of running containers without restarting the Pod — stable since Kubernetes 1.35.</p>
+<h2 id="3-networking-and-service-mesh">3. Networking and service mesh<a class="heading-anchor" href="#3-networking-and-service-mesh" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/cloud-native/kubernetes/kubernetes-networking/">Networking</a>, <a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a>.</p>
+<p><strong>What does a CNI plugin do?</strong>
+Assigns Pod IPs and connects Pods across nodes according to the network model.</p>
+<p><strong>Why do Services exist?</strong>
+To provide stable virtual IPs and DNS names for changing sets of Pods.</p>
+<p><strong>Name the Service types.</strong>
+ClusterIP, NodePort, LoadBalancer, headless, ExternalName.</p>
+<p><strong>What are the Gateway API&rsquo;s main resources?</strong>
+GatewayClass, Gateway, and routes such as HTTPRoute and GRPCRoute.</p>
+<p><strong>What happened to ingress-nginx in 2026?</strong>
+The community controller was retired in March 2026; migrate to the Gateway API or a maintained controller.</p>
+<p><strong>How do you isolate a namespace&rsquo;s network?</strong>
+Default-deny NetworkPolicy plus explicit allows, including DNS.</p>
+<p><strong>What does a service mesh add?</strong>
+mTLS identity, traffic management, resilience features and telemetry without code changes.</p>
+<p><strong>What are ztunnel and waypoints?</strong>
+In Istio ambient mode: a per-node L4 mTLS proxy, and optional L7 proxies where needed.</p>
+<h2 id="4-kubernetes-security">4. Kubernetes security<a class="heading-anchor" href="#4-kubernetes-security" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a>.</p>
+<p><strong>What are the 4Cs?</strong>
+Cloud, cluster, container, code.</p>
+<p><strong>Which three checks does every API request pass?</strong>
+Authentication, authorisation (RBAC) and admission control.</p>
+<p><strong>What does Pod Security &ldquo;restricted&rdquo; require?</strong>
+Non-root, no privilege escalation, dropped capabilities, seccomp RuntimeDefault, no host namespaces.</p>
+<p><strong>Kyverno, Gatekeeper or ValidatingAdmissionPolicy?</strong>
+Kyverno — YAML policies incl. mutation and image verification; Gatekeeper — Rego; VAP — built-in CEL rules without webhooks.</p>
+<p><strong>Why aren&rsquo;t Secrets secure by default?</strong>
+They are base64-encoded; use etcd encryption at rest, RBAC and external secret stores.</p>
+<p><strong>What secures the supply chain?</strong>
+Minimal images, scanning, SBOMs, SLSA provenance, cosign signatures and verification at admission; deploy by digest.</p>
+<p><strong>What is workload identity?</strong>
+Mapping Kubernetes service accounts to cloud IAM roles so Pods get short-lived cloud credentials without stored keys.</p>
+<h2 id="5-containers-kubernetes-operations-and-openshift">5. Containers, Kubernetes operations and OpenShift<a class="heading-anchor" href="#5-containers-kubernetes-operations-and-openshift" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a>, <a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a>, <a href="/cloud-native/delivery/openshift/">OpenShift</a>.</p>
+<p><strong>What isolates a container?</strong>
+Namespaces, cgroups, and security mechanisms (seccomp, capabilities, LSMs).</p>
+<p><strong>Why multi-stage builds?</strong>
+Smaller, safer runtime images without build tools.</p>
+<p><strong>Docker vs containerd vs Podman?</strong>
+Developer platform built on containerd; Kubernetes runtime via CRI; daemonless rootless engine.</p>
+<p><strong>Kustomize vs Helm?</strong>
+Overlay patches for your own YAML vs versioned, templated packages.</p>
+<p><strong>What is Cluster API?</strong>
+Declarative lifecycle management of Kubernetes clusters.</p>
+<p><strong>What does OpenShift add to Kubernetes?</strong>
+An integrated supported platform: RHCOS, CRI-O, SCCs, Routes, OLM, Pipelines (Tekton), GitOps (Argo CD), Service Mesh, Virtualization, Developer Hub.</p>
+<p><strong>What is an SCC?</strong>
+A Security Context Constraint controlling Pod privileges in OpenShift.</p>
+<h2 id="6-helm-cicd-gitops-and-release-orchestration">6. Helm, CI/CD, GitOps and release orchestration<a class="heading-anchor" href="#6-helm-cicd-gitops-and-release-orchestration" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/cloud-native/delivery/helm-charts/">Helm</a>, <a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD</a>, <a href="/cloud-native/delivery/gitops/">GitOps</a>, <a href="/cloud-native/delivery/release-orchestration/">Release orchestration</a>.</p>
+<p><strong>Chart vs values vs release?</strong>
+Template package; configuration; installed instance with history.</p>
+<p><strong>Name three Helm 4 changes.</strong>
+Server-side apply by default for new releases, WebAssembly plugins, install by digest (also renamed flags, kstatus waiting).</p>
+<p><strong>Continuous delivery vs continuous deployment?</strong>
+Every change releasable vs every passing change released automatically.</p>
+<p><strong>Why build once and promote?</strong>
+The tested artifact is the released artifact.</p>
+<p><strong>Blue-green vs canary?</strong>
+Full switch between two environments vs gradual traffic shift with analysis.</p>
+<p><strong>Name the DORA metrics.</strong>
+Deployment frequency, lead time for changes, change failure rate, failed deployment recovery time.</p>
+<p><strong>What are the OpenGitOps principles?</strong>
+Declarative, versioned and immutable, pulled automatically, continuously reconciled.</p>
+<p><strong>Argo CD vs Flux?</strong>
+Argo CD: UI, ApplicationSets, renders Helm; Flux: controller toolkit, real Helm releases, OCI-native. Both CNCF graduated.</p>
+<p><strong>How do you promote between environments with GitOps?</strong>
+A pull request that updates the target environment&rsquo;s desired state (image digest or chart version).</p>
+<p><strong>What does release orchestration add?</strong>
+Coordination of multi-team, multi-tool releases with gates, approvals, change management and audit evidence.</p>
+<p><strong>What is the difference between Digital.ai Release and Deploy?</strong>
+Release orchestrates the end-to-end process; Deploy performs model-driven deployments, especially to non-Kubernetes targets.</p>
+<h2 id="7-platform-engineering-and-developer-experience">7. Platform engineering and developer experience<a class="heading-anchor" href="#7-platform-engineering-and-developer-experience" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Fundamentals</a>, <a href="/cloud-native/platform-engineering/internal-developer-platforms/">IDPs</a>, <a href="/cloud-native/platform-engineering/developer-experience/">DevEx</a>.</p>
+<p><strong>What is platform engineering?</strong>
+Building internal self-service platforms that reduce cognitive load and embed guardrails.</p>
+<p><strong>What does &ldquo;platform as a product&rdquo; mean?</strong>
+Developers are customers; adoption is earned; outcomes are measured.</p>
+<p><strong>What is a golden path?</strong>
+An opinionated, supported, end-to-end way to do a common task with best practices built in.</p>
+<p><strong>Name the Team Topologies team types.</strong>
+Stream-aligned, platform, enabling, complicated-subsystem.</p>
+<p><strong>IDP vs developer portal?</strong>
+The platform (automation, APIs) vs its user interface.</p>
+<p><strong>Name Backstage&rsquo;s core features.</strong>
+Software catalog, templates, TechDocs, plugins.</p>
+<p><strong>What does Crossplane do?</strong>
+Provides Kubernetes-style APIs and compositions to provision infrastructure from claims.</p>
+<p><strong>Name the CNCF maturity model aspects.</strong>
+Investment, adoption, interfaces, operations, measurement.</p>
+<p><strong>What are the three DevEx dimensions?</strong>
+Feedback loops, cognitive load, flow state.</p>
+<p><strong>Why combine surveys and system metrics?</strong>
+Systems show where time goes; surveys show friction and satisfaction.</p>
+<h2 id="8-sre-observability-resilience-and-finops">8. SRE, observability, resilience and FinOps<a class="heading-anchor" href="#8-sre-observability-resilience-and-finops" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/cloud-native/sre/sre-fundamentals/">SRE</a>, <a href="/cloud-native/sre/observability/">Observability</a>, <a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a>, <a href="/cloud-native/sre/finops/">FinOps</a>.</p>
+<p><strong>SLI vs SLO vs SLA?</strong>
+Measurement; target; contract.</p>
+<p><strong>Downtime allowed by 99.9% per 30 days?</strong>
+About 43 minutes.</p>
+<p><strong>Why burn-rate alerts?</strong>
+They page only when the error budget is threatened, with fewer false alarms.</p>
+<p><strong>What does an incident commander do?</strong>
+Coordinates the response and communication; does not debug.</p>
+<p><strong>What makes a postmortem blameless?</strong>
+Focus on systems and decisions, psychological safety, owned actions.</p>
+<p><strong>Monitoring vs observability?</strong>
+Known checks vs exploring correlated telemetry to answer new questions.</p>
+<p><strong>Name the telemetry signals.</strong>
+Metrics, logs, traces, profiles (and events).</p>
+<p><strong>What does the OTel Collector do?</strong>
+Receives, processes (sample, redact, enrich) and exports telemetry.</p>
+<p><strong>RED vs USE?</strong>
+Rate-errors-duration for services; utilisation-saturation-errors for resources.</p>
+<p><strong>RPO vs RTO?</strong>
+Maximum data loss vs maximum downtime.</p>
+<p><strong>Name four DR strategies.</strong>
+Backup &amp; restore, pilot light, warm standby, active-active.</p>
+<p><strong>What is chaos engineering?</strong>
+Controlled experiments that inject failure to test resilience hypotheses.</p>
+<p><strong>What are the FinOps phases?</strong>
+Inform, Optimize, Operate.</p>
+<p><strong>What is FOCUS?</strong>
+A standard billing data format across providers.</p>
+<p><strong>How is Kubernetes cost allocated?</strong>
+By splitting node and shared costs by Pod requests/usage, using namespaces and labels (OpenCost).</p>
+<p><strong>Name three cost levers.</strong>
+Rightsizing, autoscaling/bin-packing, spot, commitments, non-prod schedules.</p>
+<h2 id="scores-and-next-steps">Scores and next steps<a class="heading-anchor" href="#scores-and-next-steps" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Score</th>
+      <th>Suggestion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>80%+</td>
+      <td>Try the <a href="/cloud-native/self-review/platform-review-checklist/">platform review checklist</a> on a real design</td>
+    </tr>
+    <tr>
+      <td>50–80%</td>
+      <td>Reread the linked articles for the sections you missed</td>
+    </tr>
+    <tr>
+      <td>Below 50%</td>
+      <td>Follow the <a href="/cloud-native/learning-paths/cloud-native-architect/">learning path</a> from the start</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/self-review/platform-review-checklist/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Platform review checklist</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/self-review/quick-reference/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Quick reference</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/self-review/platform-review-checklist/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Platform review checklist</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-kubernetes-architecture">1. Kubernetes architecture</a></li>
+    <li><a href="#2-workloads-scheduling-and-storage">2. Workloads, scheduling and storage</a></li>
+    <li><a href="#3-networking-and-service-mesh">3. Networking and service mesh</a></li>
+    <li><a href="#4-kubernetes-security">4. Kubernetes security</a></li>
+    <li><a href="#5-containers-kubernetes-operations-and-openshift">5. Containers, Kubernetes operations and OpenShift</a></li>
+    <li><a href="#6-helm-cicd-gitops-and-release-orchestration">6. Helm, CI/CD, GitOps and release orchestration</a></li>
+    <li><a href="#7-platform-engineering-and-developer-experience">7. Platform engineering and developer experience</a></li>
+    <li><a href="#8-sre-observability-resilience-and-finops">8. SRE, observability, resilience and FinOps</a></li>
+    <li><a href="#scores-and-next-steps">Scores and next steps</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

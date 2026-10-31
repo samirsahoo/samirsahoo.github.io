@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kubernetes Security: From Supply Chain to Runtime · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="Securing Kubernetes end to end: the 4Cs, authentication and RBAC, service accounts and workload identity, admission control with Pod Security Standards, Kyverno, OPA Gatekeeper and ValidatingAdmissionPolicy, secrets management, supply-chain security with SBOMs, signing and SLSA, runtime detection, multi-tenancy and compliance benchmarks.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/kubernetes/kubernetes-security/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Kubernetes Security: From Supply Chain to Runtime">
+<meta property="og:description" content="Securing Kubernetes end to end: the 4Cs, authentication and RBAC, service accounts and workload identity, admission control with Pod Security Standards, Kyverno, OPA Gatekeeper and ValidatingAdmissionPolicy, secrets management, supply-chain security with SBOMs, signing and SLSA, runtime detection, multi-tenancy and compliance benchmarks.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/kubernetes/kubernetes-security/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kubernetes Security: From Supply Chain to Runtime">
+<meta name="twitter:description" content="Securing Kubernetes end to end: the 4Cs, authentication and RBAC, service accounts and workload identity, admission control with Pod Security Standards, Kyverno, OPA Gatekeeper and ValidatingAdmissionPolicy, secrets management, supply-chain security with SBOMs, signing and SLSA, runtime detection, multi-tenancy and compliance benchmarks.">
+<meta name="keywords" content="kubernetes, security">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Securing Kubernetes end to end: the 4Cs, authentication and RBAC, service accounts and workload identity, admission control with Pod Security Standards, Kyverno, OPA Gatekeeper and ValidatingAdmissionPolicy, secrets management, supply-chain security with SBOMs, signing and SLSA, runtime detection, multi-tenancy and compliance benchmarks.","headline":"Kubernetes Security: From Supply Chain to Runtime","inLanguage":"en","isAccessibleForFree":true,"keywords":"kubernetes, security","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/kubernetes/kubernetes-security/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/kubernetes/","name":"1 · Kubernetes","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/kubernetes/kubernetes-security/","name":"Kubernetes security","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-kubernetes">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/" aria-current="page">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/kubernetes/">1 · Kubernetes</a></li>
+    <li><span aria-current="page">Kubernetes security</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Kubernetes Security: From Supply Chain to Runtime</h1><p class="article__lede" itemprop="description">Securing Kubernetes end to end: the 4Cs, authentication and RBAC, service accounts and workload identity, admission control with Pod Security Standards, Kyverno, OPA Gatekeeper and ValidatingAdmissionPolicy, secrets management, supply-chain security with SBOMs, signing and SLSA, runtime detection, multi-tenancy and compliance benchmarks.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/kubernetes/">#Kubernetes</a><a class="tag" href="/cloud-native/tags/security/">#Security</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#security-checkpoints-on-every-deployment">Security checkpoints on every deployment</a></li>
+    <li><a href="#identity-and-access">Identity and access</a></li>
+    <li><a href="#pod-security">Pod security</a></li>
+    <li><a href="#policy-as-code">Policy as code</a></li>
+    <li><a href="#secrets">Secrets</a></li>
+    <li><a href="#supply-chain-security">Supply-chain security</a></li>
+    <li><a href="#runtime-security">Runtime security</a></li>
+    <li><a href="#multi-tenancy">Multi-tenancy</a></li>
+    <li><a href="#compliance-and-assessment">Compliance and assessment</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Kubernetes security is <strong>defence in depth</strong> across four layers — the <strong>4Cs</strong>: <strong>Cloud</strong> (accounts, networks), <strong>Cluster</strong> (API access, policies), <strong>Container</strong> (images, runtime settings) and <strong>Code</strong> (dependencies, secrets). A weakness in an outer layer undermines everything inside it.</p>
+<figure class="diagram" aria-label="The 4Cs of cloud native security"><figcaption class="diagram__title">The 4Cs of cloud native security</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Cloud[&#34;Cloud / data centre&#34;]
+        subgraph Cluster[&#34;Cluster&#34;]
+            subgraph Container[&#34;Container&#34;]
+                Code[&#34;Code&#34;]
+            end
+        end
+    end</pre>
+</figure>
+<h2 id="security-checkpoints-on-every-deployment">Security checkpoints on every deployment<a class="heading-anchor" href="#security-checkpoints-on-every-deployment" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/k8s-admission.html" title="kubectl apply to running Pod: security checkpoints" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>kubectl apply to running Pod: security checkpoints · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/k8s-admission.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ol>
+<li><strong>Authenticate</strong> — who is calling? (OIDC users, client certificates, service-account tokens)</li>
+<li><strong>Authorise</strong> — may they do this? (<strong>RBAC</strong>)</li>
+<li><strong>Mutating admission</strong> — set safe defaults (labels, security context, image digests).</li>
+<li><strong>Validating admission</strong> — reject unsafe specs (<strong>Pod Security Admission</strong>, <strong>Kyverno</strong>, <strong>OPA Gatekeeper</strong>, <strong>ValidatingAdmissionPolicy</strong> in CEL), verify image signatures.</li>
+<li><strong>Persist</strong> to etcd (encrypted at rest).</li>
+<li><strong>Run</strong> with least privilege; <strong>runtime detection</strong> catches what admission cannot.</li>
+</ol>
+<h2 id="identity-and-access">Identity and access<a class="heading-anchor" href="#identity-and-access" aria-label="Link to this section">#</a></h2>
+<p><strong>RBAC</strong> grants verbs on resources:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Role</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nt">deployer, namespace</span><span class="p">:</span><span class="w"> </span><span class="l">shop }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">rules</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;apps&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;deployments&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;get&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;list&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;watch&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;update&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;patch&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">RoleBinding</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nt">ci-deployer, namespace</span><span class="p">:</span><span class="w"> </span><span class="l">shop }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">subjects</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>{<span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="nt">ServiceAccount, name</span><span class="p">:</span><span class="w"> </span><span class="nt">argocd-app, namespace</span><span class="p">:</span><span class="w"> </span><span class="l">argocd }]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">roleRef</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="nt">Role, name</span><span class="p">:</span><span class="w"> </span><span class="nt">deployer, apiGroup</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io }</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li>Humans authenticate through the corporate IdP (<strong>OIDC</strong>); avoid long-lived kubeconfigs and shared admin accounts.</li>
+<li>Use <strong>Roles</strong> in namespaces; reserve <strong>ClusterRoles</strong> for platform components. Never grant <code>cluster-admin</code> to apps or CI.</li>
+<li><strong>Service accounts</strong> give Pods an identity; tokens are short-lived and audience-bound (projected tokens). Disable automount where not needed.</li>
+<li><strong>Workload identity</strong> (EKS Pod Identity/IRSA, Azure Workload Identity, GKE Workload Identity) maps service accounts to cloud IAM roles — no cloud keys in Secrets.</li>
+</ul>
+<h2 id="pod-security">Pod security<a class="heading-anchor" href="#pod-security" aria-label="Link to this section">#</a></h2>
+<p><strong>Pod Security Standards</strong>, enforced by the built-in <strong>Pod Security Admission</strong> per namespace:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Privileged</strong></td>
+      <td>No restrictions (system components only)</td>
+    </tr>
+    <tr>
+      <td><strong>Baseline</strong></td>
+      <td>Blocks known privilege escalations (host namespaces, privileged containers)</td>
+    </tr>
+    <tr>
+      <td><strong>Restricted</strong></td>
+      <td>Hardened: non-root, drop all capabilities, no privilege escalation, seccomp <code>RuntimeDefault</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Namespace</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">shop</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">pod-security.kubernetes.io/enforce</span><span class="p">:</span><span class="w"> </span><span class="l">restricted</span><span class="w">
+</span></span></span></code></pre></div><p>A restricted container spec:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">securityContext</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">runAsNonRoot</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">allowPrivilegeEscalation</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">readOnlyRootFilesystem</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">capabilities</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">drop</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;ALL&#34;</span><span class="p">]</span><span class="w"> </span>}<span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">seccompProfile</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">RuntimeDefault }</span><span class="w">
+</span></span></span></code></pre></div><p><strong>User namespaces</strong> (GA in 1.36) map root inside a container to an unprivileged user on the host, reducing the impact of container escapes.</p>
+<h2 id="policy-as-code">Policy as code<a class="heading-anchor" href="#policy-as-code" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Engine</th>
+      <th>Language</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>ValidatingAdmissionPolicy</strong></td>
+      <td>CEL, built in</td>
+      <td>No webhook to run; good for simple rules</td>
+    </tr>
+    <tr>
+      <td><strong>Kyverno</strong></td>
+      <td>YAML policies</td>
+      <td>Validate, mutate, generate, verify image signatures; CNCF graduated</td>
+    </tr>
+    <tr>
+      <td><strong>OPA Gatekeeper</strong></td>
+      <td>Rego</td>
+      <td>Very expressive; shared with other OPA use cases</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Typical rules: required labels and owners, no <code>:latest</code> tags, images only from approved registries and <strong>signed</strong>, resource requests required, no privileged Pods, Ingress/Route hostnames restricted per team.</p>
+<h2 id="secrets">Secrets<a class="heading-anchor" href="#secrets" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kubernetes Secrets are only <strong>base64-encoded</strong>. Enable <strong>encryption at rest</strong> for etcd (ideally with a KMS provider) and restrict RBAC on Secrets.</li>
+<li>Prefer an <strong>external secret store</strong> — HashiCorp Vault, AWS Secrets Manager, Azure Key Vault, GCP Secret Manager — synced with the <strong>External Secrets Operator</strong> or mounted with the <strong>Secrets Store CSI driver</strong>.</li>
+<li>Never commit secrets to Git; for GitOps use External Secrets references or encrypted secrets (SOPS, Sealed Secrets).</li>
+<li>Rotate automatically; prefer short-lived dynamic credentials.</li>
+</ul>
+<h2 id="supply-chain-security">Supply-chain security<a class="heading-anchor" href="#supply-chain-security" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Secure software supply chain"><figcaption class="diagram__title">Secure software supply chain</figcaption>
+  <pre class="mermaid">flowchart LR
+    SRC[&#34;Source&lt;br/&gt;signed commits, reviews&#34;] --&gt; BUILD[&#34;Build&lt;br/&gt;hermetic CI, SLSA provenance&#34;]
+    BUILD --&gt; SCAN[&#34;Scan&lt;br/&gt;SCA, SAST, image CVEs&#34;]
+    SCAN --&gt; SBOM[&#34;SBOM&lt;br/&gt;SPDX / CycloneDX&#34;]
+    SBOM --&gt; SIGN[&#34;Sign&lt;br/&gt;cosign / Sigstore&#34;]
+    SIGN --&gt; REG[(&#34;Registry&lt;br/&gt;image + attestations&#34;)]
+    REG --&gt; ADM{&#34;Admission&lt;br/&gt;verify signature,&lt;br/&gt;provenance, policy&#34;}
+    ADM --&gt;|&#34;pass&#34;| RUN[&#34;Run&#34;]
+    ADM --&gt;|&#34;fail&#34;| BLOCK[&#34;Block&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Minimal base images</strong> (distroless, Chainguard, Docker Hardened Images, UBI micro) reduce CVEs.</li>
+<li><strong>SBOMs</strong> list every component; <strong>SLSA</strong> provenance proves how an artifact was built; <strong>cosign</strong> signs images and attestations; admission policies <strong>verify</strong> them.</li>
+<li>Deploy by <strong>digest</strong>, not tag.</li>
+</ul>
+<h2 id="runtime-security">Runtime security<a class="heading-anchor" href="#runtime-security" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Falco</strong> or Tetragon (eBPF) detect suspicious behaviour: shells in containers, unexpected network connections, writes to sensitive paths.</li>
+<li>Restrict egress with NetworkPolicies; audit-log the API server and ship logs to the SIEM.</li>
+<li><strong>Node hardening:</strong> minimal, immutable OS images (Bottlerocket, Talos, Flatcar, RHCOS); auto-patching; no SSH.</li>
+</ul>
+<h2 id="multi-tenancy">Multi-tenancy<a class="heading-anchor" href="#multi-tenancy" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Isolation</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Namespace per team + RBAC + quotas + policies + NetworkPolicies</td>
+      <td>Soft</td>
+      <td>Trusted internal teams</td>
+    </tr>
+    <tr>
+      <td>Virtual clusters (vCluster)</td>
+      <td>Medium</td>
+      <td>Teams needing their own API/CRDs</td>
+    </tr>
+    <tr>
+      <td>Dedicated node pools / sandboxed runtimes (gVisor, Kata)</td>
+      <td>Stronger</td>
+      <td>Untrusted or sensitive workloads</td>
+    </tr>
+    <tr>
+      <td>Separate clusters</td>
+      <td>Hard</td>
+      <td>Regulatory boundaries, very different trust levels</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="compliance-and-assessment">Compliance and assessment<a class="heading-anchor" href="#compliance-and-assessment" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>CIS Kubernetes Benchmark</strong> (kube-bench), <strong>NSA/CISA Kubernetes Hardening Guide</strong>, <strong>NIST SP 800-190</strong> (container security).</li>
+<li>Continuous scanning of clusters and manifests (Trivy, Kubescape); policy reports from Kyverno/Gatekeeper.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">cluster-admin for CI pipelines</span></p>
+  <div class="callout__body"><p>A compromised pipeline owns the cluster. Use GitOps (the cluster pulls) and least-privilege service accounts.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Secrets in Git or plain environment variables everywhere</span></p>
+  <div class="callout__body"><p>Use external secret stores, encryption at rest and short-lived credentials.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Policies in audit mode forever</span></p>
+  <div class="callout__body"><p>Start in audit, fix violations, then enforce — with exceptions tracked and time-boxed.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What are the 4Cs?</strong>
+Cloud, Cluster, Container, Code — layers of defence where each depends on the outer ones.</p>
+<p><strong>What is the difference between authentication, authorisation and admission?</strong>
+Authentication establishes identity; authorisation (RBAC) checks permission for the verb and resource; admission validates or mutates the object itself against policy.</p>
+<p><strong>What does the <code>restricted</code> Pod Security Standard enforce?</strong>
+Non-root, no privilege escalation, all capabilities dropped, seccomp RuntimeDefault, no host namespaces or privileged containers.</p>
+<p><strong>Why are Kubernetes Secrets not secure by default?</strong>
+They are only base64-encoded; you need etcd encryption at rest, tight RBAC and preferably an external secret store.</p>
+<p><strong>How do you ensure only trusted images run?</strong>
+Build with provenance, sign images with cosign, generate SBOMs, push by digest, and verify signatures and policies at admission (Kyverno/Gatekeeper).</p>
+<p><strong>What does runtime security add?</strong>
+Detection of malicious behaviour after admission — such as shells, unexpected connections or file changes — using eBPF tools like Falco or Tetragon.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Defend all 4Cs; every request passes authentication, RBAC and admission.</li>
+<li>Enforce Pod Security Standards (restricted) and policy as code (Kyverno, Gatekeeper, CEL).</li>
+<li>Keep secrets in external stores; encrypt etcd; use workload identity.</li>
+<li>Secure the supply chain: minimal images, SBOM, provenance, signatures, verification at admission.</li>
+<li>Detect at runtime; choose multi-tenancy isolation to match trust.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kubernetes documentation, <a href="https://kubernetes.io/docs/concepts/security/" rel="noopener">Security</a> and <a href="https://kubernetes.io/docs/concepts/security/pod-security-standards/" rel="noopener">Pod Security Standards</a>.</li>
+<li><a href="https://kyverno.io/" rel="noopener">Kyverno</a>, <a href="https://open-policy-agent.github.io/gatekeeper/" rel="noopener">OPA Gatekeeper</a>, <a href="https://falco.org/" rel="noopener">Falco</a>.</li>
+<li><a href="https://www.sigstore.dev/" rel="noopener">Sigstore</a>, <a href="https://slsa.dev/" rel="noopener">SLSA</a>.</li>
+<li>NSA/CISA, <a href="https://media.defense.gov/2022/Aug/29/2003066362/-1/-1/0/CTR_KUBERNETES_HARDENING_GUIDANCE_1.2_20220829.PDF" rel="noopener">Kubernetes Hardening Guide</a>.</li>
+<li>CIS, <a href="https://www.cisecurity.org/benchmark/kubernetes" rel="noopener">Kubernetes Benchmark</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/kubernetes-networking/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Kubernetes networking</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/containers-and-docker/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Containers &amp; Docker</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/ci-cd-pipelines/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">CI/CD &amp; progressive delivery</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/service-mesh/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Service mesh</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/helm-charts/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Helm charts</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/kubernetes/service-mesh/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Service mesh</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#security-checkpoints-on-every-deployment">Security checkpoints on every deployment</a></li>
+    <li><a href="#identity-and-access">Identity and access</a></li>
+    <li><a href="#pod-security">Pod security</a></li>
+    <li><a href="#policy-as-code">Policy as code</a></li>
+    <li><a href="#secrets">Secrets</a></li>
+    <li><a href="#supply-chain-security">Supply-chain security</a></li>
+    <li><a href="#runtime-security">Runtime security</a></li>
+    <li><a href="#multi-tenancy">Multi-tenancy</a></li>
+    <li><a href="#compliance-and-assessment">Compliance and assessment</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

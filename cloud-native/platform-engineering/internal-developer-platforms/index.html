@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internal Developer Platforms: Architecture and Tools · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="IDP reference architecture planes (developer control plane, integration and delivery, resources, observability, security), the developer portal with Backstage (catalog, software templates, TechDocs, scorecards), platform orchestrators and infrastructure APIs (Crossplane, kro, Terraform), golden-path flows, build vs buy, and CNOE reference stacks.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/platform-engineering/internal-developer-platforms/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Internal Developer Platforms: Architecture and Tools">
+<meta property="og:description" content="IDP reference architecture planes (developer control plane, integration and delivery, resources, observability, security), the developer portal with Backstage (catalog, software templates, TechDocs, scorecards), platform orchestrators and infrastructure APIs (Crossplane, kro, Terraform), golden-path flows, build vs buy, and CNOE reference stacks.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/platform-engineering/internal-developer-platforms/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Internal Developer Platforms: Architecture and Tools">
+<meta name="twitter:description" content="IDP reference architecture planes (developer control plane, integration and delivery, resources, observability, security), the developer portal with Backstage (catalog, software templates, TechDocs, scorecards), platform orchestrators and infrastructure APIs (Crossplane, kro, Terraform), golden-path flows, build vs buy, and CNOE reference stacks.">
+<meta name="keywords" content="platform-engineering, idp, backstage">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"IDP reference architecture planes (developer control plane, integration and delivery, resources, observability, security), the developer portal with Backstage (catalog, software templates, TechDocs, scorecards), platform orchestrators and infrastructure APIs (Crossplane, kro, Terraform), golden-path flows, build vs buy, and CNOE reference stacks.","headline":"Internal Developer Platforms: Architecture and Tools","inLanguage":"en","isAccessibleForFree":true,"keywords":"platform-engineering, idp, backstage","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/platform-engineering/internal-developer-platforms/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/platform-engineering/","name":"3 · Platform Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/platform-engineering/internal-developer-platforms/","name":"Internal developer platforms","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-platform-engineering">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/" aria-current="page">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a></li>
+    <li><span aria-current="page">Internal developer platforms</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Internal Developer Platforms: Architecture and Tools</h1><p class="article__lede" itemprop="description">IDP reference architecture planes (developer control plane, integration and delivery, resources, observability, security), the developer portal with Backstage (catalog, software templates, TechDocs, scorecards), platform orchestrators and infrastructure APIs (Crossplane, kro, Terraform), golden-path flows, build vs buy, and CNOE reference stacks.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/platform-engineering/">#Platform-Engineering</a><a class="tag" href="/cloud-native/tags/idp/">#Idp</a><a class="tag" href="/cloud-native/tags/backstage/">#Backstage</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#reference-architecture">Reference architecture</a></li>
+    <li><a href="#the-developer-portal-backstage">The developer portal: Backstage</a></li>
+    <li><a href="#infrastructure-as-apis">Infrastructure as APIs</a></li>
+    <li><a href="#golden-path-in-action">Golden path in action</a></li>
+    <li><a href="#reference-stacks">Reference stacks</a></li>
+    <li><a href="#build-buy-or-assemble">Build, buy or assemble?</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>An <strong>internal developer platform (IDP)</strong> is the sum of tools, APIs, templates and automation that a platform team integrates into self-service golden paths. A <strong>developer portal</strong> (such as Backstage) is the <em>front door</em> to the IDP — but the portal is not the platform; the automation behind it is.</p>
+<h2 id="reference-architecture">Reference architecture<a class="heading-anchor" href="#reference-architecture" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/idp-reference.html" title="Internal developer platform reference architecture" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>Internal developer platform reference architecture · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/idp-reference.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Plane</th>
+      <th>Purpose</th>
+      <th>Typical tools</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Developer control plane</strong></td>
+      <td>Where developers interact: portal, CLI, IDE, templates, docs</td>
+      <td>Backstage / Red Hat Developer Hub, Port, Cortex; IDE plug-ins</td>
+    </tr>
+    <tr>
+      <td><strong>Integration &amp; delivery</strong></td>
+      <td>Build, store and deliver artifacts</td>
+      <td>GitHub Actions, GitLab, Tekton; OCI registries; Argo CD, Flux; Argo Rollouts</td>
+    </tr>
+    <tr>
+      <td><strong>Resource plane</strong></td>
+      <td>Run workloads and provision infrastructure</td>
+      <td>Kubernetes, cloud services; <strong>Crossplane</strong>, <strong>kro</strong>, Terraform/OpenTofu modules; platform orchestrators</td>
+    </tr>
+    <tr>
+      <td><strong>Observability plane</strong></td>
+      <td>Telemetry and SLOs</td>
+      <td>OpenTelemetry, Prometheus, Grafana, tracing backends</td>
+    </tr>
+    <tr>
+      <td><strong>Security plane</strong></td>
+      <td>Identity, secrets, policy, supply chain</td>
+      <td>Vault, External Secrets, Kyverno/OPA, Sigstore, scanners</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="the-developer-portal-backstage">The developer portal: Backstage<a class="heading-anchor" href="#the-developer-portal-backstage" aria-label="Link to this section">#</a></h2>
+<p><strong>Backstage</strong>, created at Spotify and now a CNCF project, is the most widely used portal framework.</p>
+<figure class="diagram" aria-label="Backstage building blocks"><figcaption class="diagram__title">Backstage building blocks</figcaption>
+  <pre class="mermaid">flowchart LR
+    CAT[&#34;Software Catalog&lt;br/&gt;services, APIs, teams, resources&lt;br/&gt;from catalog-info.yaml&#34;] --&gt; P[&#34;Portal&#34;]
+    TPL[&#34;Software Templates&lt;br/&gt;scaffolder: new service, new DB&#34;] --&gt; P
+    DOC[&#34;TechDocs&lt;br/&gt;docs-as-code&#34;] --&gt; P
+    SC[&#34;Scorecards / tech insights&lt;br/&gt;standards, maturity&#34;] --&gt; P
+    PLUG[&#34;Plugins&lt;br/&gt;Kubernetes, Argo CD, CI, cost, PagerDuty&#34;] --&gt; P</pre>
+</figure>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># catalog-info.yaml in every repository</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">backstage.io/v1alpha1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Component</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l">Order management service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">argocd/app-name</span><span class="p">:</span><span class="w"> </span><span class="l">orders-prod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">backstage.io/techdocs-ref</span><span class="p">:</span><span class="w"> </span><span class="l">dir:.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">lifecycle</span><span class="p">:</span><span class="w"> </span><span class="l">production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l">team-shop</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">system</span><span class="p">:</span><span class="w"> </span><span class="l">checkout</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">providesApis</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">orders-api]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">dependsOn</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">resource:orders-db]</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><strong>Software catalog</strong> — ownership, dependencies and metadata for every service, API and resource: the backbone for incident response, security and cost.</li>
+<li><strong>Software templates</strong> — golden paths that create repos, CI, manifests and catalog entries.</li>
+<li><strong>TechDocs</strong> — Markdown docs next to code, rendered in the portal.</li>
+<li><strong>Plugins</strong> — show Kubernetes status, Argo CD sync, pipelines, alerts and cost per service.</li>
+<li>Options: self-host Backstage (needs a team to maintain), <strong>Red Hat Developer Hub</strong> (supported Backstage), managed Backstage (Roadie), or alternative portals (Port, Cortex, OpsLevel).</li>
+</ul>
+<h2 id="infrastructure-as-apis">Infrastructure as APIs<a class="heading-anchor" href="#infrastructure-as-apis" aria-label="Link to this section">#</a></h2>
+<p>Developers should request <strong>capabilities</strong> (&ldquo;a Postgres database for orders, prod size&rdquo;) rather than raw cloud resources.</p>
+<figure class="diagram" aria-label="Composition: a claim becomes real infrastructure"><figcaption class="diagram__title">Composition: a claim becomes real infrastructure</figcaption>
+  <pre class="mermaid">flowchart LR
+    CLAIM[&#34;Claim (team namespace)&lt;br/&gt;kind: Database&lt;br/&gt;size: medium, engine: postgres&#34;] --&gt; XRD[&#34;Platform API&lt;br/&gt;Crossplane XRD / kro ResourceGraph&#34;]
+    XRD --&gt; COMP[&#34;Composition&lt;br/&gt;platform team&#39;s recipe&#34;]
+    COMP --&gt; R1[&#34;Cloud SQL / RDS instance&lt;br/&gt;encrypted, backups, private network&#34;]
+    COMP --&gt; R2[&#34;Secret via External Secrets&#34;]
+    COMP --&gt; R3[&#34;Monitoring + alerts&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Approach</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Crossplane</strong></td>
+      <td>Kubernetes control plane for infrastructure; Composite Resource Definitions + Compositions; providers for every cloud</td>
+    </tr>
+    <tr>
+      <td><strong>kro</strong> (Kube Resource Orchestrator)</td>
+      <td>Define custom APIs that group Kubernetes resources (including cloud controller resources) into a graph</td>
+    </tr>
+    <tr>
+      <td><strong>Terraform / OpenTofu</strong> modules</td>
+      <td>Mature IaC; exposed via templates, pipelines or operators</td>
+    </tr>
+    <tr>
+      <td><strong>Platform orchestrators</strong> (for example Humanitec)</td>
+      <td>Generate environment-specific config from a workload spec (Score) and rules</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="golden-path-in-action">Golden path in action<a class="heading-anchor" href="#golden-path-in-action" aria-label="Link to this section">#</a></h2>
+<p>The <a href="/cloud-native/platform-engineering/case-study-developer-platform/">developer platform case study</a> shows the full flow: a developer picks a template, the platform creates the repository and pipeline, provisions a namespace and database through claims, and Argo CD deploys the first version — in minutes, without tickets.</p>
+<h2 id="reference-stacks">Reference stacks<a class="heading-anchor" href="#reference-stacks" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>CNOE</strong> (Cloud Native Operational Excellence) — an industry initiative publishing open-source reference implementations (Backstage + Argo CD + Crossplane + Argo Workflows + Keycloak and more).</li>
+<li><strong>Cloud provider platforms</strong> — opinionated combinations on EKS, AKS, GKE.</li>
+<li><strong>OpenShift</strong> — integrated delivery, GitOps and Developer Hub (<a href="/cloud-native/delivery/openshift/">OpenShift</a>).</li>
+</ul>
+<h2 id="build-buy-or-assemble">Build, buy or assemble?<a class="heading-anchor" href="#build-buy-or-assemble" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Pros</th>
+      <th>Cons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Assemble open source (Backstage, Argo CD, Crossplane)</td>
+      <td>Flexible, no licence</td>
+      <td>Needs a strong platform team</td>
+    </tr>
+    <tr>
+      <td>Commercial portals / orchestrators</td>
+      <td>Faster value, support</td>
+      <td>Cost, vendor fit</td>
+    </tr>
+    <tr>
+      <td>Integrated platform (OpenShift + Developer Hub)</td>
+      <td>One vendor, integrated</td>
+      <td>Less choice, licence</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Most enterprises assemble around a few strategic open-source components and buy where differentiation is low.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Portal first, platform later</span></p>
+  <div class="callout__body"><p>A beautiful catalog with no automation behind it is a documentation site. Build the golden paths and APIs; the portal surfaces them.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Exposing raw cloud resources</span></p>
+  <div class="callout__body"><p>Developers then need cloud expertise again. Expose capabilities with sensible defaults and policies.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">An incomplete catalog</span></p>
+  <div class="callout__body"><p>If ownership data is missing, incident response and cost allocation fail. Make catalog registration part of every template.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is the difference between an IDP and a developer portal?</strong>
+The IDP is the platform — tools, APIs, automation and golden paths; the portal is its user interface.</p>
+<p><strong>Name the five planes of an IDP reference architecture.</strong>
+Developer control plane, integration and delivery, resource, observability and security planes.</p>
+<p><strong>What are Backstage&rsquo;s core features?</strong>
+Software catalog, software templates (scaffolder), TechDocs and a plugin ecosystem (plus scorecards via plugins).</p>
+<p><strong>What does Crossplane do?</strong>
+Turns Kubernetes into a control plane for infrastructure: platform teams define composite APIs and compositions; developers create claims that provision cloud resources.</p>
+<p><strong>Why expose capabilities instead of raw resources?</strong>
+To hide complexity, apply secure defaults and policies, and reduce developer cognitive load.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>An IDP integrates delivery, infrastructure, security and observability into golden paths; the portal is its face.</li>
+<li>Backstage provides catalog, templates, docs and plugins.</li>
+<li>Crossplane, kro and IaC modules turn infrastructure into self-service APIs.</li>
+<li>Assemble strategically; keep the catalog complete; build automation before UI.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://backstage.io/" rel="noopener">Backstage</a> and <a href="https://developers.redhat.com/rhdh" rel="noopener">Red Hat Developer Hub</a>.</li>
+<li><a href="https://www.crossplane.io/" rel="noopener">Crossplane</a>, <a href="https://kro.run/" rel="noopener">kro</a>.</li>
+<li><a href="https://cnoe.io/" rel="noopener">CNOE</a>.</li>
+<li><a href="https://internaldeveloperplatform.org/" rel="noopener">internaldeveloperplatform.org</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/gitops/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">GitOps</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/case-study-developer-platform/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Case study: developer platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/developer-experience/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Developer experience</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Platform engineering</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/openshift/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">OpenShift</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/platform-engineering/platform-engineering-fundamentals/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Platform engineering</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/platform-engineering/developer-experience/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Developer experience</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#reference-architecture">Reference architecture</a></li>
+    <li><a href="#the-developer-portal-backstage">The developer portal: Backstage</a></li>
+    <li><a href="#infrastructure-as-apis">Infrastructure as APIs</a></li>
+    <li><a href="#golden-path-in-action">Golden path in action</a></li>
+    <li><a href="#reference-stacks">Reference stacks</a></li>
+    <li><a href="#build-buy-or-assemble">Build, buy or assemble?</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

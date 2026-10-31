@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SRE Fundamentals: SLOs, Error Budgets and Incident Management · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="Site reliability engineering explained: SLIs, SLOs and SLAs, choosing good SLIs, error budgets and burn-rate alerting, toil and automation, on-call, incident management roles and lifecycle, blameless postmortems, and SRE in a platform organisation.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/sre/sre-fundamentals/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="SRE Fundamentals: SLOs, Error Budgets and Incident Management">
+<meta property="og:description" content="Site reliability engineering explained: SLIs, SLOs and SLAs, choosing good SLIs, error budgets and burn-rate alerting, toil and automation, on-call, incident management roles and lifecycle, blameless postmortems, and SRE in a platform organisation.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/sre/sre-fundamentals/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SRE Fundamentals: SLOs, Error Budgets and Incident Management">
+<meta name="twitter:description" content="Site reliability engineering explained: SLIs, SLOs and SLAs, choosing good SLIs, error budgets and burn-rate alerting, toil and automation, on-call, incident management roles and lifecycle, blameless postmortems, and SRE in a platform organisation.">
+<meta name="keywords" content="sre, reliability">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Site reliability engineering explained: SLIs, SLOs and SLAs, choosing good SLIs, error budgets and burn-rate alerting, toil and automation, on-call, incident management roles and lifecycle, blameless postmortems, and SRE in a platform organisation.","headline":"SRE Fundamentals: SLOs, Error Budgets and Incident Management","inLanguage":"en","isAccessibleForFree":true,"keywords":"sre, reliability","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/sre/sre-fundamentals/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/sre/","name":"4 · SRE \u0026 FinOps","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/sre/sre-fundamentals/","name":"SRE fundamentals","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-sre">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/" aria-current="page">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a></li>
+    <li><span aria-current="page">SRE fundamentals</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">SRE Fundamentals: SLOs, Error Budgets and Incident Management</h1><p class="article__lede" itemprop="description">Site reliability engineering explained: SLIs, SLOs and SLAs, choosing good SLIs, error budgets and burn-rate alerting, toil and automation, on-call, incident management roles and lifecycle, blameless postmortems, and SRE in a platform organisation.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/sre/">#Sre</a><a class="tag" href="/cloud-native/tags/reliability/">#Reliability</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#sli-slo-sla">SLI, SLO, SLA</a>
+      <ul>
+        <li><a href="#good-slis">Good SLIs</a></li>
+      </ul>
+    </li>
+    <li><a href="#error-budgets">Error budgets</a>
+      <ul>
+        <li><a href="#burn-rate-alerting">Burn-rate alerting</a></li>
+      </ul>
+    </li>
+    <li><a href="#toil-and-automation">Toil and automation</a></li>
+    <li><a href="#incident-management">Incident management</a>
+      <ul>
+        <li><a href="#roles">Roles</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#blameless-postmortems">Blameless postmortems</a></li>
+      </ul>
+    </li>
+    <li><a href="#on-call-that-is-sustainable">On-call that is sustainable</a></li>
+    <li><a href="#sre-in-a-platform-organisation">SRE in a platform organisation</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Site reliability engineering (SRE)</strong> applies software engineering to operations. Its central idea: decide <strong>how reliable a service needs to be</strong> (a Service Level Objective), measure it, and use the gap between 100% and the objective — the <strong>error budget</strong> — to balance reliability work against feature delivery.</p>
+<h2 id="sli-slo-sla">SLI, SLO, SLA<a class="heading-anchor" href="#sli-slo-sla" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>Meaning</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>SLI</strong> — indicator</td>
+      <td>A measurement of user-visible behaviour</td>
+      <td>% of <code>/checkout</code> requests that succeed within 300 ms</td>
+    </tr>
+    <tr>
+      <td><strong>SLO</strong> — objective</td>
+      <td>Target for an SLI over a window</td>
+      <td>99.9% over 28 days</td>
+    </tr>
+    <tr>
+      <td><strong>SLA</strong> — agreement</td>
+      <td>A contract with consequences</td>
+      <td>99.5% monthly, or service credits</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Set SLOs <strong>stricter than SLAs</strong> so you act before breaching contracts. Not every service needs an SLA; every important service needs SLOs.</p>
+<h3 id="good-slis">Good SLIs<a class="heading-anchor" href="#good-slis" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Service type</th>
+      <th>SLIs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Request/response (APIs, web)</td>
+      <td>Availability (good / valid requests), latency (requests faster than threshold)</td>
+    </tr>
+    <tr>
+      <td>Data pipelines</td>
+      <td>Freshness, completeness, correctness</td>
+    </tr>
+    <tr>
+      <td>Storage</td>
+      <td>Durability, availability of reads/writes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Measure as close to the user as possible (load balancer or gateway, synthetic checks, real-user monitoring), as a ratio of <strong>good events / valid events</strong>.</p>
+<h2 id="error-budgets">Error budgets<a class="heading-anchor" href="#error-budgets" aria-label="Link to this section">#</a></h2>
+<p><strong>Error budget = 1 − SLO.</strong> A 99.9% SLO over 30 days allows about <strong>43 minutes</strong> of full unavailability (or the equivalent in failed requests).</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>SLO</th>
+      <th>Allowed downtime per 30 days</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>99%</td>
+      <td>~7.2 hours</td>
+    </tr>
+    <tr>
+      <td>99.5%</td>
+      <td>~3.6 hours</td>
+    </tr>
+    <tr>
+      <td>99.9%</td>
+      <td>~43 minutes</td>
+    </tr>
+    <tr>
+      <td>99.95%</td>
+      <td>~22 minutes</td>
+    </tr>
+    <tr>
+      <td>99.99%</td>
+      <td>~4.3 minutes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Error budget policy</strong> (agreed with product owners): while budget remains, ship features; when it is exhausted, prioritise reliability work and slow risky releases.</p>
+<h3 id="burn-rate-alerting">Burn-rate alerting<a class="heading-anchor" href="#burn-rate-alerting" aria-label="Link to this section">#</a></h3>
+<p>Alert when the budget is being consumed too fast, not on every error spike:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Alert</th>
+      <th>Condition (for a 99.9% SLO)</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Page (fast burn)</td>
+      <td>Burn rate ≥ 14.4 over 1 h <strong>and</strong> 5 min</td>
+      <td>2% of the monthly budget gone in an hour</td>
+    </tr>
+    <tr>
+      <td>Page (medium)</td>
+      <td>Burn rate ≥ 6 over 6 h and 30 min</td>
+      <td>5% in six hours</td>
+    </tr>
+    <tr>
+      <td>Ticket (slow burn)</td>
+      <td>Burn rate ≥ 1 over 3 days</td>
+      <td>On track to exhaust the budget</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Multi-window conditions reduce false alarms and still detect fast incidents. Tools such as Sloth, Pyrra or OpenSLO definitions generate these rules for Prometheus.</p>
+<h2 id="toil-and-automation">Toil and automation<a class="heading-anchor" href="#toil-and-automation" aria-label="Link to this section">#</a></h2>
+<p><strong>Toil</strong> is manual, repetitive, automatable work that scales with load and has no lasting value (restarting pods, manual certificate renewals, provisioning by ticket). SRE teams cap toil (Google&rsquo;s guideline: under 50% of time) and automate it away — often by building it into the platform.</p>
+<h2 id="incident-management">Incident management<a class="heading-anchor" href="#incident-management" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/incident-lifecycle.html" title="Incident lifecycle" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>Incident lifecycle · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/incident-lifecycle.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h3 id="roles">Roles<a class="heading-anchor" href="#roles" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Responsibility</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Incident commander</strong></td>
+      <td>Owns coordination and decisions; does not debug</td>
+    </tr>
+    <tr>
+      <td><strong>Operations / technical lead</strong></td>
+      <td>Investigates and mitigates</td>
+    </tr>
+    <tr>
+      <td><strong>Communications lead</strong></td>
+      <td>Status page, stakeholders, executives</td>
+    </tr>
+    <tr>
+      <td><strong>Scribe</strong></td>
+      <td>Timeline of events and decisions</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="principles">Principles<a class="heading-anchor" href="#principles" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>Mitigate first</strong> (roll back, fail over, scale, disable a feature flag), find root cause later.</li>
+<li>Declare incidents early; it is cheap to downgrade.</li>
+<li>Use <strong>severity levels</strong> with clear criteria (user impact, revenue, data, security).</li>
+<li>Communicate on a cadence, even when there is no news.</li>
+</ul>
+<h3 id="blameless-postmortems">Blameless postmortems<a class="heading-anchor" href="#blameless-postmortems" aria-label="Link to this section">#</a></h3>
+<p>A postmortem records impact, timeline, contributing factors, what went well, and <strong>owned, prioritised actions</strong>. &ldquo;Blameless&rdquo; means focusing on systems and decisions given the information available — people should feel safe to share details, or you will never learn the real causes.</p>
+<h2 id="on-call-that-is-sustainable">On-call that is sustainable<a class="heading-anchor" href="#on-call-that-is-sustainable" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Alerts must be <strong>actionable</strong> and tied to SLOs; delete noisy alerts.</li>
+<li>Runbooks linked from every alert.</li>
+<li>Rotations of 5–8 people; follow-the-sun where possible; compensation and recovery time.</li>
+<li>Track pages per shift; &gt; 2 incidents per shift is a reliability signal, not a staffing one.</li>
+</ul>
+<h2 id="sre-in-a-platform-organisation">SRE in a platform organisation<a class="heading-anchor" href="#sre-in-a-platform-organisation" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="SRE engagement models"><figcaption class="diagram__title">SRE engagement models</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Embedded SRE&lt;br/&gt;in product teams&#34;] --- B[&#34;Platform SRE&lt;br/&gt;reliability of the platform itself&#34;]
+    B --- C[&#34;Consulting / enabling SRE&lt;br/&gt;SLO workshops, reviews&#34;]</pre>
+</figure>
+<p>Platform teams bake SRE practices into golden paths: default SLOs and dashboards per service template, burn-rate alerts, runbook templates and incident tooling.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">100% as the target</span></p>
+  <div class="callout__body"><p>Unachievable and paralysing: every change becomes risky. Users cannot tell 99.99% from 100% through their own networks.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Alerting on causes (CPU 80%)</span></p>
+  <div class="callout__body"><p>Page on symptoms users feel (SLO burn); use causes for dashboards and diagnosis.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Postmortems without follow-through</span></p>
+  <div class="callout__body"><p>Actions without owners or deadlines repeat the incident. Track them like product work.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is the difference between an SLI, an SLO and an SLA?</strong>
+An SLI measures user-visible behaviour; an SLO is the target for it; an SLA is a contractual commitment with consequences, set looser than the SLO.</p>
+<p><strong>How much downtime does a 99.9% SLO allow per 30 days?</strong>
+About 43 minutes.</p>
+<p><strong>What is an error budget policy?</strong>
+An agreement on what happens as budget is consumed — ship freely while budget remains; prioritise reliability and slow risky changes when it is exhausted.</p>
+<p><strong>Why alert on burn rate instead of error rate?</strong>
+Burn rate relates errors to the SLO, alerting only when the budget is threatened; multi-window conditions catch fast and slow burns with fewer false alarms.</p>
+<p><strong>What does the incident commander do?</strong>
+Coordinates the response, assigns roles, makes decisions and manages communication — without doing the hands-on debugging.</p>
+<p><strong>What is toil?</strong>
+Manual, repetitive, automatable work that scales with load and has no lasting value.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Define SLIs close to users; set SLOs; derive error budgets and policies.</li>
+<li>Alert on multi-window burn rates; keep alerts actionable.</li>
+<li>Run incidents with clear roles; mitigate first; blameless postmortems with owned actions.</li>
+<li>Eliminate toil; build SRE defaults into the platform.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Beyer et al., <a href="https://sre.google/sre-book/table-of-contents/" rel="noopener">Site Reliability Engineering</a>, O&rsquo;Reilly, 2016, and <a href="https://sre.google/workbook/table-of-contents/" rel="noopener">The SRE Workbook</a>, 2018 (chapter &ldquo;Alerting on SLOs&rdquo;).</li>
+<li><a href="https://openslo.com/" rel="noopener">OpenSLO</a>.</li>
+<li>PagerDuty, <a href="https://response.pagerduty.com/" rel="noopener">Incident Response documentation</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/observability/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">Observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/resilience-and-dr/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">Resilience &amp; DR</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/finops/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">FinOps</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/case-study-multi-region-platform/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">Case study: multi-region platform</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/sre/observability/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Observability</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#sli-slo-sla">SLI, SLO, SLA</a>
+      <ul>
+        <li><a href="#good-slis">Good SLIs</a></li>
+      </ul>
+    </li>
+    <li><a href="#error-budgets">Error budgets</a>
+      <ul>
+        <li><a href="#burn-rate-alerting">Burn-rate alerting</a></li>
+      </ul>
+    </li>
+    <li><a href="#toil-and-automation">Toil and automation</a></li>
+    <li><a href="#incident-management">Incident management</a>
+      <ul>
+        <li><a href="#roles">Roles</a></li>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#blameless-postmortems">Blameless postmortems</a></li>
+      </ul>
+    </li>
+    <li><a href="#on-call-that-is-sustainable">On-call that is sustainable</a></li>
+    <li><a href="#sre-in-a-platform-organisation">SRE in a platform organisation</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kubernetes Architecture: Control Plane, Nodes and Reconciliation · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="How a Kubernetes cluster works inside — API server, etcd, scheduler, controllers, cloud controller, kubelet, container runtime and kube-proxy — the declarative model and reconciliation loops, what happens on kubectl apply, high availability, managed Kubernetes and versioning.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/kubernetes/kubernetes-architecture/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Kubernetes Architecture: Control Plane, Nodes and Reconciliation">
+<meta property="og:description" content="How a Kubernetes cluster works inside — API server, etcd, scheduler, controllers, cloud controller, kubelet, container runtime and kube-proxy — the declarative model and reconciliation loops, what happens on kubectl apply, high availability, managed Kubernetes and versioning.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/kubernetes/kubernetes-architecture/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kubernetes Architecture: Control Plane, Nodes and Reconciliation">
+<meta name="twitter:description" content="How a Kubernetes cluster works inside — API server, etcd, scheduler, controllers, cloud controller, kubelet, container runtime and kube-proxy — the declarative model and reconciliation loops, what happens on kubectl apply, high availability, managed Kubernetes and versioning.">
+<meta name="keywords" content="kubernetes, architecture">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"How a Kubernetes cluster works inside — API server, etcd, scheduler, controllers, cloud controller, kubelet, container runtime and kube-proxy — the declarative model and reconciliation loops, what happens on kubectl apply, high availability, managed Kubernetes and versioning.","headline":"Kubernetes Architecture: Control Plane, Nodes and Reconciliation","inLanguage":"en","isAccessibleForFree":true,"keywords":"kubernetes, architecture","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/kubernetes/kubernetes-architecture/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/kubernetes/","name":"1 · Kubernetes","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/kubernetes/kubernetes-architecture/","name":"Kubernetes architecture","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-kubernetes">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/" aria-current="page">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/kubernetes/">1 · Kubernetes</a></li>
+    <li><span aria-current="page">Kubernetes architecture</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Kubernetes Architecture: Control Plane, Nodes and Reconciliation</h1><p class="article__lede" itemprop="description">How a Kubernetes cluster works inside — API server, etcd, scheduler, controllers, cloud controller, kubelet, container runtime and kube-proxy — the declarative model and reconciliation loops, what happens on kubectl apply, high availability, managed Kubernetes and versioning.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/kubernetes/">#Kubernetes</a><a class="tag" href="/cloud-native/tags/architecture/">#Architecture</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-it-solves">The problem it solves</a></li>
+    <li><a href="#the-core-idea-declarative-state-and-reconciliation">The core idea: declarative state and reconciliation</a></li>
+    <li><a href="#cluster-architecture">Cluster architecture</a>
+      <ul>
+        <li><a href="#control-plane">Control plane</a></li>
+        <li><a href="#worker-nodes">Worker nodes</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-happens-on-kubectl-apply">What happens on <code>kubectl apply</code></a></li>
+    <li><a href="#extending-kubernetes">Extending Kubernetes</a></li>
+    <li><a href="#high-availability">High availability</a></li>
+    <li><a href="#versions-and-upgrades">Versions and upgrades</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Kubernetes</strong> is an open-source platform that runs containerised applications across a cluster of machines. You tell it <em>what</em> you want — &ldquo;run three copies of this image, reachable on port 8080&rdquo; — and it continuously works to make the cluster match, restarting, rescheduling and replacing containers as machines and workloads change.</p>
+<h2 id="the-problem-it-solves">The problem it solves<a class="heading-anchor" href="#the-problem-it-solves" aria-label="Link to this section">#</a></h2>
+<p>Running containers on one server is easy. Running hundreds of services across hundreds of servers raises hard questions: Which machine has room? What happens when a machine dies? How do services find each other? How do you roll out a new version without downtime? Kubernetes answers these with a common API and automation, so teams do not script them by hand.</p>
+<h2 id="the-core-idea-declarative-state-and-reconciliation">The core idea: declarative state and reconciliation<a class="heading-anchor" href="#the-core-idea-declarative-state-and-reconciliation" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="The reconciliation loop every controller runs"><figcaption class="diagram__title">The reconciliation loop every controller runs</figcaption>
+  <pre class="mermaid">flowchart LR
+    D[&#34;Desired state&lt;br/&gt;spec in etcd&#34;] --&gt; C{&#34;Controller compares&#34;}
+    A[&#34;Actual state&lt;br/&gt;status from the cluster&#34;] --&gt; C
+    C --&gt;|&#34;different&#34;| ACT[&#34;Act: create, delete,&lt;br/&gt;update objects&#34;]
+    ACT --&gt; A
+    C --&gt;|&#34;same&#34;| W[&#34;Wait for next change&#34;]
+    W --&gt; C</pre>
+</figure>
+<ul>
+<li>Every object has a <strong>spec</strong> (what you want) and a <strong>status</strong> (what is).</li>
+<li><strong>Controllers</strong> watch objects through the API server and act to close the gap — forever, not once.</li>
+<li>This is why Kubernetes self-heals: delete a Pod managed by a Deployment and a new one appears, because desired state still says &ldquo;three replicas&rdquo;.</li>
+</ul>
+<h2 id="cluster-architecture">Cluster architecture<a class="heading-anchor" href="#cluster-architecture" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/k8s-architecture.html" title="Kubernetes cluster architecture" loading="lazy" style="height: 700px"></iframe>
+  <figcaption>
+    <span>Kubernetes cluster architecture · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/k8s-architecture.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h3 id="control-plane">Control plane<a class="heading-anchor" href="#control-plane" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>kube-apiserver</strong></td>
+      <td>The single front door. Every read and write goes through it. Performs authentication, authorisation and admission control, then stores objects in etcd. Stateless and horizontally scalable.</td>
+    </tr>
+    <tr>
+      <td><strong>etcd</strong></td>
+      <td>Consistent, distributed key-value store holding all cluster state. Uses the Raft consensus algorithm, so it needs an odd number of members (3 or 5) for quorum. Back it up.</td>
+    </tr>
+    <tr>
+      <td><strong>kube-scheduler</strong></td>
+      <td>Watches for Pods without a node, filters nodes that fit (resources, taints, affinity), scores them, and binds the Pod to the best node.</td>
+    </tr>
+    <tr>
+      <td><strong>kube-controller-manager</strong></td>
+      <td>Runs built-in controllers: Deployment, ReplicaSet, Node, Job, EndpointSlice, ServiceAccount and more.</td>
+    </tr>
+    <tr>
+      <td><strong>cloud-controller-manager</strong></td>
+      <td>Integrates with the cloud provider: load balancers for Services, node lifecycle, routes.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="worker-nodes">Worker nodes<a class="heading-anchor" href="#worker-nodes" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>kubelet</strong></td>
+      <td>Agent on every node. Watches Pods assigned to its node, asks the runtime to start containers, runs probes, reports status.</td>
+    </tr>
+    <tr>
+      <td><strong>Container runtime</strong></td>
+      <td>Pulls images and runs containers through the <strong>Container Runtime Interface (CRI)</strong> — typically <strong>containerd</strong> or <strong>CRI-O</strong>. (Docker Engine support via dockershim was removed in 1.24; images built with Docker still run.)</td>
+    </tr>
+    <tr>
+      <td><strong>kube-proxy</strong></td>
+      <td>Programs Service routing on the node (iptables or nftables). Many clusters replace it with an <strong>eBPF</strong> data plane such as Cilium.</td>
+    </tr>
+    <tr>
+      <td><strong>CNI plugin</strong></td>
+      <td>Gives each Pod an IP and connects Pod networks across nodes. See <a href="/cloud-native/kubernetes/kubernetes-networking/">networking</a>.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="what-happens-on-kubectl-apply">What happens on <code>kubectl apply</code><a class="heading-anchor" href="#what-happens-on-kubectl-apply" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="From apply to running containers"><figcaption class="diagram__title">From apply to running containers</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant U as kubectl
+    participant API as kube-apiserver
+    participant E as etcd
+    participant DC as Deployment controller
+    participant S as Scheduler
+    participant K as kubelet
+    participant R as containerd
+    U-&gt;&gt;API: apply Deployment (replicas: 3)
+    API-&gt;&gt;API: authenticate, authorise, admit
+    API-&gt;&gt;E: store Deployment
+    DC-&gt;&gt;API: watch: new Deployment
+    DC-&gt;&gt;API: create ReplicaSet, then 3 Pods (no node)
+    S-&gt;&gt;API: watch: unscheduled Pods
+    S-&gt;&gt;API: bind each Pod to a node
+    K-&gt;&gt;API: watch: Pod bound to my node
+    K-&gt;&gt;R: pull image, start containers
+    K-&gt;&gt;API: update Pod status: Running, Ready</pre>
+</figure>
+<p>Notice that <strong>no component calls another directly</strong> — they all watch and update objects through the API server. This loose coupling is what makes Kubernetes extensible.</p>
+<h2 id="extending-kubernetes">Extending Kubernetes<a class="heading-anchor" href="#extending-kubernetes" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Custom Resource Definitions (CRDs)</strong> add new object types (for example <code>Certificate</code>, <code>Application</code>, <code>PostgresCluster</code>).</li>
+<li><strong>Operators</strong> are custom controllers that reconcile CRDs — encoding operational knowledge (install, upgrade, back up a database) as code.</li>
+<li><strong>Admission webhooks and policies</strong> validate or mutate objects (<a href="/cloud-native/kubernetes/kubernetes-security/">security</a>).</li>
+<li><strong>Aggregated APIs</strong> and the <strong>Gateway API</strong>, <strong>CSI</strong>, <strong>CNI</strong>, <strong>CRI</strong> standard interfaces let vendors plug in without forking Kubernetes.</li>
+</ul>
+<h2 id="high-availability">High availability<a class="heading-anchor" href="#high-availability" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Highly available control plane"><figcaption class="diagram__title">Highly available control plane</figcaption>
+  <pre class="mermaid">flowchart TB
+    LB[&#34;Load balancer :6443&#34;] --&gt; A1[&#34;API server 1&lt;br/&gt;zone a&#34;]
+    LB --&gt; A2[&#34;API server 2&lt;br/&gt;zone b&#34;]
+    LB --&gt; A3[&#34;API server 3&lt;br/&gt;zone c&#34;]
+    A1 --&gt; E1[(&#34;etcd 1&#34;)]
+    A2 --&gt; E2[(&#34;etcd 2&#34;)]
+    A3 --&gt; E3[(&#34;etcd 3&#34;)]
+    E1 &lt;--&gt; E2
+    E2 &lt;--&gt; E3
+    E1 &lt;--&gt; E3</pre>
+</figure>
+<ul>
+<li>Three or five control-plane nodes across zones; etcd quorum survives the loss of one (of three) or two (of five) members.</li>
+<li>Scheduler and controller-manager run active/standby using <strong>leader election</strong>.</li>
+<li>Worker nodes spread across zones; workloads use topology spread constraints and PodDisruptionBudgets.</li>
+<li><strong>Managed Kubernetes</strong> (Amazon EKS, Azure AKS, Google GKE, Red Hat OpenShift on cloud) runs the control plane for you — the default choice unless you have a strong reason to self-manage.</li>
+</ul>
+<h2 id="versions-and-upgrades">Versions and upgrades<a class="heading-anchor" href="#versions-and-upgrades" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kubernetes releases about <strong>three minor versions a year</strong> (1.34 in August 2025, 1.35 in December 2025, 1.36 in April 2026); each is supported for roughly 14 months upstream.</li>
+<li>Upgrade <strong>one minor version at a time</strong>: control plane first, then nodes; read deprecation notes; test add-ons (CNI, ingress/gateway, CSI).</li>
+<li>Recent milestones architects should know: sidecar containers stable (1.33), <strong>in-place Pod resize</strong> stable (1.35), cgroup v1 support removed by default (1.35), <strong>Dynamic Resource Allocation</strong> for GPUs and accelerators maturing (stable core in 1.34, more in 1.36), <strong>user namespaces</strong> GA (1.36), and the retirement of the community <strong>ingress-nginx</strong> controller in March 2026 in favour of the Gateway API and maintained controllers.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Treating Kubernetes as a VM scheduler</span></p>
+  <div class="callout__body"><p>Logging into nodes and changing things by hand. Changes vanish when nodes are replaced. Change desired state through the API, ideally through Git.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Running etcd without backups or with an even member count</span></p>
+  <div class="callout__body"><p>Two members cannot tolerate any failure, four tolerate the same as three. Use 3 or 5 and test restores.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Falling several versions behind</span></p>
+  <div class="callout__body"><p>Skipped upgrades accumulate risk and unsupported APIs. Budget for a regular upgrade cadence.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is the role of the API server?</strong>
+It is the only component that talks to etcd and the front door for all reads and writes; it authenticates, authorises and admits every request.</p>
+<p><strong>Why does Kubernetes self-heal?</strong>
+Controllers continuously compare desired state with actual state and act to close the gap, so a deleted or failed Pod is recreated to match the desired replica count.</p>
+<p><strong>What does the scheduler do?</strong>
+Assigns unscheduled Pods to nodes by filtering nodes that fit (resources, taints, affinity) and scoring the rest.</p>
+<p><strong>Why does etcd need 3 or 5 members?</strong>
+Raft needs a majority (quorum) to commit writes; odd numbers maximise failure tolerance — 3 members tolerate 1 failure, 5 tolerate 2.</p>
+<p><strong>What is an operator?</strong>
+A custom controller with CRDs that automates the operation of an application, such as installing, upgrading and backing up a database.</p>
+<p><strong>What replaced dockershim?</strong>
+CRI-compatible runtimes such as containerd and CRI-O; Docker-built images still run because they are OCI images.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kubernetes is a declarative system of control loops around a central API.</li>
+<li>Control plane: API server, etcd, scheduler, controller managers. Nodes: kubelet, runtime, kube-proxy/eBPF, CNI.</li>
+<li>Components cooperate only through watching and updating API objects.</li>
+<li>Extend with CRDs and operators; run HA across zones; prefer managed control planes; upgrade regularly.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kubernetes documentation, <a href="https://kubernetes.io/docs/concepts/architecture/" rel="noopener">Cluster architecture</a>.</li>
+<li>Kubernetes, <a href="https://kubernetes.io/releases/" rel="noopener">Kubernetes v1.36 release</a> and <a href="https://kubernetes.io/blog/" rel="noopener">release blog</a>.</li>
+<li>Burns, Grant, Oppenheimer, Brewer, Wilkes, <a href="https://queue.acm.org/detail.cfm?id=2898444" rel="noopener">Borg, Omega, and Kubernetes</a>, ACM Queue, 2016.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/workloads-and-scheduling/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Workloads &amp; scheduling</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/kubernetes-networking/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Kubernetes networking</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/kubernetes-security/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Kubernetes security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/helm-charts/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Helm charts</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/openshift/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">OpenShift</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/kubernetes/workloads-and-scheduling/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Workloads &amp; scheduling</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-it-solves">The problem it solves</a></li>
+    <li><a href="#the-core-idea-declarative-state-and-reconciliation">The core idea: declarative state and reconciliation</a></li>
+    <li><a href="#cluster-architecture">Cluster architecture</a>
+      <ul>
+        <li><a href="#control-plane">Control plane</a></li>
+        <li><a href="#worker-nodes">Worker nodes</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-happens-on-kubectl-apply">What happens on <code>kubectl apply</code></a></li>
+    <li><a href="#extending-kubernetes">Extending Kubernetes</a></li>
+    <li><a href="#high-availability">High availability</a></li>
+    <li><a href="#versions-and-upgrades">Versions and upgrades</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

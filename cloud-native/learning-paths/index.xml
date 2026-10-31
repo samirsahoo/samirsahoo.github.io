@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Learning Paths on Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/cloud-native/learning-paths/</link>
+		<description>Recent content in Learning Paths on Cloud Native &amp; Platform Engineering Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/cloud-native/learning-paths/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Cloud Native Architect Learning Path</title>
+				<link>https://samirsahoo.github.io/cloud-native/learning-paths/cloud-native-architect/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/learning-paths/cloud-native-architect/</guid>
+				<description>&lt;p&gt;About three weeks at one to two hours a day covers the whole path. Short on time? Read the two case studies, then the quick check, and fill gaps from the linked articles.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

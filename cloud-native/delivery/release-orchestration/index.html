@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Release Orchestration with Digital.ai Release and Deploy · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="Why large enterprises add release orchestration on top of CI/CD and GitOps, and how Digital.ai Release and Digital.ai Deploy work: templates, phases, tasks and gates, approvals and compliance evidence, Argo CD, Argo Rollouts, Flux and Tekton integrations, Live Deployments, deployment models, and alternatives.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/delivery/release-orchestration/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Release Orchestration with Digital.ai Release and Deploy">
+<meta property="og:description" content="Why large enterprises add release orchestration on top of CI/CD and GitOps, and how Digital.ai Release and Digital.ai Deploy work: templates, phases, tasks and gates, approvals and compliance evidence, Argo CD, Argo Rollouts, Flux and Tekton integrations, Live Deployments, deployment models, and alternatives.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/delivery/release-orchestration/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Release Orchestration with Digital.ai Release and Deploy">
+<meta name="twitter:description" content="Why large enterprises add release orchestration on top of CI/CD and GitOps, and how Digital.ai Release and Digital.ai Deploy work: templates, phases, tasks and gates, approvals and compliance evidence, Argo CD, Argo Rollouts, Flux and Tekton integrations, Live Deployments, deployment models, and alternatives.">
+<meta name="keywords" content="release-orchestration, delivery, digital-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Why large enterprises add release orchestration on top of CI/CD and GitOps, and how Digital.ai Release and Digital.ai Deploy work: templates, phases, tasks and gates, approvals and compliance evidence, Argo CD, Argo Rollouts, Flux and Tekton integrations, Live Deployments, deployment models, and alternatives.","headline":"Release Orchestration with Digital.ai Release and Deploy","inLanguage":"en","isAccessibleForFree":true,"keywords":"release-orchestration, delivery, digital-ai","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/delivery/release-orchestration/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/","name":"2 · Delivery","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/release-orchestration/","name":"Release orchestration (Digital.ai)","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-delivery">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/" aria-current="page">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/delivery/">2 · Delivery</a></li>
+    <li><span aria-current="page">Release orchestration (Digital.ai)</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Release Orchestration with Digital.ai Release and Deploy</h1><p class="article__lede" itemprop="description">Why large enterprises add release orchestration on top of CI/CD and GitOps, and how Digital.ai Release and Digital.ai Deploy work: templates, phases, tasks and gates, approvals and compliance evidence, Argo CD, Argo Rollouts, Flux and Tekton integrations, Live Deployments, deployment models, and alternatives.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/release-orchestration/">#Release-Orchestration</a><a class="tag" href="/cloud-native/tags/delivery/">#Delivery</a><a class="tag" href="/cloud-native/tags/digital-ai/">#Digital-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a>, <a href="/cloud-native/delivery/gitops/">GitOps</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-enterprises-add-an-orchestration-layer">Why enterprises add an orchestration layer</a></li>
+    <li><a href="#release-orchestration-in-the-delivery-flow">Release orchestration in the delivery flow</a></li>
+    <li><a href="#core-concepts-in-digitalai-release">Core concepts in Digital.ai Release</a></li>
+    <li><a href="#cloud-native-integrations">Cloud native integrations</a></li>
+    <li><a href="#digitalai-deploy-model-driven-deployment">Digital.ai Deploy (model-driven deployment)</a></li>
+    <li><a href="#deployment-models">Deployment models</a></li>
+    <li><a href="#when-to-use-release-orchestration">When to use release orchestration</a></li>
+    <li><a href="#alternatives-and-complements">Alternatives and complements</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Release orchestration</strong> coordinates everything that has to happen for a release across many teams, tools and environments: builds, deployments, tests, security checks, approvals, change tickets, communications and evidence for auditors. CI/CD and GitOps automate <em>a pipeline</em>; release orchestration automates <em>the release process around many pipelines</em>.</p>
+<p><strong>Digital.ai Release</strong> (formerly XebiaLabs XL Release) is a release orchestration platform; <strong>Digital.ai Deploy</strong> (formerly XL Deploy) is a model-driven deployment automation tool. They are part of the wider Digital.ai platform, which also includes agile planning, continuous testing and application security products.</p>
+<h2 id="why-enterprises-add-an-orchestration-layer">Why enterprises add an orchestration layer<a class="heading-anchor" href="#why-enterprises-add-an-orchestration-layer" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Challenge in large organisations</th>
+      <th>What orchestration adds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A release spans 20 services, a mainframe and a database change</td>
+      <td>One release plan coordinating all of them</td>
+    </tr>
+    <tr>
+      <td>Many tools: Jenkins, GitHub Actions, Argo CD, ServiceNow, Jira, test tools</td>
+      <td>Integrations and a single view</td>
+    </tr>
+    <tr>
+      <td>Regulated change management (CAB, segregation of duties)</td>
+      <td>Automated approvals, gates, audit trail, evidence</td>
+    </tr>
+    <tr>
+      <td>Different deployment targets: Kubernetes, VMs, cloud, packaged apps</td>
+      <td>Model-driven deployment and plug-ins</td>
+    </tr>
+    <tr>
+      <td>Visibility for management</td>
+      <td>Dashboards, release calendars, risk scores, DORA-style metrics</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="release-orchestration-in-the-delivery-flow">Release orchestration in the delivery flow<a class="heading-anchor" href="#release-orchestration-in-the-delivery-flow" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/release-orchestration.html" title="Orchestrated release: CI, gates and GitOps deployment" loading="lazy" style="height: 660px"></iframe>
+  <figcaption>
+    <span>Orchestrated release: CI, gates and GitOps deployment · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/release-orchestration.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ol>
+<li><strong>CI</strong> builds, tests, scans and signs the artifact once.</li>
+<li>The <strong>release orchestrator</strong> runs the release template: deploys to test (through Argo CD or Deploy), collects test and security results, evaluates <strong>quality gates</strong> and a <strong>risk score</strong>.</li>
+<li><strong>Change approval</strong> is automatic for low-risk changes or routed to a CAB/ServiceNow change for high-risk ones.</li>
+<li><strong>Production deployment</strong> runs through GitOps and progressive delivery (Argo Rollouts canary).</li>
+<li><strong>Analysis</strong> promotes or triggers an automatic <strong>rollback</strong>; every step is recorded for audit.</li>
+</ol>
+<h2 id="core-concepts-in-digitalai-release">Core concepts in Digital.ai Release<a class="heading-anchor" href="#core-concepts-in-digitalai-release" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Template</strong></td>
+      <td>A reusable release blueprint (for example &ldquo;Monthly payments platform release&rdquo;)</td>
+    </tr>
+    <tr>
+      <td><strong>Release</strong></td>
+      <td>A running instance of a template, with its own variables and timeline</td>
+    </tr>
+    <tr>
+      <td><strong>Phase</strong></td>
+      <td>A stage of the release: Build, Test, Approve, Deploy to production, Verify</td>
+    </tr>
+    <tr>
+      <td><strong>Task</strong></td>
+      <td>A unit of work: automated (call Jenkins, sync Argo CD, create ServiceNow change, run tests) or manual (sign-off)</td>
+    </tr>
+    <tr>
+      <td><strong>Gate</strong></td>
+      <td>A checkpoint that blocks progress until conditions are met (tests passed, approvals given, dependencies released)</td>
+    </tr>
+    <tr>
+      <td><strong>Variables</strong></td>
+      <td>Values passed between tasks (version, image digest, change ticket number)</td>
+    </tr>
+    <tr>
+      <td><strong>Folders and teams</strong></td>
+      <td>Organise templates and permissions per business unit</td>
+    </tr>
+    <tr>
+      <td><strong>Triggers</strong></td>
+      <td>Start releases from events (new artifact, Git tag, deployment event)</td>
+    </tr>
+    <tr>
+      <td><strong>Dashboards, Release Calendar, Risk profile</strong></td>
+      <td>Portfolio view, blackout windows, risk scoring</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="diagram" aria-label="A release template"><figcaption class="diagram__title">A release template</figcaption>
+  <pre class="mermaid">flowchart LR
+    P1[&#34;Phase: Build&lt;br/&gt;Jenkins / GitHub Actions task&#34;] --&gt; P2[&#34;Phase: Test&lt;br/&gt;Argo CD sync to test&lt;br/&gt;+ automated test tasks&#34;]
+    P2 --&gt; G1{&#34;Gate: quality&lt;br/&gt;tests ≥ threshold,&lt;br/&gt;no critical CVEs&#34;}
+    G1 --&gt; P3[&#34;Phase: Approve&lt;br/&gt;ServiceNow change&lt;br/&gt;(auto if low risk)&#34;]
+    P3 --&gt; P4[&#34;Phase: Production&lt;br/&gt;Argo Rollouts canary&#34;]
+    P4 --&gt; P5[&#34;Phase: Verify&lt;br/&gt;SLO checks, notify&#34;]</pre>
+</figure>
+<h2 id="cloud-native-integrations">Cloud native integrations<a class="heading-anchor" href="#cloud-native-integrations" aria-label="Link to this section">#</a></h2>
+<p>Recent Digital.ai Release versions (26.x, 2026) emphasise Kubernetes and GitOps:</p>
+<ul>
+<li><strong>Argo CD plugin</strong> — sync, wait for health, roll back, terminate a running operation, and manage <code>ignoreDifferences</code> rules from release tasks; onboarding workflows to create Argo CD Applications.</li>
+<li><strong>Argo Rollouts plugin</strong> — drive blue-green and canary rollouts and promotions as release tasks.</li>
+<li><strong>Flux CD</strong> and <strong>Tekton</strong> container-based plugins.</li>
+<li><strong>Live Deployments</strong> — a single view of what is deployed where, whether deployed by Release, Deploy, Argo CD or Flux; deployment events can trigger releases.</li>
+<li><strong>Digital.ai Deploy GitOps</strong> — exchange infrastructure and environment configuration items with Git as YAML.</li>
+<li>Integrations with Jenkins, GitHub, GitLab, Azure DevOps, Jira, ServiceNow, test and security tools; a Release <strong>MCP server</strong> (beta) for AI assistants.</li>
+</ul>
+<h2 id="digitalai-deploy-model-driven-deployment">Digital.ai Deploy (model-driven deployment)<a class="heading-anchor" href="#digitalai-deploy-model-driven-deployment" aria-label="Link to this section">#</a></h2>
+<p>Deploy describes <strong>what</strong> to deploy (a versioned deployment package of artifacts and resources) and <strong>where</strong> (environments of infrastructure items); it calculates the steps (create, modify, destroy) and runs them with rollback. It is valuable for <strong>non-Kubernetes targets</strong> — application servers, VMs, databases, mainframe-adjacent systems — which are still common in banks and insurers. For Kubernetes, GitOps tools usually perform the deployment, orchestrated by Release.</p>
+<h2 id="deployment-models">Deployment models<a class="heading-anchor" href="#deployment-models" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>SaaS</strong> or <strong>self-hosted</strong> (including on Kubernetes via an operator).</li>
+<li>Remote runners execute container-based tasks close to target environments.</li>
+</ul>
+<h2 id="when-to-use-release-orchestration">When to use release orchestration<a class="heading-anchor" href="#when-to-use-release-orchestration" aria-label="Link to this section">#</a></h2>
+<p><strong>Use it when:</strong> many teams release interdependent changes; regulated change management requires evidence and approvals; you deploy to a mix of Kubernetes and legacy targets; leadership needs portfolio-level release visibility.</p>
+<p><strong>You may not need it when:</strong> teams deploy independent microservices continuously with GitOps and automated gates, and audit needs are met by Git history and pipeline evidence.</p>
+<h2 id="alternatives-and-complements">Alternatives and complements<a class="heading-anchor" href="#alternatives-and-complements" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Kargo</strong></td>
+      <td>Open-source, GitOps-native multi-stage promotion</td>
+    </tr>
+    <tr>
+      <td><strong>Harness</strong>, <strong>Octopus Deploy</strong>, <strong>CloudBees</strong></td>
+      <td>Commercial CD/release platforms</td>
+    </tr>
+    <tr>
+      <td><strong>Spinnaker</strong></td>
+      <td>Open-source multi-cloud CD (heavier to operate)</td>
+    </tr>
+    <tr>
+      <td><strong>GitLab / GitHub environments + deployment protection rules</strong></td>
+      <td>Built-in approvals and environment gates</td>
+    </tr>
+    <tr>
+      <td><strong>ServiceNow DevOps Change</strong></td>
+      <td>Change automation tied to pipelines</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Orchestration that re-implements CI</span></p>
+  <div class="callout__body"><p>The orchestrator should call CI and GitOps, not replace them. Keep build logic in CI and deployment in GitOps.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Every release through a manual CAB</span></p>
+  <div class="callout__body"><p>Use risk scoring and automated evidence so low-risk changes are approved automatically; reserve CAB for high-risk ones.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What does release orchestration add to CI/CD?</strong>
+Coordination of multi-team, multi-tool releases with phases, gates, approvals, change management integration, audit evidence and portfolio visibility.</p>
+<p><strong>What is the difference between Digital.ai Release and Digital.ai Deploy?</strong>
+Release orchestrates the end-to-end release process across tools and teams; Deploy automates the deployment itself using a model of packages and environments, especially for non-Kubernetes targets.</p>
+<p><strong>How does Digital.ai Release work with GitOps?</strong>
+Through plugins: it drives Argo CD syncs, rollbacks and operations, Argo Rollouts promotions and Flux workflows as tasks, and shows live deployment state from those tools.</p>
+<p><strong>What is a gate in a release template?</strong>
+A checkpoint that blocks the release until conditions — test results, approvals, dependencies — are satisfied.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Release orchestration coordinates complex enterprise releases above CI/CD and GitOps.</li>
+<li>Digital.ai Release: templates, phases, tasks, gates, approvals, dashboards, audit.</li>
+<li>Digital.ai Deploy: model-driven deployments, valuable for legacy targets.</li>
+<li>2026 versions integrate deeply with Argo CD, Argo Rollouts, Flux and Tekton.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Digital.ai documentation, <a href="https://docs.digital.ai/release/docs/cloud-native/cd-with-release-argocd" rel="noopener">Continuous delivery using Release and Argo CD</a>.</li>
+<li>Digital.ai, <a href="https://docs.digital.ai/release/docs/how-to/argocd-plugin" rel="noopener">Argo CD plugin</a> and <a href="https://docs.digital.ai/release/docs/how-to/argo-rollout-plugin" rel="noopener">Argo Rollouts plugin</a>.</li>
+<li>Digital.ai, <a href="https://docs.digital.ai/release/docs/how-to/live-deployments" rel="noopener">Live Deployments in Release</a>.</li>
+<li>Digital.ai, <a href="https://docs.digital.ai/release/docs/release-notes/release-notes-release" rel="noopener">Release 26.3.x release notes</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/internal-developer-platforms/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Internal developer platforms</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/sre-fundamentals/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">SRE fundamentals</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/ci-cd-pipelines/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">CI/CD &amp; progressive delivery</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/containers-and-docker/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Containers &amp; Docker</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/gitops/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">GitOps</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/delivery/gitops/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">GitOps</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-enterprises-add-an-orchestration-layer">Why enterprises add an orchestration layer</a></li>
+    <li><a href="#release-orchestration-in-the-delivery-flow">Release orchestration in the delivery flow</a></li>
+    <li><a href="#core-concepts-in-digitalai-release">Core concepts in Digital.ai Release</a></li>
+    <li><a href="#cloud-native-integrations">Cloud native integrations</a></li>
+    <li><a href="#digitalai-deploy-model-driven-deployment">Digital.ai Deploy (model-driven deployment)</a></li>
+    <li><a href="#deployment-models">Deployment models</a></li>
+    <li><a href="#when-to-use-release-orchestration">When to use release orchestration</a></li>
+    <li><a href="#alternatives-and-complements">Alternatives and complements</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

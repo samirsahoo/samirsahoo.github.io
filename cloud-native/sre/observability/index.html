@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Observability with OpenTelemetry · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="Observability for cloud native systems: metrics, logs, traces and profiles; monitoring vs observability; the RED and USE methods; OpenTelemetry SDKs, Collector and semantic conventions; Prometheus and the Grafana stack; eBPF instrumentation; cardinality and cost; correlation; and a reference telemetry pipeline on Kubernetes.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/sre/observability/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Observability with OpenTelemetry">
+<meta property="og:description" content="Observability for cloud native systems: metrics, logs, traces and profiles; monitoring vs observability; the RED and USE methods; OpenTelemetry SDKs, Collector and semantic conventions; Prometheus and the Grafana stack; eBPF instrumentation; cardinality and cost; correlation; and a reference telemetry pipeline on Kubernetes.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/sre/observability/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Observability with OpenTelemetry">
+<meta name="twitter:description" content="Observability for cloud native systems: metrics, logs, traces and profiles; monitoring vs observability; the RED and USE methods; OpenTelemetry SDKs, Collector and semantic conventions; Prometheus and the Grafana stack; eBPF instrumentation; cardinality and cost; correlation; and a reference telemetry pipeline on Kubernetes.">
+<meta name="keywords" content="sre, observability, opentelemetry">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Observability for cloud native systems: metrics, logs, traces and profiles; monitoring vs observability; the RED and USE methods; OpenTelemetry SDKs, Collector and semantic conventions; Prometheus and the Grafana stack; eBPF instrumentation; cardinality and cost; correlation; and a reference telemetry pipeline on Kubernetes.","headline":"Observability with OpenTelemetry","inLanguage":"en","isAccessibleForFree":true,"keywords":"sre, observability, opentelemetry","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/sre/observability/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/sre/","name":"4 · SRE \u0026 FinOps","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/sre/observability/","name":"Observability","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-sre">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/" aria-current="page">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a></li>
+    <li><span aria-current="page">Observability</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Observability with OpenTelemetry</h1><p class="article__lede" itemprop="description">Observability for cloud native systems: metrics, logs, traces and profiles; monitoring vs observability; the RED and USE methods; OpenTelemetry SDKs, Collector and semantic conventions; Prometheus and the Grafana stack; eBPF instrumentation; cardinality and cost; correlation; and a reference telemetry pipeline on Kubernetes.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/sre/">#Sre</a><a class="tag" href="/cloud-native/tags/observability/">#Observability</a><a class="tag" href="/cloud-native/tags/opentelemetry/">#Opentelemetry</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-signals">The signals</a></li>
+    <li><a href="#methods-for-what-to-measure">Methods for what to measure</a></li>
+    <li><a href="#opentelemetry">OpenTelemetry</a></li>
+    <li><a href="#reference-pipeline-on-kubernetes">Reference pipeline on Kubernetes</a></li>
+    <li><a href="#prometheus-essentials">Prometheus essentials</a></li>
+    <li><a href="#ebpf-based-observability">eBPF-based observability</a></li>
+    <li><a href="#cost-and-cardinality">Cost and cardinality</a></li>
+    <li><a href="#logging-practices">Logging practices</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Monitoring</strong> tells you <em>whether</em> known things are wrong (dashboards and alerts on predefined metrics). <strong>Observability</strong> lets you ask <em>why</em> — including questions you did not anticipate — by exploring rich, correlated telemetry: <strong>metrics, logs, traces</strong> and increasingly <strong>profiles</strong>.</p>
+<h2 id="the-signals">The signals<a class="heading-anchor" href="#the-signals" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Signal</th>
+      <th>Answers</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Metrics</strong></td>
+      <td>How much / how often, over time? Cheap, aggregatable</td>
+      <td><code>http_server_request_duration_seconds</code> histogram</td>
+    </tr>
+    <tr>
+      <td><strong>Logs</strong></td>
+      <td>What exactly happened in this component?</td>
+      <td>Structured JSON with trace ID</td>
+    </tr>
+    <tr>
+      <td><strong>Traces</strong></td>
+      <td>Where did time go across services for one request?</td>
+      <td>Spans: gateway → orders → payments → DB</td>
+    </tr>
+    <tr>
+      <td><strong>Profiles</strong></td>
+      <td>Which code uses CPU/memory?</td>
+      <td>Continuous profiling flame graphs</td>
+    </tr>
+    <tr>
+      <td><strong>Events</strong></td>
+      <td>What changed?</td>
+      <td>Deployments, config changes, Kubernetes events</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Correlation</strong> is the superpower: a latency alert (metric) → an <strong>exemplar</strong> trace → the slow span → logs with the same trace ID → the profile for that service — in a few clicks.</p>
+<h2 id="methods-for-what-to-measure">Methods for what to measure<a class="heading-anchor" href="#methods-for-what-to-measure" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>RED</strong> (for services): <strong>R</strong>ate, <strong>E</strong>rrors, <strong>D</strong>uration.</li>
+<li><strong>USE</strong> (for resources): <strong>U</strong>tilisation, <strong>S</strong>aturation, <strong>E</strong>rrors.</li>
+<li><strong>Golden signals</strong> (Google SRE): latency, traffic, errors, saturation.</li>
+<li>Plus <strong>SLIs</strong> from <a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a>.</li>
+</ul>
+<h2 id="opentelemetry">OpenTelemetry<a class="heading-anchor" href="#opentelemetry" aria-label="Link to this section">#</a></h2>
+<p><strong>OpenTelemetry (OTel)</strong> is the vendor-neutral standard for generating, collecting and exporting telemetry. It became a <strong>CNCF graduated</strong> project in 2026.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>API &amp; SDKs</strong></td>
+      <td>Instrument code in Java, Go, Python, .NET, JS and more</td>
+    </tr>
+    <tr>
+      <td><strong>Auto-instrumentation</strong></td>
+      <td>Java agent, zero-code instrumentation; the <strong>OTel Operator</strong> injects it into Pods</td>
+    </tr>
+    <tr>
+      <td><strong>Semantic conventions</strong></td>
+      <td>Standard attribute names (<code>http.request.method</code>, <code>k8s.pod.name</code>, <code>gen_ai.*</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>OTLP</strong></td>
+      <td>The wire protocol for all signals</td>
+    </tr>
+    <tr>
+      <td><strong>Collector</strong></td>
+      <td>Receive, process (batch, sample, redact, enrich) and export to any backend</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Status (2026): traces, metrics and logs are stable; <strong>declarative configuration</strong> reached 1.0; <strong>profiles</strong> entered public alpha — promising but not yet for critical use.</p>
+<h2 id="reference-pipeline-on-kubernetes">Reference pipeline on Kubernetes<a class="heading-anchor" href="#reference-pipeline-on-kubernetes" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/telemetry-pipeline.html" title="OpenTelemetry pipeline on Kubernetes" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>OpenTelemetry pipeline on Kubernetes · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/telemetry-pipeline.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ol>
+<li><strong>Sources</strong> — services instrumented with OTel SDKs or auto-instrumentation; nodes and Kubernetes (kubelet, cAdvisor, kube-state-metrics, eBPF).</li>
+<li><strong>Collector agent</strong> (DaemonSet) on every node — receives OTLP, scrapes, adds Kubernetes metadata.</li>
+<li><strong>Collector gateway</strong> (Deployment) — tail sampling, PII redaction, routing, rate limiting.</li>
+<li><strong>Backends</strong> — metrics (Prometheus, Mimir, Thanos, VictoriaMetrics), logs (Loki, Elasticsearch/OpenSearch), traces (Tempo, Jaeger), or commercial platforms.</li>
+<li><strong>Use</strong> — Grafana dashboards, SLOs and burn-rate alerts to on-call.</li>
+</ol>
+<h2 id="prometheus-essentials">Prometheus essentials<a class="heading-anchor" href="#prometheus-essentials" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Pull model</strong>: Prometheus scrapes <code>/metrics</code> endpoints discovered via Kubernetes service discovery or ServiceMonitors (Prometheus Operator).</li>
+<li><strong>PromQL</strong> for queries and alert rules; <strong>Alertmanager</strong> routes and deduplicates alerts.</li>
+<li>Long-term, multi-cluster storage: Thanos, Mimir, Cortex or managed Prometheus services.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-promql" data-lang="promql"><span class="line"><span class="cl"><span class="c1"># p95 latency per route over 5 minutes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kr">histogram_quantile</span><span class="o">(</span><span class="mf">0.95</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">sum</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="o">(</span><span class="nv">le</span><span class="p">,</span><span class="w"> </span><span class="nv">http_route</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_server_request_duration_seconds_bucket</span><span class="p">[</span><span class="s">5m</span><span class="p">]</span><span class="o">)))</span><span class="w">
+</span></span></span></code></pre></div><h2 id="ebpf-based-observability">eBPF-based observability<a class="heading-anchor" href="#ebpf-based-observability" aria-label="Link to this section">#</a></h2>
+<p>eBPF programs in the kernel capture network flows, latency and even HTTP/gRPC calls <strong>without code changes</strong> (Cilium Hubble, Pixie, Grafana Beyla, Coroot) and enable low-overhead continuous profiling. Great for coverage of uninstrumented services; combine with SDK instrumentation for business context.</p>
+<h2 id="cost-and-cardinality">Cost and cardinality<a class="heading-anchor" href="#cost-and-cardinality" aria-label="Link to this section">#</a></h2>
+<p>Observability can become one of the largest platform costs.</p>
+<ul>
+<li><strong>Cardinality</strong>: every unique label combination is a new time series. Never use user IDs, request IDs or unbounded values as metric labels.</li>
+<li><strong>Sampling</strong>: head sampling (decide at start) or <strong>tail sampling</strong> in the Collector (keep errors and slow traces, sample the rest).</li>
+<li><strong>Log levels and retention</strong> per environment; drop noisy logs at the Collector.</li>
+<li><strong>Tiered storage</strong> and downsampling for old data.</li>
+</ul>
+<h2 id="logging-practices">Logging practices<a class="heading-anchor" href="#logging-practices" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Structured JSON logs with timestamp, level, service, trace and span IDs.</li>
+<li>Log to stdout/stderr; let the platform collect.</li>
+<li>Never log secrets or unnecessary personal data; redact at the Collector.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Dashboards for everything, alerts on causes</span></p>
+  <div class="callout__body"><p>Hundreds of dashboards nobody reads and pages on CPU. Alert on SLO burn; keep a few service and platform dashboards.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Vendor-specific instrumentation everywhere</span></p>
+  <div class="callout__body"><p>Switching vendors means re-instrumenting. Use OpenTelemetry and export where you like.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Unbounded labels</span></p>
+  <div class="callout__body"><p>A <code>user_id</code> label can create millions of series and break the metrics backend.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is the difference between monitoring and observability?</strong>
+Monitoring checks known conditions with predefined metrics and alerts; observability lets you explore correlated telemetry to answer new questions about why the system behaves as it does.</p>
+<p><strong>Name the main telemetry signals.</strong>
+Metrics, logs, traces and profiles (plus events).</p>
+<p><strong>What does the OpenTelemetry Collector do?</strong>
+Receives telemetry, processes it (batching, sampling, redaction, enrichment) and exports it to one or more backends.</p>
+<p><strong>What are the RED and USE methods?</strong>
+RED — rate, errors, duration for services; USE — utilisation, saturation, errors for resources.</p>
+<p><strong>What is high cardinality and why is it a problem?</strong>
+Too many unique label combinations creating huge numbers of time series, which increases cost and can overload metrics backends.</p>
+<p><strong>What is tail sampling?</strong>
+Deciding which traces to keep after they complete — for example keeping all errors and slow traces and a fraction of the rest.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Observability = correlated metrics, logs, traces and profiles to answer &ldquo;why&rdquo;.</li>
+<li>Instrument with OpenTelemetry; run Collector agents and gateways; export anywhere.</li>
+<li>Prometheus and Grafana-stack backends are common; eBPF fills coverage gaps.</li>
+<li>Control cardinality, sampling and retention; alert on SLOs.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://opentelemetry.io/docs/" rel="noopener">OpenTelemetry documentation</a> and <a href="https://opentelemetry.io/docs/specs/status/" rel="noopener">specification status</a>.</li>
+<li>OpenTelemetry blog, <a href="https://opentelemetry.io/blog/2026/profiles-alpha/" rel="noopener">Profiles enters public alpha</a>, 2026.</li>
+<li>OpenTelemetry blog, <a href="https://opentelemetry.io/blog/2026/otel-grad-now-what/" rel="noopener">OpenTelemetry has graduated</a>, 2026.</li>
+<li><a href="https://prometheus.io/docs/" rel="noopener">Prometheus documentation</a>.</li>
+<li>Majors, Fong-Jones, Miranda, <em>Observability Engineering</em>, O&rsquo;Reilly, 2022.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/finops/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">FinOps</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/service-mesh/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Service mesh</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/resilience-and-dr/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">Resilience &amp; DR</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/sre-fundamentals/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">SRE fundamentals</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/case-study-multi-region-platform/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">Case study: multi-region platform</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/sre/sre-fundamentals/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">SRE fundamentals</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/sre/resilience-and-dr/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Resilience &amp; DR</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-signals">The signals</a></li>
+    <li><a href="#methods-for-what-to-measure">Methods for what to measure</a></li>
+    <li><a href="#opentelemetry">OpenTelemetry</a></li>
+    <li><a href="#reference-pipeline-on-kubernetes">Reference pipeline on Kubernetes</a></li>
+    <li><a href="#prometheus-essentials">Prometheus essentials</a></li>
+    <li><a href="#ebpf-based-observability">eBPF-based observability</a></li>
+    <li><a href="#cost-and-cardinality">Cost and cardinality</a></li>
+    <li><a href="#logging-practices">Logging practices</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

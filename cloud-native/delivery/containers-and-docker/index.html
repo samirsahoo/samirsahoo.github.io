@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Containers, Images and Docker · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="What containers really are (namespaces, cgroups, layered images), OCI standards, Dockerfile best practices with multi-stage builds, BuildKit, minimal and hardened base images, registries, Docker vs Podman vs containerd, and container security.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/delivery/containers-and-docker/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Containers, Images and Docker">
+<meta property="og:description" content="What containers really are (namespaces, cgroups, layered images), OCI standards, Dockerfile best practices with multi-stage builds, BuildKit, minimal and hardened base images, registries, Docker vs Podman vs containerd, and container security.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/delivery/containers-and-docker/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Containers, Images and Docker">
+<meta name="twitter:description" content="What containers really are (namespaces, cgroups, layered images), OCI standards, Dockerfile best practices with multi-stage builds, BuildKit, minimal and hardened base images, registries, Docker vs Podman vs containerd, and container security.">
+<meta name="keywords" content="containers, docker, delivery">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"What containers really are (namespaces, cgroups, layered images), OCI standards, Dockerfile best practices with multi-stage builds, BuildKit, minimal and hardened base images, registries, Docker vs Podman vs containerd, and container security.","headline":"Containers, Images and Docker","inLanguage":"en","isAccessibleForFree":true,"keywords":"containers, docker, delivery","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/delivery/containers-and-docker/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/","name":"2 · Delivery","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/containers-and-docker/","name":"Containers \u0026 Docker","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-delivery">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/" aria-current="page">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/delivery/">2 · Delivery</a></li>
+    <li><span aria-current="page">Containers &amp; Docker</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Containers, Images and Docker</h1><p class="article__lede" itemprop="description">What containers really are (namespaces, cgroups, layered images), OCI standards, Dockerfile best practices with multi-stage builds, BuildKit, minimal and hardened base images, registries, Docker vs Podman vs containerd, and container security.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/containers/">#Containers</a><a class="tag" href="/cloud-native/tags/docker/">#Docker</a><a class="tag" href="/cloud-native/tags/delivery/">#Delivery</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#containers-vs-virtual-machines">Containers vs virtual machines</a></li>
+    <li><a href="#how-it-works">How it works</a></li>
+    <li><a href="#images-and-oci">Images and OCI</a></li>
+    <li><a href="#a-good-dockerfile">A good Dockerfile</a></li>
+    <li><a href="#build-tools">Build tools</a></li>
+    <li><a href="#runtimes-docker-containerd-podman">Runtimes: Docker, containerd, Podman</a></li>
+    <li><a href="#container-security-essentials">Container security essentials</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>container</strong> is a normal Linux process that the kernel isolates — it gets its own view of files, network and processes, and limited CPU and memory. A <strong>container image</strong> is a portable package of the application and everything it needs (runtime, libraries, config defaults), built in layers and stored in a registry.</p>
+<h2 id="containers-vs-virtual-machines">Containers vs virtual machines<a class="heading-anchor" href="#containers-vs-virtual-machines" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="VMs virtualise hardware; containers virtualise the OS"><figcaption class="diagram__title">VMs virtualise hardware; containers virtualise the OS</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph VM[&#34;Virtual machines&#34;]
+        H1[&#34;Hardware&#34;] --&gt; HV[&#34;Hypervisor&#34;]
+        HV --&gt; G1[&#34;Guest OS + app A&#34;]
+        HV --&gt; G2[&#34;Guest OS + app B&#34;]
+    end
+    subgraph CT[&#34;Containers&#34;]
+        H2[&#34;Hardware&#34;] --&gt; OS[&#34;Host OS kernel&#34;]
+        OS --&gt; C1[&#34;Container: app A&lt;br/&gt;namespaces + cgroups&#34;]
+        OS --&gt; C2[&#34;Container: app B&#34;]
+    end</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>VM</th>
+      <th>Container</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Isolation</td>
+      <td>Strong (separate kernel)</td>
+      <td>Process-level (shared kernel)</td>
+    </tr>
+    <tr>
+      <td>Start time</td>
+      <td>Tens of seconds</td>
+      <td>Milliseconds to seconds</td>
+    </tr>
+    <tr>
+      <td>Size</td>
+      <td>GBs</td>
+      <td>MBs</td>
+    </tr>
+    <tr>
+      <td>Density</td>
+      <td>Lower</td>
+      <td>Higher</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="how-it-works">How it works<a class="heading-anchor" href="#how-it-works" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Namespaces</strong> isolate what a process sees: PID, network, mount, UTS (hostname), IPC, user.</li>
+<li><strong>cgroups</strong> limit what it can use: CPU, memory, I/O.</li>
+<li><strong>Union file systems</strong> stack read-only image layers with a thin writable layer.</li>
+<li><strong>seccomp, capabilities, SELinux/AppArmor</strong> restrict what it may do.</li>
+</ul>
+<h2 id="images-and-oci">Images and OCI<a class="heading-anchor" href="#images-and-oci" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Image layers"><figcaption class="diagram__title">Image layers</figcaption>
+  <pre class="mermaid">flowchart TB
+    L4[&#34;App JAR / binary — changes often&#34;] --&gt; L3[&#34;Dependencies&#34;]
+    L3 --&gt; L2[&#34;Runtime: JRE, Python&#34;]
+    L2 --&gt; L1[&#34;Base OS layer: distroless, UBI, Alpine&#34;]</pre>
+</figure>
+<ul>
+<li>Layers are cached and shared — order Dockerfile instructions from least to most frequently changed.</li>
+<li>The <strong>Open Container Initiative (OCI)</strong> standardises the image format, runtime and distribution, so images built with Docker, Buildah or Jib run on containerd, CRI-O or Podman.</li>
+<li>Registries (Docker Hub, GHCR, Quay, Harbor, ECR, ACR, Artifact Registry) also store <strong>Helm charts, SBOMs and signatures</strong> as OCI artifacts.</li>
+</ul>
+<h2 id="a-good-dockerfile">A good Dockerfile<a class="heading-anchor" href="#a-good-dockerfile" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="c"># ---- build stage ----</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">eclipse-temurin:21-jdk</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/src</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> mvnw pom.xml ./<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> .mvn .mvn<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> ./mvnw -q dependency:go-offline          <span class="c1"># cached unless pom.xml changes</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> src src<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> ./mvnw -q package -DskipTests<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---- runtime stage ----</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">gcr.io/distroless/java21-debian12:nonroot</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> --from<span class="o">=</span>build /src/target/app.jar app.jar<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">USER</span><span class="w"> </span><span class="s">nonroot</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;java&#34;</span><span class="p">,</span> <span class="s2">&#34;-XX:MaxRAMPercentage=75&#34;</span><span class="p">,</span> <span class="s2">&#34;-jar&#34;</span><span class="p">,</span> <span class="s2">&#34;app.jar&#34;</span><span class="p">]</span><span class="err">
+</span></span></span></code></pre></div><p>Best practices:</p>
+<ol>
+<li><strong>Multi-stage builds</strong> — build tools stay out of the runtime image.</li>
+<li><strong>Minimal, maintained base images</strong> — distroless, Chainguard, <strong>Docker Hardened Images</strong> (free since December 2025, with SBOMs and SLSA provenance), Red Hat UBI micro.</li>
+<li><strong>Run as non-root</strong>; read-only root file system where possible.</li>
+<li><strong>Pin base images by digest</strong> and rebuild regularly for patches.</li>
+<li><strong>No secrets in images</strong> — use BuildKit secret mounts at build time and runtime secret injection.</li>
+<li><strong><code>.dockerignore</code></strong> to keep the build context small.</li>
+<li><strong>One process per container</strong>; log to stdout/stderr.</li>
+<li><strong>JVM in containers:</strong> container-aware memory flags (<code>MaxRAMPercentage</code>); consider CDS/AOT or native images for start-up time.</li>
+</ol>
+<h2 id="build-tools">Build tools<a class="heading-anchor" href="#build-tools" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Docker + BuildKit / buildx</strong></td>
+      <td>Default; multi-platform builds, cache export, SBOM and provenance attestations</td>
+    </tr>
+    <tr>
+      <td><strong>Buildah / Podman</strong></td>
+      <td>Daemonless, rootless; common on Red Hat platforms</td>
+    </tr>
+    <tr>
+      <td><strong>Kaniko / BuildKit in CI</strong></td>
+      <td>Build inside Kubernetes without a Docker daemon</td>
+    </tr>
+    <tr>
+      <td><strong>Jib</strong> (Java)</td>
+      <td>Builds optimised layers without a Dockerfile</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud Native Buildpacks</strong> (Paketo)</td>
+      <td>Source to image with maintained base images; used by Spring Boot <code>build-image</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="runtimes-docker-containerd-podman">Runtimes: Docker, containerd, Podman<a class="heading-anchor" href="#runtimes-docker-containerd-podman" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Runtime stack"><figcaption class="diagram__title">Runtime stack</figcaption>
+  <pre class="mermaid">flowchart TB
+    CLI[&#34;docker CLI / podman / kubelet&#34;] --&gt; HL[&#34;High-level runtime&lt;br/&gt;containerd, CRI-O, Podman&#34;]
+    HL --&gt; LL[&#34;Low-level OCI runtime&lt;br/&gt;runc, crun&#34;]
+    LL --&gt; K[&#34;Linux kernel&lt;br/&gt;namespaces, cgroups&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Docker Engine</strong> uses containerd internally; great for developer machines and builds. <strong>Docker Desktop</strong> adds Compose, Kubernetes and dev tooling.</li>
+<li><strong>Kubernetes</strong> talks to <strong>containerd</strong> or <strong>CRI-O</strong> via CRI. (Kubernetes 1.35 is the last release supporting containerd 1.x — move to containerd 2.)</li>
+<li><strong>Podman</strong> is daemonless and rootless, Docker-CLI compatible.</li>
+</ul>
+<h2 id="container-security-essentials">Container security essentials<a class="heading-anchor" href="#container-security-essentials" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Scan images in CI and registries (Trivy, Grype, registry scanners); block critical CVEs with policy.</li>
+<li>Generate <strong>SBOMs</strong>, <strong>sign</strong> images (cosign), verify at admission — see <a href="/cloud-native/kubernetes/kubernetes-security/#supply-chain-security">Kubernetes security</a>.</li>
+<li>Drop capabilities, non-root, seccomp; never <code>--privileged</code>.</li>
+<li>Keep images small and rebuild often.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Using <code>:latest</code></span></p>
+  <div class="callout__body"><p>Not reproducible and impossible to roll back reliably. Tag with version and deploy by digest.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Huge images with build tools and shells</span></p>
+  <div class="callout__body"><p>Larger attack surface and slower pulls. Use multi-stage builds and minimal bases.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Baking environment config and secrets into images</span></p>
+  <div class="callout__body"><p>Build once; inject configuration per environment at deploy time.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What isolates a container?</strong>
+Linux namespaces (what it can see) and cgroups (what it can use), plus seccomp, capabilities and LSMs (what it may do).</p>
+<p><strong>Why use multi-stage builds?</strong>
+To keep compilers and build tools out of the runtime image, making it smaller and more secure.</p>
+<p><strong>What is OCI?</strong>
+The Open Container Initiative standards for image format, runtime and distribution, which let images run on any compliant runtime.</p>
+<p><strong>Docker vs containerd vs Podman?</strong>
+Docker is a developer platform built on containerd; containerd (and CRI-O) are runtimes used by Kubernetes via CRI; Podman is a daemonless, rootless Docker-compatible engine.</p>
+<p><strong>Why deploy by digest?</strong>
+A digest identifies exact image content, so deployments are reproducible and cannot be changed by re-tagging.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Containers are isolated processes; images are layered OCI packages.</li>
+<li>Multi-stage, minimal, non-root, pinned, secret-free images.</li>
+<li>Build with BuildKit, Buildah, Jib or Buildpacks; run on containerd/CRI-O.</li>
+<li>Scan, SBOM, sign and verify every image.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://opencontainers.org/" rel="noopener">Open Container Initiative</a>.</li>
+<li>Docker, <a href="https://docs.docker.com/build/building/best-practices/" rel="noopener">Best practices for building images</a>.</li>
+<li>Docker, <a href="https://docs.docker.com/dhi/" rel="noopener">Docker Hardened Images</a>.</li>
+<li>NIST, <a href="https://csrc.nist.gov/pubs/sp/800/190/final" rel="noopener">SP 800-190 Application Container Security Guide</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/kubernetes/kubernetes-security/">
+        <span class="card__eyebrow">1 · Kubernetes</span>
+        <span class="card__title">Kubernetes security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/ci-cd-pipelines/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">CI/CD &amp; progressive delivery</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/gitops/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">GitOps</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/helm-charts/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Helm charts</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/openshift/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">OpenShift</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/delivery/kubernetes-in-practice/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Kubernetes in practice</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#containers-vs-virtual-machines">Containers vs virtual machines</a></li>
+    <li><a href="#how-it-works">How it works</a></li>
+    <li><a href="#images-and-oci">Images and OCI</a></li>
+    <li><a href="#a-good-dockerfile">A good Dockerfile</a></li>
+    <li><a href="#build-tools">Build tools</a></li>
+    <li><a href="#runtimes-docker-containerd-podman">Runtimes: Docker, containerd, Podman</a></li>
+    <li><a href="#container-security-essentials">Container security essentials</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

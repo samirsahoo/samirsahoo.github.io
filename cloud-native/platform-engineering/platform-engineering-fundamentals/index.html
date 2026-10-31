@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Platform Engineering Fundamentals · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="What platform engineering is and why it emerged, platform as a product, Team Topologies, cognitive load, golden paths and paved roads, the thinnest viable platform, the CNCF platform maturity model, platform teams and roles, and how AI is changing platforms.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/platform-engineering/platform-engineering-fundamentals/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Platform Engineering Fundamentals">
+<meta property="og:description" content="What platform engineering is and why it emerged, platform as a product, Team Topologies, cognitive load, golden paths and paved roads, the thinnest viable platform, the CNCF platform maturity model, platform teams and roles, and how AI is changing platforms.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/platform-engineering/platform-engineering-fundamentals/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Platform Engineering Fundamentals">
+<meta name="twitter:description" content="What platform engineering is and why it emerged, platform as a product, Team Topologies, cognitive load, golden paths and paved roads, the thinnest viable platform, the CNCF platform maturity model, platform teams and roles, and how AI is changing platforms.">
+<meta name="keywords" content="platform-engineering">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"What platform engineering is and why it emerged, platform as a product, Team Topologies, cognitive load, golden paths and paved roads, the thinnest viable platform, the CNCF platform maturity model, platform teams and roles, and how AI is changing platforms.","headline":"Platform Engineering Fundamentals","inLanguage":"en","isAccessibleForFree":true,"keywords":"platform-engineering","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/platform-engineering/platform-engineering-fundamentals/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/platform-engineering/","name":"3 · Platform Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/platform-engineering/platform-engineering-fundamentals/","name":"Platform engineering","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-platform-engineering">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/" aria-current="page">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a></li>
+    <li><span aria-current="page">Platform engineering</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Platform Engineering Fundamentals</h1><p class="article__lede" itemprop="description">What platform engineering is and why it emerged, platform as a product, Team Topologies, cognitive load, golden paths and paved roads, the thinnest viable platform, the CNCF platform maturity model, platform teams and roles, and how AI is changing platforms.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/platform-engineering/">#Platform-Engineering</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-emerged">Why it emerged</a></li>
+    <li><a href="#platform-as-a-product">Platform as a product</a></li>
+    <li><a href="#team-topologies">Team Topologies</a></li>
+    <li><a href="#golden-paths-and-guardrails">Golden paths and guardrails</a></li>
+    <li><a href="#the-thinnest-viable-platform">The thinnest viable platform</a></li>
+    <li><a href="#platform-capabilities">Platform capabilities</a></li>
+    <li><a href="#cncf-platform-maturity-model">CNCF platform maturity model</a></li>
+    <li><a href="#roles-in-a-platform-team">Roles in a platform team</a></li>
+    <li><a href="#platform-engineering-and-ai-2026">Platform engineering and AI (2026)</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Platform engineering</strong> is the discipline of building and running <strong>internal platforms</strong> — curated, self-service capabilities for infrastructure, delivery, security and operations — so that application teams can deliver software quickly and safely without each team becoming an expert in Kubernetes, cloud, networking and compliance.</p>
+<h2 id="why-it-emerged">Why it emerged<a class="heading-anchor" href="#why-it-emerged" aria-label="Link to this section">#</a></h2>
+<p>&ldquo;You build it, you run it&rdquo; DevOps gave teams ownership — and also gave every team the whole cloud native landscape to learn. The result: <strong>cognitive overload</strong>, duplicated tooling, inconsistent security and slow onboarding.</p>
+<figure class="diagram" aria-label="From DevOps sprawl to a platform"><figcaption class="diagram__title">From DevOps sprawl to a platform</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Before[&#34;Every team does everything&#34;]
+        T1[&#34;Team A: own CI, clusters,&lt;br/&gt;secrets, monitoring&#34;]
+        T2[&#34;Team B: different CI,&lt;br/&gt;different clusters&#34;]
+        T3[&#34;Team C: tickets to ops&lt;br/&gt;for every resource&#34;]
+    end
+    subgraph After[&#34;Platform as a product&#34;]
+        P[&#34;Platform team&lt;br/&gt;self-service APIs, golden paths,&lt;br/&gt;guardrails built in&#34;]
+        A1[&#34;Team A&#34;] --&gt; P
+        A2[&#34;Team B&#34;] --&gt; P
+        A3[&#34;Team C&#34;] --&gt; P
+    end
+    Before --&gt; After</pre>
+</figure>
+<h2 id="platform-as-a-product">Platform as a product<a class="heading-anchor" href="#platform-as-a-product" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Product practice</th>
+      <th>In a platform team</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Know your users</td>
+      <td>Interview developers; map their journeys and pain points</td>
+    </tr>
+    <tr>
+      <td>Product manager</td>
+      <td>A platform product owner prioritises by developer value</td>
+    </tr>
+    <tr>
+      <td>Roadmap</td>
+      <td>Published; built with users</td>
+    </tr>
+    <tr>
+      <td>Adoption is voluntary</td>
+      <td>The paved road must be easier than the alternatives</td>
+    </tr>
+    <tr>
+      <td>Measure outcomes</td>
+      <td>Adoption, onboarding time, lead time, satisfaction — not number of tools</td>
+    </tr>
+    <tr>
+      <td>Documentation &amp; support</td>
+      <td>Docs, examples, office hours, SLOs for the platform itself</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="team-topologies">Team Topologies<a class="heading-anchor" href="#team-topologies" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Team Topologies"><figcaption class="diagram__title">Team Topologies</figcaption>
+  <pre class="mermaid">flowchart TB
+    SA[&#34;Stream-aligned teams&lt;br/&gt;deliver business value&#34;] --&gt;|&#34;X-as-a-Service&#34;| PT[&#34;Platform team&lt;br/&gt;self-service capabilities&#34;]
+    EN[&#34;Enabling team&lt;br/&gt;coaching, adoption&#34;] -.-&gt;|&#34;facilitating&#34;| SA
+    CS[&#34;Complicated-subsystem team&lt;br/&gt;e.g. payments engine, ML models&#34;] --&gt;|&#34;X-as-a-Service&#34;| SA</pre>
+</figure>
+<ul>
+<li><strong>Stream-aligned teams</strong> own a product or value stream end to end.</li>
+<li><strong>Platform teams</strong> reduce their cognitive load by offering internal services.</li>
+<li><strong>Enabling teams</strong> help others adopt practices (SRE, security, testing).</li>
+<li>Interaction modes: <strong>collaboration</strong> (temporary), <strong>X-as-a-Service</strong> (default for platforms), <strong>facilitating</strong>.</li>
+</ul>
+<h2 id="golden-paths-and-guardrails">Golden paths and guardrails<a class="heading-anchor" href="#golden-paths-and-guardrails" aria-label="Link to this section">#</a></h2>
+<p>A <strong>golden path</strong> (or paved road) is an opinionated, supported, end-to-end way to do a common task — &ldquo;create a new Java service&rdquo;, &ldquo;add a Postgres database&rdquo;, &ldquo;expose an API&rdquo; — with security, observability and compliance built in.</p>
+<ul>
+<li><strong>Optional, not mandatory</strong>: teams may leave the path, but then own the extra work.</li>
+<li><strong>Guardrails, not gates</strong>: policies enforced automatically (admission, scans, budgets) instead of manual reviews.</li>
+<li><strong>Living code</strong>: templates are versioned and updated; existing services get upgrades (for example via Renovate or template updates).</li>
+</ul>
+<h2 id="the-thinnest-viable-platform">The thinnest viable platform<a class="heading-anchor" href="#the-thinnest-viable-platform" aria-label="Link to this section">#</a></h2>
+<p>Start with the smallest thing that removes the biggest pain — sometimes a wiki page with standards and a few templates. Grow the platform from real demand rather than building a large platform up front.</p>
+<h2 id="platform-capabilities">Platform capabilities<a class="heading-anchor" href="#platform-capabilities" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Capability area</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Developer portal</td>
+      <td>Catalog, docs, templates, scorecards (Backstage)</td>
+    </tr>
+    <tr>
+      <td>Delivery</td>
+      <td>CI templates, registries, GitOps, progressive delivery</td>
+    </tr>
+    <tr>
+      <td>Runtime</td>
+      <td>Kubernetes clusters, namespaces, gateways, service mesh</td>
+    </tr>
+    <tr>
+      <td>Infrastructure self-service</td>
+      <td>Databases, queues, buckets via Crossplane/kro/Terraform modules</td>
+    </tr>
+    <tr>
+      <td>Security</td>
+      <td>Identity, secrets, policies, image signing, scanning</td>
+    </tr>
+    <tr>
+      <td>Observability</td>
+      <td>OpenTelemetry, dashboards, alerting, SLO tooling</td>
+    </tr>
+    <tr>
+      <td>Cost</td>
+      <td>Allocation, showback, budgets</td>
+    </tr>
+    <tr>
+      <td>AI capabilities</td>
+      <td>Model gateways, GPU pools, MCP servers, AI-assisted golden paths</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="cncf-platform-maturity-model">CNCF platform maturity model<a class="heading-anchor" href="#cncf-platform-maturity-model" aria-label="Link to this section">#</a></h2>
+<p>The CNCF Platforms working group&rsquo;s maturity model assesses five aspects across four levels (<strong>provisional → operational → scalable → optimizing</strong>):</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Question</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Investment</strong></td>
+      <td>How are staff and funds allocated to the platform?</td>
+    </tr>
+    <tr>
+      <td><strong>Adoption</strong></td>
+      <td>How and why do users discover and use it?</td>
+    </tr>
+    <tr>
+      <td><strong>Interfaces</strong></td>
+      <td>How do users interact with it (tickets → self-service → APIs and portals)?</td>
+    </tr>
+    <tr>
+      <td><strong>Operations</strong></td>
+      <td>How are capabilities planned, run and maintained?</td>
+    </tr>
+    <tr>
+      <td><strong>Measurement</strong></td>
+      <td>How is feedback gathered and used?</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="roles-in-a-platform-team">Roles in a platform team<a class="heading-anchor" href="#roles-in-a-platform-team" aria-label="Link to this section">#</a></h2>
+<p>Platform product manager, platform engineers (Kubernetes, cloud, delivery), SRE, security engineers, developer advocates / technical writers. Size grows with adoption — measured by value delivered, not ticket throughput.</p>
+<h2 id="platform-engineering-and-ai-2026">Platform engineering and AI (2026)<a class="heading-anchor" href="#platform-engineering-and-ai-2026" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>AI-assisted golden paths</strong>: natural-language requests that produce repositories, manifests and pipelines from approved templates.</li>
+<li><strong>Platforms for AI workloads</strong>: GPU pools, DRA scheduling, model serving, AI gateways — industry surveys in 2026 show many organisations integrating AI workloads into existing developer platforms rather than building separate ones.</li>
+<li><strong>Agents as platform users</strong>: coding agents consume the same APIs, templates and guardrails (for example via MCP servers), so the platform&rsquo;s guardrails protect against agent mistakes too.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Building a platform nobody asked for</span></p>
+  <div class="callout__body"><p>A big-bang platform designed without users gets bypassed. Start thin, co-design with pilot teams and measure adoption.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Renaming the ops team &ldquo;platform&rdquo; without changing the model</span></p>
+  <div class="callout__body"><p>If the interface is still tickets, it is not a platform. Aim for self-service APIs and portals.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Mandating the platform</span></p>
+  <div class="callout__body"><p>Forced adoption hides product problems. Make the paved road the easiest road.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is platform engineering?</strong>
+Building and running internal self-service platforms that reduce developers&rsquo; cognitive load and embed security, reliability and compliance.</p>
+<p><strong>What does &ldquo;platform as a product&rdquo; mean?</strong>
+Treating developers as customers: understanding their needs, prioritising by value, keeping adoption voluntary and measuring outcomes.</p>
+<p><strong>What is a golden path?</strong>
+An opinionated, supported, end-to-end way to perform a common task, with best practices and guardrails built in.</p>
+<p><strong>What are the four Team Topologies team types?</strong>
+Stream-aligned, platform, enabling and complicated-subsystem.</p>
+<p><strong>Name the five aspects of the CNCF platform maturity model.</strong>
+Investment, adoption, interfaces, operations and measurement.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Platforms reduce cognitive load by offering self-service capabilities with guardrails.</li>
+<li>Run the platform as a product; start thin; make the golden path the easiest path.</li>
+<li>Use Team Topologies; measure maturity across investment, adoption, interfaces, operations and measurement.</li>
+<li>AI is both a platform capability and a new kind of platform user.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>CNCF TAG App Delivery, <a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/" rel="noopener">Platforms white paper</a> and <a href="https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/" rel="noopener">Platform engineering maturity model</a>.</li>
+<li>Skelton &amp; Pais, <em>Team Topologies</em>, IT Revolution, 2019.</li>
+<li>CNCF, <a href="https://www.cncf.io/announcements/2026/03/24/cncf-and-slashdata-report-finds-platform-engineering-tools-maturing-as-organizations-prepare-for-ai-driven-infrastructure/" rel="noopener">CNCF and SlashData report on platform engineering</a>, March 2026.</li>
+<li>platformengineering.org, <a href="https://platformengineering.org/blog/platform-engineering-maturity-in-2026" rel="noopener">Platform engineering maturity in 2026</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/internal-developer-platforms/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Internal developer platforms</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/developer-experience/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Developer experience</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/case-study-developer-platform/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Case study: developer platform</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/platform-engineering/internal-developer-platforms/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Internal developer platforms</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-emerged">Why it emerged</a></li>
+    <li><a href="#platform-as-a-product">Platform as a product</a></li>
+    <li><a href="#team-topologies">Team Topologies</a></li>
+    <li><a href="#golden-paths-and-guardrails">Golden paths and guardrails</a></li>
+    <li><a href="#the-thinnest-viable-platform">The thinnest viable platform</a></li>
+    <li><a href="#platform-capabilities">Platform capabilities</a></li>
+    <li><a href="#cncf-platform-maturity-model">CNCF platform maturity model</a></li>
+    <li><a href="#roles-in-a-platform-team">Roles in a platform team</a></li>
+    <li><a href="#platform-engineering-and-ai-2026">Platform engineering and AI (2026)</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

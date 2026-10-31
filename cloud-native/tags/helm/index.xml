@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Helm on Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/cloud-native/tags/helm/</link>
+		<description>Recent content in Helm on Cloud Native &amp; Platform Engineering Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/cloud-native/tags/helm/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Helm Charts</title>
+				<link>https://samirsahoo.github.io/cloud-native/delivery/helm-charts/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/delivery/helm-charts/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Helm&lt;/strong&gt; is the package manager for Kubernetes. A &lt;strong&gt;chart&lt;/strong&gt; is a versioned package of templated Kubernetes manifests; &lt;strong&gt;values&lt;/strong&gt; customise it per environment; installing a chart creates a &lt;strong&gt;release&lt;/strong&gt; that Helm can upgrade and roll back.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

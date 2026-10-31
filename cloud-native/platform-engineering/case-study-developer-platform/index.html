@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Design: An Internal Developer Platform for 300 Teams · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="A complete system design for an enterprise internal developer platform: requirements, sizing, architecture, golden-path flow, tenancy model, cluster fleet, delivery, security and compliance, observability, cost, rollout plan, success metrics and trade-offs.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/platform-engineering/case-study-developer-platform/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="System Design: An Internal Developer Platform for 300 Teams">
+<meta property="og:description" content="A complete system design for an enterprise internal developer platform: requirements, sizing, architecture, golden-path flow, tenancy model, cluster fleet, delivery, security and compliance, observability, cost, rollout plan, success metrics and trade-offs.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/platform-engineering/case-study-developer-platform/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="System Design: An Internal Developer Platform for 300 Teams">
+<meta name="twitter:description" content="A complete system design for an enterprise internal developer platform: requirements, sizing, architecture, golden-path flow, tenancy model, cluster fleet, delivery, security and compliance, observability, cost, rollout plan, success metrics and trade-offs.">
+<meta name="keywords" content="platform-engineering, system-design, case-study">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"A complete system design for an enterprise internal developer platform: requirements, sizing, architecture, golden-path flow, tenancy model, cluster fleet, delivery, security and compliance, observability, cost, rollout plan, success metrics and trade-offs.","headline":"System Design: An Internal Developer Platform for 300 Teams","inLanguage":"en","isAccessibleForFree":true,"keywords":"platform-engineering, system-design, case-study","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/platform-engineering/case-study-developer-platform/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/platform-engineering/","name":"3 · Platform Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/platform-engineering/case-study-developer-platform/","name":"Case study: developer platform","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-platform-engineering">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/" aria-current="page">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a></li>
+    <li><span aria-current="page">Case study: developer platform</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">System Design: An Internal Developer Platform for 300 Teams</h1><p class="article__lede" itemprop="description">A complete system design for an enterprise internal developer platform: requirements, sizing, architecture, golden-path flow, tenancy model, cluster fleet, delivery, security and compliance, observability, cost, rollout plan, success metrics and trade-offs.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/platform-engineering/">#Platform-Engineering</a><a class="tag" href="/cloud-native/tags/system-design/">#System-Design</a><a class="tag" href="/cloud-native/tags/case-study/">#Case-Study</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a>, <a href="/cloud-native/delivery/gitops/">GitOps</a>, <a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-requirements">1. Requirements</a></li>
+    <li><a href="#2-sizing-rough">2. Sizing (rough)</a></li>
+    <li><a href="#3-architecture">3. Architecture</a></li>
+    <li><a href="#4-golden-path-flow">4. Golden path flow</a></li>
+    <li><a href="#5-tenancy-model">5. Tenancy model</a></li>
+    <li><a href="#6-security-and-compliance">6. Security and compliance</a></li>
+    <li><a href="#7-reliability-of-the-platform-itself">7. Reliability of the platform itself</a></li>
+    <li><a href="#8-rollout-plan">8. Rollout plan</a></li>
+    <li><a href="#9-success-metrics">9. Success metrics</a></li>
+    <li><a href="#10-trade-offs">10. Trade-offs</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="the-design-brief">The design brief<a class="heading-anchor" href="#the-design-brief" aria-label="Link to this section">#</a></h2>
+<blockquote><p><em>&ldquo;A bank with 300 delivery teams (about 2,500 developers) runs a mix of VMs and early Kubernetes clusters. New services take six weeks to reach production through tickets. Design an internal developer platform that gets a new service to production in under a day — securely and compliantly.&rdquo;</em></p>
+</blockquote><h2 id="1-requirements">1. Requirements<a class="heading-anchor" href="#1-requirements" aria-label="Link to this section">#</a></h2>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Self-service creation of services (Java, Node, Python), databases, queues and environments.</li>
+<li>Standard CI/CD with security scanning, signing and progressive delivery.</li>
+<li>Catalog of all services with owners, docs, dependencies, runtime status and cost.</li>
+<li>Environments: dev, test, staging, prod; ephemeral preview environments per PR.</li>
+</ul>
+<p><strong>Non-functional</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>Target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>New service to production</td>
+      <td>&lt; 1 day (target: first deploy to dev in &lt; 15 minutes)</td>
+    </tr>
+    <tr>
+      <td>Platform availability</td>
+      <td>99.9% for CI, registry, GitOps; 99.95% for production clusters</td>
+    </tr>
+    <tr>
+      <td>Compliance</td>
+      <td>Segregation of duties, audit trail, change evidence, encryption, EU data residency</td>
+    </tr>
+    <tr>
+      <td>Scale</td>
+      <td>~3,000 services, ~25,000 Pods in production, ~150 deployments/day</td>
+    </tr>
+    <tr>
+      <td>Security</td>
+      <td>Signed images only; least privilege; no cluster credentials in CI</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="2-sizing-rough">2. Sizing (rough)<a class="heading-anchor" href="#2-sizing-rough" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>3,000 services × average 3 replicas × 0.5 vCPU / 1 GiB → ~4,500 vCPU / 9 TiB requested in prod; plus non-prod ≈ 1.5× → plan for ~12,000 vCPU across environments with autoscaling.</li>
+<li>Clusters: prod per region (2 regions) split by tenancy class (general, regulated) → 4 prod clusters; non-prod 4–6 clusters; platform/management cluster(s).</li>
+<li>CI: ~5,000 builds/day peak → autoscaled runners on Kubernetes.</li>
+</ul>
+<h2 id="3-architecture">3. Architecture<a class="heading-anchor" href="#3-architecture" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/idp-reference.html" title="Internal developer platform reference architecture" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>Internal developer platform reference architecture · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/idp-reference.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Plane</th>
+      <th>Choice</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Portal</td>
+      <td>Backstage (or Red Hat Developer Hub)</td>
+      <td>Catalog, templates, docs, plugins</td>
+    </tr>
+    <tr>
+      <td>CI</td>
+      <td>GitHub Actions with self-hosted runners (ARC)</td>
+      <td>Close to code; OIDC to cloud; scalable</td>
+    </tr>
+    <tr>
+      <td>Registry</td>
+      <td>Harbor or cloud registry, OCI for images + charts + SBOMs</td>
+      <td>Signing, scanning, replication</td>
+    </tr>
+    <tr>
+      <td>CD</td>
+      <td>Argo CD (ApplicationSets) + Argo Rollouts</td>
+      <td>Pull-based, multi-cluster, progressive delivery</td>
+    </tr>
+    <tr>
+      <td>Release governance</td>
+      <td>Risk-based automated change records; release orchestration for multi-team releases</td>
+      <td>Compliance without blocking</td>
+    </tr>
+    <tr>
+      <td>Infra self-service</td>
+      <td>Crossplane compositions (Postgres, Kafka topics, buckets)</td>
+      <td>Capabilities as APIs with defaults</td>
+    </tr>
+    <tr>
+      <td>Runtime</td>
+      <td>Managed Kubernetes / OpenShift; Gateway API; Cilium</td>
+      <td>Standard, secure networking</td>
+    </tr>
+    <tr>
+      <td>Security</td>
+      <td>Kyverno, Sigstore, External Secrets + Vault, workload identity, Falco</td>
+      <td>Guardrails as code</td>
+    </tr>
+    <tr>
+      <td>Observability</td>
+      <td>OpenTelemetry → Prometheus/Mimir, Loki, Tempo, Grafana; SLO tooling</td>
+      <td>Built into templates</td>
+    </tr>
+    <tr>
+      <td>Cost</td>
+      <td>OpenCost + cloud billing (FOCUS) in the portal</td>
+      <td>Showback per team</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="4-golden-path-flow">4. Golden path flow<a class="heading-anchor" href="#4-golden-path-flow" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/cloud-native/diagrams/golden-path.html" title="Golden path: a new service in minutes" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>Golden path: a new service in minutes · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/cloud-native/diagrams/golden-path.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<p>What the template delivers out of the box: repository with code skeleton, Dockerfile, CI workflow (tests, SAST, SCA, image build, SBOM, signing), Helm/Kustomize manifests with secure defaults, <code>catalog-info.yaml</code>, TechDocs, dashboards and SLO definitions, Argo CD Application, and a database claim if requested.</p>
+<h2 id="5-tenancy-model">5. Tenancy model<a class="heading-anchor" href="#5-tenancy-model" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Team tenancy"><figcaption class="diagram__title">Team tenancy</figcaption>
+  <pre class="mermaid">flowchart TB
+    TEAM[&#34;Team &#39;shop&#39;&#34;] --&gt; NS1[&#34;Namespaces: shop-dev, shop-test,&lt;br/&gt;shop-staging, shop-prod&#34;]
+    NS1 --&gt; Q[&#34;ResourceQuota + LimitRange&#34;]
+    NS1 --&gt; NP[&#34;Default-deny NetworkPolicies&#34;]
+    NS1 --&gt; PSA[&#34;Pod Security: restricted&#34;]
+    NS1 --&gt; RB[&#34;RBAC from IdP groups&lt;br/&gt;read-only in prod&#34;]
+    TEAM --&gt; AP[&#34;Argo CD Project&lt;br/&gt;allowed repos + destinations&#34;]</pre>
+</figure>
+<ul>
+<li>Namespace-per-team-per-environment on shared clusters; regulated workloads on dedicated clusters.</li>
+<li>Humans have read-only access to production; changes only through Git (segregation of duties via PR reviews by a second person).</li>
+</ul>
+<h2 id="6-security-and-compliance">6. Security and compliance<a class="heading-anchor" href="#6-security-and-compliance" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Supply chain: SLSA provenance, cosign signatures, SBOMs, Kyverno <code>verifyImages</code> at admission.</li>
+<li>Policies: required labels/owners, no privileged Pods, approved registries, resource requests.</li>
+<li>Secrets in Vault via External Secrets; workload identity for cloud access.</li>
+<li>Audit: Git history + Argo CD events + API audit logs + automated change records = evidence.</li>
+</ul>
+<h2 id="7-reliability-of-the-platform-itself">7. Reliability of the platform itself<a class="heading-anchor" href="#7-reliability-of-the-platform-itself" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Platform components have SLOs and on-call; HA across zones; GitOps for platform config.</li>
+<li>Break-glass access procedure, audited.</li>
+<li>Disaster recovery: clusters rebuildable from Git; Velero for stateful add-ons; registry replication across regions.</li>
+</ul>
+<h2 id="8-rollout-plan">8. Rollout plan<a class="heading-anchor" href="#8-rollout-plan" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Scope</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0–3 months</td>
+      <td>Thinnest viable platform: one golden path (Java service), CI template, Argo CD, one non-prod and one prod cluster; 3 pilot teams</td>
+    </tr>
+    <tr>
+      <td>3–6 months</td>
+      <td>Catalog for all services, database and queue claims, observability defaults, policy enforcement in audit mode</td>
+    </tr>
+    <tr>
+      <td>6–12 months</td>
+      <td>100 teams onboarded; preview environments; enforce policies; cost showback; second region</td>
+    </tr>
+    <tr>
+      <td>12+ months</td>
+      <td>Remaining teams; VM migration path (OpenShift Virtualization or rehost); AI-assisted templates</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="9-success-metrics">9. Success metrics<a class="heading-anchor" href="#9-success-metrics" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Time to first deploy for a new service: 6 weeks → &lt; 1 day.</li>
+<li>Lead time for changes and deployment frequency (DORA) per team.</li>
+<li>Golden-path adoption %, platform satisfaction score, tickets per deployment.</li>
+<li>Policy violations trending down; mean time to recover.</li>
+</ul>
+<h2 id="10-trade-offs">10. Trade-offs<a class="heading-anchor" href="#10-trade-offs" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Decision</th>
+      <th>Choice</th>
+      <th>Alternative</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Shared vs dedicated clusters</td>
+      <td>Shared per environment + dedicated for regulated</td>
+      <td>Cluster per team: stronger isolation, much more to operate</td>
+    </tr>
+    <tr>
+      <td>Portal</td>
+      <td>Backstage</td>
+      <td>Commercial portal: faster start, licence cost</td>
+    </tr>
+    <tr>
+      <td>Infra APIs</td>
+      <td>Crossplane</td>
+      <td>Terraform via pipelines: mature, less real-time reconciliation</td>
+    </tr>
+    <tr>
+      <td>CD</td>
+      <td>Argo CD</td>
+      <td>Flux: lighter, fewer UI features</td>
+    </tr>
+    <tr>
+      <td>Governance</td>
+      <td>Risk-based automation</td>
+      <td>Manual CAB for all: slower, not safer</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">What makes this design strong</span></p>
+  <div class="callout__body"><p>It starts thin, measures outcomes, builds guardrails instead of gates, and treats the platform as a product with SLOs — while meeting banking compliance through automated evidence.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>Why namespace-per-team-per-environment instead of a cluster per team?</strong>
+It balances isolation with operational cost: quotas, policies, RBAC and NetworkPolicies isolate teams on shared clusters; dedicated clusters are reserved for regulated or special workloads.</p>
+<p><strong>How is segregation of duties achieved without manual deployments?</strong>
+All changes flow through Git with mandatory review by another person; humans are read-only in production; GitOps applies changes; audit evidence is collected automatically.</p>
+<p><strong>What does the golden-path template include?</strong>
+Repository skeleton, Dockerfile, CI with scanning and signing, manifests with secure defaults, catalog entry, docs, dashboards and SLOs, Argo CD Application and optional infrastructure claims.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Thin, product-managed platform: Backstage + CI templates + Argo CD + Crossplane + guardrails.</li>
+<li>Golden paths deliver secure, observable services in minutes.</li>
+<li>Tenancy by namespace with policies; dedicated clusters for regulated workloads.</li>
+<li>Compliance through Git, automation and evidence; success measured by lead time and adoption.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/sre/case-study-multi-region-platform/">
+        <span class="card__eyebrow">4 · SRE &amp; FinOps</span>
+        <span class="card__title">Case study: multi-region platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/self-review/platform-review-checklist/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Platform review checklist</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/developer-experience/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Developer experience</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/internal-developer-platforms/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Internal developer platforms</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Platform engineering</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/platform-engineering/developer-experience/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Developer experience</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-requirements">1. Requirements</a></li>
+    <li><a href="#2-sizing-rough">2. Sizing (rough)</a></li>
+    <li><a href="#3-architecture">3. Architecture</a></li>
+    <li><a href="#4-golden-path-flow">4. Golden path flow</a></li>
+    <li><a href="#5-tenancy-model">5. Tenancy model</a></li>
+    <li><a href="#6-security-and-compliance">6. Security and compliance</a></li>
+    <li><a href="#7-reliability-of-the-platform-itself">7. Reliability of the platform itself</a></li>
+    <li><a href="#8-rollout-plan">8. Rollout plan</a></li>
+    <li><a href="#9-success-metrics">9. Success metrics</a></li>
+    <li><a href="#10-trade-offs">10. Trade-offs</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

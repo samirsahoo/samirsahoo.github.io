@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Developer Experience: Measuring and Improving It · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="What developer experience (DevEx) is, the three core dimensions (feedback loops, cognitive load, flow state), measurement frameworks (DORA, SPACE, DevEx, DX Core 4), surveys plus system metrics, platform metrics, inner loop vs outer loop, AI coding assistants, and how to run a DevEx improvement programme.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/platform-engineering/developer-experience/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Developer Experience: Measuring and Improving It">
+<meta property="og:description" content="What developer experience (DevEx) is, the three core dimensions (feedback loops, cognitive load, flow state), measurement frameworks (DORA, SPACE, DevEx, DX Core 4), surveys plus system metrics, platform metrics, inner loop vs outer loop, AI coding assistants, and how to run a DevEx improvement programme.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/platform-engineering/developer-experience/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Developer Experience: Measuring and Improving It">
+<meta name="twitter:description" content="What developer experience (DevEx) is, the three core dimensions (feedback loops, cognitive load, flow state), measurement frameworks (DORA, SPACE, DevEx, DX Core 4), surveys plus system metrics, platform metrics, inner loop vs outer loop, AI coding assistants, and how to run a DevEx improvement programme.">
+<meta name="keywords" content="platform-engineering, devex">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"What developer experience (DevEx) is, the three core dimensions (feedback loops, cognitive load, flow state), measurement frameworks (DORA, SPACE, DevEx, DX Core 4), surveys plus system metrics, platform metrics, inner loop vs outer loop, AI coding assistants, and how to run a DevEx improvement programme.","headline":"Developer Experience: Measuring and Improving It","inLanguage":"en","isAccessibleForFree":true,"keywords":"platform-engineering, devex","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/platform-engineering/developer-experience/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/platform-engineering/","name":"3 · Platform Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/platform-engineering/developer-experience/","name":"Developer experience","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-platform-engineering">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/" aria-current="page">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a></li>
+    <li><span aria-current="page">Developer experience</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Developer Experience: Measuring and Improving It</h1><p class="article__lede" itemprop="description">What developer experience (DevEx) is, the three core dimensions (feedback loops, cognitive load, flow state), measurement frameworks (DORA, SPACE, DevEx, DX Core 4), surveys plus system metrics, platform metrics, inner loop vs outer loop, AI coding assistants, and how to run a DevEx improvement programme.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/platform-engineering/">#Platform-Engineering</a><a class="tag" href="/cloud-native/tags/devex/">#Devex</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-three-dimensions-of-devex">The three dimensions of DevEx</a></li>
+    <li><a href="#inner-loop-and-outer-loop">Inner loop and outer loop</a></li>
+    <li><a href="#measurement-frameworks">Measurement frameworks</a>
+      <ul>
+        <li><a href="#combine-perception-and-system-data">Combine perception and system data</a></li>
+      </ul>
+    </li>
+    <li><a href="#platform-specific-metrics">Platform-specific metrics</a></li>
+    <li><a href="#ai-coding-assistants-and-agents">AI coding assistants and agents</a></li>
+    <li><a href="#running-a-devex-programme">Running a DevEx programme</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Developer experience (DevEx)</strong> is how developers feel about, think about and value their work environment — tools, processes, platforms and culture. Good DevEx lets developers spend their time on valuable work instead of waiting, searching and fighting friction. It is the main outcome a platform team should improve.</p>
+<h2 id="the-three-dimensions-of-devex">The three dimensions of DevEx<a class="heading-anchor" href="#the-three-dimensions-of-devex" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="DevEx core dimensions"><figcaption class="diagram__title">DevEx core dimensions</figcaption>
+  <pre class="mermaid">flowchart TB
+    DX[&#34;Developer experience&#34;] --&gt; FL[&#34;Feedback loops&lt;br/&gt;how fast do I learn if my change works?&lt;br/&gt;build, test, review, deploy times&#34;]
+    DX --&gt; CL[&#34;Cognitive load&lt;br/&gt;how much do I need to know and hold in mind?&lt;br/&gt;tools, docs, complexity&#34;]
+    DX --&gt; FS[&#34;Flow state&lt;br/&gt;can I focus without interruption?&lt;br/&gt;meetings, context switches, on-call&#34;]</pre>
+</figure>
+<h2 id="inner-loop-and-outer-loop">Inner loop and outer loop<a class="heading-anchor" href="#inner-loop-and-outer-loop" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Where developer time goes"><figcaption class="diagram__title">Where developer time goes</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Inner[&#34;Inner loop — seconds to minutes&#34;]
+        E[&#34;Edit&#34;] --&gt; B[&#34;Build&#34;] --&gt; T[&#34;Test locally&#34;] --&gt; E
+    end
+    subgraph Outer[&#34;Outer loop — minutes to days&#34;]
+        PR[&#34;Pull request&#34;] --&gt; CI[&#34;CI&#34;] --&gt; RV[&#34;Review&#34;] --&gt; DEP[&#34;Deploy&#34;] --&gt; OBS[&#34;Observe in prod&#34;]
+    end
+    Inner --&gt; PR</pre>
+</figure>
+<p>Platform teams improve both: fast local environments (dev containers, Tilt/Skaffold, remote dev environments, ephemeral preview environments) and a fast, reliable outer loop (CI speed, review tooling, GitOps, self-service).</p>
+<h2 id="measurement-frameworks">Measurement frameworks<a class="heading-anchor" href="#measurement-frameworks" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Framework</th>
+      <th>What it measures</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>DORA</strong></td>
+      <td>Delivery performance: deployment frequency, lead time, change failure rate, recovery time (+ reliability)</td>
+      <td>System metrics; team/organisation level</td>
+    </tr>
+    <tr>
+      <td><strong>SPACE</strong></td>
+      <td>Satisfaction, Performance, Activity, Communication &amp; collaboration, Efficiency &amp; flow</td>
+      <td>A lens: use several dimensions, never one metric</td>
+    </tr>
+    <tr>
+      <td><strong>DevEx framework</strong></td>
+      <td>Feedback loops, cognitive load, flow state — perceptions + workflows</td>
+      <td>Combines surveys and system data</td>
+    </tr>
+    <tr>
+      <td><strong>DX Core 4</strong></td>
+      <td>Speed, effectiveness, quality, impact</td>
+      <td>Unifies DORA, SPACE and DevEx into a small set</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="combine-perception-and-system-data">Combine perception and system data<a class="heading-anchor" href="#combine-perception-and-system-data" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Survey (perceptual)</strong></td>
+      <td>&ldquo;How easy is it to deploy a change?&rdquo; &ldquo;How often are you blocked waiting for other teams?&rdquo; Satisfaction with CI, docs, environments</td>
+    </tr>
+    <tr>
+      <td><strong>System (behavioural)</strong></td>
+      <td>CI duration and flakiness, PR review time, time to first deploy for a new service, environment provisioning time, incident load</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="platform-specific-metrics">Platform-specific metrics<a class="heading-anchor" href="#platform-specific-metrics" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Time to first deploy</strong> for a new service</td>
+      <td>End-to-end golden path effectiveness</td>
+    </tr>
+    <tr>
+      <td><strong>Onboarding time</strong> to first merged PR</td>
+      <td>Docs, access, environments</td>
+    </tr>
+    <tr>
+      <td><strong>Golden path adoption</strong></td>
+      <td>% of services on templates, current versions</td>
+    </tr>
+    <tr>
+      <td><strong>Self-service rate</strong></td>
+      <td>Requests fulfilled without tickets</td>
+    </tr>
+    <tr>
+      <td><strong>Platform NPS / satisfaction</strong></td>
+      <td>Product health</td>
+    </tr>
+    <tr>
+      <td><strong>Platform reliability</strong></td>
+      <td>SLOs of CI, registry, GitOps, clusters</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Measuring individuals by activity</span></p>
+  <div class="callout__body"><p>Lines of code, commits or story points per person encourage gaming and damage trust. Measure systems and teams, combine with surveys, and use data to remove friction — not to rank people.</p></div>
+</aside><h2 id="ai-coding-assistants-and-agents">AI coding assistants and agents<a class="heading-anchor" href="#ai-coding-assistants-and-agents" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Assistants and coding agents can shorten the inner loop, but gains depend on context: codebase knowledge, review capacity, tests and CI speed.</li>
+<li>Measure impact with the same frameworks: lead time, change failure rate, review load, developer satisfaction — not &ldquo;lines of AI code&rdquo;.</li>
+<li>Platforms help: repository instructions (AGENTS.md), MCP servers for internal tools, sandboxes, policies and fast CI so agent-produced changes are verified quickly.</li>
+</ul>
+<h2 id="running-a-devex-programme">Running a DevEx programme<a class="heading-anchor" href="#running-a-devex-programme" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="DevEx improvement loop"><figcaption class="diagram__title">DevEx improvement loop</figcaption>
+  <pre class="mermaid">flowchart LR
+    S[&#34;Survey + system data&lt;br/&gt;quarterly&#34;] --&gt; F[&#34;Find top friction&lt;br/&gt;by team and journey&#34;]
+    F --&gt; P[&#34;Prioritise with teams&lt;br/&gt;platform roadmap&#34;]
+    P --&gt; I[&#34;Improve&lt;br/&gt;golden paths, CI, docs, env&#34;]
+    I --&gt; M[&#34;Measure change&#34;]
+    M --&gt; S</pre>
+</figure>
+<ol>
+<li>Baseline with a short survey and a few system metrics.</li>
+<li>Pick the top two or three friction points (for example &ldquo;CI takes 40 minutes&rdquo;, &ldquo;new environments take two weeks&rdquo;).</li>
+<li>Fix them as platform product work; communicate results.</li>
+<li>Re-measure every quarter.</li>
+</ol>
+<h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What are the three core dimensions of DevEx?</strong>
+Feedback loops, cognitive load and flow state.</p>
+<p><strong>What is the difference between the inner and outer loop?</strong>
+The inner loop is edit–build–test on a developer&rsquo;s machine; the outer loop is PR, CI, review, deploy and observe.</p>
+<p><strong>Why combine surveys with system metrics?</strong>
+System metrics show where time goes; surveys reveal friction and satisfaction that systems cannot see; together they guide improvements.</p>
+<p><strong>Why not measure individual productivity by commits?</strong>
+It is easily gamed, ignores collaboration and quality, and erodes trust; measure teams and systems instead.</p>
+<p><strong>Give two platform-specific DevEx metrics.</strong>
+Time to first deploy for a new service; golden-path adoption rate (others: onboarding time, self-service rate, platform satisfaction).</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>DevEx = feedback loops, cognitive load and flow state.</li>
+<li>Improve both inner and outer loops.</li>
+<li>Measure with DORA, SPACE, DevEx, DX Core 4 — surveys plus system data, at team level.</li>
+<li>Run a quarterly loop: measure, prioritise friction, improve, re-measure.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Noda, Storey, Forsgren, Greiler, <a href="https://queue.acm.org/detail.cfm?id=3595878" rel="noopener">DevEx: What Actually Drives Productivity</a>, ACM Queue, 2023.</li>
+<li>Forsgren et al., <a href="https://queue.acm.org/detail.cfm?id=3454124" rel="noopener">The SPACE of Developer Productivity</a>, ACM Queue, 2021.</li>
+<li><a href="https://dora.dev/" rel="noopener">DORA research</a>.</li>
+<li>DX, <a href="https://getdx.com/research/measuring-developer-productivity-with-the-dx-core-4/" rel="noopener">DX Core 4</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/ci-cd-pipelines/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">CI/CD &amp; progressive delivery</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/internal-developer-platforms/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Internal developer platforms</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Platform engineering</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/platform-engineering/case-study-developer-platform/">
+        <span class="card__eyebrow">3 · Platform Engineering</span>
+        <span class="card__title">Case study: developer platform</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/platform-engineering/internal-developer-platforms/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Internal developer platforms</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/platform-engineering/case-study-developer-platform/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Case study: developer platform</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-three-dimensions-of-devex">The three dimensions of DevEx</a></li>
+    <li><a href="#inner-loop-and-outer-loop">Inner loop and outer loop</a></li>
+    <li><a href="#measurement-frameworks">Measurement frameworks</a>
+      <ul>
+        <li><a href="#combine-perception-and-system-data">Combine perception and system data</a></li>
+      </ul>
+    </li>
+    <li><a href="#platform-specific-metrics">Platform-specific metrics</a></li>
+    <li><a href="#ai-coding-assistants-and-agents">AI coding assistants and agents</a></li>
+    <li><a href="#running-a-devex-programme">Running a DevEx programme</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

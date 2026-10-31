@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Case-Study on Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/cloud-native/tags/case-study/</link>
+		<description>Recent content in Case-Study on Cloud Native &amp; Platform Engineering Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/cloud-native/tags/case-study/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>System Design: An Internal Developer Platform for 300 Teams</title>
+				<link>https://samirsahoo.github.io/cloud-native/platform-engineering/case-study-developer-platform/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/platform-engineering/case-study-developer-platform/</guid>
+				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;A bank with 300 delivery teams (about 2,500 developers) runs a mix of VMs and early Kubernetes clusters. New services take six weeks to reach production through tickets. Design an internal developer platform that gets a new service to production in under a day — securely and compliantly.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>System Design: A Highly Available Multi-Region Kubernetes Platform</title>
+				<link>https://samirsahoo.github.io/cloud-native/sre/case-study-multi-region-platform/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/cloud-native/sre/case-study-multi-region-platform/</guid>
+				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;A digital bank&amp;rsquo;s customer-facing services (login, accounts, payments) must stay available 24x7 even if an entire cloud region fails. Design the Kubernetes platform and the failover approach.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;1-requirements-and-slos&#34;&gt;1. Requirements and SLOs&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements-and-slos&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;div class=&#34;table-wrap&#34; tabindex=&#34;0&#34; role=&#34;region&#34; aria-label=&#34;Table&#34;&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;    &lt;tr&gt;&#xA;      &lt;th&gt;Service tier&lt;/th&gt;&#xA;      &lt;th&gt;SLO (availability)&lt;/th&gt;&#xA;      &lt;th&gt;RTO&lt;/th&gt;&#xA;      &lt;th&gt;RPO&lt;/th&gt;&#xA;    &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;    &lt;tr&gt;&#xA;      &lt;td&gt;Tier 0: login, balances, payments initiation&lt;/td&gt;&#xA;      &lt;td&gt;99.95% monthly&lt;/td&gt;&#xA;      &lt;td&gt;≤ 15 min regional failover&lt;/td&gt;&#xA;      &lt;td&gt;≤ 1 min (payments ledger: 0 for committed transactions)&lt;/td&gt;&#xA;    &lt;/tr&gt;&#xA;    &lt;tr&gt;&#xA;      &lt;td&gt;Tier 1: statements, notifications&lt;/td&gt;&#xA;      &lt;td&gt;99.9%&lt;/td&gt;&#xA;      &lt;td&gt;≤ 1 h&lt;/td&gt;&#xA;      &lt;td&gt;≤ 15 min&lt;/td&gt;&#xA;    &lt;/tr&gt;&#xA;    &lt;tr&gt;&#xA;      &lt;td&gt;Tier 2: analytics, back-office&lt;/td&gt;&#xA;      &lt;td&gt;99.5%&lt;/td&gt;&#xA;      &lt;td&gt;≤ 24 h&lt;/td&gt;&#xA;      &lt;td&gt;≤ 24 h&lt;/td&gt;&#xA;    &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;Other requirements: EU data residency (two EU regions), PCI DSS scope isolation, peak 3,000 requests/s, deployments several times a day without downtime.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Helm Charts · Cloud Native &amp; Platform Engineering Knowledge Hub</title>
+<meta name="description" content="Helm explained simply: charts, templates, values and releases; chart structure; install, upgrade and rollback; OCI registries; Helm 4 changes (server-side apply, WebAssembly plugins, install by digest); chart best practices, testing, security, umbrella charts, Helmfile, and Helm with GitOps.">
+<link rel="canonical" href="https://samirsahoo.github.io/cloud-native/delivery/helm-charts/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Cloud Native &amp; Platform Engineering Knowledge Hub">
+<meta property="og:title" content="Helm Charts">
+<meta property="og:description" content="Helm explained simply: charts, templates, values and releases; chart structure; install, upgrade and rollback; OCI registries; Helm 4 changes (server-side apply, WebAssembly plugins, install by digest); chart best practices, testing, security, umbrella charts, Helmfile, and Helm with GitOps.">
+<meta property="og:url" content="https://samirsahoo.github.io/cloud-native/delivery/helm-charts/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Helm Charts">
+<meta name="twitter:description" content="Helm explained simply: charts, templates, values and releases; chart structure; install, upgrade and rollback; OCI registries; Helm 4 changes (server-side apply, WebAssembly plugins, install by digest); chart best practices, testing, security, umbrella charts, Helmfile, and Helm with GitOps.">
+<meta name="keywords" content="helm, kubernetes, delivery">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Helm explained simply: charts, templates, values and releases; chart structure; install, upgrade and rollback; OCI registries; Helm 4 changes (server-side apply, WebAssembly plugins, install by digest); chart best practices, testing, security, umbrella charts, Helmfile, and Helm with GitOps.","headline":"Helm Charts","inLanguage":"en","isAccessibleForFree":true,"keywords":"helm, kubernetes, delivery","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub"},"url":"https://samirsahoo.github.io/cloud-native/delivery/helm-charts/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/","name":"Cloud Native \u0026 Platform Engineering Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/","name":"2 · Delivery","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/cloud-native/delivery/helm-charts/","name":"Helm charts","position":3}]}
+</script>
+
+<link rel="icon" href="/cloud-native/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/cloud-native/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-delivery">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/cloud-native/" aria-label="Cloud Native &amp; Platform Engineering Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Cloud Native &amp; Platform Engineering</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/cloud-native/search/" method="get" data-index="/cloud-native/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/cloud-native/learning-paths/">Learning paths</a>
+      <a href="/cloud-native/glossary/">Glossary</a>
+      <a href="/cloud-native/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/learning-paths/cloud-native-architect/">Cloud Native Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/kubernetes/">1 · Kubernetes</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-architecture/">Kubernetes architecture</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/workloads-and-scheduling/">Workloads &amp; scheduling</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-networking/">Kubernetes networking</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/service-mesh/">Service mesh</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/kubernetes/kubernetes-security/">Kubernetes security</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/cloud-native/delivery/">2 · Delivery</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/containers-and-docker/">Containers &amp; Docker</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/openshift/">OpenShift</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/helm-charts/" aria-current="page">Helm charts</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/ci-cd-pipelines/">CI/CD &amp; progressive delivery</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/gitops/">GitOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/delivery/release-orchestration/">Release orchestration (Digital.ai)</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/platform-engineering/">3 · Platform Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/platform-engineering-fundamentals/">Platform engineering</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/internal-developer-platforms/">Internal developer platforms</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/developer-experience/">Developer experience</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/platform-engineering/case-study-developer-platform/">Case study: developer platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/sre/">4 · SRE &amp; FinOps</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/sre-fundamentals/">SRE fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/observability/">Observability</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/resilience-and-dr/">Resilience &amp; DR</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/finops/">FinOps</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/sre/case-study-multi-region-platform/">Case study: multi-region platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/cloud-native/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/platform-review-checklist/">Platform review checklist</a></li>
+      <li class="nav-tree__item"><a href="/cloud-native/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/cloud-native/">Home</a></li>
+    <li><a href="/cloud-native/delivery/">2 · Delivery</a></li>
+    <li><span aria-current="page">Helm charts</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Helm Charts</h1><p class="article__lede" itemprop="description">Helm explained simply: charts, templates, values and releases; chart structure; install, upgrade and rollback; OCI registries; Helm 4 changes (server-side apply, WebAssembly plugins, install by digest); chart best practices, testing, security, umbrella charts, Helmfile, and Helm with GitOps.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/cloud-native/tags/helm/">#Helm</a><a class="tag" href="/cloud-native/tags/kubernetes/">#Kubernetes</a><a class="tag" href="/cloud-native/tags/delivery/">#Delivery</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/cloud-native/delivery/kubernetes-in-practice/">Kubernetes in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#how-helm-works">How Helm works</a></li>
+    <li><a href="#chart-structure">Chart structure</a></li>
+    <li><a href="#everyday-commands">Everyday commands</a></li>
+    <li><a href="#helm-4">Helm 4</a></li>
+    <li><a href="#best-practices">Best practices</a></li>
+    <li><a href="#composition">Composition</a></li>
+    <li><a href="#helm-with-gitops">Helm with GitOps</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Helm</strong> is the package manager for Kubernetes. A <strong>chart</strong> is a versioned package of templated Kubernetes manifests; <strong>values</strong> customise it per environment; installing a chart creates a <strong>release</strong> that Helm can upgrade and roll back.</p>
+<h2 id="how-helm-works">How Helm works<a class="heading-anchor" href="#how-helm-works" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Chart &#43; values → manifests → release"><figcaption class="diagram__title">Chart &#43; values → manifests → release</figcaption>
+  <pre class="mermaid">flowchart LR
+    C[&#34;Chart&lt;br/&gt;templates/*.yaml&lt;br/&gt;Chart.yaml, values.yaml&#34;] --&gt; R[&#34;helm template / install&lt;br/&gt;render with Go templates&#34;]
+    V[&#34;values-prod.yaml&lt;br/&gt;--set image.tag=1.4.2&#34;] --&gt; R
+    R --&gt; M[&#34;Kubernetes manifests&#34;]
+    M --&gt; K[&#34;Cluster&#34;]
+    K --&gt; REL[(&#34;Release record&lt;br/&gt;revision 1, 2, 3…&lt;br/&gt;stored as Secret&#34;)]</pre>
+</figure>
+<h2 id="chart-structure">Chart structure<a class="heading-anchor" href="#chart-structure" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">orders/
+</span></span><span class="line"><span class="cl">├── Chart.yaml          # name, version (chart), appVersion (app), dependencies
+</span></span><span class="line"><span class="cl">├── values.yaml         # defaults
+</span></span><span class="line"><span class="cl">├── values.schema.json  # validates values
+</span></span><span class="line"><span class="cl">├── templates/
+</span></span><span class="line"><span class="cl">│   ├── deployment.yaml
+</span></span><span class="line"><span class="cl">│   ├── service.yaml
+</span></span><span class="line"><span class="cl">│   ├── httproute.yaml
+</span></span><span class="line"><span class="cl">│   ├── hpa.yaml
+</span></span><span class="line"><span class="cl">│   ├── _helpers.tpl    # named templates (labels, names)
+</span></span><span class="line"><span class="cl">│   └── NOTES.txt
+</span></span><span class="line"><span class="cl">└── charts/             # sub-chart dependencies
+</span></span></code></pre></div><p>A template fragment:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">include &#34;orders.fullname&#34; . }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w"> </span>{{- <span class="l">include &#34;orders.labels&#34; . | nindent 4 }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Values.replicaCount }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{ .Values.image.repository }}@{{ .Values.image.digest }}&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span>{{- <span class="l">toYaml .Values.resources | nindent 12 }}</span><span class="w">
+</span></span></span></code></pre></div><h2 id="everyday-commands">Everyday commands<a class="heading-anchor" href="#everyday-commands" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Command</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Install / upgrade</td>
+      <td><code>helm upgrade --install orders oci://ghcr.io/acme/charts/orders --version 1.4.2 -f values-prod.yaml -n shop</code></td>
+    </tr>
+    <tr>
+      <td>Preview</td>
+      <td><code>helm template …</code> or <code>helm diff upgrade …</code> (plugin)</td>
+    </tr>
+    <tr>
+      <td>History / rollback</td>
+      <td><code>helm history orders -n shop</code>, <code>helm rollback orders 3 -n shop</code></td>
+    </tr>
+    <tr>
+      <td>Lint / test</td>
+      <td><code>helm lint</code>, <code>helm test orders</code></td>
+    </tr>
+    <tr>
+      <td>Package / publish</td>
+      <td><code>helm package .</code>, <code>helm push orders-1.4.2.tgz oci://ghcr.io/acme/charts</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="helm-4">Helm 4<a class="heading-anchor" href="#helm-4" aria-label="Link to this section">#</a></h2>
+<p>Helm 4 (November 2025, Helm&rsquo;s 10th anniversary) modernised the tool:</p>
+<ul>
+<li><strong>Server-side apply</strong> by default for new releases — better field ownership and conflict detection, aligned with GitOps tools. Releases created by Helm 3 keep client-side apply until changed.</li>
+<li><strong>WebAssembly plugins</strong> — an optional sandboxed plugin runtime; post-renderers become plugins.</li>
+<li><strong>Install by digest</strong> from OCI registries for supply-chain integrity.</li>
+<li><strong>kstatus-based waiting</strong> for resource readiness.</li>
+<li>Flag changes: <code>--atomic</code> → <code>--rollback-on-failure</code>, <code>--force</code> → <code>--force-replace</code>.</li>
+<li>Helm 3 charts (apiVersion v2) continue to work.</li>
+</ul>
+<h2 id="best-practices">Best practices<a class="heading-anchor" href="#best-practices" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Version charts with SemVer</strong>; separate chart <code>version</code> from <code>appVersion</code>.</li>
+<li><strong>Values schema</strong> (<code>values.schema.json</code>) to catch bad values early.</li>
+<li><strong>Sensible, secure defaults</strong>: resources, probes, non-root security context, PodDisruptionBudget.</li>
+<li><strong>Keep templates simple</strong> — heavy logic makes charts unreadable; prefer a few well-named values.</li>
+<li><strong>Standard labels</strong> (<code>app.kubernetes.io/name</code>, <code>instance</code>, <code>version</code>, <code>part-of</code>).</li>
+<li><strong>No secrets in values files</strong> — reference External Secrets.</li>
+<li><strong>Publish to OCI registries</strong>; sign charts (cosign) and verify.</li>
+<li><strong>Test</strong>: <code>helm lint</code>, unit tests (helm-unittest), schema validation (kubeconform), policy checks (Kyverno CLI / Conftest), and install tests in kind/k3d in CI.</li>
+<li><strong>Library charts</strong> for shared templates across many services (a common platform-team pattern).</li>
+</ul>
+<h2 id="composition">Composition<a class="heading-anchor" href="#composition" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Umbrella chart</strong></td>
+      <td>One chart with dependencies for a whole system</td>
+    </tr>
+    <tr>
+      <td><strong>Helmfile</strong></td>
+      <td>Declarative list of releases and values per environment</td>
+    </tr>
+    <tr>
+      <td><strong>GitOps (Argo CD / Flux)</strong></td>
+      <td>Git holds chart versions + values; the controller renders and applies — the recommended production approach</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="helm-with-gitops">Helm with GitOps<a class="heading-anchor" href="#helm-with-gitops" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Helm rendered by Argo CD"><figcaption class="diagram__title">Helm rendered by Argo CD</figcaption>
+  <pre class="mermaid">flowchart LR
+    REG[(&#34;OCI registry&lt;br/&gt;orders chart 1.4.2&#34;)] --&gt; AR[&#34;Argo CD Application&lt;br/&gt;chart + version + values&#34;]
+    GIT[(&#34;Config repo&lt;br/&gt;values-prod.yaml&#34;)] --&gt; AR
+    AR --&gt;|&#34;render + sync&#34;| K[&#34;Cluster&#34;]</pre>
+</figure>
+<p>Argo CD renders the chart and applies manifests (it does not create Helm release records); Flux&rsquo;s Helm controller performs real Helm releases. Either way, <strong>Git records which chart version and values run where</strong>.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Running <code>helm upgrade</code> by hand in production</span></p>
+  <div class="callout__body"><p>Changes are not reviewed or recorded in Git and drift between environments. Let GitOps apply charts.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Charts as programming languages</span></p>
+  <div class="callout__body"><p>Deeply nested conditionals and loops make charts impossible to review. Keep charts boring; split them if needed.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is the difference between a chart, values and a release?</strong>
+A chart is the package of templates; values customise it; a release is an installed instance of a chart with its revision history.</p>
+<p><strong>What changed in Helm 4?</strong>
+Server-side apply by default for new releases, WebAssembly-based plugins, install by digest from OCI registries, kstatus waiting and renamed flags such as <code>--rollback-on-failure</code>.</p>
+<p><strong>Kustomize or Helm?</strong>
+Helm for distributable, versioned packages and third-party software; Kustomize for overlays of your own manifests — both work with GitOps.</p>
+<p><strong>How do you test a chart?</strong>
+Lint, unit-test templates, validate rendered manifests against schemas and policies, and install it in a throwaway cluster in CI.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Helm packages templated manifests into versioned charts; values customise; releases track revisions.</li>
+<li>Helm 4 brings server-side apply, Wasm plugins and digest-based installs.</li>
+<li>Keep charts simple, secure by default, schema-validated, tested and published to OCI.</li>
+<li>Apply charts in production through GitOps.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://helm.sh/docs/" rel="noopener">Helm documentation</a> and <a href="https://helm.sh/docs/overview" rel="noopener">Helm 4 overview</a>.</li>
+<li><a href="https://helm.sh/docs/chart_best_practices/" rel="noopener">Chart best practices</a>.</li>
+<li>Jimmy Song, <a href="https://jimmysong.io/blog/helm-4-delivery-and-plugin-rebuild/" rel="noopener">Helm v4: paradigm convergence and plugin system rebuild</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/gitops/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">GitOps</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/openshift/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">OpenShift</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/kubernetes-in-practice/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Kubernetes in practice</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/ci-cd-pipelines/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">CI/CD &amp; progressive delivery</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/cloud-native/delivery/containers-and-docker/">
+        <span class="card__eyebrow">2 · Delivery</span>
+        <span class="card__title">Containers &amp; Docker</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/cloud-native/delivery/openshift/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">OpenShift</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/cloud-native/delivery/ci-cd-pipelines/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">CI/CD &amp; progressive delivery</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#how-helm-works">How Helm works</a></li>
+    <li><a href="#chart-structure">Chart structure</a></li>
+    <li><a href="#everyday-commands">Everyday commands</a></li>
+    <li><a href="#helm-4">Helm 4</a></li>
+    <li><a href="#best-practices">Best practices</a></li>
+    <li><a href="#composition">Composition</a></li>
+    <li><a href="#helm-with-gitops">Helm with GitOps</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Cloud Native &amp; Platform Engineering Knowledge Hub</p>
+      <p>Understand the platform. See the flows. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/cloud-native/about/">About &amp; conventions</a></li><li><a href="/cloud-native/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/cloud-native/index.xml">RSS feed</a></li>
+      <li><a href="/cloud-native/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kubernetes examples target Kubernetes 1.36.</p>
+  </div>
+</footer>
+
+<script src="/cloud-native/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/cloud-native/js/vendor/mermaid.min.js" defer></script>
+<script src="/cloud-native/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>
