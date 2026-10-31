@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Reliability, Guardrails and Evaluation · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Making agents dependable: why errors compound, layered guardrails, budgets and stop conditions, sandboxing, permissions and approvals, trajectory and outcome evaluation, simulation testing, observability and production rollout.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Agent Reliability, Guardrails and Evaluation">
+<meta property="og:description" content="Making agents dependable: why errors compound, layered guardrails, budgets and stop conditions, sandboxing, permissions and approvals, trajectory and outcome evaluation, simulation testing, observability and production rollout.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agent Reliability, Guardrails and Evaluation">
+<meta name="twitter:description" content="Making agents dependable: why errors compound, layered guardrails, budgets and stop conditions, sandboxing, permissions and approvals, trajectory and outcome evaluation, simulation testing, observability and production rollout.">
+<meta name="keywords" content="agents, evaluation, reliability, agentic-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"Making agents dependable: why errors compound, layered guardrails, budgets and stop conditions, sandboxing, permissions and approvals, trajectory and outcome evaluation, simulation testing, observability and production rollout.","headline":"Agent Reliability, Guardrails and Evaluation","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, evaluation, reliability, agentic-ai","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/","name":"Reliability \u0026 evaluation","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/" aria-current="page">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Reliability &amp; evaluation</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Agent Reliability, Guardrails and Evaluation</h1><p class="article__lede" itemprop="description">Making agents dependable: why errors compound, layered guardrails, budgets and stop conditions, sandboxing, permissions and approvals, trajectory and outcome evaluation, simulation testing, observability and production rollout.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/evaluation/">#Evaluation</a><a class="tag" href="/enterprise-ai/tags/reliability/">#Reliability</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a>, <a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-agents-are-hard-to-make-reliable">Why agents are hard to make reliable</a></li>
+    <li><a href="#layered-guardrails">Layered guardrails</a></li>
+    <li><a href="#budgets-and-stop-conditions">Budgets and stop conditions</a></li>
+    <li><a href="#designing-for-recovery">Designing for recovery</a></li>
+    <li><a href="#evaluating-agents">Evaluating agents</a>
+      <ul>
+        <li><a href="#testing-with-simulations">Testing with simulations</a></li>
+      </ul>
+    </li>
+    <li><a href="#observability-for-agents">Observability for agents</a></li>
+    <li><a href="#rolling-out-an-agent-safely">Rolling out an agent safely</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Agent reliability is the engineering that makes an agent do the right thing consistently, stop when it should, and fail safely when it cannot succeed. It combines <strong>guardrails</strong> (prevent bad actions), <strong>budgets</strong> (bound cost and time), <strong>evaluation</strong> (measure behaviour before and after release) and <strong>observability</strong> (see what happened).</p>
+<h2 id="why-agents-are-hard-to-make-reliable">Why agents are hard to make reliable<a class="heading-anchor" href="#why-agents-are-hard-to-make-reliable" aria-label="Link to this section">#</a></h2>
+<p><strong>Errors compound.</strong> If each step is 95% reliable, a 10-step task succeeds only 0.95¹⁰ ≈ <strong>60%</strong> of the time. Agents also face non-deterministic outputs, changing tools and data, and adversarial inputs.</p>
+<p>So reliability comes from <strong>design</strong>, not just a better model: fewer steps, verification at each step, recovery from errors, and human checkpoints.</p>
+<h2 id="layered-guardrails">Layered guardrails<a class="heading-anchor" href="#layered-guardrails" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Defence in depth for agents"><figcaption class="diagram__title">Defence in depth for agents</figcaption>
+  <pre class="mermaid">flowchart LR
+    IN[&#34;User input /&lt;br/&gt;external content&#34;] --&gt; G1[&#34;Input guardrails&lt;br/&gt;topic, injection, PII,&lt;br/&gt;jailbreak classifiers&#34;]
+    G1 --&gt; AG[&#34;Agent reasoning&#34;]
+    AG --&gt; G2[&#34;Action guardrails&lt;br/&gt;tool allow-list, schema validation,&lt;br/&gt;authorisation, limits, approval&#34;]
+    G2 --&gt; EXEC[&#34;Tool execution&lt;br/&gt;sandbox, scoped credentials&#34;]
+    EXEC --&gt; AG
+    AG --&gt; G3[&#34;Output guardrails&lt;br/&gt;grounding, PII, toxicity,&lt;br/&gt;policy, format&#34;]
+    G3 --&gt; OUT[&#34;Response / action result&#34;]
+    MON[&#34;Monitoring &amp; audit&lt;br/&gt;traces, alerts, kill switch&#34;] -.-&gt; AG</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Input</strong></td>
+      <td>Off-topic detection, prompt-injection classifiers, PII detection/masking, content moderation</td>
+    </tr>
+    <tr>
+      <td><strong>Action</strong></td>
+      <td>Allow-listed tools per agent, argument validation, per-user authorisation, amount limits, rate limits, human approval for irreversible actions</td>
+    </tr>
+    <tr>
+      <td><strong>Execution</strong></td>
+      <td>Sandboxed code execution (containers, no network by default), read-only credentials where possible, network egress allow-lists</td>
+    </tr>
+    <tr>
+      <td><strong>Output</strong></td>
+      <td>Groundedness check, PII leak detection, toxicity, brand/policy rules, schema validation</td>
+    </tr>
+    <tr>
+      <td><strong>Runtime</strong></td>
+      <td>Step, token, time and cost budgets; loop detection; kill switch</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Guardrail tools include NVIDIA NeMo Guardrails, Guardrails AI, Llama Guard / Prompt Guard models, cloud provider guardrail services (Bedrock Guardrails, Azure AI Content Safety), and custom rules.</p>
+<h2 id="budgets-and-stop-conditions">Budgets and stop conditions<a class="heading-anchor" href="#budgets-and-stop-conditions" aria-label="Link to this section">#</a></h2>
+<p>Every agent run needs explicit limits:</p>
+<ul>
+<li><strong>Max steps / tool calls</strong> (for example 15).</li>
+<li><strong>Max tokens and cost</strong> per run and per user per day.</li>
+<li><strong>Wall-clock timeout.</strong></li>
+<li><strong>Loop detection</strong> — same tool with same arguments repeated.</li>
+<li><strong>Stop conditions in the prompt</strong> — what &ldquo;done&rdquo; means, when to ask the user, when to escalate.</li>
+</ul>
+<p>When a limit is hit, the agent should <strong>fail gracefully</strong>: summarise progress, explain what is blocking, and hand over to a human.</p>
+<h2 id="designing-for-recovery">Designing for recovery<a class="heading-anchor" href="#designing-for-recovery" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Return <strong>informative tool errors</strong> so the model can self-correct.</li>
+<li><strong>Verify</strong> after important steps (re-read the record you updated; run the tests).</li>
+<li><strong>Checkpoint</strong> so retries do not repeat side effects; make writes idempotent.</li>
+<li>Prefer <strong>reversible actions</strong> (drafts, pending states) followed by confirmation.</li>
+</ul>
+<h2 id="evaluating-agents">Evaluating agents<a class="heading-anchor" href="#evaluating-agents" aria-label="Link to this section">#</a></h2>
+<p>Agents need more than input → output checks, because <em>how</em> they got there matters too.</p>
+<figure class="diagram" aria-label="What to evaluate"><figcaption class="diagram__title">What to evaluate</figcaption>
+  <pre class="mermaid">flowchart TB
+    E[&#34;Agent evaluation&#34;] --&gt; O[&#34;Outcome&lt;br/&gt;was the task completed correctly?&lt;br/&gt;final state of systems&#34;]
+    E --&gt; T[&#34;Trajectory&lt;br/&gt;right tools, right order,&lt;br/&gt;no unnecessary or unsafe steps&#34;]
+    E --&gt; S[&#34;Single steps&lt;br/&gt;tool selection accuracy,&lt;br/&gt;argument correctness&#34;]
+    E --&gt; Q[&#34;Quality &amp; safety&lt;br/&gt;tone, policy, refusals,&lt;br/&gt;injection resistance&#34;]
+    E --&gt; C[&#34;Efficiency&lt;br/&gt;steps, tokens, latency, cost&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Metric examples</th>
+      <th>How</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Outcome</strong></td>
+      <td>Task success rate; final database state matches expected</td>
+      <td>Compare end state with ground truth; LLM judge for open tasks</td>
+    </tr>
+    <tr>
+      <td><strong>Trajectory</strong></td>
+      <td>Tool-call precision/recall vs reference path; forbidden actions taken</td>
+      <td>Compare the sequence of calls with expected; rules for forbidden actions</td>
+    </tr>
+    <tr>
+      <td><strong>Step</strong></td>
+      <td>Correct tool chosen; arguments valid and correct</td>
+      <td>Unit-style tests on single decisions</td>
+    </tr>
+    <tr>
+      <td><strong>Safety</strong></td>
+      <td>Injection success rate; policy violations; unauthorised actions</td>
+      <td>Red-team datasets, adversarial simulations</td>
+    </tr>
+    <tr>
+      <td><strong>Efficiency</strong></td>
+      <td>Mean steps, tokens, cost, latency per task</td>
+      <td>From traces</td>
+    </tr>
+    <tr>
+      <td><strong>Consistency</strong></td>
+      <td><strong>pass^k</strong> — succeeds in all <em>k</em> repeated runs</td>
+      <td>Run each case several times</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">pass@k vs pass^k</span></p>
+  <div class="callout__body"><p><strong>pass@k</strong> — at least one of k attempts succeeds (useful when a human picks the best). <strong>pass^k</strong> — all k attempts succeed. For an agent that runs unattended, pass^k is the honest measure: users experience every run, not the best one.</p></div>
+</aside><h3 id="testing-with-simulations">Testing with simulations<a class="heading-anchor" href="#testing-with-simulations" aria-label="Link to this section">#</a></h3>
+<figure class="diagram" aria-label="Simulated end-to-end agent test"><figcaption class="diagram__title">Simulated end-to-end agent test</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant H as Test harness
+    participant SU as Simulated user (LLM with persona + goal)
+    participant AG as Agent under test
+    participant MT as Mock tools / sandbox systems
+    participant J as Judge
+    H-&gt;&gt;SU: scenario: &#34;angry customer wants refund for late order A-10293&#34;
+    loop conversation
+        SU-&gt;&gt;AG: message
+        AG-&gt;&gt;MT: tool calls
+        MT--&gt;&gt;AG: deterministic results
+        AG--&gt;&gt;SU: reply
+    end
+    H-&gt;&gt;MT: read final state (refund issued? amount?)
+    H-&gt;&gt;J: transcript + final state + rubric
+    J--&gt;&gt;H: success, policy compliance, tone scores</pre>
+</figure>
+<ul>
+<li><strong>Mock or sandboxed tools</strong> make runs repeatable and safe.</li>
+<li><strong>Simulated users</strong> (an LLM with a persona and a goal) exercise multi-turn behaviour.</li>
+<li>Benchmarks such as τ-bench follow this approach for customer-service agents.</li>
+</ul>
+<h2 id="observability-for-agents">Observability for agents<a class="heading-anchor" href="#observability-for-agents" aria-label="Link to this section">#</a></h2>
+<p>Trace every run as a tree: user turn → LLM calls → tool calls → sub-agents, with inputs, outputs, tokens, latency and decisions. Needed for debugging, audit (&ldquo;why did the agent refund this?&rdquo;), cost control and building evaluation sets from real failures. Tools: OpenTelemetry with GenAI conventions, Langfuse, LangSmith, Arize Phoenix, cloud-native tracing.</p>
+<h2 id="rolling-out-an-agent-safely">Rolling out an agent safely<a class="heading-anchor" href="#rolling-out-an-agent-safely" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Progressive autonomy rollout"><figcaption class="diagram__title">Progressive autonomy rollout</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;1 · Offline evals&lt;br/&gt;+ red teaming&#34;] --&gt; B[&#34;2 · Shadow mode&lt;br/&gt;agent proposes,&lt;br/&gt;humans act&#34;]
+    B --&gt; C[&#34;3 · Human approval&lt;br/&gt;for every action&#34;]
+    C --&gt; D[&#34;4 · Auto-approve low-risk&lt;br/&gt;actions within limits&#34;]
+    D --&gt; E[&#34;5 · Expand scope&lt;br/&gt;as metrics prove it&#34;]</pre>
+</figure>
+<p>Track at each stage: approval rate (how often humans accept the proposal unchanged), error rate, escalation rate, customer outcomes. Move to the next stage only on evidence.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Testing only the happy path, once</span></p>
+  <div class="callout__body"><p>One successful demo run says little about a non-deterministic multi-step system. Run many scenarios, several times each, including adversarial and failure cases.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Guardrails only in the prompt</span></p>
+  <div class="callout__body"><p>&ldquo;Never refund more than €100&rdquo; in a prompt is a request, not a control. Enforce limits in tool code and authorisation.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>How do you evaluate an AI agent?</strong>
+At several levels: outcome (task success and correct final system state), trajectory (right tools in a sensible order, no forbidden actions), individual steps (tool choice and arguments), safety (injection and policy tests) and efficiency (steps, tokens, latency, cost). Use sandboxed tools, simulated users and repeated runs, and measure consistency with pass^k.</p>
+<p><strong>What guardrails would you put around an agent that can issue refunds?</strong>
+Input checks for injection and abuse; the refund tool validates amount, order ownership and refund history; automatic limit (for example ≤ €50) with human approval above; idempotency keys; rate limits per customer; output checks; audit log; anomaly alerts; and a kill switch.</p>
+<p><strong>Why do agents fail more often on long tasks?</strong>
+Errors compound across steps; context grows and gets noisy; and the agent can drift from the goal or loop. Mitigate with fewer, more reliable steps, verification, checkpoints, summarised context, budgets and human checkpoints.</p>
+<p><strong>How would you roll out an autonomous agent in a bank?</strong>
+Offline evaluation and red teaming, then shadow mode, then human approval of every action, then auto-approval of low-risk actions within limits, expanding scope only as metrics prove reliability — with full tracing, audit and a kill switch throughout.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Controls in code, not in prompts</span></p>
+  <div class="callout__body"><p>State clearly that business limits and permissions are enforced in tools and authorisation layers. Prompts guide behaviour; code enforces policy.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Errors compound across steps; reliability comes from design: fewer steps, verification, recovery, human checkpoints.</li>
+<li>Layer guardrails on input, actions, execution and output; enforce limits in code.</li>
+<li>Bound every run with step, token, time and cost budgets.</li>
+<li>Evaluate outcomes, trajectories, steps, safety and efficiency; measure consistency with pass^k.</li>
+<li>Roll out autonomy progressively, on evidence.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Yao et al., <a href="https://arxiv.org/abs/2406.12045" rel="noopener">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains</a>, 2024.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/research/building-effective-agents" rel="noopener">Building effective agents</a>, 2024.</li>
+<li>OWASP, <a href="https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/" rel="noopener">Agentic AI — Threats and Mitigations</a>, 2025.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Workflow &amp; agent patterns</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/model-context-protocol/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">MCP</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/agent-memory-and-state/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Memory &amp; state</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/case-study-support-agent/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Case study: support agent</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-agents-are-hard-to-make-reliable">Why agents are hard to make reliable</a></li>
+    <li><a href="#layered-guardrails">Layered guardrails</a></li>
+    <li><a href="#budgets-and-stop-conditions">Budgets and stop conditions</a></li>
+    <li><a href="#designing-for-recovery">Designing for recovery</a></li>
+    <li><a href="#evaluating-agents">Evaluating agents</a>
+      <ul>
+        <li><a href="#testing-with-simulations">Testing with simulations</a></li>
+      </ul>
+    </li>
+    <li><a href="#observability-for-agents">Observability for agents</a></li>
+    <li><a href="#rolling-out-an-agent-safely">Rolling out an agent safely</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

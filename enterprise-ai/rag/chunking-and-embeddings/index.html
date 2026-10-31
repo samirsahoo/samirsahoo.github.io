@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chunking and Embeddings · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How to split documents into chunks (fixed, recursive, structure-aware, semantic, parent-child, late chunking), what embeddings are, similarity metrics, choosing an embedding model, and document parsing.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/rag/chunking-and-embeddings/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Chunking and Embeddings">
+<meta property="og:description" content="How to split documents into chunks (fixed, recursive, structure-aware, semantic, parent-child, late chunking), what embeddings are, similarity metrics, choosing an embedding model, and document parsing.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/rag/chunking-and-embeddings/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chunking and Embeddings">
+<meta name="twitter:description" content="How to split documents into chunks (fixed, recursive, structure-aware, semantic, parent-child, late chunking), what embeddings are, similarity metrics, choosing an embedding model, and document parsing.">
+<meta name="keywords" content="rag, embeddings, chunking">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"How to split documents into chunks (fixed, recursive, structure-aware, semantic, parent-child, late chunking), what embeddings are, similarity metrics, choosing an embedding model, and document parsing.","headline":"Chunking and Embeddings","inLanguage":"en","isAccessibleForFree":true,"keywords":"rag, embeddings, chunking","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/rag/chunking-and-embeddings/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/","name":"2 · RAG \u0026 GraphRAG","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/chunking-and-embeddings/","name":"Chunking \u0026 embeddings","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-rag">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/" aria-current="page">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a></li>
+    <li><span aria-current="page">Chunking &amp; embeddings</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Chunking and Embeddings</h1><p class="article__lede" itemprop="description">How to split documents into chunks (fixed, recursive, structure-aware, semantic, parent-child, late chunking), what embeddings are, similarity metrics, choosing an embedding model, and document parsing.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/rag/">#Rag</a><a class="tag" href="/enterprise-ai/tags/embeddings/">#Embeddings</a><a class="tag" href="/enterprise-ai/tags/chunking/">#Chunking</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#embeddings-simply">Embeddings, simply</a>
+      <ul>
+        <li><a href="#similarity-metrics">Similarity metrics</a></li>
+        <li><a href="#choosing-an-embedding-model">Choosing an embedding model</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-chunk-at-all">Why chunk at all?</a></li>
+    <li><a href="#chunking-strategies">Chunking strategies</a>
+      <ul>
+        <li><a href="#parent-child-retrieval">Parent-child retrieval</a></li>
+        <li><a href="#practical-starting-point">Practical starting point</a></li>
+      </ul>
+    </li>
+    <li><a href="#parsing-the-hidden-half-of-quality">Parsing: the hidden half of quality</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Chunking</strong> is splitting documents into smaller passages so that search can return just the relevant part, and so it fits in the prompt.</li>
+<li>An <strong>embedding</strong> is a list of numbers (a vector) that represents the <em>meaning</em> of a piece of text. Texts with similar meaning have vectors that are close together.</li>
+</ul>
+<p>Together they decide what your RAG system can find.</p>
+<h2 id="embeddings-simply">Embeddings, simply<a class="heading-anchor" href="#embeddings-simply" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Meaning becomes position"><figcaption class="diagram__title">Meaning becomes position</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;&#39;How do I reset my password?&#39;&#34;] --&gt; EM[&#34;Embedding model&#34;]
+    B[&#34;&#39;I forgot my login credentials&#39;&#34;] --&gt; EM
+    C[&#34;&#39;Quarterly revenue grew 8%&#39;&#34;] --&gt; EM
+    EM --&gt; VA[&#34;[0.12, -0.48, 0.33, ...]&#34;]
+    EM --&gt; VB[&#34;[0.10, -0.45, 0.31, ...]&#34;]
+    EM --&gt; VC[&#34;[-0.71, 0.22, -0.05, ...]&#34;]
+    VA &lt;--&gt;|&#34;close: similar meaning&#34;| VB
+    VA &lt;--&gt;|&#34;far&#34;| VC</pre>
+</figure>
+<p>The first two sentences share no keywords, yet their vectors are close — this is <strong>semantic search</strong>, and why RAG finds answers phrased differently from the question.</p>
+<h3 id="similarity-metrics">Similarity metrics<a class="heading-anchor" href="#similarity-metrics" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Idea</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Cosine similarity</strong></td>
+      <td>Angle between vectors (1 = same direction)</td>
+      <td>The default for text</td>
+    </tr>
+    <tr>
+      <td><strong>Dot product</strong></td>
+      <td>Cosine × lengths</td>
+      <td>Equal to cosine when vectors are normalised; fastest</td>
+    </tr>
+    <tr>
+      <td><strong>Euclidean (L2) distance</strong></td>
+      <td>Straight-line distance</td>
+      <td>Lower = more similar</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Use the metric the embedding model was trained for (its documentation says).</p>
+<h3 id="choosing-an-embedding-model">Choosing an embedding model<a class="heading-anchor" href="#choosing-an-embedding-model" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Factor</th>
+      <th>Consideration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Retrieval quality</td>
+      <td>Check the MTEB leaderboard <em>retrieval</em> scores, then test on your data</td>
+    </tr>
+    <tr>
+      <td>Language</td>
+      <td>Multilingual model if documents or users are not English-only</td>
+    </tr>
+    <tr>
+      <td>Domain</td>
+      <td>Code, legal or medical text may benefit from specialised or fine-tuned models</td>
+    </tr>
+    <tr>
+      <td>Dimensions</td>
+      <td>384–3,072 typical. More dimensions → more storage and slower search</td>
+    </tr>
+    <tr>
+      <td>Max input length</td>
+      <td>Must exceed your chunk size</td>
+    </tr>
+    <tr>
+      <td>Hosting</td>
+      <td>API (OpenAI, Cohere, Voyage, Google, Amazon Titan) or open-weight (BGE, E5, GTE, Nomic)</td>
+    </tr>
+    <tr>
+      <td>Cost</td>
+      <td>Embedding is cheap per token but the whole corpus is embedded, and re-embedded on model change</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Matryoshka embeddings</strong> can be truncated (for example from 3,072 to 512 dimensions) with modest quality loss, trading accuracy for storage and speed.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Version your embeddings</span></p>
+  <div class="callout__body"><p>Store the embedding model name and version with the index. Changing models means re-embedding everything, usually into a new index, then switching over (blue/green).</p></div>
+</aside><h2 id="why-chunk-at-all">Why chunk at all?<a class="heading-anchor" href="#why-chunk-at-all" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Precision</strong> — a 40-page PDF embedded as one vector blurs dozens of topics into one point; a question about one paragraph will not match it well.</li>
+<li><strong>Context budget</strong> — you want to send the 5 most relevant paragraphs, not 5 whole documents.</li>
+<li><strong>Model limits</strong> — embedding models have a maximum input length.</li>
+</ul>
+<p>Too small is also bad: a chunk with one sentence lacks the context to be understood (&ldquo;It must be approved by a director&rdquo; — what must?).</p>
+<h2 id="chunking-strategies">Chunking strategies<a class="heading-anchor" href="#chunking-strategies" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Chunking strategies from simple to sophisticated"><figcaption class="diagram__title">Chunking strategies from simple to sophisticated</figcaption>
+  <pre class="mermaid">flowchart TB
+    F[&#34;Fixed-size&lt;br/&gt;every N tokens + overlap&#34;] --&gt; R[&#34;Recursive&lt;br/&gt;split on paragraphs → sentences → words&lt;br/&gt;until under size&#34;]
+    R --&gt; S[&#34;Structure-aware&lt;br/&gt;split on headings, sections,&lt;br/&gt;Markdown/HTML elements, code functions&#34;]
+    S --&gt; SE[&#34;Semantic&lt;br/&gt;split where meaning changes&lt;br/&gt;embedding similarity between sentences&#34;]
+    SE --&gt; PC[&#34;Hierarchical / parent-child&lt;br/&gt;search small chunks, return big parent&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Strategy</th>
+      <th>How</th>
+      <th>Pros</th>
+      <th>Cons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Fixed-size + overlap</strong></td>
+      <td>500 tokens, 50–100 overlap</td>
+      <td>Simple, predictable</td>
+      <td>Cuts mid-sentence and mid-topic</td>
+    </tr>
+    <tr>
+      <td><strong>Recursive character/token</strong></td>
+      <td>Try <code>\n\n</code>, then <code>\n</code>, then <code>. </code>, …</td>
+      <td>Respects paragraphs; good default</td>
+      <td>Ignores document structure</td>
+    </tr>
+    <tr>
+      <td><strong>Structure-aware</strong></td>
+      <td>Split by headings, list items, tables, code blocks</td>
+      <td>Chunks match the author&rsquo;s topics; headings become metadata</td>
+      <td>Needs good parsing per format</td>
+    </tr>
+    <tr>
+      <td><strong>Semantic</strong></td>
+      <td>Break where adjacent sentences&rsquo; embeddings diverge</td>
+      <td>Coherent topics</td>
+      <td>Slower; variable sizes</td>
+    </tr>
+    <tr>
+      <td><strong>Parent-child (small-to-big)</strong></td>
+      <td>Index small child chunks; return their larger parent section</td>
+      <td>Precise matching <em>and</em> rich context</td>
+      <td>More storage and logic</td>
+    </tr>
+    <tr>
+      <td><strong>Sentence window</strong></td>
+      <td>Index sentences; return sentence ± neighbours</td>
+      <td>Very precise retrieval</td>
+      <td>Many vectors</td>
+    </tr>
+    <tr>
+      <td><strong>Late chunking</strong></td>
+      <td>Embed the whole long document with a long-context model, then pool token vectors per chunk</td>
+      <td>Each chunk&rsquo;s vector carries document context</td>
+      <td>Needs a suitable model</td>
+    </tr>
+    <tr>
+      <td><strong>Contextual chunk headers</strong></td>
+      <td>Prepend document title and section path, or an LLM-written summary, to each chunk before embedding</td>
+      <td>Big quality gains for little effort</td>
+      <td>Extra tokens; LLM cost if summarised</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="parent-child-retrieval">Parent-child retrieval<a class="heading-anchor" href="#parent-child-retrieval" aria-label="Link to this section">#</a></h3>
+<figure class="diagram" aria-label="Small-to-big retrieval"><figcaption class="diagram__title">Small-to-big retrieval</figcaption>
+  <pre class="mermaid">flowchart LR
+    Q[&#34;Query&#34;] --&gt; V[&#34;Search child chunks&lt;br/&gt;~150 tokens each&#34;]
+    V --&gt; H[&#34;Best child: §4.3 sentence&lt;br/&gt;about business class&#34;]
+    H --&gt; P[&#34;Look up parent&lt;br/&gt;whole §4 Air Travel, ~1,200 tokens&#34;]
+    P --&gt; LLM[&#34;Send parent to LLM&#34;]</pre>
+</figure>
+<h3 id="practical-starting-point">Practical starting point<a class="heading-anchor" href="#practical-starting-point" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>Structure-aware or recursive chunking, <strong>~300–800 tokens</strong>, <strong>10–20% overlap</strong>.</li>
+<li>Prepend the document title and section heading path to every chunk (&ldquo;Travel Policy 2026 &gt; Air travel &gt; Business class&rdquo;).</li>
+<li>Keep tables whole where possible; convert them to Markdown or describe each row.</li>
+<li>Store rich metadata: source, URL, section, page, date, version, language, ACL.</li>
+<li>Then <strong>measure</strong> retrieval recall on your evaluation set and tune size, overlap and strategy.</li>
+</ul>
+<h2 id="parsing-the-hidden-half-of-quality">Parsing: the hidden half of quality<a class="heading-anchor" href="#parsing-the-hidden-half-of-quality" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Content</th>
+      <th>Challenge</th>
+      <th>Approach</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Native PDFs</td>
+      <td>Columns, headers/footers, hyphenation</td>
+      <td>Layout-aware parsers; strip boilerplate</td>
+    </tr>
+    <tr>
+      <td>Scanned PDFs</td>
+      <td>No text layer</td>
+      <td>OCR, or a vision-capable model</td>
+    </tr>
+    <tr>
+      <td>Tables</td>
+      <td>Row/column meaning lost when flattened</td>
+      <td>Extract as Markdown/HTML; keep whole; or one chunk per row with headers</td>
+    </tr>
+    <tr>
+      <td>Slides</td>
+      <td>Fragmented text, meaning in images</td>
+      <td>Combine slide title + text + speaker notes; describe diagrams with a vision model</td>
+    </tr>
+    <tr>
+      <td>Web/Confluence</td>
+      <td>Navigation, cookie banners</td>
+      <td>Extract main content; keep heading hierarchy</td>
+    </tr>
+    <tr>
+      <td>Code</td>
+      <td>Functions and classes</td>
+      <td>Split by syntax (AST), not by characters</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Tools include Apache Tika, PDF-specific readers, Unstructured, Docling and cloud document AI services; <a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI</a> has document readers for PDF, Tika, Markdown, JSON and more.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Same chunk size for everything</span></p>
+  <div class="callout__body"><p>FAQs, contracts, API docs and chat transcripts have different natural units. Chunk by the structure of each source type.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Throwing away headings and metadata</span></p>
+  <div class="callout__body"><p>&ldquo;Approval is required above €5,000&rdquo; means nothing without &ldquo;Procurement Policy &gt; Purchase orders&rdquo;. Keep the heading path with the chunk.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Mixing embedding models in one index</span></p>
+  <div class="callout__body"><p>Vectors from different models are not comparable; search silently returns nonsense.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What is an embedding?</strong>
+A dense vector representing the meaning of text, produced by an embedding model. Similar meanings map to nearby vectors, which enables semantic search with cosine similarity or dot product.</p>
+<p><strong>How do you choose chunk size?</strong>
+Start from the document&rsquo;s natural structure, typically 300–800 tokens with 10–20% overlap, include heading context, then tune on an evaluation set measuring retrieval recall and answer quality. Smaller chunks give precise matching; larger ones give more context; parent-child retrieval gets both.</p>
+<p><strong>What is parent-child (small-to-big) retrieval?</strong>
+Index small chunks for precise matching, but return their larger parent section to the LLM so it has enough context to answer.</p>
+<p><strong>What happens if you change the embedding model?</strong>
+All existing vectors become incompatible. You must re-embed the corpus, typically into a new index, validate retrieval quality, and switch over.</p>
+<p><strong>How do you handle tables in RAG?</strong>
+Parse them into structured text (Markdown/HTML), keep them whole or chunk by row with headers repeated, add a short description, and test retrieval with table-specific questions. For numeric analysis, consider querying the source data with SQL tools instead.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Embeddings place meaning in vector space; similar texts are close.</li>
+<li>Chunk to one topic per chunk, with headings and metadata; ~300–800 tokens is a typical start.</li>
+<li>Structure-aware, semantic, parent-child and contextual headers improve retrieval.</li>
+<li>Parsing quality (tables, scans, layout) often matters more than the chunking algorithm.</li>
+<li>Version embedding models; switching requires re-indexing.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Muennighoff et al., <a href="https://arxiv.org/abs/2210.07316" rel="noopener">MTEB: Massive Text Embedding Benchmark</a>, 2022.</li>
+<li>Kusupati et al., <a href="https://arxiv.org/abs/2205.13147" rel="noopener">Matryoshka Representation Learning</a>, 2022.</li>
+<li>Günther et al., <a href="https://arxiv.org/abs/2409.04701" rel="noopener">Late Chunking: Contextual Chunk Embeddings Using Long-Context Embedding Models</a>, 2024.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/news/contextual-retrieval" rel="noopener">Introducing Contextual Retrieval</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/vector-databases/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Vector databases</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/advanced-retrieval/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Advanced retrieval</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-evaluation/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/graphrag/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">GraphRAG</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/customizing-models/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompting vs RAG vs fine-tuning</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/rag/rag-fundamentals/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">RAG fundamentals</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/rag/vector-databases/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Vector databases</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#embeddings-simply">Embeddings, simply</a>
+      <ul>
+        <li><a href="#similarity-metrics">Similarity metrics</a></li>
+        <li><a href="#choosing-an-embedding-model">Choosing an embedding model</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-chunk-at-all">Why chunk at all?</a></li>
+    <li><a href="#chunking-strategies">Chunking strategies</a>
+      <ul>
+        <li><a href="#parent-child-retrieval">Parent-child retrieval</a></li>
+        <li><a href="#practical-starting-point">Practical starting point</a></li>
+      </ul>
+    </li>
+    <li><a href="#parsing-the-hidden-half-of-quality">Parsing: the hidden half of quality</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

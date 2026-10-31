@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Architect Interview Path · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Every article in a deliberate order: from how LLMs work to designing, securing and governing agentic systems — about two weeks at one to two hours a day.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/learning-paths/ai-architect/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="AI Architect Interview Path">
+<meta property="og:description" content="Every article in a deliberate order: from how LLMs work to designing, securing and governing agentic systems — about two weeks at one to two hours a day.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/learning-paths/ai-architect/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI Architect Interview Path">
+<meta name="twitter:description" content="Every article in a deliberate order: from how LLMs work to designing, securing and governing agentic systems — about two weeks at one to two hours a day.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"description":"Every article in a deliberate order: from how LLMs work to designing, securing and governing agentic systems — about two weeks at one to two hours a day.","headline":"AI Architect Interview Path","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/learning-paths/ai-architect/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/learning-paths/","name":"Learning Paths","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/learning-paths/ai-architect/","name":"AI Architect Interview Path","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-learning-paths">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/" aria-current="page">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid">
+  <article class="article">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/learning-paths/">Learning Paths</a></li>
+    <li><span aria-current="page">AI Architect Interview Path</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1>AI Architect Interview Path</h1><p class="article__lede">Every article in a deliberate order: from how LLMs work to designing, securing and governing agentic systems — about two weeks at one to two hours a day.</p>
+      <ul class="article-meta"><li>For: Architects and senior engineers preparing for enterprise AI / agentic AI roles and interviews</li>
+        <li>22 steps · 22 available now</li>
+      </ul>
+    </header><div class="prose"><p>Two weeks at one to two hours a day covers the whole path. If you have less time, read the two case studies and the interview section first, then fill gaps from the linked articles.</p>
+</div>
+    <ol class="path-steps">
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">1</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/foundations/how-llms-work/">How large language models work</a>
+          </p><p class="path-step__why">Tokens, attention, context windows and training — the facts every later decision rests on.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">2</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency and cost</a>
+          </p><p class="path-step__why">Turns model mechanics into numbers you can estimate in an interview.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">3</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt and context engineering</a>
+          </p><p class="path-step__why">The first tool for shaping behaviour, and the basis of structured output.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">4</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a>
+          </p><p class="path-step__why">The decision every design question asks implicitly.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">5</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a>
+          </p><p class="path-step__why">Choosing, routing and swapping models without lock-in.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">6</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">The enterprise AI stack</a>
+          </p><p class="path-step__why">The reference architecture you will draw in most interviews.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">7</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/foundations/llmops/">LLMOps</a>
+          </p><p class="path-step__why">How the stack is run, observed and improved in production.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">8</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a>
+          </p><p class="path-step__why">The most common enterprise AI pattern.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">9</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking and embeddings</a>
+          </p><p class="path-step__why">What decides whether retrieval can find anything.</p>
+          <p class="path-step__also">Also: <a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">10</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval and agentic RAG</a>
+          </p><p class="path-step__why">Hybrid search, reranking and query transformation — the production upgrades.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">11</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a>
+          </p><p class="path-step__why">For multi-hop and corpus-wide questions.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">12</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/rag/rag-evaluation/">Evaluation</a>
+          </p><p class="path-step__why">How to prove quality — a must for senior roles.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">13</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: enterprise knowledge assistant</a>
+          </p><p class="path-step__why">Modules 1–2 combined into one system design answer.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">14</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a>
+          </p><p class="path-step__why">The agent loop, workflows vs agents, and tool calling.</p>
+          <p class="path-step__also">Also: <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">15</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">Model Context Protocol</a>
+          </p><p class="path-step__why">The standard for connecting agents to enterprise systems.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">16</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow and agent patterns</a>
+          </p><p class="path-step__why">The building blocks you compose in designs.</p>
+          <p class="path-step__also">Also: <a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">17</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory, state and reliability</a>
+          </p><p class="path-step__why">What makes agents production-grade.</p>
+          <p class="path-step__also">Also: <a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">18</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: agentic customer support</a>
+          </p><p class="path-step__why">Module 3 combined into one system design answer.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">19</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals, RAG, tools and MCP</a>
+          </p><p class="path-step__why">Implementing everything above in Java.</p>
+          <p class="path-step__also">Also: <a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a>, <a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a>, <a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">20</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a>
+          </p><p class="path-step__why">Prompt injection, the OWASP LLM Top 10 and agent security.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">21</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a>
+          </p><p class="path-step__why">EU AI Act, NIST AI RMF, ISO 42001 and the operating model.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">22</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">Interview practice</a>
+          </p><p class="path-step__why">Framework, question bank and cheat sheet for the final days.</p>
+          <p class="path-step__also">Also: <a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a>, <a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></p>
+        </div>
+      </li>
+    </ol>
+
+  </article>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

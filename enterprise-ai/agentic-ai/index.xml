@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Agentic AI, MCP &amp; Multi-Agent Systems on Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/</link>
+		<description>Recent content in Agentic AI, MCP &amp; Multi-Agent Systems on Enterprise AI &amp; Agentic AI Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>What Is an AI Agent?</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/what-is-an-agent/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/what-is-an-agent/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;AI agent&lt;/strong&gt; is a system where an LLM &lt;strong&gt;decides what to do next&lt;/strong&gt;, does it by &lt;strong&gt;calling tools&lt;/strong&gt;, &lt;strong&gt;observes&lt;/strong&gt; the result, and &lt;strong&gt;repeats&lt;/strong&gt; until the goal is reached or it must stop.&lt;/p&gt;&#xA;&lt;p&gt;A chatbot answers. An agent &lt;em&gt;acts&lt;/em&gt;: it can look up an order, check a policy, issue a refund, and email the customer — choosing the steps itself.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Tool Calling (Function Calling)</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/tool-calling/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/tool-calling/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Tool calling&lt;/strong&gt; (also called function calling) lets an LLM ask &lt;em&gt;your application&lt;/em&gt; to run a function. You describe the available tools; the model replies with &amp;ldquo;call &lt;code&gt;get_order&lt;/code&gt; with &lt;code&gt;{&amp;quot;orderId&amp;quot;: &amp;quot;8812&amp;quot;}&lt;/code&gt;&amp;rdquo;; your code runs it and sends the result back; the model continues.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Model Context Protocol (MCP)</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/model-context-protocol/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/model-context-protocol/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;strong&gt;Model Context Protocol (MCP)&lt;/strong&gt; is an open standard for connecting AI applications to tools and data. An &lt;strong&gt;MCP server&lt;/strong&gt; exposes capabilities — tools to call, resources to read, prompt templates to use — and any &lt;strong&gt;MCP-compatible AI application&lt;/strong&gt; can discover and use them.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agentic Workflow Patterns</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Agentic patterns&lt;/strong&gt; are reusable shapes for combining LLM calls, tools and code — the &amp;ldquo;design patterns&amp;rdquo; of AI systems. Most production systems are a composition of a few of them. They range from fully code-controlled workflows to fully model-controlled agents.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Multi-Agent Systems</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/multi-agent-systems/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/multi-agent-systems/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;multi-agent system&lt;/strong&gt; splits work among several agents, each with its own instructions, tools and context, which coordinate to reach a goal. It is the AI equivalent of a team: a lead delegates to specialists.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agent Memory, State and Durable Execution</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-memory-and-state/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-memory-and-state/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;LLMs are stateless: each call knows only what is in its prompt. &lt;strong&gt;Memory&lt;/strong&gt; is everything your system stores and feeds back so an agent can continue a conversation, remember a user&amp;rsquo;s preferences, learn from past cases, and resume a long task after a crash.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agent Reliability, Guardrails and Evaluation</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Agent reliability is the engineering that makes an agent do the right thing consistently, stop when it should, and fail safely when it cannot succeed. It combines &lt;strong&gt;guardrails&lt;/strong&gt; (prevent bad actions), &lt;strong&gt;budgets&lt;/strong&gt; (bound cost and time), &lt;strong&gt;evaluation&lt;/strong&gt; (measure behaviour before and after release) and &lt;strong&gt;observability&lt;/strong&gt; (see what happened).&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>System Design: Agentic Customer-Support Platform</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/</guid>
+				<description>&lt;h2 id=&#34;the-interview-question&#34;&gt;The interview question&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-interview-question&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design an AI agent for an e-commerce company that resolves customer-support requests — order status, returns, refunds, address changes — over chat and email, escalating to humans when needed.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;1-requirements&#34;&gt;1. Requirements&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Functional&lt;/strong&gt;&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

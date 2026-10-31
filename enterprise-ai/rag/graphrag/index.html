@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GraphRAG and Knowledge Graphs · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Why vector RAG struggles with multi-hop and global questions, what knowledge graphs add, how GraphRAG is built (entity extraction, communities, summaries), local vs global search, hybrid graph-vector retrieval, and when it is worth the cost.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/rag/graphrag/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="GraphRAG and Knowledge Graphs">
+<meta property="og:description" content="Why vector RAG struggles with multi-hop and global questions, what knowledge graphs add, how GraphRAG is built (entity extraction, communities, summaries), local vs global search, hybrid graph-vector retrieval, and when it is worth the cost.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/rag/graphrag/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GraphRAG and Knowledge Graphs">
+<meta name="twitter:description" content="Why vector RAG struggles with multi-hop and global questions, what knowledge graphs add, how GraphRAG is built (entity extraction, communities, summaries), local vs global search, hybrid graph-vector retrieval, and when it is worth the cost.">
+<meta name="keywords" content="rag, graphrag, knowledge-graph">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"Why vector RAG struggles with multi-hop and global questions, what knowledge graphs add, how GraphRAG is built (entity extraction, communities, summaries), local vs global search, hybrid graph-vector retrieval, and when it is worth the cost.","headline":"GraphRAG and Knowledge Graphs","inLanguage":"en","isAccessibleForFree":true,"keywords":"rag, graphrag, knowledge-graph","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/rag/graphrag/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/","name":"2 · RAG \u0026 GraphRAG","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/graphrag/","name":"GraphRAG","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-rag">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/" aria-current="page">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a></li>
+    <li><span aria-current="page">GraphRAG</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">GraphRAG and Knowledge Graphs</h1><p class="article__lede" itemprop="description">Why vector RAG struggles with multi-hop and global questions, what knowledge graphs add, how GraphRAG is built (entity extraction, communities, summaries), local vs global search, hybrid graph-vector retrieval, and when it is worth the cost.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/rag/">#Rag</a><a class="tag" href="/enterprise-ai/tags/graphrag/">#Graphrag</a><a class="tag" href="/enterprise-ai/tags/knowledge-graph/">#Knowledge-Graph</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-with-vector-only-rag">The problem with vector-only RAG</a></li>
+    <li><a href="#how-a-knowledge-graph-helps">How a knowledge graph helps</a></li>
+    <li><a href="#the-graphrag-indexing-pipeline">The GraphRAG indexing pipeline</a></li>
+    <li><a href="#query-modes">Query modes</a></li>
+    <li><a href="#other-ways-to-use-graphs-in-rag">Other ways to use graphs in RAG</a></li>
+    <li><a href="#trade-offs">Trade-offs</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>knowledge graph</strong> stores facts as <strong>entities</strong> (nodes: people, products, systems, contracts) and <strong>relationships</strong> (edges: <em>owns</em>, <em>depends on</em>, <em>supplies</em>). <strong>GraphRAG</strong> uses such a graph — often built automatically from documents by an LLM — to retrieve connected facts and summaries that plain vector search cannot find.</p>
+<h2 id="the-problem-with-vector-only-rag">The problem with vector-only RAG<a class="heading-anchor" href="#the-problem-with-vector-only-rag" aria-label="Link to this section">#</a></h2>
+<p>Vector RAG retrieves chunks that <em>look like</em> the question. It struggles with:</p>
+<ul>
+<li><strong>Multi-hop questions</strong> — &ldquo;Which customers are affected if supplier X fails?&rdquo; needs supplier → components → products → contracts → customers; no single chunk contains the chain.</li>
+<li><strong>Global / summarisation questions</strong> — &ldquo;What are the main themes in 5,000 customer complaints?&rdquo; No top-5 chunks can answer that.</li>
+<li><strong>Relationship and aggregation questions</strong> — &ldquo;Who are all the owners of systems that process card data?&rdquo;</li>
+</ul>
+<h2 id="how-a-knowledge-graph-helps">How a knowledge graph helps<a class="heading-anchor" href="#how-a-knowledge-graph-helps" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="A slice of an enterprise knowledge graph"><figcaption class="diagram__title">A slice of an enterprise knowledge graph</figcaption>
+  <pre class="mermaid">flowchart LR
+    SUP[&#34;Supplier: ChipCo&#34;] --&gt;|&#34;SUPPLIES&#34;| COMP[&#34;Component: PX-9 chip&#34;]
+    COMP --&gt;|&#34;USED_IN&#34;| P1[&#34;Product: Router R5&#34;]
+    COMP --&gt;|&#34;USED_IN&#34;| P2[&#34;Product: Gateway G2&#34;]
+    P1 --&gt;|&#34;SOLD_UNDER&#34;| C1[&#34;Contract: #2231 Acme Bank&#34;]
+    P2 --&gt;|&#34;SOLD_UNDER&#34;| C2[&#34;Contract: #2240 Globex&#34;]
+    C1 --&gt;|&#34;HAS_SLA&#34;| S1[&#34;SLA: 99.95%, 4h replacement&#34;]
+    TEAM[&#34;Team: Network Ops&#34;] --&gt;|&#34;OWNS&#34;| P1</pre>
+</figure>
+<p>&ldquo;Which customers depend on ChipCo?&rdquo; becomes a graph traversal: ChipCo → PX-9 → R5, G2 → contracts → Acme Bank, Globex — precise, complete and explainable.</p>
+<h2 id="the-graphrag-indexing-pipeline">The GraphRAG indexing pipeline<a class="heading-anchor" href="#the-graphrag-indexing-pipeline" aria-label="Link to this section">#</a></h2>
+<p>The approach popularised by Microsoft Research&rsquo;s GraphRAG:</p>
+<figure class="diagram" aria-label="GraphRAG indexing"><figcaption class="diagram__title">GraphRAG indexing</figcaption>
+  <pre class="mermaid">flowchart TB
+    D[&#34;Documents&#34;] --&gt; C[&#34;Chunk&#34;]
+    C --&gt; X[&#34;LLM extracts entities, relationships&lt;br/&gt;and claims from each chunk&#34;]
+    X --&gt; M[&#34;Merge duplicates&lt;br/&gt;entity resolution&#34;]
+    M --&gt; G[(&#34;Knowledge graph&#34;)]
+    G --&gt; CD[&#34;Community detection&lt;br/&gt;Leiden algorithm, hierarchical&#34;]
+    CD --&gt; CS[&#34;LLM writes a summary&lt;br/&gt;for every community&#34;]
+    CS --&gt; IDX[(&#34;Community summaries&#34;)]
+    C --&gt; V[(&#34;Chunk embeddings&#34;)]</pre>
+</figure>
+<ol>
+<li><strong>Extract</strong> — an LLM reads each chunk and outputs entities (with types and descriptions) and relationships.</li>
+<li><strong>Resolve</strong> — merge &ldquo;IBM&rdquo;, &ldquo;I.B.M.&rdquo; and &ldquo;International Business Machines&rdquo; into one node.</li>
+<li><strong>Cluster</strong> — community detection groups densely connected entities into topics, at several levels (themes → sub-themes).</li>
+<li><strong>Summarise</strong> — an LLM writes a report for each community.</li>
+<li><strong>Embed</strong> entity descriptions, chunks and summaries for search.</li>
+</ol>
+<h2 id="query-modes">Query modes<a class="heading-anchor" href="#query-modes" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Local vs global search"><figcaption class="diagram__title">Local vs global search</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Local[&#34;Local search — specific entities&#34;]
+        L1[&#34;Find entities in question&lt;br/&gt;via embeddings&#34;] --&gt; L2[&#34;Expand neighbours&lt;br/&gt;1–2 hops&#34;] --&gt; L3[&#34;Collect related chunks,&lt;br/&gt;relationships, community info&#34;] --&gt; L4[&#34;Answer&#34;]
+    end
+    subgraph Global[&#34;Global search — whole corpus&#34;]
+        G1[&#34;Take community summaries&lt;br/&gt;at chosen level&#34;] --&gt; G2[&#34;Map: partial answer&lt;br/&gt;from each summary&#34;] --&gt; G3[&#34;Reduce: combine into&lt;br/&gt;final answer&#34;]
+    end</pre>
+</figure>
+<ul>
+<li><strong>Local search</strong> answers questions about specific entities and their connections.</li>
+<li><strong>Global search</strong> answers &ldquo;what are the main themes…&rdquo; questions using map-reduce over community summaries.</li>
+<li><strong>DRIFT search</strong> and similar hybrids start global and drill down locally.</li>
+</ul>
+<h2 id="other-ways-to-use-graphs-in-rag">Other ways to use graphs in RAG<a class="heading-anchor" href="#other-ways-to-use-graphs-in-rag" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>How it works</th>
+      <th>Good for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Text-to-Cypher / SPARQL</strong></td>
+      <td>LLM translates the question into a graph query against a curated graph</td>
+      <td>Precise questions over well-modelled data (CMDB, org charts, product catalogues)</td>
+    </tr>
+    <tr>
+      <td><strong>Graph-enhanced vector search</strong></td>
+      <td>Vector search finds entry chunks; follow graph edges to related chunks</td>
+      <td>Adding context and multi-hop to normal RAG</td>
+    </tr>
+    <tr>
+      <td><strong>Lightweight GraphRAG</strong> (LightRAG and similar)</td>
+      <td>Cheaper extraction, dual-level keys, incremental updates</td>
+      <td>Lower indexing cost</td>
+    </tr>
+    <tr>
+      <td><strong>Existing enterprise graphs</strong></td>
+      <td>Use your master-data or ontology graph as a retrieval source</td>
+      <td>Organisations with mature data governance</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="diagram" aria-label="Hybrid vector &#43; graph retrieval"><figcaption class="diagram__title">Hybrid vector &#43; graph retrieval</figcaption>
+  <pre class="mermaid">flowchart LR
+    Q[&#34;Question&#34;] --&gt; VS[&#34;Vector / hybrid search&lt;br/&gt;find relevant chunks&#34;]
+    VS --&gt; E[&#34;Entities mentioned&lt;br/&gt;in those chunks&#34;]
+    E --&gt; GT[&#34;Graph traversal&lt;br/&gt;neighbours, paths&#34;]
+    GT --&gt; CTX[&#34;Context: chunks +&lt;br/&gt;relationship facts&#34;]
+    VS --&gt; CTX
+    CTX --&gt; LLM[&#34;LLM answer&lt;br/&gt;with explainable path&#34;]</pre>
+</figure>
+<h2 id="trade-offs">Trade-offs<a class="heading-anchor" href="#trade-offs" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Vector RAG</th>
+      <th>GraphRAG</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Indexing cost</td>
+      <td>Low (embeddings)</td>
+      <td>High — LLM calls over every chunk, plus summaries</td>
+    </tr>
+    <tr>
+      <td>Updates</td>
+      <td>Easy, incremental</td>
+      <td>Harder: re-extraction, re-clustering</td>
+    </tr>
+    <tr>
+      <td>Single-fact lookup</td>
+      <td>Strong</td>
+      <td>Similar</td>
+    </tr>
+    <tr>
+      <td>Multi-hop / relationships</td>
+      <td>Weak</td>
+      <td>Strong</td>
+    </tr>
+    <tr>
+      <td>Global summarisation</td>
+      <td>Weak</td>
+      <td>Strong</td>
+    </tr>
+    <tr>
+      <td>Explainability</td>
+      <td>Cites chunks</td>
+      <td>Cites chunks <em>and</em> paths</td>
+    </tr>
+    <tr>
+      <td>Extraction errors</td>
+      <td>N/A</td>
+      <td>Wrong or missing edges propagate</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tradeoff" role="note">
+  <p class="callout__title"><span class="callout__label">Trade-off</span><span class="callout__heading">When GraphRAG is worth it</span></p>
+  <div class="callout__body"><p>Use it when your questions are relationship-heavy or corpus-wide and your domain has clear entities: supply chains, compliance obligations, IT dependency maps, investigations, research. Do not use it as a default replacement for vector RAG; evaluate it on your questions first.</p></div>
+</aside><h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Building a graph without a schema</span></p>
+  <div class="callout__body"><p>Free-form extraction yields thousands of inconsistent entity and relation types. Define the entity types and relationships that matter for your questions and constrain extraction to them.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ignoring entity resolution</span></p>
+  <div class="callout__body"><p>Without merging duplicates, the graph fragments and traversals miss connections.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What is GraphRAG?</strong>
+A RAG approach that builds a knowledge graph of entities and relationships from documents — usually with an LLM — clusters it into communities with summaries, and retrieves graph neighbourhoods or community summaries to answer questions that need connections or corpus-wide understanding.</p>
+<p><strong>When does vector RAG fail where GraphRAG succeeds?</strong>
+Multi-hop questions that need chaining facts across documents, relationship and aggregation questions, and global questions such as &ldquo;what are the main themes across all reports?&rdquo;</p>
+<p><strong>Explain local vs global search in GraphRAG.</strong>
+Local search starts from entities in the question and gathers their neighbourhood, related chunks and community information. Global search runs map-reduce over community summaries to answer corpus-wide questions.</p>
+<p><strong>What are the costs and risks of GraphRAG?</strong>
+Expensive indexing (LLM extraction and summarisation over the whole corpus), harder incremental updates, and extraction errors that create wrong or missing relationships. It needs a schema, entity resolution and evaluation.</p>
+<p><strong>How else can graphs be used with LLMs?</strong>
+Text-to-Cypher over curated graphs, graph traversal to expand vector search results, and using existing enterprise knowledge graphs or ontologies as a retrieval source for agents.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Knowledge graphs store entities and relationships; GraphRAG retrieves over them.</li>
+<li>It shines on multi-hop, relationship and global questions where vector RAG fails.</li>
+<li>Indexing: LLM extraction → entity resolution → community detection → summaries.</li>
+<li>Local search for specific entities, global search for themes.</li>
+<li>High indexing cost; use a schema, resolve entities, and evaluate against vector RAG.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Edge et al., <a href="https://arxiv.org/abs/2404.16130" rel="noopener">From Local to Global: A Graph RAG Approach to Query-Focused Summarization</a> (Microsoft GraphRAG), 2024.</li>
+<li>Traag, Waltman, van Eck, <a href="https://arxiv.org/abs/1810.08473" rel="noopener">From Louvain to Leiden: guaranteeing well-connected communities</a>, 2019.</li>
+<li>Guo et al., <a href="https://arxiv.org/abs/2410.05779" rel="noopener">LightRAG: Simple and Fast Retrieval-Augmented Generation</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-evaluation/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/case-study-knowledge-assistant/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Case study: knowledge assistant</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/advanced-retrieval/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Advanced retrieval</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/chunking-and-embeddings/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Chunking &amp; embeddings</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/customizing-models/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompting vs RAG vs fine-tuning</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/rag/advanced-retrieval/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Advanced retrieval</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/rag/rag-evaluation/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">RAG evaluation</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-with-vector-only-rag">The problem with vector-only RAG</a></li>
+    <li><a href="#how-a-knowledge-graph-helps">How a knowledge graph helps</a></li>
+    <li><a href="#the-graphrag-indexing-pipeline">The GraphRAG indexing pipeline</a></li>
+    <li><a href="#query-modes">Query modes</a></li>
+    <li><a href="#other-ways-to-use-graphs-in-rag">Other ways to use graphs in RAG</a></li>
+    <li><a href="#trade-offs">Trade-offs</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

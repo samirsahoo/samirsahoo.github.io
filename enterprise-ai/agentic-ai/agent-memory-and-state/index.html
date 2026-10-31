@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Memory, State and Durable Execution · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How agents remember: short-term working memory, conversation history management, long-term semantic, episodic and procedural memory, memory write and retrieval policies, state machines, checkpoints, durable execution for long-running agents, and privacy.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-memory-and-state/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Agent Memory, State and Durable Execution">
+<meta property="og:description" content="How agents remember: short-term working memory, conversation history management, long-term semantic, episodic and procedural memory, memory write and retrieval policies, state machines, checkpoints, durable execution for long-running agents, and privacy.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-memory-and-state/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agent Memory, State and Durable Execution">
+<meta name="twitter:description" content="How agents remember: short-term working memory, conversation history management, long-term semantic, episodic and procedural memory, memory write and retrieval policies, state machines, checkpoints, durable execution for long-running agents, and privacy.">
+<meta name="keywords" content="agents, memory, agentic-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"How agents remember: short-term working memory, conversation history management, long-term semantic, episodic and procedural memory, memory write and retrieval policies, state machines, checkpoints, durable execution for long-running agents, and privacy.","headline":"Agent Memory, State and Durable Execution","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, memory, agentic-ai","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-memory-and-state/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-memory-and-state/","name":"Memory \u0026 state","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/" aria-current="page">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Memory &amp; state</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Agent Memory, State and Durable Execution</h1><p class="article__lede" itemprop="description">How agents remember: short-term working memory, conversation history management, long-term semantic, episodic and procedural memory, memory write and retrieval policies, state machines, checkpoints, durable execution for long-running agents, and privacy.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/memory/">#Memory</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#types-of-memory">Types of memory</a></li>
+    <li><a href="#managing-short-term-memory">Managing short-term memory</a></li>
+    <li><a href="#long-term-memory-write-and-read">Long-term memory: write and read</a></li>
+    <li><a href="#state-machines-and-workflow-state">State machines and workflow state</a></li>
+    <li><a href="#durable-execution-and-checkpoints">Durable execution and checkpoints</a></li>
+    <li><a href="#privacy-and-governance-of-memory">Privacy and governance of memory</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>LLMs are stateless: each call knows only what is in its prompt. <strong>Memory</strong> is everything your system stores and feeds back so an agent can continue a conversation, remember a user&rsquo;s preferences, learn from past cases, and resume a long task after a crash.</p>
+<h2 id="types-of-memory">Types of memory<a class="heading-anchor" href="#types-of-memory" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Memory types"><figcaption class="diagram__title">Memory types</figcaption>
+  <pre class="mermaid">flowchart TB
+    M[&#34;Agent memory&#34;] --&gt; ST[&#34;Short-term / working memory&lt;br/&gt;current conversation and task state&lt;br/&gt;lives in the context window&#34;]
+    M --&gt; LT[&#34;Long-term memory&lt;br/&gt;persists across sessions&lt;br/&gt;stored outside the model&#34;]
+    LT --&gt; SEM[&#34;Semantic&lt;br/&gt;facts: &#39;customer prefers email&#39;,&lt;br/&gt;&#39;uses product X v3&#39;&#34;]
+    LT --&gt; EPI[&#34;Episodic&lt;br/&gt;past interactions and outcomes:&lt;br/&gt;&#39;last month&#39;s ticket was solved by …&#39;&#34;]
+    LT --&gt; PRO[&#34;Procedural&lt;br/&gt;how to do things: learned instructions,&lt;br/&gt;playbooks, improved prompts&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Human analogy</th>
+      <th>Storage</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Working / short-term</strong></td>
+      <td>What you are thinking about now</td>
+      <td>Context window + session store</td>
+      <td>Last 10 messages, current plan, tool results</td>
+    </tr>
+    <tr>
+      <td><strong>Semantic</strong></td>
+      <td>Facts you know</td>
+      <td>Database / vector store / profile</td>
+      <td>&ldquo;User is in the Munich office; prefers German&rdquo;</td>
+    </tr>
+    <tr>
+      <td><strong>Episodic</strong></td>
+      <td>Remembering past events</td>
+      <td>Vector store of past episodes</td>
+      <td>Summary of a similar resolved incident</td>
+    </tr>
+    <tr>
+      <td><strong>Procedural</strong></td>
+      <td>Skills</td>
+      <td>Prompts, playbooks, tool definitions</td>
+      <td>&ldquo;For VPN issues, check certificate first&rdquo;</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="managing-short-term-memory">Managing short-term memory<a class="heading-anchor" href="#managing-short-term-memory" aria-label="Link to this section">#</a></h2>
+<p>Conversation history grows each turn and is re-sent every call. Strategies:</p>
+<figure class="diagram" aria-label="Keeping history within budget"><figcaption class="diagram__title">Keeping history within budget</figcaption>
+  <pre class="mermaid">flowchart LR
+    H[&#34;Full history&lt;br/&gt;40 turns, 30K tokens&#34;] --&gt; W[&#34;Sliding window&lt;br/&gt;keep last N turns&#34;]
+    H --&gt; SUM[&#34;Summarise older turns&lt;br/&gt;+ keep recent verbatim&#34;]
+    H --&gt; TR[&#34;Trim tool results&lt;br/&gt;keep only key fields&#34;]
+    H --&gt; RET[&#34;Retrieve relevant past turns&lt;br/&gt;vector search over history&#34;]
+    W --&gt; P[&#34;Prompt within budget&#34;]
+    SUM --&gt; P
+    TR --&gt; P
+    RET --&gt; P</pre>
+</figure>
+<ul>
+<li><strong>Sliding window</strong> — simplest; loses early details (like the user&rsquo;s name or order number).</li>
+<li><strong>Summary + window</strong> — a running summary of older turns plus the last few turns verbatim. The usual production choice.</li>
+<li><strong>Pin key facts</strong> — extract and keep important entities (order ID, decision made) in a structured &ldquo;state&rdquo; section.</li>
+<li><strong>Clear tool results</strong> — old, bulky tool outputs can be dropped or shortened once used.</li>
+</ul>
+<h2 id="long-term-memory-write-and-read">Long-term memory: write and read<a class="heading-anchor" href="#long-term-memory-write-and-read" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Long-term memory flow"><figcaption class="diagram__title">Long-term memory flow</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant U as User
+    participant A as Agent
+    participant MS as Memory service
+    participant DB as Memory store
+    U-&gt;&gt;A: new message
+    A-&gt;&gt;MS: recall(user_id, current query)
+    MS-&gt;&gt;DB: profile facts + semantic search over memories
+    DB--&gt;&gt;MS: relevant memories
+    MS--&gt;&gt;A: &#34;Prefers email, had failed payment 2 weeks ago&#34;
+    A-&gt;&gt;A: respond using memories
+    A--&gt;&gt;U: answer
+    A-)MS: extract new memories from this turn (async)
+    MS-&gt;&gt;MS: dedupe, resolve conflicts, check policy
+    MS-&gt;&gt;DB: upsert memories with source, timestamp, TTL</pre>
+</figure>
+<p><strong>Write policy</strong> — what is worth remembering? Extract stable facts and preferences, not every message. Resolve conflicts (new address replaces old). Record source and time.</p>
+<p><strong>Read policy</strong> — retrieve only memories relevant to the current task (by user, recency and similarity), and show them to the model as <em>data</em>, clearly labelled.</p>
+<p><strong>Forget policy</strong> — expiry (TTL), user-requested deletion, and correction.</p>
+<h2 id="state-machines-and-workflow-state">State machines and workflow state<a class="heading-anchor" href="#state-machines-and-workflow-state" aria-label="Link to this section">#</a></h2>
+<p>For structured processes, model the agent&rsquo;s progress as explicit <strong>state</strong>, not just chat history:</p>
+<figure class="diagram" aria-label="Claims agent as a state machine"><figcaption class="diagram__title">Claims agent as a state machine</figcaption>
+  <pre class="mermaid">stateDiagram-v2
+    [*] --&gt; Intake
+    Intake --&gt; GatherEvidence: claim details complete
+    Intake --&gt; AwaitCustomer: details missing
+    AwaitCustomer --&gt; Intake: customer replies
+    GatherEvidence --&gt; Assess
+    Assess --&gt; AwaitApproval: payout &gt; limit
+    Assess --&gt; Payout: payout ≤ limit
+    AwaitApproval --&gt; Payout: approved
+    AwaitApproval --&gt; Rejected: rejected
+    Payout --&gt; [*]
+    Rejected --&gt; [*]</pre>
+</figure>
+<p>The LLM handles judgement <em>inside</em> states (understanding documents, assessing evidence); code controls the <em>transitions</em>. This hybrid is common in regulated industries because it is auditable.</p>
+<h2 id="durable-execution-and-checkpoints">Durable execution and checkpoints<a class="heading-anchor" href="#durable-execution-and-checkpoints" aria-label="Link to this section">#</a></h2>
+<p>Agents that run for minutes, hours or days — waiting for approvals, external systems or users — must survive restarts and deployments.</p>
+<figure class="diagram" aria-label="Checkpointed agent execution"><figcaption class="diagram__title">Checkpointed agent execution</figcaption>
+  <pre class="mermaid">flowchart LR
+    S1[&#34;Step 1: retrieve data&#34;] --&gt; CP1[(&#34;Checkpoint&#34;)]
+    CP1 --&gt; S2[&#34;Step 2: call LLM&#34;] --&gt; CP2[(&#34;Checkpoint&#34;)]
+    CP2 --&gt; S3[&#34;Step 3: wait for approval&lt;br/&gt;hours&#34;] --&gt; CP3[(&#34;Checkpoint&#34;)]
+    CP3 --&gt; S4[&#34;Step 4: execute payment&#34;]
+    CRASH[&#34;Pod restarts during step 3&#34;] -.-&gt;|&#34;resume from CP2/CP3,&lt;br/&gt;no repeated LLM calls or payments&#34;| S3</pre>
+</figure>
+<ul>
+<li><strong>Checkpointing</strong> — save state after each step (LangGraph checkpointers, Spring AI chat memory repositories, your own tables).</li>
+<li><strong>Durable execution engines</strong> — Temporal, AWS Step Functions, Azure Durable Functions, Restate — persist every step and replay deterministically after failures.</li>
+<li><strong>Idempotency</strong> — side-effecting tools must use idempotency keys, because a step may be retried.</li>
+<li><strong>Time travel / replay</strong> — saved checkpoints let you inspect and debug what the agent saw at each step.</li>
+</ul>
+<h2 id="privacy-and-governance-of-memory">Privacy and governance of memory<a class="heading-anchor" href="#privacy-and-governance-of-memory" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Memory is <strong>personal data</strong> when it is about people: apply purpose limitation, retention limits, access control and the right to erasure.</li>
+<li>Let users <strong>see and delete</strong> what the assistant remembers.</li>
+<li>Separate memories by <strong>tenant and user</strong>; never retrieve one user&rsquo;s memories for another.</li>
+<li><strong>Memory poisoning</strong> — an attacker plants false &ldquo;facts&rdquo; through content the agent reads. Only write memories from trusted signals, record provenance, and allow review.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Sending the whole history forever</span></p>
+  <div class="callout__body"><p>Cost and latency grow every turn and quality drops. Summarise, trim and window.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Keeping agent state in memory of one pod</span></p>
+  <div class="callout__body"><p>A restart loses the conversation or, worse, repeats an action. Persist state externally and make actions idempotent.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Remembering everything</span></p>
+  <div class="callout__body"><p>Storing every utterance as long-term memory creates noise, privacy risk and contradictory &ldquo;facts&rdquo;. Extract selectively, with provenance and expiry.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What types of memory does an agent have?</strong>
+Short-term working memory (the current context and task state) and long-term memory stored outside the model: semantic (facts and preferences), episodic (past interactions and outcomes) and procedural (instructions and playbooks).</p>
+<p><strong>How do you handle long conversations within the context window?</strong>
+Keep the latest turns verbatim, summarise older turns, pin key facts in a structured state section, trim old tool results, and optionally retrieve relevant earlier turns by similarity.</p>
+<p><strong>How would you make a long-running agent reliable?</strong>
+Persist state at every step (checkpoints) or use a durable execution engine, make side-effecting tools idempotent, support pause/resume for human approval, and trace each step so runs can be replayed and debugged.</p>
+<p><strong>What are the privacy concerns with agent memory?</strong>
+Memory often contains personal data, so it needs consent and purpose, retention limits, access control, user visibility and deletion, tenant isolation, and protection against memory poisoning.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>LLMs are stateless; memory is a system you build.</li>
+<li>Short-term memory: window + summary + pinned facts. Long-term: semantic, episodic, procedural.</li>
+<li>Define write, read and forget policies for long-term memory.</li>
+<li>Model structured processes as state machines; checkpoint long-running agents; make actions idempotent.</li>
+<li>Treat memory as governed personal data.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Packer et al., <a href="https://arxiv.org/abs/2310.08560" rel="noopener">MemGPT: Towards LLMs as Operating Systems</a>, 2023.</li>
+<li>Park et al., <a href="https://arxiv.org/abs/2304.03442" rel="noopener">Generative Agents: Interactive Simulacra of Human Behavior</a>, 2023.</li>
+<li>Sumers et al., <a href="https://arxiv.org/abs/2309.02427" rel="noopener">Cognitive Architectures for Language Agents (CoALA)</a>, 2023.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Workflow &amp; agent patterns</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI tools, MCP &amp; memory</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/model-context-protocol/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/multi-agent-systems/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Multi-agent systems</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/multi-agent-systems/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Multi-agent systems</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Reliability &amp; evaluation</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#types-of-memory">Types of memory</a></li>
+    <li><a href="#managing-short-term-memory">Managing short-term memory</a></li>
+    <li><a href="#long-term-memory-write-and-read">Long-term memory: write and read</a></li>
+    <li><a href="#state-machines-and-workflow-state">State machines and workflow state</a></li>
+    <li><a href="#durable-execution-and-checkpoints">Durable execution and checkpoints</a></li>
+    <li><a href="#privacy-and-governance-of-memory">Privacy and governance of memory</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

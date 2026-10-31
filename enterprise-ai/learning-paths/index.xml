@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Learning Paths on Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/enterprise-ai/learning-paths/</link>
+		<description>Recent content in Learning Paths on Enterprise AI &amp; Agentic AI Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/enterprise-ai/learning-paths/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>AI Architect Interview Path</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/learning-paths/ai-architect/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/learning-paths/ai-architect/</guid>
+				<description>&lt;p&gt;Two weeks at one to two hours a day covers the whole path. If you have less time, read the two case studies and the interview section first, then fill gaps from the linked articles.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

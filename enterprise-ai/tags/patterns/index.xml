@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Patterns on Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/enterprise-ai/tags/patterns/</link>
+		<description>Recent content in Patterns on Enterprise AI &amp; Agentic AI Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/patterns/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Agentic Workflow Patterns</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Agentic patterns&lt;/strong&gt; are reusable shapes for combining LLM calls, tools and code — the &amp;ldquo;design patterns&amp;rdquo; of AI systems. Most production systems are a composition of a few of them. They range from fully code-controlled workflows to fully model-controlled agents.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

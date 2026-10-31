@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLMOps: Running AI in Production · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How to operate LLM applications: tracing with OpenTelemetry, offline and online evaluation, prompt and model versioning, guardrails, cost control, resilience patterns, deployment strategies and incident handling.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/llmops/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="LLMOps: Running AI in Production">
+<meta property="og:description" content="How to operate LLM applications: tracing with OpenTelemetry, offline and online evaluation, prompt and model versioning, guardrails, cost control, resilience patterns, deployment strategies and incident handling.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/llmops/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LLMOps: Running AI in Production">
+<meta name="twitter:description" content="How to operate LLM applications: tracing with OpenTelemetry, offline and online evaluation, prompt and model versioning, guardrails, cost control, resilience patterns, deployment strategies and incident handling.">
+<meta name="keywords" content="operations, foundations, observability">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"How to operate LLM applications: tracing with OpenTelemetry, offline and online evaluation, prompt and model versioning, guardrails, cost control, resilience patterns, deployment strategies and incident handling.","headline":"LLMOps: Running AI in Production","inLanguage":"en","isAccessibleForFree":true,"keywords":"operations, foundations, observability","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/llmops/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/llmops/","name":"LLMOps \u0026 observability","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/" aria-current="page">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">LLMOps &amp; observability</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">LLMOps: Running AI in Production</h1><p class="article__lede" itemprop="description">How to operate LLM applications: tracing with OpenTelemetry, offline and online evaluation, prompt and model versioning, guardrails, cost control, resilience patterns, deployment strategies and incident handling.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/operations/">#Operations</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/observability/">#Observability</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-is-different-from-normal-operations">Why it is different from normal operations</a></li>
+    <li><a href="#the-llmops-lifecycle">The LLMOps lifecycle</a></li>
+    <li><a href="#observability-what-to-capture">Observability: what to capture</a>
+      <ul>
+        <li><a href="#dashboards-and-alerts">Dashboards and alerts</a></li>
+      </ul>
+    </li>
+    <li><a href="#evaluation-in-the-pipeline">Evaluation in the pipeline</a></li>
+    <li><a href="#resilience-patterns">Resilience patterns</a></li>
+    <li><a href="#cost-control">Cost control</a></li>
+    <li><a href="#deployment-strategies">Deployment strategies</a></li>
+    <li><a href="#ai-incident-handling">AI incident handling</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>LLMOps</strong> is the set of practices for building, deploying, monitoring and improving LLM applications in production. It extends DevOps and MLOps with things specific to LLMs: prompts as versioned artefacts, evaluation of non-deterministic output, token cost, safety guardrails and traces of multi-step chains and agents.</p>
+<h2 id="why-it-is-different-from-normal-operations">Why it is different from normal operations<a class="heading-anchor" href="#why-it-is-different-from-normal-operations" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Traditional service</th>
+      <th>LLM application</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Same input → same output</td>
+      <td>Same input → different outputs</td>
+    </tr>
+    <tr>
+      <td>Correctness tested with assertions</td>
+      <td>Quality <em>measured</em> with evaluation datasets and judges</td>
+    </tr>
+    <tr>
+      <td>Errors are exceptions and status codes</td>
+      <td>Many failures are <em>silent</em>: fluent but wrong answers</td>
+    </tr>
+    <tr>
+      <td>Cost is mostly infrastructure</td>
+      <td>Cost is per request, per token, and can spike with one prompt change</td>
+    </tr>
+    <tr>
+      <td>Behaviour changes when you deploy</td>
+      <td>Behaviour can change when the <em>provider</em> updates a model</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="the-llmops-lifecycle">The LLMOps lifecycle<a class="heading-anchor" href="#the-llmops-lifecycle" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Continuous improvement loop"><figcaption class="diagram__title">Continuous improvement loop</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Design&lt;br/&gt;use case, metrics, risks&#34;] --&gt; B[&#34;Build&lt;br/&gt;prompts, RAG, tools&#34;]
+    B --&gt; C[&#34;Evaluate offline&lt;br/&gt;golden dataset in CI&#34;]
+    C --&gt;|&#34;pass&#34;| D[&#34;Deploy&lt;br/&gt;canary, shadow, A/B&#34;]
+    C --&gt;|&#34;fail&#34;| B
+    D --&gt; E[&#34;Monitor online&lt;br/&gt;traces, cost, feedback, drift&#34;]
+    E --&gt; F[&#34;Analyse failures&lt;br/&gt;add cases to dataset&#34;]
+    F --&gt; B</pre>
+</figure>
+<p>The key habit: <strong>every production failure becomes a test case</strong> in the evaluation dataset.</p>
+<h2 id="observability-what-to-capture">Observability: what to capture<a class="heading-anchor" href="#observability-what-to-capture" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="One trace of a RAG request"><figcaption class="diagram__title">One trace of a RAG request</figcaption>
+  <pre class="mermaid">flowchart TB
+    T[&#34;Trace: POST /ask  2.8 s  $0.011&#34;] --&gt; S1[&#34;span: guardrail.input  40 ms&#34;]
+    T --&gt; S2[&#34;span: retrieval  310 ms&#34;]
+    S2 --&gt; S2a[&#34;embed query  60 ms&#34;]
+    S2 --&gt; S2b[&#34;vector search  top_k=20  90 ms&#34;]
+    S2 --&gt; S2c[&#34;rerank → 5  150 ms&#34;]
+    T --&gt; S3[&#34;span: chat claude-x  2.3 s&lt;br/&gt;in 5,120 tok · out 380 tok&lt;br/&gt;prompt v14 · temp 0.2&#34;]
+    T --&gt; S4[&#34;span: guardrail.output  80 ms&#34;]
+    T --&gt; S5[&#34;feedback: thumbs down&lt;br/&gt;reason: outdated&#34;]</pre>
+</figure>
+<p>Record for every LLM call:</p>
+<ul>
+<li>Model name and version, parameters (temperature, max tokens), prompt template <strong>version</strong>.</li>
+<li>Input and output token counts, cost, TTFT and total latency, finish reason.</li>
+<li>Retrieved document IDs and scores; tool calls with arguments and results.</li>
+<li>User feedback and evaluation scores linked to the trace.</li>
+<li>Prompts and completions <strong>only according to data policy</strong> — they often contain personal data. Mask, sample, restrict access and set retention.</li>
+</ul>
+<p><strong>OpenTelemetry GenAI semantic conventions</strong> define standard attribute names (for example <code>gen_ai.request.model</code>, <code>gen_ai.usage.input_tokens</code>, <code>gen_ai.usage.output_tokens</code>). Spring AI emits Micrometer observations that follow them; see <a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a>.</p>
+<h3 id="dashboards-and-alerts">Dashboards and alerts<a class="heading-anchor" href="#dashboards-and-alerts" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Requests, error rate, 429s, timeouts</td>
+      <td>Availability and provider health</td>
+    </tr>
+    <tr>
+      <td>p50/p95 TTFT and total latency</td>
+      <td>User experience</td>
+    </tr>
+    <tr>
+      <td>Tokens and cost per request, per user, per feature</td>
+      <td>Cost control, chargeback, anomaly detection</td>
+    </tr>
+    <tr>
+      <td>Retrieval hit rate, empty-retrieval rate</td>
+      <td>RAG health</td>
+    </tr>
+    <tr>
+      <td>Online eval scores (faithfulness, relevance) on sampled traffic</td>
+      <td>Quality drift</td>
+    </tr>
+    <tr>
+      <td>Guardrail trigger rate, refusal rate</td>
+      <td>Safety and over-blocking</td>
+    </tr>
+    <tr>
+      <td>User feedback (thumbs, escalations to human)</td>
+      <td>Real-world quality</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="evaluation-in-the-pipeline">Evaluation in the pipeline<a class="heading-anchor" href="#evaluation-in-the-pipeline" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Offline (pre-release):</strong> run the golden dataset on every prompt, model, retrieval or code change; block release if scores drop below the baseline.</li>
+<li><strong>Online (production):</strong> sample live traffic and score it with LLM-as-judge and heuristics; track user feedback; run A/B tests for changes.</li>
+<li><strong>Regression on model updates:</strong> pin model versions where providers allow it; re-run the suite before moving to a new version.</li>
+</ul>
+<p>Details of metrics and judges: <a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a> and <a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">agent evaluation</a>.</p>
+<h2 id="resilience-patterns">Resilience patterns<a class="heading-anchor" href="#resilience-patterns" aria-label="Link to this section">#</a></h2>
+<p>LLM providers are remote dependencies with high latency, rate limits and occasional outages.</p>
+<figure class="diagram" aria-label="Resilient model call"><figcaption class="diagram__title">Resilient model call</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Call&#34;] --&gt; T[&#34;Timeout&lt;br/&gt;per call&#34;]
+    T --&gt; R[&#34;Retry&lt;br/&gt;backoff + jitter on 429/5xx&#34;]
+    R --&gt; CB{&#34;Circuit breaker&lt;br/&gt;open?&#34;}
+    CB --&gt;|&#34;closed&#34;| P[&#34;Primary model&#34;]
+    CB --&gt;|&#34;open&#34;| F[&#34;Fallback model&lt;br/&gt;other provider or region&#34;]
+    P --&gt;|&#34;fails&#34;| F
+    F --&gt;|&#34;fails&#34;| D[&#34;Degraded mode&lt;br/&gt;cached answer, search results only,&lt;br/&gt;or &#39;try later&#39;&#34;]</pre>
+</figure>
+<p>Also: bulkheads (separate thread pools/queues per feature), queue-based load levelling for batch work, idempotency for actions triggered by agents, and graceful degradation designed with the product owner.</p>
+<h2 id="cost-control">Cost control<a class="heading-anchor" href="#cost-control" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Per-team budgets and quotas at the gateway; alerts on spend anomalies.</li>
+<li>Prompt caching, response caching (exact and semantic), batch APIs for offline work.</li>
+<li>Routing to smaller models; trimming retrieved context; limiting max output tokens.</li>
+<li>Agent step budgets: maximum iterations, tool calls and tokens per task.</li>
+</ul>
+<h2 id="deployment-strategies">Deployment strategies<a class="heading-anchor" href="#deployment-strategies" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Strategy</th>
+      <th>Use for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Shadow</strong></td>
+      <td>New model/prompt runs on live traffic, outputs logged not shown; compare offline.</td>
+    </tr>
+    <tr>
+      <td><strong>Canary</strong></td>
+      <td>Small % of users get the change; watch metrics; roll forward or back.</td>
+    </tr>
+    <tr>
+      <td><strong>A/B test</strong></td>
+      <td>Measure business outcome (resolution rate, CSAT) between variants.</td>
+    </tr>
+    <tr>
+      <td><strong>Feature flags</strong></td>
+      <td>Switch prompts/models per tenant or segment without redeploying.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="ai-incident-handling">AI incident handling<a class="heading-anchor" href="#ai-incident-handling" aria-label="Link to this section">#</a></h2>
+<p>Typical AI incidents: harmful or wrong output reaching customers, prompt injection leading to data exposure, runaway agent cost, a provider model update causing quality regression.</p>
+<p>Runbook essentials: a <strong>kill switch</strong> per feature, the ability to roll back prompt and model versions independently of code, trace search by user/session, a process to notify risk and data-protection teams, and a post-incident review that adds test cases.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Logging full prompts with customer data everywhere</span></p>
+  <div class="callout__body"><p>Traces become the biggest personal-data store in the company. Apply masking, access control and retention, exactly as for any other personal data.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Monitoring only latency and errors</span></p>
+  <div class="callout__body"><p>An LLM app can be 100% &ldquo;up&rdquo; while giving wrong answers. Quality must be monitored with online evaluations and feedback.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>How do you monitor an LLM application in production?</strong>
+Distributed tracing of every step (retrieval, model calls, tools) with model, prompt version, tokens, cost and latency; dashboards for availability, latency, cost and guardrail triggers; online evaluation of sampled traffic for faithfulness and relevance; user feedback; and alerts on drift and cost anomalies.</p>
+<p><strong>How do you safely release a prompt change?</strong>
+Version it, run the offline evaluation suite in CI against the baseline, review, deploy via canary or A/B with feature flags, monitor online metrics, and keep instant rollback.</p>
+<p><strong>What resilience patterns apply to LLM calls?</strong>
+Timeouts, retries with exponential backoff and jitter for 429/5xx, circuit breakers, fallback to another model or provider, bulkheads, queues for batch work, and a designed degraded mode.</p>
+<p><strong>How do you control LLM cost?</strong>
+Budgets and quotas at the gateway, cost attribution per team, caching (prompt and response), model routing, context trimming, output limits, batch APIs and agent step limits.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>LLMOps adds prompt versioning, evaluation of non-deterministic output, token cost and safety to DevOps.</li>
+<li>Trace every step with OpenTelemetry GenAI conventions; protect prompt logs as personal data.</li>
+<li>Evaluate offline in CI and online on sampled traffic; turn failures into test cases.</li>
+<li>Treat providers as unreliable dependencies: timeouts, retries, circuit breakers, fallbacks.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>OpenTelemetry, <a href="https://opentelemetry.io/docs/specs/semconv/gen-ai/" rel="noopener">Semantic conventions for generative AI</a>.</li>
+<li>Google Cloud, <a href="https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning" rel="noopener">MLOps: Continuous delivery and automation pipelines in machine learning</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-evaluation/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-production/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI in production</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/prompt-engineering/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompt &amp; context engineering</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/how-llms-work/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">How LLMs work</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/enterprise-ai-stack/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Enterprise AI stack</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-is-different-from-normal-operations">Why it is different from normal operations</a></li>
+    <li><a href="#the-llmops-lifecycle">The LLMOps lifecycle</a></li>
+    <li><a href="#observability-what-to-capture">Observability: what to capture</a>
+      <ul>
+        <li><a href="#dashboards-and-alerts">Dashboards and alerts</a></li>
+      </ul>
+    </li>
+    <li><a href="#evaluation-in-the-pipeline">Evaluation in the pipeline</a></li>
+    <li><a href="#resilience-patterns">Resilience patterns</a></li>
+    <li><a href="#cost-control">Cost control</a></li>
+    <li><a href="#deployment-strategies">Deployment strategies</a></li>
+    <li><a href="#ai-incident-handling">AI incident handling</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

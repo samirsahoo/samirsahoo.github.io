@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Knowledge-Graph on Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/enterprise-ai/tags/knowledge-graph/</link>
+		<description>Recent content in Knowledge-Graph on Enterprise AI &amp; Agentic AI Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/knowledge-graph/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>GraphRAG and Knowledge Graphs</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/rag/graphrag/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/rag/graphrag/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;knowledge graph&lt;/strong&gt; stores facts as &lt;strong&gt;entities&lt;/strong&gt; (nodes: people, products, systems, contracts) and &lt;strong&gt;relationships&lt;/strong&gt; (edges: &lt;em&gt;owns&lt;/em&gt;, &lt;em&gt;depends on&lt;/em&gt;, &lt;em&gt;supplies&lt;/em&gt;). &lt;strong&gt;GraphRAG&lt;/strong&gt; uses such a graph — often built automatically from documents by an LLM — to retrieve connected facts and summaries that plain vector search cannot find.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

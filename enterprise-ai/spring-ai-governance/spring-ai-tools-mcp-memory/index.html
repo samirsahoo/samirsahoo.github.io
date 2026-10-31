@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agents with Spring AI: Tools, MCP and Memory · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Building agents in Java with Spring AI 2.0: @Tool methods and ToolContext, the tool-calling loop and ToolCallingAdvisor, MCP client and MCP server starters with @McpTool, chat memory with JDBC repositories, human approval, and a complete agent example.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Agents with Spring AI: Tools, MCP and Memory">
+<meta property="og:description" content="Building agents in Java with Spring AI 2.0: @Tool methods and ToolContext, the tool-calling loop and ToolCallingAdvisor, MCP client and MCP server starters with @McpTool, chat memory with JDBC repositories, human approval, and a complete agent example.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agents with Spring AI: Tools, MCP and Memory">
+<meta name="twitter:description" content="Building agents in Java with Spring AI 2.0: @Tool methods and ToolContext, the tool-calling loop and ToolCallingAdvisor, MCP client and MCP server starters with @McpTool, chat memory with JDBC repositories, human approval, and a complete agent example.">
+<meta name="keywords" content="spring-ai, agents, mcp, java, implementation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"Building agents in Java with Spring AI 2.0: @Tool methods and ToolContext, the tool-calling loop and ToolCallingAdvisor, MCP client and MCP server starters with @McpTool, chat memory with JDBC repositories, human approval, and a complete agent example.","headline":"Agents with Spring AI: Tools, MCP and Memory","inLanguage":"en","isAccessibleForFree":true,"keywords":"spring-ai, agents, mcp, java, implementation","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/","name":"4 · Spring AI \u0026 Governance","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/","name":"Spring AI tools, MCP \u0026 memory","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-spring-ai-governance">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/" aria-current="page">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a></li>
+    <li><span aria-current="page">Spring AI tools, MCP &amp; memory</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Agents with Spring AI: Tools, MCP and Memory</h1><p class="article__lede" itemprop="description">Building agents in Java with Spring AI 2.0: @Tool methods and ToolContext, the tool-calling loop and ToolCallingAdvisor, MCP client and MCP server starters with @McpTool, chat memory with JDBC repositories, human approval, and a complete agent example.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/spring-ai/">#Spring-Ai</a><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/mcp/">#Mcp</a><a class="tag" href="/enterprise-ai/tags/java/">#Java</a><a class="tag" href="/enterprise-ai/tags/implementation/">#Implementation</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a>, <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>, <a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#what-this-article-covers">What this article covers</a></li>
+    <li><a href="#tools-with-tool">Tools with @Tool</a></li>
+    <li><a href="#the-tool-calling-loop">The tool-calling loop</a></li>
+    <li><a href="#consuming-mcp-servers-mcp-client">Consuming MCP servers (MCP client)</a></li>
+    <li><a href="#exposing-an-mcp-server">Exposing an MCP server</a></li>
+    <li><a href="#chat-memory">Chat memory</a></li>
+    <li><a href="#human-approval-for-risky-tools">Human approval for risky tools</a></li>
+    <li><a href="#putting-it-together-a-small-support-agent">Putting it together: a small support agent</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="what-this-article-covers">What this article covers<a class="heading-anchor" href="#what-this-article-covers" aria-label="Link to this section">#</a></h2>
+<p>How the agent concepts from Module 3 map to Spring AI 2.0 code:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Spring AI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tool</td>
+      <td><code>@Tool</code> method, <code>ToolCallback</code></td>
+    </tr>
+    <tr>
+      <td>Identity passed to tools</td>
+      <td><code>ToolContext</code></td>
+    </tr>
+    <tr>
+      <td>Agent loop</td>
+      <td>Built-in tool execution in <code>ChatClient</code>, or <code>ToolCallingAdvisor</code></td>
+    </tr>
+    <tr>
+      <td>MCP client</td>
+      <td><code>spring-ai-starter-mcp-client</code> → tools as <code>ToolCallbackProvider</code></td>
+    </tr>
+    <tr>
+      <td>MCP server</td>
+      <td><code>spring-ai-starter-mcp-server-webmvc</code> + <code>@McpTool</code></td>
+    </tr>
+    <tr>
+      <td>Short-term memory</td>
+      <td><code>ChatMemory</code> + <code>MessageChatMemoryAdvisor</code></td>
+    </tr>
+    <tr>
+      <td>Persistent memory</td>
+      <td><code>JdbcChatMemoryRepository</code> (and Redis, Cassandra, Mongo, Neo4j)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="tools-with-tool">Tools with @Tool<a class="heading-anchor" href="#tools-with-tool" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">OrderTools</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OrderService</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderTools</span><span class="p">(</span><span class="n">OrderService</span><span class="w"> </span><span class="n">orders</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">orders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Tool</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        Get status, items and delivery estimate of one of the current customer&#39;s orders.
+</span></span></span><span class="line"><span class="cl"><span class="s">        Use when the customer asks where an order is. Order numbers look like A-12345.&#34;&#34;&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderView</span><span class="w"> </span><span class="nf">getOrder</span><span class="p">(</span><span class="nd">@ToolParam</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;Order number, e.g. A-12345&#34;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                       </span><span class="n">ToolContext</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">customerId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="p">)</span><span class="w"> </span><span class="n">ctx</span><span class="p">.</span><span class="na">getContext</span><span class="p">().</span><span class="na">get</span><span class="p">(</span><span class="s">&#34;customerId&#34;</span><span class="p">);</span><span class="w"> </span><span class="c1">// from session, not the model</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">orders</span><span class="p">.</span><span class="na">findForCustomer</span><span class="p">(</span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">customerId</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                     </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ToolException</span><span class="p">(</span><span class="s">&#34;Order not found for this customer&#34;</span><span class="p">));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Tool</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;Refund an order of the current customer. Amount in EUR.&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">RefundResult</span><span class="w"> </span><span class="nf">refund</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">ToolContext</span><span class="w"> </span><span class="n">ctx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">customerId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="p">)</span><span class="w"> </span><span class="n">ctx</span><span class="p">.</span><span class="na">getContext</span><span class="p">().</span><span class="na">get</span><span class="p">(</span><span class="s">&#34;customerId&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">orders</span><span class="p">.</span><span class="na">requestRefund</span><span class="p">(</span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">customerId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">,</span><span class="w"> </span><span class="n">reason</span><span class="p">);</span><span class="w"> </span><span class="c1">// limits enforced here</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span><span class="w"> </span><span class="n">reply</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chatClient</span><span class="p">.</span><span class="na">prompt</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">user</span><span class="p">(</span><span class="n">customerMessage</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">tools</span><span class="p">(</span><span class="n">orderTools</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">toolContext</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&#34;customerId&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">authenticatedCustomerId</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">call</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">content</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li>Spring AI generates JSON Schemas from method signatures; <code>@ToolParam</code> adds descriptions and required flags.</li>
+<li><code>ToolContext</code> passes data <strong>to the tool without sending it to the model</strong> — use it for identity, tenant and correlation IDs.</li>
+<li><code>returnDirect = true</code> on <code>@Tool</code> returns the result to the caller without another model round trip.</li>
+<li>Exceptions can be converted into messages for the model so it can recover; keep them short and helpful. (<code>ToolException</code> above stands for your own exception type.)</li>
+<li>Enforce <strong>business limits in <code>OrderService</code></strong>, not in the prompt.</li>
+</ul>
+<h2 id="the-tool-calling-loop">The tool-calling loop<a class="heading-anchor" href="#the-tool-calling-loop" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="How ChatClient executes tools"><figcaption class="diagram__title">How ChatClient executes tools</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant App as Your code
+    participant CC as ChatClient
+    participant LLM as ChatModel
+    participant T as OrderTools
+    App-&gt;&gt;CC: prompt + tools + toolContext
+    CC-&gt;&gt;LLM: messages + tool definitions
+    LLM--&gt;&gt;CC: tool call getOrder(A-10293)
+    CC-&gt;&gt;T: getOrder(&#34;A-10293&#34;, ctx)
+    T--&gt;&gt;CC: OrderView
+    CC-&gt;&gt;LLM: messages + tool result
+    LLM--&gt;&gt;CC: final text
+    CC--&gt;&gt;App: content</pre>
+</figure>
+<p>By default the tool loop runs inside the model call. In Spring AI 2.0 you can instead add <code>ToolCallingAdvisor</code>, which runs the loop <strong>inside the advisor chain</strong>, so other advisors (logging, memory, guardrails, auditing) see every iteration — useful for agent observability and per-step policy checks.</p>
+<h2 id="consuming-mcp-servers-mcp-client">Consuming MCP servers (MCP client)<a class="heading-anchor" href="#consuming-mcp-servers-mcp-client" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.ai<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-ai-starter-mcp-client<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">spring.ai.mcp.client.streamable-http.connections.tickets.url</span><span class="o">=</span><span class="s">https://mcp-gateway.internal/tickets</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.mcp.client.streamable-http.connections.crm.url</span><span class="o">=</span><span class="s">https://mcp-gateway.internal/crm</span>
+</span></span></code></pre></div><p>The auto-configuration connects to each server, lists its tools and exposes them as a <code>ToolCallbackProvider</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">ChatClient</span><span class="w"> </span><span class="nf">supportAgent</span><span class="p">(</span><span class="n">ChatClient</span><span class="p">.</span><span class="na">Builder</span><span class="w"> </span><span class="n">builder</span><span class="p">,</span><span class="w"> </span><span class="n">ToolCallbackProvider</span><span class="w"> </span><span class="n">mcpTools</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">builder</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">defaultSystem</span><span class="p">(</span><span class="s">&#34;You are ACME&#39;s support agent. Use tools to look up facts; never guess.&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">defaultToolCallbacks</span><span class="p">(</span><span class="n">mcpTools</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>Local stdio servers are configured under <code>spring.ai.mcp.client.stdio</code>. Authentication to remote servers is configured on the HTTP transport (for example OAuth2 client credentials or token exchange through Spring Security).</p>
+<h2 id="exposing-an-mcp-server">Exposing an MCP server<a class="heading-anchor" href="#exposing-an-mcp-server" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.ai<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-ai-starter-mcp-server-webmvc<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">spring.ai.mcp.server.name</span><span class="o">=</span><span class="s">orders-mcp</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.mcp.server.version</span><span class="o">=</span><span class="s">1.0.0</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.mcp.server.protocol</span><span class="o">=</span><span class="s">STREAMABLE</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">OrderMcpTools</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OrderService</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderMcpTools</span><span class="p">(</span><span class="n">OrderService</span><span class="w"> </span><span class="n">orders</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">orders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@McpTool</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;get_order_status&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">             </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;Status and delivery estimate of an order. Order numbers look like A-12345.&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">             </span><span class="n">annotations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nd">@McpTool.McpAnnotations</span><span class="p">(</span><span class="n">readOnlyHint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">destructiveHint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">OrderView</span><span class="w"> </span><span class="nf">getOrderStatus</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nd">@McpToolParam</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;Order number&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">orderId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">orders</span><span class="p">.</span><span class="na">findForCurrentUser</span><span class="p">(</span><span class="n">orderId</span><span class="p">);</span><span class="w">   </span><span class="c1">// user from the validated OAuth token</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><figure class="diagram" aria-label="Spring Boot MCP server in the enterprise"><figcaption class="diagram__title">Spring Boot MCP server in the enterprise</figcaption>
+  <pre class="mermaid">flowchart LR
+    H[&#34;MCP hosts&lt;br/&gt;copilot, IDE, agents&#34;] --&gt;|&#34;Streamable HTTP + OAuth&#34;| GW[&#34;MCP gateway&#34;]
+    GW --&gt; S[&#34;orders-mcp&lt;br/&gt;Spring Boot + spring-ai-starter-mcp-server-webmvc&lt;br/&gt;Spring Security resource server&#34;]
+    S --&gt; SVC[&#34;OrderService&lt;br/&gt;business rules, limits&#34;]
+    SVC --&gt; DB[(&#34;Orders DB&#34;)]</pre>
+</figure>
+<ul>
+<li><code>protocol=STREAMABLE</code> gives the Streamable HTTP transport; <code>STATELESS</code> suits horizontally scaled servers without session state; the older SSE transport is deprecated in 2.0.</li>
+<li>Secure it as an <strong>OAuth2 resource server</strong> with Spring Security; validate audience and scopes; derive the user from the token.</li>
+<li>Annotations also exist for resources (<code>@McpResource</code>), prompts (<code>@McpPrompt</code>) and completions.</li>
+</ul>
+<h2 id="chat-memory">Chat memory<a class="heading-anchor" href="#chat-memory" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">ChatMemory</span><span class="w"> </span><span class="nf">chatMemory</span><span class="p">(</span><span class="n">JdbcChatMemoryRepository</span><span class="w"> </span><span class="n">repository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">MessageWindowChatMemory</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">chatMemoryRepository</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span><span class="w">   </span><span class="c1">// persisted in PostgreSQL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">maxMessages</span><span class="p">(</span><span class="n">20</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nd">@Bean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">ChatClient</span><span class="w"> </span><span class="nf">assistant</span><span class="p">(</span><span class="n">ChatClient</span><span class="p">.</span><span class="na">Builder</span><span class="w"> </span><span class="n">builder</span><span class="p">,</span><span class="w"> </span><span class="n">ChatMemory</span><span class="w"> </span><span class="n">chatMemory</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">builder</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">defaultAdvisors</span><span class="p">(</span><span class="n">MessageChatMemoryAdvisor</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">chatMemory</span><span class="p">).</span><span class="na">build</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span><span class="w"> </span><span class="n">reply</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assistant</span><span class="p">.</span><span class="na">prompt</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">user</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">advisors</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="n">ChatMemory</span><span class="p">.</span><span class="na">CONVERSATION_ID</span><span class="p">,</span><span class="w"> </span><span class="n">conversationId</span><span class="p">))</span><span class="w">  </span><span class="c1">// required</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">call</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">content</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>MessageWindowChatMemory</code> keeps the last <em>N</em> messages (a sliding window).</li>
+<li>Repositories: in-memory (default), JDBC (<code>spring-ai-starter-model-chat-memory-repository-jdbc</code>), Redis, Cassandra, MongoDB, Neo4j.</li>
+<li><code>ChatMemory.CONVERSATION_ID</code> is <strong>required</strong> on every call; derive it from your session and validate the user owns it.</li>
+<li>For long conversations add summarisation (a custom advisor) — see <a href="/enterprise-ai/agentic-ai/agent-memory-and-state/#managing-short-term-memory">memory strategies</a>.</li>
+<li><code>VectorStoreChatMemoryAdvisor</code> retrieves relevant past messages semantically instead of the last <em>N</em>.</li>
+</ul>
+<h2 id="human-approval-for-risky-tools">Human approval for risky tools<a class="heading-anchor" href="#human-approval-for-risky-tools" aria-label="Link to this section">#</a></h2>
+<p>Spring AI executes tools you register, so put approval in the <strong>tool or service</strong>:</p>
+<figure class="diagram" aria-label="Approval inside the refund service"><figcaption class="diagram__title">Approval inside the refund service</figcaption>
+  <pre class="mermaid">flowchart LR
+    T[&#34;@Tool refund()&#34;] --&gt; S{&#34;amount ≤ €100?&#34;}
+    S --&gt;|&#34;yes&#34;| P[&#34;Execute refund&lt;br/&gt;idempotency key&#34;]
+    S --&gt;|&#34;no&#34;| A[&#34;Create approval task&lt;br/&gt;status PENDING_APPROVAL&#34;]
+    A --&gt; R[&#34;Return &#39;pending approval&#39;&lt;br/&gt;to the model&#34;]
+    H[&#34;Supervisor approves&lt;br/&gt;in back-office UI&#34;] --&gt; P</pre>
+</figure>
+<p>For long waits, persist state (conversation + pending action) and resume when the approval event arrives, rather than holding the HTTP request.</p>
+<h2 id="putting-it-together-a-small-support-agent">Putting it together: a small support agent<a class="heading-anchor" href="#putting-it-together-a-small-support-agent" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">SupportAgent</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ChatClient</span><span class="w"> </span><span class="n">chatClient</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">SupportAgent</span><span class="p">(</span><span class="n">ChatClient</span><span class="p">.</span><span class="na">Builder</span><span class="w"> </span><span class="n">builder</span><span class="p">,</span><span class="w"> </span><span class="n">ChatMemory</span><span class="w"> </span><span class="n">memory</span><span class="p">,</span><span class="w"> </span><span class="n">OrderTools</span><span class="w"> </span><span class="n">orderTools</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                 </span><span class="n">ToolCallbackProvider</span><span class="w"> </span><span class="n">mcpTools</span><span class="p">,</span><span class="w"> </span><span class="n">Advisor</span><span class="w"> </span><span class="n">ragAdvisor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">chatClient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">defaultSystem</span><span class="p">(</span><span class="s">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">                You are ACME&#39;s customer-support agent.
+</span></span></span><span class="line"><span class="cl"><span class="s">                - Use tools for facts about orders; never invent order data.
+</span></span></span><span class="line"><span class="cl"><span class="s">                - Follow the returns policy in the retrieved context.
+</span></span></span><span class="line"><span class="cl"><span class="s">                - Refunds above 100 EUR need approval; tell the customer it is pending.
+</span></span></span><span class="line"><span class="cl"><span class="s">                - If the customer is upset or mentions legal action, call escalate_to_human.
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;&#34;&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">defaultTools</span><span class="p">(</span><span class="n">orderTools</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">defaultToolCallbacks</span><span class="p">(</span><span class="n">mcpTools</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">defaultAdvisors</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="n">MessageChatMemoryAdvisor</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">memory</span><span class="p">).</span><span class="na">build</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="n">ragAdvisor</span><span class="p">,</span><span class="w">                        </span><span class="c1">// policy RAG</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleLoggerAdvisor</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">conversationId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">customerId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">chatClient</span><span class="p">.</span><span class="na">prompt</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">user</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">toolContext</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&#34;customerId&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">customerId</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">advisors</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="n">ChatMemory</span><span class="p">.</span><span class="na">CONVERSATION_ID</span><span class="p">,</span><span class="w"> </span><span class="n">conversationId</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">call</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">content</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>Add: timeouts and retries on the model client, a step limit, observability (next article), and evaluation tests.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Passing customer ID as a tool parameter the model fills in</span></p>
+  <div class="callout__body"><p>A prompt injection can make the model pass another customer&rsquo;s ID. Use <code>ToolContext</code> populated from the authenticated session.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Registering every MCP tool from every server on every agent</span></p>
+  <div class="callout__body"><p>Tool overload hurts accuracy and widens the attack surface. Filter tools per agent (allow-lists) or connect each agent only to the servers it needs.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>How do you define tools in Spring AI?</strong>
+Annotate methods with <code>@Tool</code> (and parameters with <code>@ToolParam</code>), then pass the object with <code>.tools(...)</code> or <code>defaultTools(...)</code>. Spring AI generates schemas, executes calls the model requests and feeds results back. <code>ToolContext</code> passes non-model data such as user identity.</p>
+<p><strong>How does a Spring AI application use MCP servers?</strong>
+Add the MCP client starter and configure connections (stdio or Streamable HTTP). The auto-configuration exposes all server tools as a <code>ToolCallbackProvider</code>, which you register on a <code>ChatClient</code> with <code>defaultToolCallbacks</code>.</p>
+<p><strong>How do you build an MCP server with Spring Boot?</strong>
+Add the MCP server WebMVC or WebFlux starter, set name, version and <code>protocol=STREAMABLE</code>, and annotate methods with <code>@McpTool</code> / <code>@McpToolParam</code> (plus <code>@McpResource</code>, <code>@McpPrompt</code>). Secure it as an OAuth2 resource server.</p>
+<p><strong>How does Spring AI handle conversation memory?</strong>
+<code>ChatMemory</code> (for example <code>MessageWindowChatMemory</code>) backed by a <code>ChatMemoryRepository</code> such as JDBC, used via <code>MessageChatMemoryAdvisor</code>; every call passes <code>ChatMemory.CONVERSATION_ID</code>.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><code>@Tool</code> + <code>ToolContext</code> for safe in-process tools; enforce limits in services.</li>
+<li>MCP client starter turns remote MCP servers into tool callbacks; MCP server starter + <code>@McpTool</code> exposes your services.</li>
+<li><code>ChatMemory</code> + repositories + <code>MessageChatMemoryAdvisor</code> for conversation state.</li>
+<li>Approval and long waits belong in services with persisted state.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Spring AI, <a href="https://docs.spring.io/spring-ai/reference/api/tools.html" rel="noopener">Tool Calling</a>.</li>
+<li>Spring AI, <a href="https://docs.spring.io/spring-ai/reference/api/mcp/mcp-client-boot-starter-docs.html" rel="noopener">MCP Client Boot Starter</a> and <a href="https://docs.spring.io/spring-ai/reference/api/mcp/mcp-server-boot-starter-docs.html" rel="noopener">MCP Server Boot Starter</a>.</li>
+<li>Spring AI, <a href="https://docs.spring.io/spring-ai/reference/api/chat-memory.html" rel="noopener">Chat Memory</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/case-study-support-agent/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Case study: support agent</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI RAG</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI fundamentals</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-production/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI in production</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/spring-ai-governance/spring-ai-rag/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Spring AI RAG</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/spring-ai-governance/spring-ai-production/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Spring AI in production</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-this-article-covers">What this article covers</a></li>
+    <li><a href="#tools-with-tool">Tools with @Tool</a></li>
+    <li><a href="#the-tool-calling-loop">The tool-calling loop</a></li>
+    <li><a href="#consuming-mcp-servers-mcp-client">Consuming MCP servers (MCP client)</a></li>
+    <li><a href="#exposing-an-mcp-server">Exposing an MCP server</a></li>
+    <li><a href="#chat-memory">Chat memory</a></li>
+    <li><a href="#human-approval-for-risky-tools">Human approval for risky tools</a></li>
+    <li><a href="#putting-it-together-a-small-support-agent">Putting it together: a small support agent</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Large Language Models Work · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Tokens, embeddings, the transformer, attention, context windows, sampling and the training stages that turn a next-token predictor into an assistant — explained simply, with diagrams and interview questions.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/how-llms-work/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="How Large Language Models Work">
+<meta property="og:description" content="Tokens, embeddings, the transformer, attention, context windows, sampling and the training stages that turn a next-token predictor into an assistant — explained simply, with diagrams and interview questions.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/how-llms-work/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How Large Language Models Work">
+<meta name="twitter:description" content="Tokens, embeddings, the transformer, attention, context windows, sampling and the training stages that turn a next-token predictor into an assistant — explained simply, with diagrams and interview questions.">
+<meta name="keywords" content="llm, foundations, transformer">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"Tokens, embeddings, the transformer, attention, context windows, sampling and the training stages that turn a next-token predictor into an assistant — explained simply, with diagrams and interview questions.","headline":"How Large Language Models Work","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, transformer","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/how-llms-work/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/how-llms-work/","name":"How LLMs work","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/" aria-current="page">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">How LLMs work</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">How Large Language Models Work</h1><p class="article__lede" itemprop="description">Tokens, embeddings, the transformer, attention, context windows, sampling and the training stages that turn a next-token predictor into an assistant — explained simply, with diagrams and interview questions.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>10 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/llm/">#Llm</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/transformer/">#Transformer</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-architects-need-to-know-this">Why architects need to know this</a></li>
+    <li><a href="#the-pipeline-from-text-to-text">The pipeline from text to text</a>
+      <ul>
+        <li><a href="#1-tokens">1. Tokens</a></li>
+        <li><a href="#2-embeddings">2. Embeddings</a></li>
+        <li><a href="#3-the-transformer-and-attention">3. The transformer and attention</a></li>
+        <li><a href="#4-sampling-turning-scores-into-text">4. Sampling: turning scores into text</a></li>
+        <li><a href="#5-the-context-window">5. The context window</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-a-model-is-trained">How a model is trained</a>
+      <ul>
+        <li><a href="#reasoning-thinking-models">Reasoning (&ldquo;thinking&rdquo;) models</a></li>
+      </ul>
+    </li>
+    <li><a href="#capabilities-and-limits-to-design-around">Capabilities and limits to design around</a>
+      <ul>
+        <li><a href="#why-models-hallucinate">Why models hallucinate</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>large language model (LLM)</strong> is a neural network trained to predict the next piece of text. Given &ldquo;The capital of France is&rdquo;, it assigns a probability to every possible next token and &ldquo;Paris&rdquo; scores highest. Repeating that prediction one token at a time produces sentences, code, plans and answers.</p>
+<p>Everything else — chat, reasoning, tool use — is built on that single ability.</p>
+<h2 id="why-architects-need-to-know-this">Why architects need to know this<a class="heading-anchor" href="#why-architects-need-to-know-this" aria-label="Link to this section">#</a></h2>
+<p>You do not need to train models, but the mechanics explain the constraints you design around:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Mechanic</th>
+      <th>Consequence for your architecture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Text is split into <strong>tokens</strong></td>
+      <td>Cost, latency and limits are measured in tokens, not characters or words.</td>
+    </tr>
+    <tr>
+      <td>The model sees a fixed <strong>context window</strong></td>
+      <td>Anything not in the prompt does not exist for the model. You must <em>retrieve</em> knowledge and <em>manage</em> memory.</td>
+    </tr>
+    <tr>
+      <td>Output is <strong>sampled</strong> from probabilities</td>
+      <td>Responses are non-deterministic. You need evaluation, validation and retries.</td>
+    </tr>
+    <tr>
+      <td>Knowledge is frozen at the <strong>training cutoff</strong></td>
+      <td>Recent or private facts must come from RAG or tools.</td>
+    </tr>
+    <tr>
+      <td>The model is <strong>stateless</strong></td>
+      <td>Conversation history is re-sent on every call; your application stores it.</td>
+    </tr>
+    <tr>
+      <td>It generates the most <em>plausible</em> text</td>
+      <td>It can be fluently wrong (<strong>hallucination</strong>). Grounding and citations are a design concern.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="the-pipeline-from-text-to-text">The pipeline from text to text<a class="heading-anchor" href="#the-pipeline-from-text-to-text" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="One generation step inside an LLM"><figcaption class="diagram__title">One generation step inside an LLM</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Input text&#34;] --&gt; B[&#34;Tokenizer&lt;br/&gt;text → token IDs&#34;]
+    B --&gt; C[&#34;Embedding layer&lt;br/&gt;IDs → vectors&#34;]
+    C --&gt; D[&#34;Transformer blocks × N&lt;br/&gt;self-attention + feed-forward&#34;]
+    D --&gt; E[&#34;Output layer&lt;br/&gt;scores for every token in vocabulary&#34;]
+    E --&gt; F[&#34;Sampling&lt;br/&gt;temperature, top-p&#34;]
+    F --&gt; G[&#34;Next token&#34;]
+    G --&gt;|&#34;append and repeat&#34;| B</pre>
+</figure>
+<h3 id="1-tokens">1. Tokens<a class="heading-anchor" href="#1-tokens" aria-label="Link to this section">#</a></h3>
+<p>A <strong>tokenizer</strong> splits text into sub-word units using an algorithm such as Byte-Pair Encoding (BPE). Common words become one token; rare words split into several.</p>
+<ul>
+<li>Rule of thumb for English: <strong>1 token ≈ 4 characters ≈ 0.75 words</strong>. 1,000 tokens ≈ 750 words.</li>
+<li>Code, non-English text and numbers usually take more tokens per word.</li>
+<li>Each model family has its own tokenizer, so the same text has different token counts on different models.</li>
+</ul>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Why do LLMs struggle to count letters in a word?</span></p>
+  <div class="callout__body"><p>The model never sees letters. &ldquo;strawberry&rdquo; may be one or two tokens, so &ldquo;how many r&rsquo;s?&rdquo; asks about structure the model does not directly observe.</p></div>
+</aside><h3 id="2-embeddings">2. Embeddings<a class="heading-anchor" href="#2-embeddings" aria-label="Link to this section">#</a></h3>
+<p>Each token ID is mapped to a vector of a few thousand numbers. Vectors for tokens with similar meaning end up close together. The same idea — meaning as a position in space — powers the <strong>embedding models</strong> used for search in <a href="/enterprise-ai/rag/chunking-and-embeddings/">RAG</a>.</p>
+<h3 id="3-the-transformer-and-attention">3. The transformer and attention<a class="heading-anchor" href="#3-the-transformer-and-attention" aria-label="Link to this section">#</a></h3>
+<p>The core of every modern LLM is the <strong>transformer</strong> (Vaswani et al., 2017). It is a stack of identical blocks. Each block has two parts:</p>
+<ul>
+<li><strong>Self-attention</strong> — every token looks at every earlier token and decides how much each one matters to it. In &ldquo;The bank raised its rates because <em>it</em> …&rdquo;, attention lets &ldquo;it&rdquo; link to &ldquo;bank&rdquo;.</li>
+<li><strong>Feed-forward network</strong> — transforms each token&rsquo;s vector independently; this is where much of the model&rsquo;s stored knowledge lives.</li>
+</ul>
+<figure class="diagram" aria-label="Inside one transformer block (decoder-only)"><figcaption class="diagram__title">Inside one transformer block (decoder-only)</figcaption>
+  <pre class="mermaid">flowchart TB
+    IN[&#34;Token vectors from previous block&#34;] --&gt; ATT[&#34;Masked multi-head self-attention&lt;br/&gt;each token attends to earlier tokens&#34;]
+    ATT --&gt; ADD1[&#34;Add &amp; normalise&lt;br/&gt;residual connection&#34;]
+    ADD1 --&gt; FFN[&#34;Feed-forward network&lt;br/&gt;per-token transformation&#34;]
+    FFN --&gt; ADD2[&#34;Add &amp; normalise&#34;]
+    ADD2 --&gt; OUT[&#34;To next block&#34;]</pre>
+</figure>
+<p><strong>How attention works, simply.</strong> Each token produces three vectors: a <strong>query</strong> (&ldquo;what am I looking for?&rdquo;), a <strong>key</strong> (&ldquo;what do I contain?&rdquo;) and a <strong>value</strong> (&ldquo;what do I pass on?&rdquo;). A token&rsquo;s query is compared with every earlier token&rsquo;s key; the similarity scores become weights; the output is the weighted sum of the values. <em>Multi-head</em> attention runs several of these in parallel so different heads can track grammar, references, facts and so on.</p>
+<p><strong>Why it matters:</strong> attention compares every token with every other token, so cost grows roughly with the <strong>square of the sequence length</strong>. That is why long contexts are expensive and why inference engines cache keys and values (the <a href="/enterprise-ai/foundations/inference-and-serving/#kv-cache">KV cache</a>).</p>
+<p><strong>Decoder-only.</strong> Chat models (GPT, Claude, Gemini, Llama, Mistral) are <em>decoder-only</em>: each token can only attend to tokens before it (&ldquo;causal masking&rdquo;), which is exactly what next-token generation needs. <em>Encoder-only</em> models such as BERT see the whole text at once and are used for classification and embeddings.</p>
+<p><strong>Mixture of Experts (MoE).</strong> Many large models replace the single feed-forward network with several &ldquo;expert&rdquo; networks and a router that sends each token to only a few of them. The model has many parameters in total but uses a fraction per token, so it is cheaper to run than a dense model of the same size.</p>
+<h3 id="4-sampling-turning-scores-into-text">4. Sampling: turning scores into text<a class="heading-anchor" href="#4-sampling-turning-scores-into-text" aria-label="Link to this section">#</a></h3>
+<p>The output layer produces a probability for every token in the vocabulary. <strong>Decoding</strong> picks one.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>What it does</th>
+      <th>Typical use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Temperature</strong></td>
+      <td>Sharpens (low) or flattens (high) the distribution. 0 ≈ always pick the most likely token.</td>
+      <td>0–0.3 for extraction, classification, code; 0.7–1.0 for creative text</td>
+    </tr>
+    <tr>
+      <td><strong>Top-p (nucleus)</strong></td>
+      <td>Sample only from the smallest set of tokens whose probabilities add up to <em>p</em>.</td>
+      <td>0.9–1.0</td>
+    </tr>
+    <tr>
+      <td><strong>Top-k</strong></td>
+      <td>Sample only from the <em>k</em> most likely tokens.</td>
+      <td>Rarely tuned in enterprise apps</td>
+    </tr>
+    <tr>
+      <td><strong>Max tokens</strong></td>
+      <td>Hard limit on output length.</td>
+      <td>Always set it: it caps cost and latency</td>
+    </tr>
+    <tr>
+      <td><strong>Stop sequences</strong></td>
+      <td>Strings that end generation.</td>
+      <td>Structured formats</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">&ldquo;Temperature 0 makes it deterministic&rdquo;</span></p>
+  <div class="callout__body"><p>It makes it <em>more</em> repeatable, not guaranteed. Batching, floating-point arithmetic and provider-side changes can still change outputs. Design for variation: validate outputs and evaluate on datasets, not single runs.</p></div>
+</aside><h3 id="5-the-context-window">5. The context window<a class="heading-anchor" href="#5-the-context-window" aria-label="Link to this section">#</a></h3>
+<p>The <strong>context window</strong> is the maximum number of tokens the model can process in one call — input <em>and</em> output together. Current frontier models offer roughly 128K to over 1M tokens.</p>
+<figure class="diagram" aria-label="What fills the context window on a typical enterprise call"><figcaption class="diagram__title">What fills the context window on a typical enterprise call</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph CW[&#34;Context window, for example 200K tokens&#34;]
+        direction LR
+        S[&#34;System prompt&lt;br/&gt;rules, persona&#34;] --&gt; T[&#34;Tool definitions&#34;]
+        T --&gt; R[&#34;Retrieved documents&lt;br/&gt;RAG&#34;]
+        R --&gt; H[&#34;Conversation history&#34;]
+        H --&gt; U[&#34;User message&#34;]
+        U --&gt; O[&#34;Space for the output&#34;]
+    end</pre>
+</figure>
+<p>Bigger is not automatically better:</p>
+<ul>
+<li><strong>Cost and latency</strong> grow with input size.</li>
+<li><strong>&ldquo;Lost in the middle&rdquo;</strong> — models attend best to the beginning and end of long contexts; facts buried in the middle are used less reliably.</li>
+<li><strong>Context rot / distraction</strong> — irrelevant material lowers answer quality.</li>
+</ul>
+<p>So even with a 1M-token window, <em>selecting</em> the right context (<a href="/enterprise-ai/rag/rag-fundamentals/">RAG</a>, <a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">memory</a>) remains an architecture task. This discipline is often called <strong>context engineering</strong>.</p>
+<h2 id="how-a-model-is-trained">How a model is trained<a class="heading-anchor" href="#how-a-model-is-trained" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="From raw text to a helpful assistant"><figcaption class="diagram__title">From raw text to a helpful assistant</figcaption>
+  <pre class="mermaid">flowchart LR
+    P[&#34;1 · Pretraining&lt;br/&gt;trillions of tokens of web, books, code&lt;br/&gt;learns language and world knowledge&#34;] --&gt; B[&#34;Base model&lt;br/&gt;completes text, does not follow instructions&#34;]
+    B --&gt; S[&#34;2 · Supervised fine-tuning SFT&lt;br/&gt;curated instruction → answer pairs&#34;]
+    S --&gt; R[&#34;3 · Preference tuning&lt;br/&gt;RLHF, RLAIF, DPO, constitutional methods&#34;]
+    R --&gt; RL[&#34;4 · Reinforcement learning&lt;br/&gt;on verifiable tasks: maths, code, tool use&#34;]
+    RL --&gt; A[&#34;Assistant model&lt;br/&gt;helpful, follows instructions, refuses harmful requests&#34;]</pre>
+</figure>
+<ol>
+<li><strong>Pretraining</strong> — self-supervised next-token prediction over a huge corpus. Expensive (weeks on thousands of GPUs). Produces a <em>base model</em>.</li>
+<li><strong>Supervised fine-tuning (SFT)</strong> — teaches the model the format of helpful answers using examples.</li>
+<li><strong>Preference tuning</strong> — humans or AI judges rank answers; the model is optimised toward preferred ones. <strong>RLHF</strong> (reinforcement learning from human feedback) and <strong>DPO</strong> (direct preference optimisation) are the common methods.</li>
+<li><strong>Reinforcement learning on verifiable rewards</strong> — the model practises tasks with checkable answers (unit tests pass, maths is correct). This is how <strong>reasoning models</strong> learn to think step by step.</li>
+</ol>
+<h3 id="reasoning-thinking-models">Reasoning (&ldquo;thinking&rdquo;) models<a class="heading-anchor" href="#reasoning-thinking-models" aria-label="Link to this section">#</a></h3>
+<p>Reasoning models generate an internal chain of thought before the final answer. They are markedly better at multi-step maths, planning, coding and agentic tasks, at the price of more output tokens and higher latency. Most providers let you set a <strong>thinking budget</strong> or effort level, so you can choose per request. Use them where correctness on hard problems matters more than speed.</p>
+<h2 id="capabilities-and-limits-to-design-around">Capabilities and limits to design around<a class="heading-anchor" href="#capabilities-and-limits-to-design-around" aria-label="Link to this section">#</a></h2>
+<p><strong>Strong at:</strong> summarising, extracting, classifying, transforming formats, drafting, translating, writing and explaining code, following instructions, calling tools, and reasoning over text you provide.</p>
+<p><strong>Weak at, without help:</strong></p>
+<ul>
+<li><strong>Facts after the training cutoff or private facts</strong> → add <a href="/enterprise-ai/rag/rag-fundamentals/">RAG</a> or tools.</li>
+<li><strong>Exact arithmetic and counting</strong> → call a calculator or code tool.</li>
+<li><strong>Guaranteed correctness</strong> → validate, evaluate, keep a human in the loop for high-stakes actions.</li>
+<li><strong>Long-running state</strong> → store it outside the model.</li>
+</ul>
+<h3 id="why-models-hallucinate">Why models hallucinate<a class="heading-anchor" href="#why-models-hallucinate" aria-label="Link to this section">#</a></h3>
+<p>The model is trained to produce plausible continuations. When it lacks the facts, a confident-sounding wrong answer can still be the most &ldquo;plausible&rdquo; text. Reduce it by:</p>
+<ol>
+<li>Grounding answers in retrieved sources and asking for <strong>citations</strong>.</li>
+<li>Allowing &ldquo;I don&rsquo;t know&rdquo; explicitly in the prompt.</li>
+<li>Lower temperature for factual tasks.</li>
+<li>Verifying outputs: schema validation, a second checking call, or <a href="/enterprise-ai/rag/rag-evaluation/">faithfulness evaluation</a>.</li>
+</ol>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Treating the model as a database</span></p>
+  <div class="callout__body"><p>Asking an LLM to &ldquo;remember&rdquo; your product catalogue or policies through prompting alone. Its weights do not contain your private data, and stuffing everything into the prompt is costly and unreliable. Retrieve what each request needs.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ignoring tokens in capacity planning</span></p>
+  <div class="callout__body"><p>Estimating cost by request count. An LLM bill is <em>requests × (input tokens × input price + output tokens × output price)</em>. A RAG prompt with 8,000 tokens of context costs far more than the user&rsquo;s 20-word question suggests.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What is a token and why does it matter?</strong>
+A sub-word unit produced by the model&rsquo;s tokenizer; about four characters of English. Pricing, context limits, rate limits and latency are all measured in tokens, so they drive cost and capacity planning.</p>
+<p><strong>Explain attention in one minute.</strong>
+Each token creates a query, key and value vector. Its query is compared with the keys of earlier tokens to get weights, and its new representation is the weighted sum of their values. This lets every token pull in information from the most relevant other tokens. Multi-head attention does this several ways in parallel. Cost grows quadratically with sequence length.</p>
+<p><strong>Why are LLMs non-deterministic and how do you handle it?</strong>
+Output is sampled from a probability distribution; even at temperature 0, infrastructure effects cause variation. Handle it with low temperature for factual tasks, structured outputs with validation, retries, and evaluation on datasets rather than single examples.</p>
+<p><strong>What is the difference between a base model and an instruction-tuned model?</strong>
+A base model only continues text. An instruction-tuned model has been through SFT and preference tuning so it follows instructions, uses a chat format and refuses harmful requests. Applications almost always use instruction-tuned models.</p>
+<p><strong>What is a context window and does a bigger one remove the need for RAG?</strong>
+The maximum tokens per call, input plus output. Larger windows help, but cost and latency scale with input, models use information in the middle of long contexts less reliably, and enterprise corpora are far larger than any window. Retrieval stays necessary; large windows let you include more retrieved context.</p>
+<p><strong>What are reasoning models and when would you use one?</strong>
+Models trained, largely with reinforcement learning, to think step by step before answering. Use them for complex planning, maths, code and multi-step agent tasks; avoid them for simple, latency-sensitive tasks such as classification or short extraction.</p>
+<p><strong>What causes hallucinations and how do you reduce them?</strong>
+The model generates plausible text even when it lacks facts. Reduce with grounding (RAG), citations, permission to say &ldquo;I don&rsquo;t know&rdquo;, low temperature, tool use for facts and maths, and automated faithfulness checks.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Connect mechanics to design decisions</span></p>
+  <div class="callout__body"><p>Strong candidates do not just define attention or tokens; they say what it <em>means</em> for the system — &ldquo;because the model is stateless, we store conversation history in Redis and trim it to a token budget&rdquo;.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>An LLM predicts the next token; repeated, that produces text.</li>
+<li>Tokens drive cost, latency and limits. The context window is all the model can see.</li>
+<li>The transformer&rsquo;s attention lets tokens use each other&rsquo;s information; its cost grows with sequence length.</li>
+<li>Base models are pretrained on huge corpora, then tuned with SFT, preference tuning and RL into assistants and reasoning models.</li>
+<li>The model is stateless, frozen in time and probabilistic — your architecture supplies knowledge, memory, tools, validation and safety.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Vaswani et al., <a href="https://arxiv.org/abs/1706.03762" rel="noopener">Attention Is All You Need</a>, 2017.</li>
+<li>Ouyang et al., <a href="https://arxiv.org/abs/2203.02155" rel="noopener">Training language models to follow instructions with human feedback</a> (InstructGPT), 2022.</li>
+<li>Rafailov et al., <a href="https://arxiv.org/abs/2305.18290" rel="noopener">Direct Preference Optimization</a>, 2023.</li>
+<li>Liu et al., <a href="https://arxiv.org/abs/2307.03172" rel="noopener">Lost in the Middle: How Language Models Use Long Contexts</a>, 2023.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Inference, latency &amp; cost</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/model-selection/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Model selection</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/prompt-engineering/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompt &amp; context engineering</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/customizing-models/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompting vs RAG vs fine-tuning</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/inference-and-serving/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Inference, latency &amp; cost</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-architects-need-to-know-this">Why architects need to know this</a></li>
+    <li><a href="#the-pipeline-from-text-to-text">The pipeline from text to text</a>
+      <ul>
+        <li><a href="#1-tokens">1. Tokens</a></li>
+        <li><a href="#2-embeddings">2. Embeddings</a></li>
+        <li><a href="#3-the-transformer-and-attention">3. The transformer and attention</a></li>
+        <li><a href="#4-sampling-turning-scores-into-text">4. Sampling: turning scores into text</a></li>
+        <li><a href="#5-the-context-window">5. The context window</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-a-model-is-trained">How a model is trained</a>
+      <ul>
+        <li><a href="#reasoning-thinking-models">Reasoning (&ldquo;thinking&rdquo;) models</a></li>
+      </ul>
+    </li>
+    <li><a href="#capabilities-and-limits-to-design-around">Capabilities and limits to design around</a>
+      <ul>
+        <li><a href="#why-models-hallucinate">Why models hallucinate</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

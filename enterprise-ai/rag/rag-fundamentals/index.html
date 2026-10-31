@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG Fundamentals: Retrieval-Augmented Generation · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="What RAG is, why enterprises use it, the ingestion and query pipelines step by step, naive vs advanced vs modular RAG, failure points and how to design a first RAG system.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/rag/rag-fundamentals/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="RAG Fundamentals: Retrieval-Augmented Generation">
+<meta property="og:description" content="What RAG is, why enterprises use it, the ingestion and query pipelines step by step, naive vs advanced vs modular RAG, failure points and how to design a first RAG system.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/rag/rag-fundamentals/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RAG Fundamentals: Retrieval-Augmented Generation">
+<meta name="twitter:description" content="What RAG is, why enterprises use it, the ingestion and query pipelines step by step, naive vs advanced vs modular RAG, failure points and how to design a first RAG system.">
+<meta name="keywords" content="rag, retrieval">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"What RAG is, why enterprises use it, the ingestion and query pipelines step by step, naive vs advanced vs modular RAG, failure points and how to design a first RAG system.","headline":"RAG Fundamentals: Retrieval-Augmented Generation","inLanguage":"en","isAccessibleForFree":true,"keywords":"rag, retrieval","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/rag/rag-fundamentals/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/","name":"2 · RAG \u0026 GraphRAG","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/rag-fundamentals/","name":"RAG fundamentals","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-rag">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/" aria-current="page">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a></li>
+    <li><span aria-current="page">RAG fundamentals</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">RAG Fundamentals: Retrieval-Augmented Generation</h1><p class="article__lede" itemprop="description">What RAG is, why enterprises use it, the ingestion and query pipelines step by step, naive vs advanced vs modular RAG, failure points and how to design a first RAG system.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/rag/">#Rag</a><a class="tag" href="/enterprise-ai/tags/retrieval/">#Retrieval</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-rag-solves">The problem RAG solves</a></li>
+    <li><a href="#the-two-pipelines">The two pipelines</a>
+      <ul>
+        <li><a href="#ingestion-step-by-step">Ingestion, step by step</a></li>
+        <li><a href="#query-step-by-step">Query, step by step</a></li>
+        <li><a href="#what-the-augmented-prompt-looks-like">What the augmented prompt looks like</a></li>
+      </ul>
+    </li>
+    <li><a href="#naive-advanced-and-modular-rag">Naive, advanced and modular RAG</a></li>
+    <li><a href="#where-rag-fails">Where RAG fails</a></li>
+    <li><a href="#security-permissions-in-rag">Security: permissions in RAG</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Retrieval-augmented generation (RAG)</strong> answers a question in two steps: first <strong>retrieve</strong> the most relevant pieces of your own documents, then ask the LLM to <strong>generate</strong> an answer using those pieces as context.</p>
+<p>Analogy: an open-book exam. The model is a smart student who has not read your company handbook. RAG hands them the right pages before they answer.</p>
+<h2 id="the-problem-rag-solves">The problem RAG solves<a class="heading-anchor" href="#the-problem-rag-solves" aria-label="Link to this section">#</a></h2>
+<p>An LLM on its own:</p>
+<ul>
+<li>does not know your private data (policies, contracts, tickets, product docs);</li>
+<li>does not know anything after its training cutoff;</li>
+<li>cannot tell you <em>where</em> an answer came from;</li>
+<li>invents plausible answers when it does not know.</li>
+</ul>
+<p>Fine-tuning does not fix these well (see <a href="/enterprise-ai/foundations/customizing-models/">prompting vs RAG vs fine-tuning</a>). RAG does: knowledge stays in your systems, is updated by re-indexing, can be filtered per user, and every answer can cite its sources.</p>
+<h2 id="the-two-pipelines">The two pipelines<a class="heading-anchor" href="#the-two-pipelines" aria-label="Link to this section">#</a></h2>
+<p>RAG is really two systems: an offline <strong>ingestion (indexing) pipeline</strong> and an online <strong>query pipeline</strong>.</p>
+<figure class="diagram" aria-label="RAG architecture: ingestion and query"><figcaption class="diagram__title">RAG architecture: ingestion and query</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph Ingestion[&#34;Ingestion pipeline — offline, continuous&#34;]
+        direction LR
+        S[&#34;Sources&lt;br/&gt;SharePoint, Confluence, PDFs,&lt;br/&gt;databases, tickets&#34;] --&gt; L[&#34;Load &amp; parse&lt;br/&gt;text, tables, metadata&#34;]
+        L --&gt; C[&#34;Clean &amp; chunk&lt;br/&gt;split into passages&#34;]
+        C --&gt; E1[&#34;Embed chunks&lt;br/&gt;embedding model&#34;]
+        E1 --&gt; I[(&#34;Vector store&lt;br/&gt;+ keyword index&lt;br/&gt;+ metadata &amp; ACLs&#34;)]
+    end
+    subgraph Query[&#34;Query pipeline — online, per request&#34;]
+        direction LR
+        Q[&#34;User question&#34;] --&gt; E2[&#34;Embed query&lt;br/&gt;same embedding model&#34;]
+        E2 --&gt; R[&#34;Retrieve top-k&lt;br/&gt;similar chunks + filters&#34;]
+        R --&gt; A[&#34;Augment prompt&lt;br/&gt;instructions + chunks + question&#34;]
+        A --&gt; G[&#34;Generate&lt;br/&gt;LLM&#34;]
+        G --&gt; O[&#34;Answer + citations&#34;]
+    end
+    I --&gt; R</pre>
+</figure>
+<h3 id="ingestion-step-by-step">Ingestion, step by step<a class="heading-anchor" href="#ingestion-step-by-step" aria-label="Link to this section">#</a></h3>
+<ol>
+<li><strong>Load</strong> — connectors pull documents from source systems, with metadata (title, URL, owner, date, permissions).</li>
+<li><strong>Parse</strong> — extract clean text from PDF, Word, HTML, slides; handle tables and images (OCR, or a vision model for complex layouts).</li>
+<li><strong>Chunk</strong> — split into passages of a few hundred tokens so each chunk is about one topic. See <a href="/enterprise-ai/rag/chunking-and-embeddings/">chunking</a>.</li>
+<li><strong>Enrich</strong> — add metadata: section headings, document type, product, region, access-control lists; optionally summaries or keywords.</li>
+<li><strong>Embed</strong> — convert each chunk into a vector with an embedding model.</li>
+<li><strong>Index</strong> — store vector, text and metadata in a <a href="/enterprise-ai/rag/vector-databases/">vector database</a>, usually also a keyword (BM25) index.</li>
+<li><strong>Keep fresh</strong> — detect changes and deletions in sources and re-index incrementally.</li>
+</ol>
+<h3 id="query-step-by-step">Query, step by step<a class="heading-anchor" href="#query-step-by-step" aria-label="Link to this section">#</a></h3>
+<ol>
+<li><strong>Understand the question</strong> — optionally rewrite it (resolve &ldquo;it&rdquo; from chat history, fix typos, expand acronyms).</li>
+<li><strong>Embed</strong> the question with the <em>same</em> embedding model used for chunks.</li>
+<li><strong>Retrieve</strong> the top-k most similar chunks, applying <strong>metadata filters</strong> (user permissions, region, date).</li>
+<li><strong>Rerank</strong> (advanced RAG) — reorder candidates with a more precise model and keep the best few.</li>
+<li><strong>Augment</strong> — build the prompt: instructions, numbered sources, question.</li>
+<li><strong>Generate</strong> — the LLM writes the answer, citing sources.</li>
+<li><strong>Post-process</strong> — validate citations, apply output guardrails, log the trace.</li>
+</ol>
+<h3 id="what-the-augmented-prompt-looks-like">What the augmented prompt looks like<a class="heading-anchor" href="#what-the-augmented-prompt-looks-like" aria-label="Link to this section">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">SYSTEM:
+</span></span><span class="line"><span class="cl">Answer using only the sources below. Cite sources like [2].
+</span></span><span class="line"><span class="cl">If the sources do not answer the question, say you don&#39;t know.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;sources&gt;
+</span></span><span class="line"><span class="cl">[1] (Travel Policy 2026, §4.2) Economy class is required for flights under 6 hours...
+</span></span><span class="line"><span class="cl">[2] (Travel Policy 2026, §4.3) Business class may be booked for flights over 6 hours
+</span></span><span class="line"><span class="cl">    with director approval...
+</span></span><span class="line"><span class="cl">[3] (FAQ: Travel) Approval requests are submitted in the Expenses portal...
+</span></span><span class="line"><span class="cl">&lt;/sources&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">USER:
+</span></span><span class="line"><span class="cl">Can I fly business class to Singapore?
+</span></span></code></pre></div><h2 id="naive-advanced-and-modular-rag">Naive, advanced and modular RAG<a class="heading-anchor" href="#naive-advanced-and-modular-rag" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Evolution of RAG designs"><figcaption class="diagram__title">Evolution of RAG designs</figcaption>
+  <pre class="mermaid">flowchart LR
+    N[&#34;Naive RAG&lt;br/&gt;chunk → embed → top-k → generate&#34;] --&gt; A[&#34;Advanced RAG&lt;br/&gt;+ query rewriting, hybrid search,&lt;br/&gt;reranking, better chunking,&lt;br/&gt;metadata filters&#34;]
+    A --&gt; M[&#34;Modular / agentic RAG&lt;br/&gt;routing across sources, iterative retrieval,&lt;br/&gt;self-checking, tools, GraphRAG&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Naive RAG</th>
+      <th>Advanced RAG</th>
+      <th>Modular / agentic RAG</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Retrieval</td>
+      <td>Single vector search</td>
+      <td>Hybrid + rerank + filters</td>
+      <td>Multiple sources, chosen dynamically</td>
+    </tr>
+    <tr>
+      <td>Query handling</td>
+      <td>As typed</td>
+      <td>Rewritten, expanded</td>
+      <td>Decomposed into sub-questions, iterative</td>
+    </tr>
+    <tr>
+      <td>Good for</td>
+      <td>Prototypes</td>
+      <td>Most production assistants</td>
+      <td>Complex research, multi-hop questions</td>
+    </tr>
+    <tr>
+      <td>Cost / latency</td>
+      <td>Lowest</td>
+      <td>Moderate</td>
+      <td>Highest</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Details: <a href="/enterprise-ai/rag/advanced-retrieval/">advanced retrieval</a>, <a href="/enterprise-ai/rag/graphrag/">GraphRAG</a>, <a href="/enterprise-ai/rag/advanced-retrieval/#agentic-rag">agentic RAG</a>.</p>
+<h2 id="where-rag-fails">Where RAG fails<a class="heading-anchor" href="#where-rag-fails" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Failure points along the pipeline"><figcaption class="diagram__title">Failure points along the pipeline</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Missing content&lt;br/&gt;answer not in corpus&#34;] --&gt; B[&#34;Bad parsing&lt;br/&gt;tables garbled, headers lost&#34;]
+    B --&gt; C[&#34;Bad chunking&lt;br/&gt;answer split across chunks&#34;]
+    C --&gt; D[&#34;Missed retrieval&lt;br/&gt;right chunk not in top-k&#34;]
+    D --&gt; E[&#34;Lost in context&lt;br/&gt;right chunk present but ignored&#34;]
+    E --&gt; F[&#34;Unfaithful answer&lt;br/&gt;model adds facts not in sources&#34;]
+    F --&gt; G[&#34;Wrong format&lt;br/&gt;or missing citation&#34;]</pre>
+</figure>
+<p>Each failure needs a different fix, which is why you <a href="/enterprise-ai/rag/rag-evaluation/">evaluate retrieval and generation separately</a>.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Likely cause</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&ldquo;I don&rsquo;t know&rdquo; but the answer exists</td>
+      <td>Retrieval miss</td>
+      <td>Hybrid search, better chunking, query rewriting, more candidates + reranking</td>
+    </tr>
+    <tr>
+      <td>Wrong answer citing the right document</td>
+      <td>Ambiguous or conflicting chunks; poor prompt</td>
+      <td>Rerank, add metadata (dates, versions), instruct to prefer latest</td>
+    </tr>
+    <tr>
+      <td>Answer mixes products or regions</td>
+      <td>No metadata filtering</td>
+      <td>Filter by product/region; ask clarifying question</td>
+    </tr>
+    <tr>
+      <td>Confident answer with no support</td>
+      <td>Unfaithful generation</td>
+      <td>Stricter prompt, faithfulness check, lower temperature</td>
+    </tr>
+    <tr>
+      <td>User sees content they should not</td>
+      <td>Missing access control</td>
+      <td>Filter by ACL at retrieval time — never rely on the prompt</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="security-permissions-in-rag">Security: permissions in RAG<a class="heading-anchor" href="#security-permissions-in-rag" aria-label="Link to this section">#</a></h2>
+<p>The retrieval step must only return chunks the <strong>current user</strong> is allowed to see. Store ACL metadata (groups, roles, tenant) on every chunk at ingestion, and filter in the vector query. Never retrieve everything and ask the LLM to &ldquo;only use what the user may see&rdquo;.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Spending all effort on the model, none on the data</span></p>
+  <div class="callout__body"><p>Most RAG quality problems come from parsing, chunking and retrieval. A better LLM cannot answer from a chunk that was never retrieved.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No evaluation set</span></p>
+  <div class="callout__body"><p>Teams tweak chunk size and prompts by &ldquo;vibe&rdquo;. Build 50–200 question/answer pairs with the expected source documents first, then measure every change.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Forgetting deletions</span></p>
+  <div class="callout__body"><p>A document removed from SharePoint stays in the vector store and keeps being cited. Ingestion must handle updates and deletes.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What is RAG and why use it?</strong>
+Retrieval-augmented generation: retrieve relevant passages from your own data and include them in the prompt so the LLM answers from them. It gives the model private and current knowledge, enables citations and per-user access control, and reduces hallucinations — without retraining.</p>
+<p><strong>Walk me through a RAG pipeline.</strong>
+Offline: load documents, parse, chunk, enrich with metadata and ACLs, embed and index in a vector store (often with a keyword index). Online: rewrite the query if needed, embed it, retrieve top-k with filters, rerank, build a prompt with numbered sources, generate with citations, validate and log.</p>
+<p><strong>Why must the query and the documents use the same embedding model?</strong>
+Each embedding model defines its own vector space; vectors from different models are not comparable. Changing the embedding model requires re-embedding the whole corpus.</p>
+<p><strong>How do you enforce document permissions in RAG?</strong>
+Capture ACLs at ingestion as chunk metadata and filter on the user&rsquo;s identity in the retrieval query, so unauthorised chunks never reach the prompt.</p>
+<p><strong>Your RAG system gives wrong answers. How do you debug it?</strong>
+Check retrieval first: was the right chunk retrieved, and at what rank? If not, fix parsing, chunking, hybrid search, query rewriting or reranking. If yes, check generation: faithfulness, prompt instructions, conflicting sources, context order. Use separate retrieval and generation metrics.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Separate the two halves</span></p>
+  <div class="callout__body"><p>Interviewers listen for &ldquo;retrieval quality vs generation quality&rdquo;. Saying you would measure recall@k for retrieval and faithfulness for generation shows production experience.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>RAG = retrieve relevant passages from your data, then generate an answer grounded in them.</li>
+<li>Two pipelines: offline ingestion (load, parse, chunk, enrich, embed, index) and online query (rewrite, retrieve, rerank, augment, generate).</li>
+<li>Most failures happen before the LLM: parsing, chunking and retrieval.</li>
+<li>Enforce permissions at retrieval; handle updates and deletes; evaluate both halves.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Lewis et al., <a href="https://arxiv.org/abs/2005.11401" rel="noopener">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a>, 2020.</li>
+<li>Gao et al., <a href="https://arxiv.org/abs/2312.10997" rel="noopener">Retrieval-Augmented Generation for Large Language Models: A Survey</a>, 2023.</li>
+<li>Barnett et al., <a href="https://arxiv.org/abs/2401.05856" rel="noopener">Seven Failure Points When Engineering a Retrieval Augmented Generation System</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/chunking-and-embeddings/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Chunking &amp; embeddings</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/vector-databases/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Vector databases</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/advanced-retrieval/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Advanced retrieval</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI RAG</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-evaluation/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG evaluation</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/rag/chunking-and-embeddings/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Chunking &amp; embeddings</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-rag-solves">The problem RAG solves</a></li>
+    <li><a href="#the-two-pipelines">The two pipelines</a>
+      <ul>
+        <li><a href="#ingestion-step-by-step">Ingestion, step by step</a></li>
+        <li><a href="#query-step-by-step">Query, step by step</a></li>
+        <li><a href="#what-the-augmented-prompt-looks-like">What the augmented prompt looks like</a></li>
+      </ul>
+    </li>
+    <li><a href="#naive-advanced-and-modular-rag">Naive, advanced and modular RAG</a></li>
+    <li><a href="#where-rag-fails">Where RAG fails</a></li>
+    <li><a href="#security-permissions-in-rag">Security: permissions in RAG</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

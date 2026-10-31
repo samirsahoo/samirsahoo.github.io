@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG with Spring AI · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Implementing RAG in Java with Spring AI 2.0: the ETL pipeline (DocumentReader, TokenTextSplitter, metadata enrichers, VectorStore), pgvector configuration, QuestionAnswerAdvisor, modular RetrievalAugmentationAdvisor with query rewriting, metadata and permission filters, and testing.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-rag/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="RAG with Spring AI">
+<meta property="og:description" content="Implementing RAG in Java with Spring AI 2.0: the ETL pipeline (DocumentReader, TokenTextSplitter, metadata enrichers, VectorStore), pgvector configuration, QuestionAnswerAdvisor, modular RetrievalAugmentationAdvisor with query rewriting, metadata and permission filters, and testing.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-rag/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RAG with Spring AI">
+<meta name="twitter:description" content="Implementing RAG in Java with Spring AI 2.0: the ETL pipeline (DocumentReader, TokenTextSplitter, metadata enrichers, VectorStore), pgvector configuration, QuestionAnswerAdvisor, modular RetrievalAugmentationAdvisor with query rewriting, metadata and permission filters, and testing.">
+<meta name="keywords" content="spring-ai, rag, java, implementation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"Implementing RAG in Java with Spring AI 2.0: the ETL pipeline (DocumentReader, TokenTextSplitter, metadata enrichers, VectorStore), pgvector configuration, QuestionAnswerAdvisor, modular RetrievalAugmentationAdvisor with query rewriting, metadata and permission filters, and testing.","headline":"RAG with Spring AI","inLanguage":"en","isAccessibleForFree":true,"keywords":"spring-ai, rag, java, implementation","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-rag/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/","name":"4 · Spring AI \u0026 Governance","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-rag/","name":"Spring AI RAG","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-spring-ai-governance">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/" aria-current="page">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a></li>
+    <li><span aria-current="page">Spring AI RAG</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">RAG with Spring AI</h1><p class="article__lede" itemprop="description">Implementing RAG in Java with Spring AI 2.0: the ETL pipeline (DocumentReader, TokenTextSplitter, metadata enrichers, VectorStore), pgvector configuration, QuestionAnswerAdvisor, modular RetrievalAugmentationAdvisor with query rewriting, metadata and permission filters, and testing.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/spring-ai/">#Spring-Ai</a><a class="tag" href="/enterprise-ai/tags/rag/">#Rag</a><a class="tag" href="/enterprise-ai/tags/java/">#Java</a><a class="tag" href="/enterprise-ai/tags/implementation/">#Implementation</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a>, <a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#what-we-are-building">What we are building</a></li>
+    <li><a href="#dependencies-and-configuration">Dependencies and configuration</a></li>
+    <li><a href="#ingestion-the-etl-pipeline">Ingestion: the ETL pipeline</a></li>
+    <li><a href="#simple-rag-questionansweradvisor">Simple RAG: QuestionAnswerAdvisor</a></li>
+    <li><a href="#modular-rag-retrievalaugmentationadvisor">Modular RAG: RetrievalAugmentationAdvisor</a></li>
+    <li><a href="#returning-sources">Returning sources</a></li>
+    <li><a href="#testing-the-rag-service">Testing the RAG service</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="what-we-are-building">What we are building<a class="heading-anchor" href="#what-we-are-building" aria-label="Link to this section">#</a></h2>
+<p>A Spring Boot service that ingests policy documents into PostgreSQL with <strong>pgvector</strong>, then answers questions with citations, filtered by the user&rsquo;s department.</p>
+<figure class="diagram" aria-label="Spring AI RAG components"><figcaption class="diagram__title">Spring AI RAG components</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Ingest[&#34;Ingestion — ETL pipeline&#34;]
+        DR[&#34;DocumentReader&lt;br/&gt;PagePdfDocumentReader, TikaDocumentReader,&lt;br/&gt;MarkdownDocumentReader, JsonReader&#34;] --&gt; TS[&#34;DocumentTransformer&lt;br/&gt;TokenTextSplitter,&lt;br/&gt;KeywordMetadataEnricher,&lt;br/&gt;SummaryMetadataEnricher&#34;]
+        TS --&gt; VW[&#34;DocumentWriter&lt;br/&gt;VectorStore.add()&#34;]
+    end
+    VW --&gt; PG[(&#34;PostgreSQL + pgvector&lt;br/&gt;vector_store table&#34;)]
+    subgraph Query[&#34;Query&#34;]
+        CC[&#34;ChatClient&#34;] --&gt; RAA[&#34;RetrievalAugmentationAdvisor&lt;br/&gt;query transformers → retriever → augmenter&#34;]
+        RAA --&gt; PG
+        RAA --&gt; LLM((&#34;ChatModel&#34;))
+    end</pre>
+</figure>
+<h2 id="dependencies-and-configuration">Dependencies and configuration<a class="heading-anchor" href="#dependencies-and-configuration" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.ai<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-ai-starter-vector-store-pgvector<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.ai<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-ai-vector-store-advisor<span class="nt">&lt;/artifactId&gt;</span>    <span class="c">&lt;!-- QuestionAnswerAdvisor --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.ai<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-ai-rag<span class="nt">&lt;/artifactId&gt;</span>                     <span class="c">&lt;!-- RetrievalAugmentationAdvisor --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.springframework.ai<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>spring-ai-pdf-document-reader<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- plus a chat model starter and an embedding model starter, e.g. OpenAI or Bedrock --&gt;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">spring.datasource.url</span><span class="o">=</span><span class="s">jdbc:postgresql://localhost:5432/assistant</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.vectorstore.pgvector.initialize-schema</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.vectorstore.pgvector.index-type</span><span class="o">=</span><span class="s">HNSW</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.vectorstore.pgvector.distance-type</span><span class="o">=</span><span class="s">COSINE_DISTANCE</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.vectorstore.pgvector.dimensions</span><span class="o">=</span><span class="s">1536</span>
+</span></span></code></pre></div><p>The starter auto-configures a <code>VectorStore</code> bean using the <code>EmbeddingModel</code> bean from your embedding starter. In production, prefer creating the schema with your migration tool (Flyway/Liquibase) and set <code>initialize-schema=false</code>.</p>
+<h2 id="ingestion-the-etl-pipeline">Ingestion: the ETL pipeline<a class="heading-anchor" href="#ingestion-the-etl-pipeline" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">PolicyIngestionService</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">VectorStore</span><span class="w"> </span><span class="n">vectorStore</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">PolicyIngestionService</span><span class="p">(</span><span class="n">VectorStore</span><span class="w"> </span><span class="n">vectorStore</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">vectorStore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vectorStore</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">ingest</span><span class="p">(</span><span class="n">Resource</span><span class="w"> </span><span class="n">pdf</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">docId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">department</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">version</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// 1. Extract: one Document per page, with page metadata</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PagePdfDocumentReader</span><span class="p">(</span><span class="n">pdf</span><span class="p">).</span><span class="na">get</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// 2. Transform: split into ~token-sized chunks</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span><span class="w"> </span><span class="n">chunks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TokenTextSplitter</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">withChunkSize</span><span class="p">(</span><span class="n">500</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">apply</span><span class="p">(</span><span class="n">pages</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// 3. Enrich: metadata used for filtering, citation and lifecycle</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">chunks</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">chunk</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">chunk</span><span class="p">.</span><span class="na">getMetadata</span><span class="p">().</span><span class="na">putAll</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="s">&#34;docId&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">docId</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="s">&#34;department&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">department</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="s">&#34;version&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="s">&#34;source&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">pdf</span><span class="p">.</span><span class="na">getFilename</span><span class="p">())));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// 4. Load: embed + store</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">vectorStore</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">chunks</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">deleteDocument</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">docId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">vectorStore</span><span class="p">.</span><span class="na">delete</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FilterExpressionBuilder</span><span class="p">().</span><span class="na">eq</span><span class="p">(</span><span class="s">&#34;docId&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">docId</span><span class="p">).</span><span class="na">build</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>Design notes:</p>
+<ul>
+<li>Run ingestion <strong>asynchronously</strong> (a queue or batch job), not inside user requests.</li>
+<li>Make it <strong>idempotent</strong>: delete the previous version&rsquo;s chunks before adding the new version (or use deterministic chunk IDs).</li>
+<li>Add the <strong>heading path / document title</strong> to chunk text for better retrieval (<a href="/enterprise-ai/rag/chunking-and-embeddings/#chunking-strategies">contextual headers</a>).</li>
+<li>Other transformers: <code>KeywordMetadataEnricher</code> and <code>SummaryMetadataEnricher</code> use an LLM to add keywords or summaries.</li>
+</ul>
+<h2 id="simple-rag-questionansweradvisor">Simple RAG: QuestionAnswerAdvisor<a class="heading-anchor" href="#simple-rag-questionansweradvisor" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">PolicyAssistant</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ChatClient</span><span class="w"> </span><span class="n">chatClient</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">PolicyAssistant</span><span class="p">(</span><span class="n">ChatClient</span><span class="p">.</span><span class="na">Builder</span><span class="w"> </span><span class="n">builder</span><span class="p">,</span><span class="w"> </span><span class="n">VectorStore</span><span class="w"> </span><span class="n">vectorStore</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">chatClient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">defaultSystem</span><span class="p">(</span><span class="s">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">                Answer only from the provided context. Cite the &#39;source&#39; metadata of each
+</span></span></span><span class="line"><span class="cl"><span class="s">                document you use. If the context does not contain the answer, say so.
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;&#34;&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">defaultAdvisors</span><span class="p">(</span><span class="n">QuestionAnswerAdvisor</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">vectorStore</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="na">searchRequest</span><span class="p">(</span><span class="n">SearchRequest</span><span class="p">.</span><span class="na">builder</span><span class="p">().</span><span class="na">topK</span><span class="p">(</span><span class="n">5</span><span class="p">).</span><span class="na">similarityThreshold</span><span class="p">(</span><span class="n">0</span><span class="p">.</span><span class="na">6</span><span class="p">).</span><span class="na">build</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">answer</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">question</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">department</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">chatClient</span><span class="p">.</span><span class="na">prompt</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">user</span><span class="p">(</span><span class="n">question</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">advisors</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="n">QuestionAnswerAdvisor</span><span class="p">.</span><span class="na">FILTER_EXPRESSION</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                                   </span><span class="s">&#34;department == &#39;&#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&#34;&#39;&#34;</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">call</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">content</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>The advisor embeds the question, searches the vector store with the filter, and appends the documents to the prompt.</p>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Never build filter strings from untrusted input</span></p>
+  <div class="callout__body"><p>The string form of filter expressions is convenient, but concatenating user-supplied values into it is an injection risk. Take values such as department or tenant from the authenticated security context, and prefer the type-safe <code>FilterExpressionBuilder</code> shown below.</p></div>
+</aside><h2 id="modular-rag-retrievalaugmentationadvisor">Modular RAG: RetrievalAugmentationAdvisor<a class="heading-anchor" href="#modular-rag-retrievalaugmentationadvisor" aria-label="Link to this section">#</a></h2>
+<p>For advanced RAG, compose the pipeline from parts.</p>
+<figure class="diagram" aria-label="RetrievalAugmentationAdvisor pipeline"><figcaption class="diagram__title">RetrievalAugmentationAdvisor pipeline</figcaption>
+  <pre class="mermaid">flowchart LR
+    Q[&#34;Query&#34;] --&gt; QT[&#34;Query transformers&lt;br/&gt;RewriteQueryTransformer,&lt;br/&gt;CompressionQueryTransformer,&lt;br/&gt;TranslationQueryTransformer&#34;]
+    QT --&gt; QE[&#34;Query expander&lt;br/&gt;MultiQueryExpander&#34;]
+    QE --&gt; DR[&#34;Document retriever&lt;br/&gt;VectorStoreDocumentRetriever&lt;br/&gt;topK, threshold, filter&#34;]
+    DR --&gt; JN[&#34;Document joiner&lt;br/&gt;merge + dedupe&#34;]
+    JN --&gt; PP[&#34;Document post-processors&lt;br/&gt;rerank, compress&#34;]
+    PP --&gt; QA[&#34;Query augmenter&lt;br/&gt;ContextualQueryAugmenter&#34;]
+    QA --&gt; LLM((&#34;ChatModel&#34;))</pre>
+</figure>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">Advisor</span><span class="w"> </span><span class="nf">ragAdvisor</span><span class="p">(</span><span class="n">ChatClient</span><span class="p">.</span><span class="na">Builder</span><span class="w"> </span><span class="n">builder</span><span class="p">,</span><span class="w"> </span><span class="n">VectorStore</span><span class="w"> </span><span class="n">vectorStore</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">RetrievalAugmentationAdvisor</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// Rewrite conversational / vague questions into good search queries</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">queryTransformers</span><span class="p">(</span><span class="n">RewriteQueryTransformer</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">chatClientBuilder</span><span class="p">(</span><span class="n">builder</span><span class="p">.</span><span class="na">build</span><span class="p">().</span><span class="na">mutate</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// Retrieve with a permission filter resolved per request from the security context</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">documentRetriever</span><span class="p">(</span><span class="n">VectorStoreDocumentRetriever</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">vectorStore</span><span class="p">(</span><span class="n">vectorStore</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">topK</span><span class="p">(</span><span class="n">8</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">similarityThreshold</span><span class="p">(</span><span class="n">0</span><span class="p">.</span><span class="na">5</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">filterExpression</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FilterExpressionBuilder</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="na">in</span><span class="p">(</span><span class="s">&#34;department&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">currentUserDepartments</span><span class="p">().</span><span class="na">toArray</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// Allow the model to say &#34;I don&#39;t know&#34; when nothing is retrieved</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">queryAugmenter</span><span class="p">(</span><span class="n">ContextualQueryAugmenter</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">allowEmptyContext</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>Notes:</p>
+<ul>
+<li><code>MultiQueryExpander</code> generates paraphrases for better recall; <code>TranslationQueryTransformer</code> translates queries into the corpus language; <code>CompressionQueryTransformer</code> condenses chat history into a standalone query.</li>
+<li>By default the advisor refuses to answer with empty context; <code>allowEmptyContext(true)</code> lets the model answer generally — choose deliberately.</li>
+<li>Add a <strong>reranker</strong> as a document post-processor for production quality (call a rerank API or cross-encoder).</li>
+<li><strong>Hybrid search</strong> (BM25 + vectors) depends on the store: use a store with native hybrid support or combine a keyword retriever with the vector retriever and join results.</li>
+</ul>
+<h2 id="returning-sources">Returning sources<a class="heading-anchor" href="#returning-sources" aria-label="Link to this section">#</a></h2>
+<p>To show citations, read retrieved documents from the response context:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ChatClientResponse</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chatClient</span><span class="p">.</span><span class="na">prompt</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">user</span><span class="p">(</span><span class="n">question</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">call</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">chatClientResponse</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span><span class="w"> </span><span class="n">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">context</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">RetrievalAugmentationAdvisor</span><span class="p">.</span><span class="na">DOCUMENT_CONTEXT</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sources</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">docs</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">map</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="p">)</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="na">getMetadata</span><span class="p">().</span><span class="na">get</span><span class="p">(</span><span class="s">&#34;source&#34;</span><span class="p">)).</span><span class="na">distinct</span><span class="p">().</span><span class="na">toList</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><h2 id="testing-the-rag-service">Testing the RAG service<a class="heading-anchor" href="#testing-the-rag-service" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Integration tests</strong> with Testcontainers PostgreSQL + pgvector (<code>spring-ai-spring-boot-testcontainers</code>).</li>
+<li><strong>Evaluation tests</strong> with Spring AI&rsquo;s <code>RelevancyEvaluator</code> and <code>FactCheckingEvaluator</code> on a golden dataset; see <a href="/enterprise-ai/spring-ai-governance/spring-ai-production/#evaluation-in-tests">Spring AI in production</a>.</li>
+<li><strong>Permission tests</strong>: a user from department A must never get chunks from department B.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ingesting on application startup</span></p>
+  <div class="callout__body"><p>Loading and embedding documents in a <code>CommandLineRunner</code> works for demos, then slows every deployment and re-embeds everything. Run ingestion as a separate, incremental job.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Forgetting the embedding model is part of the index</span></p>
+  <div class="callout__body"><p>Changing the embedding model or its dimensions requires re-creating the table and re-embedding. Record the model in configuration and metadata.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>How do you implement RAG with Spring AI?</strong>
+Ingest with the ETL pipeline: a <code>DocumentReader</code> (PDF, Tika, Markdown), <code>TokenTextSplitter</code>, metadata enrichment, then <code>VectorStore.add()</code> into pgvector or another store. At query time, add <code>QuestionAnswerAdvisor</code> for simple RAG or <code>RetrievalAugmentationAdvisor</code> for modular RAG with query transformers, a <code>VectorStoreDocumentRetriever</code> with filters, and a <code>ContextualQueryAugmenter</code>.</p>
+<p><strong>How do you enforce per-user access in Spring AI RAG?</strong>
+Store access metadata on each chunk and apply a filter expression on retrieval — built with <code>FilterExpressionBuilder</code> from the authenticated security context, via a <code>Supplier</code> so it is evaluated per request — never from user-supplied strings.</p>
+<p><strong>QuestionAnswerAdvisor vs RetrievalAugmentationAdvisor?</strong>
+<code>QuestionAnswerAdvisor</code> is a simple, ready-made RAG advisor: vector search plus prompt augmentation. <code>RetrievalAugmentationAdvisor</code> is modular: you plug in query transformers, expanders, retrievers, joiners, post-processors and augmenters for advanced RAG.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Ingest with DocumentReader → TokenTextSplitter → metadata → VectorStore; run it async and idempotently.</li>
+<li>pgvector via a starter and properties; manage schema with migrations in production.</li>
+<li>QuestionAnswerAdvisor for simple RAG; RetrievalAugmentationAdvisor for modular, advanced RAG.</li>
+<li>Filter by permissions using the type-safe builder and the security context; return sources for citations.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Spring AI, <a href="https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html" rel="noopener">Retrieval Augmented Generation</a>.</li>
+<li>Spring AI, <a href="https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html" rel="noopener">ETL Pipeline</a>.</li>
+<li>Spring AI, <a href="https://docs.spring.io/spring-ai/reference/api/vectordbs/pgvector.html" rel="noopener">PGvector</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/advanced-retrieval/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Advanced retrieval</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/case-study-knowledge-assistant/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Case study: knowledge assistant</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI tools, MCP &amp; memory</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI fundamentals</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-production/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI in production</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Spring AI fundamentals</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Spring AI tools, MCP &amp; memory</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-we-are-building">What we are building</a></li>
+    <li><a href="#dependencies-and-configuration">Dependencies and configuration</a></li>
+    <li><a href="#ingestion-the-etl-pipeline">Ingestion: the ETL pipeline</a></li>
+    <li><a href="#simple-rag-questionansweradvisor">Simple RAG: QuestionAnswerAdvisor</a></li>
+    <li><a href="#modular-rag-retrievalaugmentationadvisor">Modular RAG: RetrievalAugmentationAdvisor</a></li>
+    <li><a href="#returning-sources">Returning sources</a></li>
+    <li><a href="#testing-the-rag-service">Testing the RAG service</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

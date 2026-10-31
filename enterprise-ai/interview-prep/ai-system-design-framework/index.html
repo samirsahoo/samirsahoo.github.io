@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Answer AI System Design Interviews · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="A repeatable 8-step framework for AI and GenAI system design interviews — requirements, estimates, architecture, retrieval and models, agents and tools, evaluation, safety and governance, operations — with a 45-minute timeline, whiteboard template and practice questions.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/interview-prep/ai-system-design-framework/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="How to Answer AI System Design Interviews">
+<meta property="og:description" content="A repeatable 8-step framework for AI and GenAI system design interviews — requirements, estimates, architecture, retrieval and models, agents and tools, evaluation, safety and governance, operations — with a 45-minute timeline, whiteboard template and practice questions.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/interview-prep/ai-system-design-framework/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to Answer AI System Design Interviews">
+<meta name="twitter:description" content="A repeatable 8-step framework for AI and GenAI system design interviews — requirements, estimates, architecture, retrieval and models, agents and tools, evaluation, safety and governance, operations — with a 45-minute timeline, whiteboard template and practice questions.">
+<meta name="keywords" content="interview, system-design">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"A repeatable 8-step framework for AI and GenAI system design interviews — requirements, estimates, architecture, retrieval and models, agents and tools, evaluation, safety and governance, operations — with a 45-minute timeline, whiteboard template and practice questions.","headline":"How to Answer AI System Design Interviews","inLanguage":"en","isAccessibleForFree":true,"keywords":"interview, system-design","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/interview-prep/ai-system-design-framework/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/interview-prep/","name":"Interview Prep","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/interview-prep/ai-system-design-framework/","name":"AI system design framework","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-interview-prep">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/" aria-current="page">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/interview-prep/">Interview Prep</a></li>
+    <li><span aria-current="page">AI system design framework</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">How to Answer AI System Design Interviews</h1><p class="article__lede" itemprop="description">A repeatable 8-step framework for AI and GenAI system design interviews — requirements, estimates, architecture, retrieval and models, agents and tools, evaluation, safety and governance, operations — with a 45-minute timeline, whiteboard template and practice questions.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/interview/">#Interview</a><a class="tag" href="/enterprise-ai/tags/system-design/">#System-Design</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#why-a-framework">Why a framework</a></li>
+    <li><a href="#the-8-step-framework">The 8-step framework</a>
+      <ul>
+        <li><a href="#1-clarify-the-problem-35-min">1. Clarify the problem (3–5 min)</a></li>
+        <li><a href="#2-requirements-5-min">2. Requirements (5 min)</a></li>
+        <li><a href="#3-estimates-35-min">3. Estimates (3–5 min)</a></li>
+        <li><a href="#4-high-level-architecture-810-min">4. High-level architecture (8–10 min)</a></li>
+        <li><a href="#5-deep-dive-on-ai-components-10-min">5. Deep dive on AI components (10 min)</a></li>
+        <li><a href="#6-evaluation-35-min">6. Evaluation (3–5 min)</a></li>
+        <li><a href="#7-safety-security-governance-35-min">7. Safety, security, governance (3–5 min)</a></li>
+        <li><a href="#8-operations-and-trade-offs-35-min">8. Operations and trade-offs (3–5 min)</a></li>
+      </ul>
+    </li>
+    <li><a href="#timeline-for-a-45-minute-interview">Timeline for a 45-minute interview</a></li>
+    <li><a href="#what-interviewers-score">What interviewers score</a></li>
+    <li><a href="#practice-questions">Practice questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="why-a-framework">Why a framework<a class="heading-anchor" href="#why-a-framework" aria-label="Link to this section">#</a></h2>
+<p>AI system design interviews test whether you can turn a vague product idea into an architecture that is <strong>useful, safe, measurable and affordable</strong>. Without a structure, candidates jump to &ldquo;use a vector DB and GPT&rdquo; and miss requirements, evaluation and risk — the parts interviewers weigh most for senior and architect roles.</p>
+<h2 id="the-8-step-framework">The 8-step framework<a class="heading-anchor" href="#the-8-step-framework" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="AI system design in 8 steps"><figcaption class="diagram__title">AI system design in 8 steps</figcaption>
+  <pre class="mermaid">flowchart TB
+    S1[&#34;1 · Clarify the problem&lt;br/&gt;users, tasks, success, scope&#34;] --&gt; S2[&#34;2 · Requirements&lt;br/&gt;functional + non-functional + risk&#34;]
+    S2 --&gt; S3[&#34;3 · Estimates&lt;br/&gt;volume, tokens, cost, rate limits, data size&#34;]
+    S3 --&gt; S4[&#34;4 · High-level architecture&lt;br/&gt;draw the boxes, trace one request&#34;]
+    S4 --&gt; S5[&#34;5 · Deep dive: AI components&lt;br/&gt;knowledge/RAG, model choice, prompts,&lt;br/&gt;agents &amp; tools, memory&#34;]
+    S5 --&gt; S6[&#34;6 · Evaluation&lt;br/&gt;datasets, metrics, offline + online&#34;]
+    S6 --&gt; S7[&#34;7 · Safety, security, governance&lt;br/&gt;guardrails, permissions, HITL, compliance&#34;]
+    S7 --&gt; S8[&#34;8 · Operations &amp; trade-offs&lt;br/&gt;scaling, reliability, cost levers,&lt;br/&gt;rollout, what&#39;s next&#34;]</pre>
+</figure>
+<h3 id="1-clarify-the-problem-35-min">1. Clarify the problem (3–5 min)<a class="heading-anchor" href="#1-clarify-the-problem-35-min" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>Who are the users? Internal or external? How many?</li>
+<li>What tasks exactly? Answer questions, draft documents, take actions?</li>
+<li>What does success look like? (Deflection rate, time saved, accuracy, CSAT.)</li>
+<li>Is AI even the right tool, or would search/rules/forms work?</li>
+</ul>
+<h3 id="2-requirements-5-min">2. Requirements (5 min)<a class="heading-anchor" href="#2-requirements-5-min" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Ask about</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Functional</td>
+      <td>Inputs/outputs, channels, languages, citations, actions, hand-off to humans</td>
+    </tr>
+    <tr>
+      <td>Non-functional</td>
+      <td>Latency (TTFT, total), availability, freshness of knowledge, throughput</td>
+    </tr>
+    <tr>
+      <td>Quality</td>
+      <td>Accuracy targets, acceptable error types, &ldquo;I don&rsquo;t know&rdquo; behaviour</td>
+    </tr>
+    <tr>
+      <td>Security &amp; privacy</td>
+      <td>Data classification, permissions, PII, data residency, provider terms</td>
+    </tr>
+    <tr>
+      <td>Risk &amp; compliance</td>
+      <td>Regulatory tier (EU AI Act), human oversight, auditability</td>
+    </tr>
+    <tr>
+      <td>Cost</td>
+      <td>Budget per request or per month</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="3-estimates-35-min">3. Estimates (3–5 min)<a class="heading-anchor" href="#3-estimates-35-min" aria-label="Link to this section">#</a></h3>
+<p>Compute out loud:</p>
+<ul>
+<li>Requests/day and peak per second.</li>
+<li>Tokens per request (system + context + history + question; output).</li>
+<li>Tokens/day → cost/day; peak tokens/minute vs provider limits.</li>
+<li>Corpus size → number of chunks → vector storage.</li>
+</ul>
+<p>See the worked numbers in the <a href="/enterprise-ai/rag/case-study-knowledge-assistant/#2-capacity-estimates">knowledge assistant case study</a> and the <a href="/enterprise-ai/interview-prep/cheat-sheet/">cheat sheet</a>.</p>
+<h3 id="4-high-level-architecture-810-min">4. High-level architecture (8–10 min)<a class="heading-anchor" href="#4-high-level-architecture-810-min" aria-label="Link to this section">#</a></h3>
+<p>Draw from left to right, then <strong>trace one request end to end</strong>.</p>
+<figure class="diagram" aria-label="Whiteboard template for most GenAI systems"><figcaption class="diagram__title">Whiteboard template for most GenAI systems</figcaption>
+  <pre class="mermaid">flowchart LR
+    U[&#34;Clients&#34;] --&gt; GW[&#34;API gateway&lt;br/&gt;auth, rate limit&#34;]
+    GW --&gt; APP[&#34;Orchestrator&lt;br/&gt;prompting, RAG, agents&#34;]
+    APP --&gt; GR[&#34;Guardrails&lt;br/&gt;in / out&#34;]
+    APP --&gt; RET[&#34;Retrieval&lt;br/&gt;hybrid + rerank + ACL&#34;]
+    RET --&gt; IDX[(&#34;Index&#34;)]
+    APP --&gt; TOOLS[&#34;Tools / MCP&#34;]
+    APP --&gt; MEM[(&#34;State &amp; memory&#34;)]
+    APP --&gt; AIGW[&#34;AI gateway&#34;]
+    AIGW --&gt; LLM[&#34;Models&lt;br/&gt;primary, fallback, small&#34;]
+    ING[&#34;Ingestion pipeline&#34;] --&gt; IDX
+    APP -.-&gt; OBS[&#34;Tracing, evals, cost&#34;]</pre>
+</figure>
+<h3 id="5-deep-dive-on-ai-components-10-min">5. Deep dive on AI components (10 min)<a class="heading-anchor" href="#5-deep-dive-on-ai-components-10-min" aria-label="Link to this section">#</a></h3>
+<p>Pick the parts that matter most for <em>this</em> problem:</p>
+<ul>
+<li><strong>Knowledge:</strong> prompt-only vs RAG vs fine-tuning (<a href="/enterprise-ai/foundations/customizing-models/">decision guide</a>); chunking, hybrid search, reranking, ACL filters; GraphRAG if multi-hop.</li>
+<li><strong>Model choice:</strong> tiering and routing; context window; reasoning model or not; hosting and data residency.</li>
+<li><strong>Prompting:</strong> system prompt structure, structured output, citations.</li>
+<li><strong>Agents:</strong> workflow vs agent; which tools; autonomy level per action; memory; human-in-the-loop.</li>
+</ul>
+<h3 id="6-evaluation-35-min">6. Evaluation (3–5 min)<a class="heading-anchor" href="#6-evaluation-35-min" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>Golden dataset: how built, how big, how maintained.</li>
+<li>Retrieval metrics (recall@k, MRR) and generation metrics (faithfulness, relevance, correctness); for agents, task success and trajectory metrics.</li>
+<li>CI gating; online sampling; user feedback; A/B tests on business metrics.</li>
+</ul>
+<h3 id="7-safety-security-governance-35-min">7. Safety, security, governance (3–5 min)<a class="heading-anchor" href="#7-safety-security-governance-35-min" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>Permissions at retrieval and in tools; identity propagation.</li>
+<li>Prompt injection defences; tool gating; output sanitisation.</li>
+<li>Human oversight and approval thresholds.</li>
+<li>PII handling, logging policy, provider terms, regulatory classification.</li>
+</ul>
+<h3 id="8-operations-and-trade-offs-35-min">8. Operations and trade-offs (3–5 min)<a class="heading-anchor" href="#8-operations-and-trade-offs-35-min" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>Scaling: stateless services, index sharding, provider quotas.</li>
+<li>Reliability: timeouts, retries, fallback models, degraded mode.</li>
+<li>Cost levers: caching, routing, context trimming.</li>
+<li>Rollout: shadow, canary, progressive autonomy.</li>
+<li>Trade-offs you made and what you would do next.</li>
+</ul>
+<h2 id="timeline-for-a-45-minute-interview">Timeline for a 45-minute interview<a class="heading-anchor" href="#timeline-for-a-45-minute-interview" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Minutes</th>
+      <th>Step</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0–5</td>
+      <td>Clarify problem and success</td>
+    </tr>
+    <tr>
+      <td>5–10</td>
+      <td>Requirements</td>
+    </tr>
+    <tr>
+      <td>10–14</td>
+      <td>Estimates</td>
+    </tr>
+    <tr>
+      <td>14–24</td>
+      <td>High-level architecture + request trace</td>
+    </tr>
+    <tr>
+      <td>24–34</td>
+      <td>Deep dive (RAG / agent / model)</td>
+    </tr>
+    <tr>
+      <td>34–38</td>
+      <td>Evaluation</td>
+    </tr>
+    <tr>
+      <td>38–42</td>
+      <td>Safety, security, governance</td>
+    </tr>
+    <tr>
+      <td>42–45</td>
+      <td>Trade-offs, scaling, next steps</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="what-interviewers-score">What interviewers score<a class="heading-anchor" href="#what-interviewers-score" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Signal</th>
+      <th>Strong answer</th>
+      <th>Weak answer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Problem framing</td>
+      <td>Asks about users, success metrics, risk</td>
+      <td>Starts drawing immediately</td>
+    </tr>
+    <tr>
+      <td>Quantitative thinking</td>
+      <td>Tokens, cost, peak TPM, storage</td>
+      <td>No numbers</td>
+    </tr>
+    <tr>
+      <td>Simplicity</td>
+      <td>Workflow before agent; pgvector before new DB</td>
+      <td>Multi-agent everything</td>
+    </tr>
+    <tr>
+      <td>Retrieval depth</td>
+      <td>Hybrid, rerank, chunking, ACL filters, freshness</td>
+      <td>&ldquo;Put it in a vector DB&rdquo;</td>
+    </tr>
+    <tr>
+      <td>Evaluation</td>
+      <td>Datasets, metrics, CI gates, online monitoring</td>
+      <td>&ldquo;We&rsquo;ll test it&rdquo;</td>
+    </tr>
+    <tr>
+      <td>Safety</td>
+      <td>Injection, permissions, HITL, governance</td>
+      <td>Not mentioned</td>
+    </tr>
+    <tr>
+      <td>Trade-offs</td>
+      <td>Explicit, with alternatives</td>
+      <td>One option presented as obvious</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="practice-questions">Practice questions<a class="heading-anchor" href="#practice-questions" aria-label="Link to this section">#</a></h2>
+<ol>
+<li>Design an internal knowledge assistant for 50,000 employees. (<a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Worked answer</a>)</li>
+<li>Design an AI customer-support agent that can issue refunds. (<a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Worked answer</a>)</li>
+<li>Design a system that extracts data from 1 million invoices a month into an ERP.</li>
+<li>Design a coding assistant for a 2,000-developer organisation with private repositories.</li>
+<li>Design an AI meeting-notes service with action items pushed into Jira.</li>
+<li>Design a contract-review assistant for a legal team, flagging risky clauses.</li>
+<li>Design an enterprise AI platform (gateway, RAG-as-a-service, guardrails) for 30 product teams.</li>
+<li>Design a fraud-investigation agent that queries transaction systems and drafts case reports.</li>
+<li>Design semantic search with Q&amp;A over 10 years of support tickets in 8 languages.</li>
+<li>Design an AI assistant for relationship managers in a bank, compliant with the EU AI Act.</li>
+</ol>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Practise aloud with a timer</span></p>
+  <div class="callout__body"><p>Pick a question, set 45 minutes, talk through all 8 steps and draw the diagram. Then compare with the case studies and note what you missed.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Clarify → requirements → estimates → architecture → AI deep dive → evaluation → safety/governance → operations and trade-offs.</li>
+<li>Always compute tokens and cost, trace one request, and name evaluation metrics.</li>
+<li>Prefer simple designs and justify every added component.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/case-study-knowledge-assistant/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Case study: knowledge assistant</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/case-study-support-agent/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Case study: support agent</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/interview-prep/question-bank/">
+        <span class="card__eyebrow">Interview Prep</span>
+        <span class="card__title">Question bank</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/interview-prep/cheat-sheet/">
+        <span class="card__eyebrow">Interview Prep</span>
+        <span class="card__title">Cheat sheet</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/interview-prep/question-bank/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Question bank</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-a-framework">Why a framework</a></li>
+    <li><a href="#the-8-step-framework">The 8-step framework</a>
+      <ul>
+        <li><a href="#1-clarify-the-problem-35-min">1. Clarify the problem (3–5 min)</a></li>
+        <li><a href="#2-requirements-5-min">2. Requirements (5 min)</a></li>
+        <li><a href="#3-estimates-35-min">3. Estimates (3–5 min)</a></li>
+        <li><a href="#4-high-level-architecture-810-min">4. High-level architecture (8–10 min)</a></li>
+        <li><a href="#5-deep-dive-on-ai-components-10-min">5. Deep dive on AI components (10 min)</a></li>
+        <li><a href="#6-evaluation-35-min">6. Evaluation (3–5 min)</a></li>
+        <li><a href="#7-safety-security-governance-35-min">7. Safety, security, governance (3–5 min)</a></li>
+        <li><a href="#8-operations-and-trade-offs-35-min">8. Operations and trade-offs (3–5 min)</a></li>
+      </ul>
+    </li>
+    <li><a href="#timeline-for-a-45-minute-interview">Timeline for a 45-minute interview</a></li>
+    <li><a href="#what-interviewers-score">What interviewers score</a></li>
+    <li><a href="#practice-questions">Practice questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

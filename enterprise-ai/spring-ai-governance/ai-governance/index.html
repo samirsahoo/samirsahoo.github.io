@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Governance and Responsible AI · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How enterprises govern AI: responsible-AI principles, the EU AI Act risk tiers and obligations, NIST AI RMF and its generative AI profile, ISO/IEC 42001, model risk management in financial services, GDPR, the AI governance operating model, use-case lifecycle, documentation and controls mapped to architecture.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/ai-governance/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="AI Governance and Responsible AI">
+<meta property="og:description" content="How enterprises govern AI: responsible-AI principles, the EU AI Act risk tiers and obligations, NIST AI RMF and its generative AI profile, ISO/IEC 42001, model risk management in financial services, GDPR, the AI governance operating model, use-case lifecycle, documentation and controls mapped to architecture.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/ai-governance/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI Governance and Responsible AI">
+<meta name="twitter:description" content="How enterprises govern AI: responsible-AI principles, the EU AI Act risk tiers and obligations, NIST AI RMF and its generative AI profile, ISO/IEC 42001, model risk management in financial services, GDPR, the AI governance operating model, use-case lifecycle, documentation and controls mapped to architecture.">
+<meta name="keywords" content="governance, compliance, responsible-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"How enterprises govern AI: responsible-AI principles, the EU AI Act risk tiers and obligations, NIST AI RMF and its generative AI profile, ISO/IEC 42001, model risk management in financial services, GDPR, the AI governance operating model, use-case lifecycle, documentation and controls mapped to architecture.","headline":"AI Governance and Responsible AI","inLanguage":"en","isAccessibleForFree":true,"keywords":"governance, compliance, responsible-ai","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/ai-governance/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/","name":"4 · Spring AI \u0026 Governance","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/ai-governance/","name":"AI governance","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-spring-ai-governance">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/" aria-current="page">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a></li>
+    <li><span aria-current="page">AI governance</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">AI Governance and Responsible AI</h1><p class="article__lede" itemprop="description">How enterprises govern AI: responsible-AI principles, the EU AI Act risk tiers and obligations, NIST AI RMF and its generative AI profile, ISO/IEC 42001, model risk management in financial services, GDPR, the AI governance operating model, use-case lifecycle, documentation and controls mapped to architecture.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/governance/">#Governance</a><a class="tag" href="/enterprise-ai/tags/compliance/">#Compliance</a><a class="tag" href="/enterprise-ai/tags/responsible-ai/">#Responsible-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-matters">Why it matters</a></li>
+    <li><a href="#responsible-ai-principles">Responsible-AI principles</a></li>
+    <li><a href="#the-eu-ai-act">The EU AI Act</a></li>
+    <li><a href="#nist-ai-risk-management-framework">NIST AI Risk Management Framework</a></li>
+    <li><a href="#isoiec-42001">ISO/IEC 42001</a></li>
+    <li><a href="#financial-services-model-risk-management">Financial services: model risk management</a></li>
+    <li><a href="#data-protection-gdpr">Data protection (GDPR)</a></li>
+    <li><a href="#operating-model">Operating model</a></li>
+    <li><a href="#use-case-lifecycle-with-governance-gates">Use-case lifecycle with governance gates</a></li>
+    <li><a href="#documentation-artefacts">Documentation artefacts</a></li>
+    <li><a href="#controls-mapped-to-architecture">Controls mapped to architecture</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>AI governance</strong> is the set of policies, roles, processes and technical controls that make sure an organisation&rsquo;s AI is <strong>lawful, safe, fair, secure, transparent and accountable</strong> — and that someone is answerable for each system. <strong>Responsible AI</strong> names the principles; governance is how you put them into practice.</p>
+<h2 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Regulation:</strong> the EU AI Act, data-protection law (GDPR), sector rules (banking model-risk management, healthcare, employment) and emerging national laws.</li>
+<li><strong>Risk:</strong> wrong decisions, discrimination, data leaks, security incidents, reputational damage.</li>
+<li><strong>Scale:</strong> without an inventory and guardrails, organisations do not know where AI is used, by whom, on what data.</li>
+<li><strong>Trust:</strong> customers, regulators and employees need confidence before AI is used in important decisions.</li>
+</ul>
+<p>Good governance <strong>enables</strong> AI adoption: clear rules and paved roads let teams ship faster than ad-hoc reviews.</p>
+<h2 id="responsible-ai-principles">Responsible-AI principles<a class="heading-anchor" href="#responsible-ai-principles" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Principle</th>
+      <th>In practice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Accountability</strong></td>
+      <td>A named owner for each AI system; decisions are traceable</td>
+    </tr>
+    <tr>
+      <td><strong>Transparency &amp; explainability</strong></td>
+      <td>Users know they deal with AI; decisions can be explained; documentation exists</td>
+    </tr>
+    <tr>
+      <td><strong>Fairness</strong></td>
+      <td>Test for bias across groups; mitigate and monitor</td>
+    </tr>
+    <tr>
+      <td><strong>Privacy</strong></td>
+      <td>Data minimisation, lawful basis, purpose limitation, retention</td>
+    </tr>
+    <tr>
+      <td><strong>Safety &amp; reliability</strong></td>
+      <td>Evaluated before release, monitored in production, fails safely</td>
+    </tr>
+    <tr>
+      <td><strong>Security</strong></td>
+      <td>Protected against manipulation and misuse (<a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a>)</td>
+    </tr>
+    <tr>
+      <td><strong>Human oversight</strong></td>
+      <td>Humans can understand, intervene in and override AI decisions</td>
+    </tr>
+    <tr>
+      <td><strong>Sustainability</strong></td>
+      <td>Consider compute and energy cost in model choices</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="the-eu-ai-act">The EU AI Act<a class="heading-anchor" href="#the-eu-ai-act" aria-label="Link to this section">#</a></h2>
+<p>The EU AI Act (Regulation (EU) 2024/1689) is the first comprehensive AI law. It applies to providers and deployers of AI systems placed on or used in the EU market, regardless of where they are based.</p>
+<figure class="diagram" aria-label="EU AI Act risk pyramid"><figcaption class="diagram__title">EU AI Act risk pyramid</figcaption>
+  <pre class="mermaid">flowchart TB
+    U[&#34;UNACCEPTABLE RISK — prohibited&lt;br/&gt;social scoring, manipulative techniques exploiting vulnerabilities,&lt;br/&gt;untargeted facial-image scraping, emotion recognition at work and school,&lt;br/&gt;certain biometric categorisation and real-time remote biometric ID&#34;]
+    H[&#34;HIGH RISK — strict obligations&lt;br/&gt;AI in credit scoring, recruitment and HR decisions, education,&lt;br/&gt;critical infrastructure, essential services, law enforcement,&lt;br/&gt;migration, justice; safety components of regulated products&#34;]
+    L[&#34;LIMITED RISK — transparency obligations&lt;br/&gt;chatbots must disclose they are AI; AI-generated or manipulated&lt;br/&gt;content and deepfakes must be marked&#34;]
+    M[&#34;MINIMAL RISK — no specific obligations&lt;br/&gt;spam filters, most internal productivity tools&lt;br/&gt;voluntary codes of conduct&#34;]
+    U --&gt; H --&gt; L --&gt; M</pre>
+</figure>
+<p><strong>High-risk obligations (providers)</strong> include: a risk-management system; data governance for training data; technical documentation; automatic logging; transparency and instructions for deployers; human oversight; accuracy, robustness and cybersecurity; a quality-management system; conformity assessment and registration. <strong>Deployers</strong> must use the system as instructed, ensure human oversight by competent people, monitor operation, keep logs, and in some cases perform a fundamental-rights impact assessment.</p>
+<p><strong>General-purpose AI (GPAI) models</strong> — the foundation models themselves — have their own obligations for providers (technical documentation, copyright policy, training-data summary), with extra duties for models with systemic risk.</p>
+<p><strong>AI literacy:</strong> organisations must ensure staff who operate or use AI have sufficient AI literacy.</p>
+<p><strong>Timeline (simplified):</strong> entered into force August 2024; prohibitions and AI literacy from February 2025; GPAI obligations from August 2025; most high-risk obligations were scheduled from August 2026 to August 2027, and the EU has proposed adjusting parts of this timeline — always check the current dates for your use case.</p>
+<p><strong>Penalties:</strong> up to €35 million or 7% of global annual turnover for prohibited practices; lower tiers for other breaches.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Classify every use case</span></p>
+  <div class="callout__body"><p>Most enterprise generative-AI use cases — internal knowledge assistants, coding assistants, summarisation — are minimal or limited risk. Credit decisions, hiring and employee evaluation are high risk. Classification drives the controls you need.</p></div>
+</aside><h2 id="nist-ai-risk-management-framework">NIST AI Risk Management Framework<a class="heading-anchor" href="#nist-ai-risk-management-framework" aria-label="Link to this section">#</a></h2>
+<p>A voluntary US framework widely used globally. Four functions:</p>
+<figure class="diagram" aria-label="NIST AI RMF core functions"><figcaption class="diagram__title">NIST AI RMF core functions</figcaption>
+  <pre class="mermaid">flowchart LR
+    G[&#34;GOVERN&lt;br/&gt;culture, policies, roles,&lt;br/&gt;accountability — applies throughout&#34;] --&gt; MAP[&#34;MAP&lt;br/&gt;context, intended use,&lt;br/&gt;stakeholders, risks identified&#34;]
+    MAP --&gt; MEA[&#34;MEASURE&lt;br/&gt;assess, test, evaluate,&lt;br/&gt;track risks with metrics&#34;]
+    MEA --&gt; MAN[&#34;MANAGE&lt;br/&gt;prioritise, mitigate, respond,&lt;br/&gt;monitor, decommission&#34;]
+    MAN --&gt; MAP</pre>
+</figure>
+<p>The <strong>Generative AI Profile (NIST AI 600-1)</strong> lists GenAI-specific risks — confabulation (hallucination), information security, data privacy, harmful content, intellectual property, value-chain and component integration, environmental impact, and others — with suggested actions for each.</p>
+<h2 id="isoiec-42001">ISO/IEC 42001<a class="heading-anchor" href="#isoiec-42001" aria-label="Link to this section">#</a></h2>
+<p><strong>ISO/IEC 42001:2023</strong> specifies an <strong>AI management system (AIMS)</strong>, certifiable like ISO 27001 for information security: policy, roles, risk and impact assessment, controls (Annex A), operation, monitoring, internal audit and continual improvement. Related standards: ISO/IEC 23894 (AI risk management) and ISO/IEC 42005 (AI system impact assessment).</p>
+<h2 id="financial-services-model-risk-management">Financial services: model risk management<a class="heading-anchor" href="#financial-services-model-risk-management" aria-label="Link to this section">#</a></h2>
+<p>Banks and insurers already govern models under <strong>model risk management (MRM)</strong> — for example the US SR 11-7 guidance and European supervisory expectations. LLMs fit into MRM with adjustments:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>MRM element</th>
+      <th>LLM adaptation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model inventory</td>
+      <td>Include LLM-based applications, prompts and vendor models; record versions</td>
+    </tr>
+    <tr>
+      <td>Development documentation</td>
+      <td>Purpose, design (RAG, tools), data, prompts, limitations</td>
+    </tr>
+    <tr>
+      <td>Independent validation</td>
+      <td>Evaluation sets, robustness and bias testing, red teaming, conceptual soundness of the design</td>
+    </tr>
+    <tr>
+      <td>Ongoing monitoring</td>
+      <td>Online evaluation, drift, incidents, vendor model changes</td>
+    </tr>
+    <tr>
+      <td>Third-party risk</td>
+      <td>Vendor due diligence, contracts, exit plans (also required by operational-resilience rules such as DORA in the EU)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="data-protection-gdpr">Data protection (GDPR)<a class="heading-anchor" href="#data-protection-gdpr" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Lawful basis and purpose limitation</strong> for personal data sent to models or used for fine-tuning.</li>
+<li><strong>DPIA</strong> (data-protection impact assessment) for high-risk processing.</li>
+<li><strong>Automated decisions (Art. 22):</strong> individuals have rights regarding solely automated decisions with legal or similarly significant effects — human review and explanation.</li>
+<li><strong>Data subject rights</strong> — access, rectification and erasure apply to stored conversations, memories and logs.</li>
+<li><strong>International transfers</strong> — model hosting region and provider sub-processors.</li>
+</ul>
+<h2 id="operating-model">Operating model<a class="heading-anchor" href="#operating-model" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="AI governance operating model"><figcaption class="diagram__title">AI governance operating model</figcaption>
+  <pre class="mermaid">flowchart TB
+    BOARD[&#34;Board / executive risk committee&lt;br/&gt;AI strategy and risk appetite&#34;] --&gt; COUNCIL[&#34;AI governance council&lt;br/&gt;risk, legal, compliance, privacy,&lt;br/&gt;security, architecture, business&#34;]
+    COUNCIL --&gt; POL[&#34;Policies &amp; standards&lt;br/&gt;acceptable use, risk tiers,&lt;br/&gt;approved models and tools&#34;]
+    COUNCIL --&gt; REV[&#34;Use-case review&lt;br/&gt;proportionate to risk tier&#34;]
+    PLAT[&#34;AI platform team&lt;br/&gt;paved roads with built-in controls&#34;] --&gt; TEAMS[&#34;Product teams&lt;br/&gt;own use cases, evals, monitoring&#34;]
+    POL --&gt; PLAT
+    REV --&gt; TEAMS
+    TEAMS --&gt; INV[(&#34;AI inventory&lt;br/&gt;systems, owners, models,&lt;br/&gt;data, risk tier, status&#34;)]
+    AUDIT[&#34;Internal audit / 3rd line&#34;] -.-&gt; COUNCIL</pre>
+</figure>
+<p>Three lines of defence: product teams own and control risk (1st), risk/compliance set policy and challenge (2nd), internal audit assures (3rd).</p>
+<h2 id="use-case-lifecycle-with-governance-gates">Use-case lifecycle with governance gates<a class="heading-anchor" href="#use-case-lifecycle-with-governance-gates" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Governed AI lifecycle"><figcaption class="diagram__title">Governed AI lifecycle</figcaption>
+  <pre class="mermaid">flowchart LR
+    I[&#34;Idea&#34;] --&gt; T[&#34;Intake &amp; risk triage&lt;br/&gt;register in inventory,&lt;br/&gt;assign risk tier&#34;]
+    T --&gt; D[&#34;Design&lt;br/&gt;DPIA, threat model,&lt;br/&gt;human-oversight design&#34;]
+    D --&gt; B[&#34;Build &amp; evaluate&lt;br/&gt;evals, bias tests,&lt;br/&gt;red teaming&#34;]
+    B --&gt; A{&#34;Approval gate&lt;br/&gt;proportionate to tier&#34;}
+    A --&gt;|&#34;approved&#34;| P[&#34;Deploy&lt;br/&gt;transparency notices,&lt;br/&gt;monitoring live&#34;]
+    A --&gt;|&#34;changes needed&#34;| D
+    P --&gt; M[&#34;Operate &amp; monitor&lt;br/&gt;incidents, drift,&lt;br/&gt;periodic review&#34;]
+    M --&gt; R[&#34;Retire&lt;br/&gt;data deletion,&lt;br/&gt;inventory update&#34;]</pre>
+</figure>
+<p>Low-risk use cases get a lightweight self-assessment; high-risk ones get full review, independent validation and formal sign-off.</p>
+<h2 id="documentation-artefacts">Documentation artefacts<a class="heading-anchor" href="#documentation-artefacts" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Artefact</th>
+      <th>Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>AI inventory entry</strong></td>
+      <td>System, owner, purpose, users, models and versions, data categories, risk tier, status</td>
+    </tr>
+    <tr>
+      <td><strong>Model / system card</strong></td>
+      <td>Intended use, limitations, evaluation results, known risks, human oversight</td>
+    </tr>
+    <tr>
+      <td><strong>Impact assessment</strong></td>
+      <td>Effects on individuals and fundamental rights; DPIA where personal data is involved</td>
+    </tr>
+    <tr>
+      <td><strong>Evaluation report</strong></td>
+      <td>Datasets, metrics, results, bias and robustness tests, red-team findings</td>
+    </tr>
+    <tr>
+      <td><strong>Monitoring plan</strong></td>
+      <td>Metrics, thresholds, review cadence, incident procedure</td>
+    </tr>
+    <tr>
+      <td><strong>AI-BOM</strong></td>
+      <td>Models, datasets, libraries, MCP servers and other components with versions and sources</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="controls-mapped-to-architecture">Controls mapped to architecture<a class="heading-anchor" href="#controls-mapped-to-architecture" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Governance requirement</th>
+      <th>Technical control</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Know where AI is used</td>
+      <td>AI gateway as the only path to models; inventory linked to gateway credentials</td>
+    </tr>
+    <tr>
+      <td>Approved models only</td>
+      <td>Model catalogue enforced at the gateway</td>
+    </tr>
+    <tr>
+      <td>Data protection</td>
+      <td>DLP/PII masking at gateway; region-pinned endpoints; retention policies on traces</td>
+    </tr>
+    <tr>
+      <td>Transparency</td>
+      <td>UI disclosure that users interact with AI; labels on generated content</td>
+    </tr>
+    <tr>
+      <td>Human oversight</td>
+      <td>Approval workflows, override capability, escalation paths</td>
+    </tr>
+    <tr>
+      <td>Logging and traceability</td>
+      <td>Traces with model and prompt versions; immutable audit logs</td>
+    </tr>
+    <tr>
+      <td>Accuracy and robustness</td>
+      <td>Evaluation gates in CI, online evaluation, red-team suites</td>
+    </tr>
+    <tr>
+      <td>Incident response</td>
+      <td>Kill switches, rollback of prompts/models, incident playbooks</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Governance as a one-off approval</span></p>
+  <div class="callout__body"><p>AI behaviour changes with data, prompts and vendor model updates. Governance must include monitoring and periodic review, not just a launch sign-off.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">The same heavy process for every use case</span></p>
+  <div class="callout__body"><p>Applying high-risk procedures to a meeting-summary tool drives teams to shadow AI. Make governance proportionate to risk.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>How would you set up AI governance in a large enterprise?</strong>
+An AI governance council with risk, legal, privacy, security, architecture and business; policies for acceptable use and risk tiers; an AI inventory; a risk-proportionate lifecycle with gates (triage, design review, evaluation, approval, monitoring, retirement); a platform team providing paved roads with built-in controls (gateway, guardrails, evaluation tooling); and alignment with frameworks such as the EU AI Act, NIST AI RMF and ISO/IEC 42001.</p>
+<p><strong>Explain the EU AI Act&rsquo;s risk categories.</strong>
+Unacceptable risk is prohibited (for example social scoring); high risk (credit, employment, critical infrastructure, education and others) carries strict obligations — risk management, data governance, documentation, logging, human oversight, accuracy and robustness, conformity assessment; limited risk carries transparency duties such as disclosing chatbots and labelling deepfakes; minimal risk has no specific obligations. General-purpose AI models have separate provider obligations.</p>
+<p><strong>What are the four functions of the NIST AI RMF?</strong>
+Govern (policies, roles, culture), Map (context and risks), Measure (assessment and metrics), Manage (prioritise, mitigate, monitor, respond).</p>
+<p><strong>How do LLMs fit into model risk management in a bank?</strong>
+Register LLM applications and vendor models in the model inventory, document design and limitations, validate independently with evaluation sets, robustness, bias and red-team testing, monitor continuously including vendor model changes, and manage third-party and concentration risk.</p>
+<p><strong>How does architecture support governance?</strong>
+A central AI gateway enforces approved models, data-protection policies, quotas and logging; tracing records model and prompt versions; evaluation gates sit in CI; approval workflows provide human oversight; kill switches and rollbacks support incident response.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Connect regulation to controls</span></p>
+  <div class="callout__body"><p>Senior candidates translate each obligation into a concrete control in the architecture — for example &ldquo;human oversight → approval workflow with evidence view and override, logged&rdquo;.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Governance turns responsible-AI principles into owners, policies, processes and technical controls.</li>
+<li>EU AI Act: prohibited, high-risk, limited-risk, minimal-risk tiers plus GPAI obligations; classify every use case.</li>
+<li>NIST AI RMF (Govern, Map, Measure, Manage) and ISO/IEC 42001 structure the management system; banks extend model risk management.</li>
+<li>Make governance proportionate, continuous and enforced through architecture.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" rel="noopener">Regulation (EU) 2024/1689 — the EU AI Act</a>.</li>
+<li>NIST, <a href="https://www.nist.gov/itl/ai-risk-management-framework" rel="noopener">AI Risk Management Framework 1.0</a> and <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" rel="noopener">Generative AI Profile (NIST AI 600-1)</a>.</li>
+<li>ISO, <a href="https://www.iso.org/standard/81230.html" rel="noopener">ISO/IEC 42001:2023 — AI management systems</a>.</li>
+<li>Federal Reserve, <a href="https://www.federalreserve.gov/supervisionreg/srletters/sr1107.htm" rel="noopener">SR 11-7: Guidance on Model Risk Management</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/spring-ai-governance/ai-security/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">AI security</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-matters">Why it matters</a></li>
+    <li><a href="#responsible-ai-principles">Responsible-AI principles</a></li>
+    <li><a href="#the-eu-ai-act">The EU AI Act</a></li>
+    <li><a href="#nist-ai-risk-management-framework">NIST AI Risk Management Framework</a></li>
+    <li><a href="#isoiec-42001">ISO/IEC 42001</a></li>
+    <li><a href="#financial-services-model-risk-management">Financial services: model risk management</a></li>
+    <li><a href="#data-protection-gdpr">Data protection (GDPR)</a></li>
+    <li><a href="#operating-model">Operating model</a></li>
+    <li><a href="#use-case-lifecycle-with-governance-gates">Use-case lifecycle with governance gates</a></li>
+    <li><a href="#documentation-artefacts">Documentation artefacts</a></li>
+    <li><a href="#controls-mapped-to-architecture">Controls mapped to architecture</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

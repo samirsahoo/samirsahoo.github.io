@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-Agent Systems · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="When and how to use multiple agents: supervisor, hierarchical, sequential pipeline, handoff/swarm, network, debate and blackboard topologies; communication and shared state; the A2A protocol; failure modes, cost and when a single agent is better.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/multi-agent-systems/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Multi-Agent Systems">
+<meta property="og:description" content="When and how to use multiple agents: supervisor, hierarchical, sequential pipeline, handoff/swarm, network, debate and blackboard topologies; communication and shared state; the A2A protocol; failure modes, cost and when a single agent is better.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/multi-agent-systems/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Multi-Agent Systems">
+<meta name="twitter:description" content="When and how to use multiple agents: supervisor, hierarchical, sequential pipeline, handoff/swarm, network, debate and blackboard topologies; communication and shared state; the A2A protocol; failure modes, cost and when a single agent is better.">
+<meta name="keywords" content="agents, multi-agent, agentic-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"When and how to use multiple agents: supervisor, hierarchical, sequential pipeline, handoff/swarm, network, debate and blackboard topologies; communication and shared state; the A2A protocol; failure modes, cost and when a single agent is better.","headline":"Multi-Agent Systems","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, multi-agent, agentic-ai","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/multi-agent-systems/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/multi-agent-systems/","name":"Multi-agent systems","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/" aria-current="page">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Multi-agent systems</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Multi-Agent Systems</h1><p class="article__lede" itemprop="description">When and how to use multiple agents: supervisor, hierarchical, sequential pipeline, handoff/swarm, network, debate and blackboard topologies; communication and shared state; the A2A protocol; failure modes, cost and when a single agent is better.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/multi-agent/">#Multi-Agent</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-use-more-than-one-agent">Why use more than one agent?</a></li>
+    <li><a href="#topologies">Topologies</a>
+      <ul>
+        <li><a href="#supervisor-orchestrator">Supervisor (orchestrator)</a></li>
+        <li><a href="#hierarchical">Hierarchical</a></li>
+        <li><a href="#sequential-pipeline">Sequential pipeline</a></li>
+        <li><a href="#handoff-swarm">Handoff (swarm)</a></li>
+        <li><a href="#network--peer-to-peer">Network / peer-to-peer</a></li>
+        <li><a href="#debate-and-voting">Debate and voting</a></li>
+        <li><a href="#blackboard-shared-workspace">Blackboard (shared workspace)</a></li>
+      </ul>
+    </li>
+    <li><a href="#communication-and-state">Communication and state</a></li>
+    <li><a href="#agent-to-agent-protocols">Agent-to-agent protocols</a></li>
+    <li><a href="#failure-modes">Failure modes</a></li>
+    <li><a href="#single-agent-or-multi-agent">Single agent or multi-agent?</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>multi-agent system</strong> splits work among several agents, each with its own instructions, tools and context, which coordinate to reach a goal. It is the AI equivalent of a team: a lead delegates to specialists.</p>
+<h2 id="why-use-more-than-one-agent">Why use more than one agent?<a class="heading-anchor" href="#why-use-more-than-one-agent" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Reason</th>
+      <th>Explanation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Separation of concerns</strong></td>
+      <td>Each agent has a focused prompt and a small tool set — easier to build, test and own</td>
+    </tr>
+    <tr>
+      <td><strong>Context isolation</strong></td>
+      <td>A sub-agent explores in its own context window and returns only a short summary, keeping the lead&rsquo;s context clean</td>
+    </tr>
+    <tr>
+      <td><strong>Parallelism</strong></td>
+      <td>Independent research or analysis runs concurrently</td>
+    </tr>
+    <tr>
+      <td><strong>Different models</strong></td>
+      <td>A frontier model plans; cheaper models execute</td>
+    </tr>
+    <tr>
+      <td><strong>Organisational ownership</strong></td>
+      <td>Teams own &ldquo;their&rdquo; agent (HR agent, IT agent), like microservices</td>
+    </tr>
+    <tr>
+      <td><strong>Security boundaries</strong></td>
+      <td>An agent that reads untrusted content has no access to sensitive tools</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tradeoff" role="note">
+  <p class="callout__title"><span class="callout__label">Trade-off</span><span class="callout__heading">The cost</span></p>
+  <div class="callout__body"><p>Multi-agent systems use several times more tokens than a single agent, add latency, and introduce coordination failures. Use them when the task is valuable and genuinely benefits from parallel or specialised work.</p></div>
+</aside><h2 id="topologies">Topologies<a class="heading-anchor" href="#topologies" aria-label="Link to this section">#</a></h2>
+<h3 id="supervisor-orchestrator">Supervisor (orchestrator)<a class="heading-anchor" href="#supervisor-orchestrator" aria-label="Link to this section">#</a></h3>
+<figure class="diagram" aria-label="Supervisor"><figcaption class="diagram__title">Supervisor</figcaption>
+  <pre class="mermaid">flowchart TB
+    U[&#34;User&#34;] --&gt; SUP[&#34;Supervisor agent&lt;br/&gt;plans, delegates, synthesises&#34;]
+    SUP --&gt; A1[&#34;Research agent&lt;br/&gt;search tools&#34;]
+    SUP --&gt; A2[&#34;Data agent&lt;br/&gt;SQL tools&#34;]
+    SUP --&gt; A3[&#34;Writer agent&lt;br/&gt;no tools&#34;]
+    A1 --&gt; SUP
+    A2 --&gt; SUP
+    A3 --&gt; SUP
+    SUP --&gt; U</pre>
+</figure>
+<p>The most common production topology. Sub-agents are often exposed to the supervisor <strong>as tools</strong> (&ldquo;agents as tools&rdquo;).</p>
+<h3 id="hierarchical">Hierarchical<a class="heading-anchor" href="#hierarchical" aria-label="Link to this section">#</a></h3>
+<figure class="diagram" aria-label="Hierarchical teams"><figcaption class="diagram__title">Hierarchical teams</figcaption>
+  <pre class="mermaid">flowchart TB
+    TOP[&#34;Top-level supervisor&#34;] --&gt; M1[&#34;Finance team lead&#34;]
+    TOP --&gt; M2[&#34;Legal team lead&#34;]
+    M1 --&gt; W1[&#34;AP agent&#34;]
+    M1 --&gt; W2[&#34;Forecast agent&#34;]
+    M2 --&gt; W3[&#34;Contract agent&#34;]
+    M2 --&gt; W4[&#34;Regulation agent&#34;]</pre>
+</figure>
+<p>Supervisors of supervisors, for large problem spaces. Each level keeps a manageable number of direct reports.</p>
+<h3 id="sequential-pipeline">Sequential pipeline<a class="heading-anchor" href="#sequential-pipeline" aria-label="Link to this section">#</a></h3>
+<figure class="diagram" aria-label="Sequential pipeline"><figcaption class="diagram__title">Sequential pipeline</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Intake agent&#34;] --&gt; B[&#34;Analysis agent&#34;] --&gt; C[&#34;Drafting agent&#34;] --&gt; D[&#34;Compliance-check agent&#34;] --&gt; OUT[&#34;Output&#34;]</pre>
+</figure>
+<p>Fixed order, like an assembly line — really a <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/#1-prompt-chaining">prompt chain</a> of agents. Predictable and easy to test.</p>
+<h3 id="handoff-swarm">Handoff (swarm)<a class="heading-anchor" href="#handoff-swarm" aria-label="Link to this section">#</a></h3>
+<figure class="diagram" aria-label="Handoff between peer agents"><figcaption class="diagram__title">Handoff between peer agents</figcaption>
+  <pre class="mermaid">flowchart LR
+    T[&#34;Triage agent&#34;] --&gt;|&#34;handoff: billing&#34;| B[&#34;Billing agent&#34;]
+    T --&gt;|&#34;handoff: tech&#34;| TS[&#34;Tech support agent&#34;]
+    B --&gt;|&#34;handoff: needs refund approval&#34;| R[&#34;Refunds agent&#34;]
+    TS --&gt;|&#34;handoff back&#34;| T</pre>
+</figure>
+<p>The active agent transfers the conversation (and control) to another agent. No central supervisor; good for customer-service flows where the user talks to one agent at a time.</p>
+<h3 id="network--peer-to-peer">Network / peer-to-peer<a class="heading-anchor" href="#network--peer-to-peer" aria-label="Link to this section">#</a></h3>
+<p>Any agent can call any other. Flexible but hard to reason about, debug and bound — rarely the right choice in enterprises.</p>
+<h3 id="debate-and-voting">Debate and voting<a class="heading-anchor" href="#debate-and-voting" aria-label="Link to this section">#</a></h3>
+<p>Several agents answer independently, critique each other, and a judge or majority decides. Improves accuracy on hard reasoning at high cost.</p>
+<h3 id="blackboard-shared-workspace">Blackboard (shared workspace)<a class="heading-anchor" href="#blackboard-shared-workspace" aria-label="Link to this section">#</a></h3>
+<p>Agents read and write a shared state (the &ldquo;blackboard&rdquo;); a controller picks which agent acts next based on the state. Good for incremental problem-solving such as incident investigation.</p>
+<h2 id="communication-and-state">Communication and state<a class="heading-anchor" href="#communication-and-state" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>How</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Agents as tools</strong></td>
+      <td>Supervisor calls sub-agent like a function; gets a result</td>
+      <td>Simple, clear ownership of control</td>
+    </tr>
+    <tr>
+      <td><strong>Message passing</strong></td>
+      <td>Agents send messages / tasks to each other</td>
+      <td>Needs protocols, correlation IDs</td>
+    </tr>
+    <tr>
+      <td><strong>Shared state</strong></td>
+      <td>Common state object or blackboard</td>
+      <td>Needs a schema; risk of conflicting writes</td>
+    </tr>
+    <tr>
+      <td><strong>Handoff</strong></td>
+      <td>Transfer conversation and control</td>
+      <td>Pass a concise summary, not the full history</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Design rules:</p>
+<ul>
+<li>Give each agent a <strong>clear contract</strong>: input, expected output format, scope, tools.</li>
+<li>Pass <strong>concise, structured summaries</strong> between agents — not entire transcripts.</li>
+<li>Keep a <strong>single owner</strong> of the user conversation.</li>
+<li>Propagate <strong>identity and permissions</strong>: a sub-agent acts with the original user&rsquo;s rights, not more.</li>
+<li>Use <strong>correlation IDs</strong> and distributed tracing across agents.</li>
+</ul>
+<h2 id="agent-to-agent-protocols">Agent-to-agent protocols<a class="heading-anchor" href="#agent-to-agent-protocols" aria-label="Link to this section">#</a></h2>
+<p><strong>A2A (Agent2Agent)</strong> is an open protocol, started by Google in 2025 and now under the Linux Foundation, for agents built by different teams or vendors to collaborate:</p>
+<figure class="diagram" aria-label="A2A: client agent delegates to a remote agent"><figcaption class="diagram__title">A2A: client agent delegates to a remote agent</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant CA as Client agent (e.g. procurement)
+    participant RA as Remote agent (e.g. supplier&#39;s quoting agent)
+    CA-&gt;&gt;RA: GET /.well-known/agent-card.json
+    RA--&gt;&gt;CA: Agent Card: name, skills, endpoint, auth requirements
+    CA-&gt;&gt;RA: send message: create task &#34;quote 500 units of PX-9&#34;
+    RA--&gt;&gt;CA: task {id, status: working}
+    RA--)CA: status update / streaming events
+    RA--&gt;&gt;CA: task completed + artifact (quote document)</pre>
+</figure>
+<ul>
+<li><strong>Agent Card</strong> — a JSON description of an agent&rsquo;s skills, endpoint and auth.</li>
+<li><strong>Task</strong> — a unit of work with a lifecycle (submitted, working, input-required, completed, failed…).</li>
+<li><strong>Messages and artifacts</strong> — communication and outputs (text, files, structured data).</li>
+<li>Runs over HTTP with JSON-RPC, streaming via server-sent events, and push notifications for long tasks.</li>
+</ul>
+<p><strong>MCP vs A2A:</strong> MCP connects an agent to <em>tools and data</em>; A2A connects <em>agents to agents</em>, treating the remote agent as an opaque peer that owns its own tools and reasoning.</p>
+<h2 id="failure-modes">Failure modes<a class="heading-anchor" href="#failure-modes" aria-label="Link to this section">#</a></h2>
+<p>Research on multi-agent failures groups them into three families:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Family</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Specification problems</strong></td>
+      <td>Vague roles, overlapping responsibilities, unclear stop conditions</td>
+    </tr>
+    <tr>
+      <td><strong>Inter-agent misalignment</strong></td>
+      <td>Agents ignore each other&rsquo;s output, withhold information, duplicate work, talk in loops</td>
+    </tr>
+    <tr>
+      <td><strong>Verification failures</strong></td>
+      <td>Nobody checks the final result; premature termination; errors amplified down the chain</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Mitigations: explicit contracts and output schemas, a single coordinator, step and token budgets, a verification step with real checks, tracing of every agent hop, and evaluation of whole trajectories.</p>
+<h2 id="single-agent-or-multi-agent">Single agent or multi-agent?<a class="heading-anchor" href="#single-agent-or-multi-agent" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Decision guide"><figcaption class="diagram__title">Decision guide</figcaption>
+  <pre class="mermaid">flowchart TD
+    A{&#34;Can one agent with a&lt;br/&gt;focused tool set do it?&#34;} --&gt;|&#34;yes&#34;| S[&#34;Single agent&#34;]
+    A --&gt;|&#34;no&#34;| B{&#34;Are sub-tasks independent&lt;br/&gt;and parallelisable?&#34;}
+    B --&gt;|&#34;yes&#34;| SUPV[&#34;Supervisor + parallel workers&#34;]
+    B --&gt;|&#34;no&#34;| C{&#34;Distinct domains owned&lt;br/&gt;by different teams?&#34;}
+    C --&gt;|&#34;yes&#34;| HO[&#34;Handoff or agents-as-tools,&lt;br/&gt;A2A across organisations&#34;]
+    C --&gt;|&#34;no&#34;| D{&#34;Too many tools&lt;br/&gt;for one agent?&#34;}
+    D --&gt;|&#34;yes&#34;| SPEC[&#34;Supervisor with&lt;br/&gt;specialised sub-agents&#34;]
+    D --&gt;|&#34;no&#34;| S</pre>
+</figure>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Org-chart agents</span></p>
+  <div class="callout__body"><p>Creating a &ldquo;CEO agent&rdquo;, &ldquo;manager agent&rdquo; and &ldquo;analyst agent&rdquo; because it mirrors a company. Agent boundaries should follow context, tools and security needs, not job titles.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Passing full transcripts between agents</span></p>
+  <div class="callout__body"><p>Context bloats, costs explode and agents get confused. Pass structured summaries.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Privilege escalation through delegation</span></p>
+  <div class="callout__body"><p>A low-privilege agent asks a high-privilege agent to do something on its behalf. Propagate the original user&rsquo;s identity and authorise at every hop.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>When would you use a multi-agent architecture?</strong>
+When a task needs parallel exploration, distinct specialised tool sets, context isolation, different models for planning and execution, or separate team ownership — and the value justifies the extra cost and complexity. Otherwise a single agent is better.</p>
+<p><strong>Describe the supervisor pattern.</strong>
+A supervisor agent receives the task, decomposes it, delegates sub-tasks to specialised agents (often exposed as tools), collects their results and synthesises the final answer. It owns the user conversation and stop conditions.</p>
+<p><strong>What is the difference between handoff and supervisor?</strong>
+In handoff, control transfers from one peer agent to another, which then talks to the user directly. In supervisor, a central agent stays in control and calls sub-agents, which return results to it.</p>
+<p><strong>What is A2A and how does it relate to MCP?</strong>
+A2A is an open protocol for agents to discover each other through agent cards and delegate tasks with a defined lifecycle. MCP connects an agent to tools and data. They are complementary: an agent may use MCP for its tools and A2A to collaborate with other agents.</p>
+<p><strong>What are common failure modes of multi-agent systems?</strong>
+Poor specification (unclear roles and stop conditions), misalignment between agents (ignored outputs, loops, duplicated work) and missing verification. Mitigate with contracts, schemas, a coordinator, budgets, verification steps and tracing.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Justify every extra agent</span></p>
+  <div class="callout__body"><p>For each agent in your design, state why it is separate: different tools, different security boundary, different model, parallelism, or different owner. If you cannot, merge it.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Multi-agent systems split work across specialised agents: supervisor, hierarchical, pipeline, handoff, debate, blackboard.</li>
+<li>Benefits: focus, context isolation, parallelism, ownership, security boundaries. Costs: tokens, latency, coordination failures.</li>
+<li>Use clear contracts, summaries not transcripts, identity propagation, budgets and tracing.</li>
+<li>A2A connects agents across teams and vendors; MCP connects agents to tools.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://www.anthropic.com/engineering/multi-agent-research-system" rel="noopener">How we built our multi-agent research system</a>, 2025.</li>
+<li>Cemri et al., <a href="https://arxiv.org/abs/2503.13657" rel="noopener">Why Do Multi-Agent LLM Systems Fail?</a>, 2025.</li>
+<li><a href="https://a2a-protocol.org/" rel="noopener">Agent2Agent (A2A) protocol specification</a>.</li>
+<li>Du et al., <a href="https://arxiv.org/abs/2305.14325" rel="noopener">Improving Factuality and Reasoning in Language Models through Multiagent Debate</a>, 2023.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/model-context-protocol/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/case-study-support-agent/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Case study: support agent</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Workflow &amp; agent patterns</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Workflow &amp; agent patterns</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/agent-memory-and-state/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Memory &amp; state</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-use-more-than-one-agent">Why use more than one agent?</a></li>
+    <li><a href="#topologies">Topologies</a>
+      <ul>
+        <li><a href="#supervisor-orchestrator">Supervisor (orchestrator)</a></li>
+        <li><a href="#hierarchical">Hierarchical</a></li>
+        <li><a href="#sequential-pipeline">Sequential pipeline</a></li>
+        <li><a href="#handoff-swarm">Handoff (swarm)</a></li>
+        <li><a href="#network--peer-to-peer">Network / peer-to-peer</a></li>
+        <li><a href="#debate-and-voting">Debate and voting</a></li>
+        <li><a href="#blackboard-shared-workspace">Blackboard (shared workspace)</a></li>
+      </ul>
+    </li>
+    <li><a href="#communication-and-state">Communication and state</a></li>
+    <li><a href="#agent-to-agent-protocols">Agent-to-agent protocols</a></li>
+    <li><a href="#failure-modes">Failure modes</a></li>
+    <li><a href="#single-agent-or-multi-agent">Single agent or multi-agent?</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

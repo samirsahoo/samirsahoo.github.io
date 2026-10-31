@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Design: Agentic Customer-Support Platform · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="System Design: Agentic Customer-Support Platform">
+<meta property="og:description" content="A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="System Design: Agentic Customer-Support Platform">
+<meta name="twitter:description" content="A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.">
+<meta name="keywords" content="agents, system-design, case-study, mcp">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.","headline":"System Design: Agentic Customer-Support Platform","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, system-design, case-study, mcp","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/case-study-support-agent/","name":"Case study: support agent","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/" aria-current="page">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Case study: support agent</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">System Design: Agentic Customer-Support Platform</h1><p class="article__lede" itemprop="description">A complete interview-style system design for an AI agent that resolves customer-support requests end to end: requirements, estimates, architecture, agent topology, MCP tools, conversation flow with refunds and approvals, state, guardrails, evaluation, rollout and trade-offs.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/system-design/">#System-Design</a><a class="tag" href="/enterprise-ai/tags/case-study/">#Case-Study</a><a class="tag" href="/enterprise-ai/tags/mcp/">#Mcp</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a>, <a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a>, <a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#the-interview-question">The interview question</a></li>
+    <li><a href="#1-requirements">1. Requirements</a></li>
+    <li><a href="#2-estimates">2. Estimates</a></li>
+    <li><a href="#3-agent-topology">3. Agent topology</a></li>
+    <li><a href="#4-architecture">4. Architecture</a></li>
+    <li><a href="#5-tools-exposed-via-mcp-servers-owned-by-domain-teams">5. Tools (exposed via MCP servers owned by domain teams)</a></li>
+    <li><a href="#6-conversation-flow-with-a-refund">6. Conversation flow with a refund</a></li>
+    <li><a href="#7-state-and-memory">7. State and memory</a></li>
+    <li><a href="#8-guardrails-and-security">8. Guardrails and security</a></li>
+    <li><a href="#9-evaluation-and-rollout">9. Evaluation and rollout</a></li>
+    <li><a href="#10-trade-offs-to-discuss">10. Trade-offs to discuss</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="the-interview-question">The interview question<a class="heading-anchor" href="#the-interview-question" aria-label="Link to this section">#</a></h2>
+<blockquote><p><em>&ldquo;Design an AI agent for an e-commerce company that resolves customer-support requests — order status, returns, refunds, address changes — over chat and email, escalating to humans when needed.&rdquo;</em></p>
+</blockquote><h2 id="1-requirements">1. Requirements<a class="heading-anchor" href="#1-requirements" aria-label="Link to this section">#</a></h2>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Understand requests in chat and email, in 5 languages.</li>
+<li>Look up orders, shipments, customers and policies.</li>
+<li>Perform actions: change delivery address (before dispatch), create return labels, issue refunds, apply goodwill vouchers.</li>
+<li>Escalate to a human agent with a summary when unsure, when the customer asks, or for sensitive cases (complaints, legal threats, vulnerable customers).</li>
+<li>Full audit trail of every action.</li>
+</ul>
+<p><strong>Non-functional</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>Target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Volume</td>
+      <td>40,000 conversations/day, peak 3×</td>
+    </tr>
+    <tr>
+      <td>Latency</td>
+      <td>First response &lt; 3 s in chat; email within 5 minutes</td>
+    </tr>
+    <tr>
+      <td>Automation</td>
+      <td>≥ 60% resolved without a human, with CSAT ≥ human baseline</td>
+    </tr>
+    <tr>
+      <td>Safety</td>
+      <td>Zero unauthorised refunds; refunds &gt; €100 need human approval</td>
+    </tr>
+    <tr>
+      <td>Availability</td>
+      <td>99.9%; degraded mode routes to humans</td>
+    </tr>
+    <tr>
+      <td>Compliance</td>
+      <td>GDPR; PCI scope excluded (agent never sees card numbers)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="2-estimates">2. Estimates<a class="heading-anchor" href="#2-estimates" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>40,000 conversations × ~6 turns × ~2 LLM calls per turn ≈ <strong>480,000 LLM calls/day</strong>.</li>
+<li>~6,000 input tokens per call (system + tools + history + retrieved policy), ~250 output.</li>
+<li>≈ 2.9B input + 120M output tokens/day. Prompt caching of the ~3,000-token static prefix (system prompt + tool definitions) cuts input cost substantially.</li>
+<li>Router on a small model handles ~30% (simple status questions) cheaply.</li>
+<li>Target cost: &lt; €0.15 per resolved conversation vs ~€4–6 for a human-handled contact.</li>
+</ul>
+<h2 id="3-agent-topology">3. Agent topology<a class="heading-anchor" href="#3-agent-topology" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Agent topology: router &#43; specialists &#43; human hand-off"><figcaption class="diagram__title">Agent topology: router &#43; specialists &#43; human hand-off</figcaption>
+  <pre class="mermaid">flowchart TB
+    IN[&#34;Chat / email channel&#34;] --&gt; TRI[&#34;Triage &amp; router&lt;br/&gt;small model: intent, language,&lt;br/&gt;sentiment, risk flags&#34;]
+    TRI --&gt;|&#34;status, tracking&#34;| SA[&#34;Order-status agent&lt;br/&gt;read-only tools&#34;]
+    TRI --&gt;|&#34;returns, refunds&#34;| RA[&#34;Returns &amp; refunds agent&lt;br/&gt;read + write tools, limits&#34;]
+    TRI --&gt;|&#34;account, address&#34;| AA[&#34;Account agent&#34;]
+    TRI --&gt;|&#34;complaint, legal,&lt;br/&gt;vulnerable, angry&#34;| HUM[&#34;Human agent queue&#34;]
+    SA --&gt;|&#34;handoff&#34;| RA
+    RA --&gt;|&#34;needs approval&#34;| APR[&#34;Approval queue&lt;br/&gt;human supervisor&#34;]
+    SA --&gt;|&#34;escalate&#34;| HUM
+    RA --&gt;|&#34;escalate&#34;| HUM
+    AA --&gt;|&#34;escalate&#34;| HUM</pre>
+</figure>
+<p>Why this split: each specialist has a <strong>small tool set</strong> and a focused prompt; the read-only agent cannot change anything (security boundary); refunds are isolated with stricter limits; triage runs on a cheap model.</p>
+<h2 id="4-architecture">4. Architecture<a class="heading-anchor" href="#4-architecture" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Platform architecture"><figcaption class="diagram__title">Platform architecture</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph Channels
+        CH[&#34;Chat widget&#34;]
+        EM[&#34;Email ingestion&#34;]
+    end
+    CH --&gt; CONV[&#34;Conversation service&lt;br/&gt;sessions, routing, hand-off&#34;]
+    EM --&gt; CONV
+    CONV --&gt; RT[&#34;Agent runtime&lt;br/&gt;Spring AI: triage + specialist agents&#34;]
+    RT --&gt; MEM[(&#34;State &amp; memory&lt;br/&gt;PostgreSQL: conversation,&lt;br/&gt;checkpoints, summaries&#34;)]
+    RT --&gt; KB[&#34;Policy RAG&lt;br/&gt;returns policy, FAQs&#34;]
+    RT --&gt; AIGW[&#34;AI gateway&lt;br/&gt;routing, caching, guardrails, cost&#34;]
+    AIGW --&gt; LLMS[&#34;LLMs: small + mid-tier&lt;br/&gt;+ fallback provider&#34;]
+    RT --&gt; MGW[&#34;MCP gateway&lt;br/&gt;authZ, allow-lists, rate limits, audit&#34;]
+    MGW --&gt; M1[&#34;Orders MCP server&#34;]
+    MGW --&gt; M2[&#34;Shipping MCP server&#34;]
+    MGW --&gt; M3[&#34;Payments MCP server&lt;br/&gt;refunds, vouchers&#34;]
+    MGW --&gt; M4[&#34;CRM MCP server&#34;]
+    RT --&gt; APQ[&#34;Approval service&lt;br/&gt;human-in-the-loop UI&#34;]
+    CONV --&gt; DESK[&#34;Human agent desk&lt;br/&gt;with AI summary&#34;]
+    RT -.-&gt; OBS[&#34;Tracing, evals,&lt;br/&gt;dashboards, audit store&#34;]</pre>
+</figure>
+<h2 id="5-tools-exposed-via-mcp-servers-owned-by-domain-teams">5. Tools (exposed via MCP servers owned by domain teams)<a class="heading-anchor" href="#5-tools-exposed-via-mcp-servers-owned-by-domain-teams" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Type</th>
+      <th>Guardrails in code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>get_order(orderId)</code></td>
+      <td>Read</td>
+      <td>Order must belong to authenticated customer</td>
+    </tr>
+    <tr>
+      <td><code>track_shipment(orderId)</code></td>
+      <td>Read</td>
+      <td>Same ownership check</td>
+    </tr>
+    <tr>
+      <td><code>search_policy(query)</code></td>
+      <td>Read</td>
+      <td>RAG over approved policy documents</td>
+    </tr>
+    <tr>
+      <td><code>change_address(orderId, address)</code></td>
+      <td>Write</td>
+      <td>Only before dispatch; address validation; idempotency key</td>
+    </tr>
+    <tr>
+      <td><code>create_return(orderId, items, reason)</code></td>
+      <td>Write</td>
+      <td>Within return window; item eligibility</td>
+    </tr>
+    <tr>
+      <td><code>issue_refund(orderId, amount, reason)</code></td>
+      <td>Write, financial</td>
+      <td>Amount ≤ order total − prior refunds; ≤ €100 automatic; above → approval; idempotency key; daily cap per customer</td>
+    </tr>
+    <tr>
+      <td><code>apply_voucher(customerId, value)</code></td>
+      <td>Write, financial</td>
+      <td>≤ €15; max 1 per 30 days</td>
+    </tr>
+    <tr>
+      <td><code>escalate_to_human(summary, priority)</code></td>
+      <td>Control</td>
+      <td>Always allowed</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Customer identity comes from the authenticated session and is passed as <strong>tool context</strong>, never from model-provided arguments.</p>
+<h2 id="6-conversation-flow-with-a-refund">6. Conversation flow with a refund<a class="heading-anchor" href="#6-conversation-flow-with-a-refund" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Refund for a damaged item"><figcaption class="diagram__title">Refund for a damaged item</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    actor C as Customer
+    participant T as Triage
+    participant R as Refunds agent
+    participant O as Orders MCP
+    participant P as Policy RAG
+    participant PAY as Payments MCP
+    participant A as Approval service
+    C-&gt;&gt;T: &#34;My blender arrived broken, order A-10293. I want my money back.&#34;
+    T-&gt;&gt;R: intent=refund, sentiment=negative, lang=en
+    R-&gt;&gt;O: get_order(A-10293) [customer from session]
+    O--&gt;&gt;R: delivered 2 days ago, total €129, item: blender
+    R-&gt;&gt;P: search_policy(&#34;damaged item refund&#34;)
+    P--&gt;&gt;R: &#34;Damaged on arrival: full refund, no return needed under €150 with photo&#34;
+    R--&gt;&gt;C: &#34;Sorry about that! Could you upload a photo of the damage?&#34;
+    C-&gt;&gt;R: photo
+    R-&gt;&gt;R: vision check: damage visible
+    R-&gt;&gt;PAY: issue_refund(A-10293, 129.00, &#34;damaged&#34;)
+    PAY--&gt;&gt;R: PENDING_APPROVAL (amount &gt; €100)
+    R-&gt;&gt;A: approval request + evidence + reasoning
+    R--&gt;&gt;C: &#34;I&#39;ve requested a full refund of €129. You&#39;ll get confirmation within 2 hours.&#34;
+    A--&gt;&gt;R: approved by supervisor
+    R-&gt;&gt;PAY: confirm refund (idempotency key)
+    R--&gt;&gt;C: &#34;Your refund of €129 has been issued.&#34;</pre>
+</figure>
+<h2 id="7-state-and-memory">7. State and memory<a class="heading-anchor" href="#7-state-and-memory" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Conversation state and <strong>checkpoints</strong> in PostgreSQL; the agent can pause for photos or approvals and resume on any pod.</li>
+<li>History management: running summary + last 6 turns + pinned facts (order ID, decision).</li>
+<li>Long-term memory: limited customer facts (preferred language, previous contacts summary) with retention limits.</li>
+</ul>
+<h2 id="8-guardrails-and-security">8. Guardrails and security<a class="heading-anchor" href="#8-guardrails-and-security" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Input: injection classifier on customer messages <strong>and email attachments</strong>; PII masking in logs.</li>
+<li>Actions: per-agent tool allow-lists; authorisation in every MCP server; financial limits in the payments service, not the prompt.</li>
+<li>Output: policy compliance (no promises outside policy), tone, no internal data leakage.</li>
+<li>Lethal-trifecta check: the agent reading untrusted email has no tool to send data to arbitrary external addresses.</li>
+<li>Kill switch per agent and per tool; anomaly alerts (refund volume spikes).</li>
+</ul>
+<h2 id="9-evaluation-and-rollout">9. Evaluation and rollout<a class="heading-anchor" href="#9-evaluation-and-rollout" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Offline:</strong> 500 scenario simulations with simulated customers and sandboxed MCP servers; metrics: task success, correct final state, policy violations (must be 0), pass^3 consistency, cost and steps per conversation.</li>
+<li><strong>Red teaming:</strong> social engineering (&ldquo;my manager approved a €500 refund&rdquo;), injected instructions in emails, other customers&rsquo; order numbers.</li>
+<li><strong>Rollout:</strong> shadow mode → approval for all actions → auto-approve within limits → expand to email and more languages.</li>
+<li><strong>Online:</strong> resolution rate, escalation rate, CSAT, re-contact within 7 days, refund accuracy audits on samples.</li>
+</ul>
+<h2 id="10-trade-offs-to-discuss">10. Trade-offs to discuss<a class="heading-anchor" href="#10-trade-offs-to-discuss" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Decision</th>
+      <th>Choice</th>
+      <th>Trade-off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Specialists vs one agent</td>
+      <td>Router + 3 specialists</td>
+      <td>Better focus and security; more components and hand-off logic</td>
+    </tr>
+    <tr>
+      <td>Tools via MCP</td>
+      <td>Domain-owned MCP servers behind a gateway</td>
+      <td>Reuse by other AI apps and governance; extra hop and platform work</td>
+    </tr>
+    <tr>
+      <td>Approval threshold</td>
+      <td>€100</td>
+      <td>Lower → safer, more human work; higher → more automation, more risk</td>
+    </tr>
+    <tr>
+      <td>Model tiers</td>
+      <td>Small for triage, mid-tier for specialists</td>
+      <td>Frontier only for hard cases if evaluation shows a gain</td>
+    </tr>
+    <tr>
+      <td>Degraded mode</td>
+      <td>Route all to humans with transcript</td>
+      <td>Protects customers; capacity planning for human team</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">What makes this answer strong</span></p>
+  <div class="callout__body"><p>Clear autonomy boundaries (what the agent may do alone), controls enforced in services not prompts, identity propagation, human-in-the-loop with durable state, a concrete evaluation and rollout plan, and cost per resolution compared with the human baseline.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Router plus specialised agents with small tool sets; humans for sensitive cases and approvals.</li>
+<li>Tools as domain-owned MCP servers behind a gateway; identity from the session; limits enforced in services.</li>
+<li>Durable state for pauses; idempotent financial actions; full audit.</li>
+<li>Evaluate with simulations and red teaming; roll out autonomy progressively.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/case-study-knowledge-assistant/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Case study: knowledge assistant</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/interview-prep/ai-system-design-framework/">
+        <span class="card__eyebrow">Interview Prep</span>
+        <span class="card__title">AI system design framework</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI tools, MCP &amp; memory</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/model-context-protocol/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Reliability &amp; evaluation</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-interview-question">The interview question</a></li>
+    <li><a href="#1-requirements">1. Requirements</a></li>
+    <li><a href="#2-estimates">2. Estimates</a></li>
+    <li><a href="#3-agent-topology">3. Agent topology</a></li>
+    <li><a href="#4-architecture">4. Architecture</a></li>
+    <li><a href="#5-tools-exposed-via-mcp-servers-owned-by-domain-teams">5. Tools (exposed via MCP servers owned by domain teams)</a></li>
+    <li><a href="#6-conversation-flow-with-a-refund">6. Conversation flow with a refund</a></li>
+    <li><a href="#7-state-and-memory">7. State and memory</a></li>
+    <li><a href="#8-guardrails-and-security">8. Guardrails and security</a></li>
+    <li><a href="#9-evaluation-and-rollout">9. Evaluation and rollout</a></li>
+    <li><a href="#10-trade-offs-to-discuss">10. Trade-offs to discuss</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vector Databases Explained · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How vector databases work: exact vs approximate nearest-neighbour search, HNSW, IVF and product quantization, metadata filtering, hybrid search, scaling, multi-tenancy, and how to choose between pgvector, OpenSearch, Pinecone, Milvus, Qdrant, Weaviate and others.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Vector Databases Explained">
+<meta property="og:description" content="How vector databases work: exact vs approximate nearest-neighbour search, HNSW, IVF and product quantization, metadata filtering, hybrid search, scaling, multi-tenancy, and how to choose between pgvector, OpenSearch, Pinecone, Milvus, Qdrant, Weaviate and others.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vector Databases Explained">
+<meta name="twitter:description" content="How vector databases work: exact vs approximate nearest-neighbour search, HNSW, IVF and product quantization, metadata filtering, hybrid search, scaling, multi-tenancy, and how to choose between pgvector, OpenSearch, Pinecone, Milvus, Qdrant, Weaviate and others.">
+<meta name="keywords" content="rag, vector-database, data">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"How vector databases work: exact vs approximate nearest-neighbour search, HNSW, IVF and product quantization, metadata filtering, hybrid search, scaling, multi-tenancy, and how to choose between pgvector, OpenSearch, Pinecone, Milvus, Qdrant, Weaviate and others.","headline":"Vector Databases Explained","inLanguage":"en","isAccessibleForFree":true,"keywords":"rag, vector-database, data","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/","name":"2 · RAG \u0026 GraphRAG","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/","name":"Vector databases","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-rag">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/" aria-current="page">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a></li>
+    <li><span aria-current="page">Vector databases</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Vector Databases Explained</h1><p class="article__lede" itemprop="description">How vector databases work: exact vs approximate nearest-neighbour search, HNSW, IVF and product quantization, metadata filtering, hybrid search, scaling, multi-tenancy, and how to choose between pgvector, OpenSearch, Pinecone, Milvus, Qdrant, Weaviate and others.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/rag/">#Rag</a><a class="tag" href="/enterprise-ai/tags/vector-database/">#Vector-Database</a><a class="tag" href="/enterprise-ai/tags/data/">#Data</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#ann-index-types">ANN index types</a>
+      <ul>
+        <li><a href="#hnsw--hierarchical-navigable-small-world">HNSW — Hierarchical Navigable Small World</a></li>
+        <li><a href="#ivf--inverted-file-index">IVF — Inverted File index</a></li>
+        <li><a href="#pq--product-quantization-compression">PQ — Product Quantization (compression)</a></li>
+        <li><a href="#diskann-and-tiered-storage">DiskANN and tiered storage</a></li>
+      </ul>
+    </li>
+    <li><a href="#metadata-filtering">Metadata filtering</a></li>
+    <li><a href="#hybrid-search">Hybrid search</a></li>
+    <li><a href="#choosing-a-vector-store">Choosing a vector store</a></li>
+    <li><a href="#scaling-and-operations">Scaling and operations</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>vector database</strong> stores embeddings (vectors) together with their text and metadata, and answers one question fast: <em>&ldquo;which stored vectors are closest to this query vector?&rdquo;</em> — usually with filters such as &ldquo;only documents this user may see&rdquo;.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>Comparing a query with every vector (<strong>exact</strong> or brute-force search) is simple and perfectly accurate, but with 10 million 1,024-dimension vectors that is 10 billion multiplications per query. Vector databases use <strong>approximate nearest neighbour (ANN)</strong> indexes to search a small part of the data and still find almost all of the true nearest neighbours.</p>
+<p>The trade-off is measured as <strong>recall</strong> (what fraction of the true top-k were found) versus <strong>latency</strong> and <strong>memory</strong>.</p>
+<h2 id="ann-index-types">ANN index types<a class="heading-anchor" href="#ann-index-types" aria-label="Link to this section">#</a></h2>
+<h3 id="hnsw--hierarchical-navigable-small-world">HNSW — Hierarchical Navigable Small World<a class="heading-anchor" href="#hnsw--hierarchical-navigable-small-world" aria-label="Link to this section">#</a></h3>
+<figure class="diagram" aria-label="HNSW: a multi-layer graph, searched top-down"><figcaption class="diagram__title">HNSW: a multi-layer graph, searched top-down</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph L2[&#34;Layer 2 — few nodes, long jumps&#34;]
+        A2((A)) --- D2((D))
+    end
+    subgraph L1[&#34;Layer 1 — more nodes&#34;]
+        A1((A)) --- B1((B)) --- D1((D)) --- F1((F))
+    end
+    subgraph L0[&#34;Layer 0 — all vectors, short links&#34;]
+        A0((A)) --- B0((B)) --- C0((C)) --- D0((D)) --- E0((E)) --- F0((F)) --- G0((G))
+    end
+    D2 -.-&gt;|&#34;descend&#34;| D1
+    D1 -.-&gt;|&#34;descend&#34;| D0
+    Q[&#34;Query enters at top,&lt;br/&gt;greedily moves to closer nodes,&lt;br/&gt;drops a layer, repeats&#34;] -.-&gt; A2</pre>
+</figure>
+<ul>
+<li>Like a road network: motorways on the top layer, local streets at the bottom.</li>
+<li><strong>Pros:</strong> excellent recall and low latency; no training step; supports inserts.</li>
+<li><strong>Cons:</strong> memory-hungry (graph + full vectors in RAM); slow to build for huge sets.</li>
+<li><strong>Tuning:</strong> <code>M</code> (links per node), <code>ef_construction</code> (build quality), <code>ef_search</code> (query breadth — higher = better recall, slower).</li>
+<li>The default in most vector databases and in pgvector.</li>
+</ul>
+<h3 id="ivf--inverted-file-index">IVF — Inverted File index<a class="heading-anchor" href="#ivf--inverted-file-index" aria-label="Link to this section">#</a></h3>
+<p>Cluster all vectors into, say, 1,000 groups with k-means. At query time, find the nearest few cluster centres (<code>nprobe</code>) and search only inside those clusters.</p>
+<ul>
+<li><strong>Pros:</strong> less memory, fast build. <strong>Cons:</strong> needs training on representative data; recall drops for queries near cluster edges.</li>
+</ul>
+<h3 id="pq--product-quantization-compression">PQ — Product Quantization (compression)<a class="heading-anchor" href="#pq--product-quantization-compression" aria-label="Link to this section">#</a></h3>
+<p>Split each vector into sub-vectors and replace each with the ID of its nearest &ldquo;code&rdquo; from a small codebook. A 1,024-float vector (4 KB) can shrink to 64–128 bytes. Often combined as <strong>IVF-PQ</strong>. Also common: <strong>scalar quantization</strong> (float32 → int8) and <strong>binary quantization</strong> (1 bit per dimension) with re-scoring of top candidates using full vectors.</p>
+<h3 id="diskann-and-tiered-storage">DiskANN and tiered storage<a class="heading-anchor" href="#diskann-and-tiered-storage" aria-label="Link to this section">#</a></h3>
+<p>Graph indexes designed to keep most data on SSD rather than RAM, for billion-scale collections at lower cost.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>Recall</th>
+      <th>Speed</th>
+      <th>Memory</th>
+      <th>Best for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Flat (exact)</td>
+      <td>100%</td>
+      <td>Slow at scale</td>
+      <td>Full vectors</td>
+      <td>&lt; ~100K vectors, ground truth for testing</td>
+    </tr>
+    <tr>
+      <td>HNSW</td>
+      <td>Very high</td>
+      <td>Very fast</td>
+      <td>High</td>
+      <td>Default for most RAG workloads</td>
+    </tr>
+    <tr>
+      <td>IVF-Flat</td>
+      <td>High</td>
+      <td>Fast</td>
+      <td>Medium</td>
+      <td>Large, fairly static collections</td>
+    </tr>
+    <tr>
+      <td>IVF-PQ / quantized</td>
+      <td>Medium–high</td>
+      <td>Very fast</td>
+      <td>Very low</td>
+      <td>Hundreds of millions to billions</td>
+    </tr>
+    <tr>
+      <td>DiskANN</td>
+      <td>High</td>
+      <td>Fast</td>
+      <td>Low RAM</td>
+      <td>Billion-scale on SSD</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="metadata-filtering">Metadata filtering<a class="heading-anchor" href="#metadata-filtering" aria-label="Link to this section">#</a></h2>
+<p>Real queries combine similarity with conditions: <code>tenant = 'acme' AND doc_type = 'policy' AND region IN ('EU') AND acl_groups CONTAINS 'hr-staff'</code>.</p>
+<figure class="diagram" aria-label="Pre-filtering vs post-filtering"><figcaption class="diagram__title">Pre-filtering vs post-filtering</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Post[&#34;Post-filter&#34;]
+        P1[&#34;ANN top 10&#34;] --&gt; P2[&#34;Apply filter&#34;] --&gt; P3[&#34;Maybe only 2 left&lt;br/&gt;or zero&#34;]
+    end
+    subgraph Pre[&#34;Pre-filter / filtered ANN&#34;]
+        F1[&#34;Restrict to matching vectors&#34;] --&gt; F2[&#34;ANN within them&#34;] --&gt; F3[&#34;Full top 10&#34;]
+    end</pre>
+</figure>
+<p>Post-filtering can return too few results when filters are selective. Prefer databases that filter <em>during</em> the ANN search, index the filter fields, and design partitions (for example per tenant) for very selective filters.</p>
+<h2 id="hybrid-search">Hybrid search<a class="heading-anchor" href="#hybrid-search" aria-label="Link to this section">#</a></h2>
+<p>Vector search understands meaning but can miss exact terms: product codes (&ldquo;XR-2040&rdquo;), error numbers, names, acronyms. Keyword search (<strong>BM25</strong>) is the opposite. <strong>Hybrid search</strong> runs both and fuses the results, usually with <strong>Reciprocal Rank Fusion (RRF)</strong>. Details in <a href="/enterprise-ai/rag/advanced-retrieval/#hybrid-search">advanced retrieval</a>.</p>
+<p>Many stores support both natively: OpenSearch, Elasticsearch, Weaviate, Qdrant, Milvus, Azure AI Search, MongoDB Atlas, and PostgreSQL with pgvector plus full-text search.</p>
+<h2 id="choosing-a-vector-store">Choosing a vector store<a class="heading-anchor" href="#choosing-a-vector-store" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Decision guide"><figcaption class="diagram__title">Decision guide</figcaption>
+  <pre class="mermaid">flowchart TD
+    A{&#34;Already run PostgreSQL&lt;br/&gt;and &lt; ~10–50M vectors?&#34;} --&gt;|&#34;Yes&#34;| PG[&#34;pgvector&lt;br/&gt;one database, transactions, SQL filters&#34;]
+    A --&gt;|&#34;No&#34;| B{&#34;Already run OpenSearch /&lt;br/&gt;Elasticsearch for search?&#34;}
+    B --&gt;|&#34;Yes&#34;| OS[&#34;Use its vector + BM25 hybrid&#34;]
+    B --&gt;|&#34;No&#34;| C{&#34;Want zero operations?&#34;}
+    C --&gt;|&#34;Yes&#34;| MAN[&#34;Managed: Pinecone, cloud search services,&lt;br/&gt;managed Qdrant/Weaviate/Milvus&#34;]
+    C --&gt;|&#34;No&#34;| D{&#34;Very large scale or&lt;br/&gt;advanced features?&#34;}
+    D --&gt;|&#34;Yes&#34;| DED[&#34;Dedicated: Milvus, Qdrant, Weaviate&#34;]
+    D --&gt;|&#34;No&#34;| PG</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Type</th>
+      <th>Strengths</th>
+      <th>Watch out for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>pgvector</strong> (PostgreSQL)</td>
+      <td>Extension</td>
+      <td>Reuse existing DB, ACID, joins, SQL filters, backups; HNSW and IVFFlat</td>
+      <td>Very large scale and high QPS need tuning or sharding</td>
+    </tr>
+    <tr>
+      <td><strong>OpenSearch / Elasticsearch</strong></td>
+      <td>Search engine</td>
+      <td>Mature BM25 + vectors + aggregations; hybrid built in</td>
+      <td>Cluster operations; JVM tuning</td>
+    </tr>
+    <tr>
+      <td><strong>Pinecone</strong></td>
+      <td>Managed SaaS</td>
+      <td>Serverless, simple, scales</td>
+      <td>Data leaves your network; cost at scale</td>
+    </tr>
+    <tr>
+      <td><strong>Milvus / Zilliz</strong></td>
+      <td>Dedicated, OSS + managed</td>
+      <td>Billion scale, many index types, GPU</td>
+      <td>Operational complexity</td>
+    </tr>
+    <tr>
+      <td><strong>Qdrant</strong></td>
+      <td>Dedicated, OSS + managed</td>
+      <td>Fast, strong filtering, quantization</td>
+      <td>Another system to run</td>
+    </tr>
+    <tr>
+      <td><strong>Weaviate</strong></td>
+      <td>Dedicated, OSS + managed</td>
+      <td>Hybrid search, modules, multi-tenancy</td>
+      <td>Another system to run</td>
+    </tr>
+    <tr>
+      <td><strong>Redis, MongoDB Atlas, Oracle, Cassandra, Neo4j</strong></td>
+      <td>Multi-model DBs</td>
+      <td>Reuse what you have</td>
+      <td>Feature depth varies</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud services</strong></td>
+      <td>Azure AI Search, Vertex AI Vector Search, Bedrock Knowledge Bases</td>
+      <td>Integrated with cloud AI stacks</td>
+      <td>Cloud lock-in</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Default for Java/Spring teams</span></p>
+  <div class="callout__body"><p>If you run PostgreSQL, start with <strong>pgvector</strong>. One fewer system to secure, back up and operate, and Spring AI supports it directly. Move to a dedicated store when measurements say you must.</p></div>
+</aside><h2 id="scaling-and-operations">Scaling and operations<a class="heading-anchor" href="#scaling-and-operations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Memory sizing (HNSW):</strong> roughly vectors × dimensions × 4 bytes × ~1.5 for graph overhead. 10M × 1,024 dims ≈ 40 GB of vectors → ~60 GB RAM. Quantization cuts this 4–32×.</li>
+<li><strong>Sharding</strong> spreads vectors over nodes; <strong>replicas</strong> add query throughput and availability.</li>
+<li><strong>Multi-tenancy:</strong> a tenant ID filter (simple), a partition/namespace per tenant (better isolation and performance), or an index per tenant (strongest isolation, more overhead).</li>
+<li><strong>Updates and deletes:</strong> HNSW deletes are often &ldquo;soft&rdquo; and need periodic compaction/re-indexing.</li>
+<li><strong>Backups and re-indexing:</strong> treat the index as derived data — keep sources and the pipeline so you can rebuild it.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Choosing a dedicated vector DB on day one</span></p>
+  <div class="callout__body"><p>For most enterprise corpora (thousands to a few million chunks) pgvector or an existing search cluster is enough and avoids new operational risk.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Not measuring recall</span></p>
+  <div class="callout__body"><p>ANN settings trade accuracy for speed silently. Compare ANN results with exact search on a sample of queries and tune <code>ef_search</code> or <code>nprobe</code>.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Access control by post-filtering in application code</span></p>
+  <div class="callout__body"><p>If filtering happens after top-k, users may see fewer results and bugs can leak data. Filter in the database query with indexed ACL fields.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What is a vector database and why not just use a normal database?</strong>
+A store optimised for nearest-neighbour search over high-dimensional vectors, with metadata filtering. Relational indexes (B-trees) cannot answer &ldquo;closest vectors&rdquo; efficiently; vector databases use ANN indexes such as HNSW. Many normal databases now add vector indexes (pgvector), which is often enough.</p>
+<p><strong>Explain HNSW.</strong>
+A multi-layer proximity graph. Upper layers have few nodes and long links; the bottom layer has all vectors with short links. Search starts at the top, greedily moves toward the query, descends layer by layer, and finishes with a local search at the bottom. It gives high recall at low latency but uses a lot of memory.</p>
+<p><strong>HNSW vs IVF?</strong>
+HNSW: better recall/latency, more memory, no training, supports incremental inserts. IVF: clusters vectors and searches a few clusters; less memory and faster to build, needs training and can lose recall at cluster boundaries. IVF-PQ adds compression for very large scale.</p>
+<p><strong>How do you implement multi-tenancy in a vector store?</strong>
+Filter by tenant ID on every query (simplest), partition or namespace per tenant (better isolation and filter performance), or separate indexes per tenant (strongest isolation). Choose by isolation requirements, tenant count and size skew.</p>
+<p><strong>How would you choose a vector database for an enterprise?</strong>
+Start with what you run: pgvector for PostgreSQL shops at moderate scale, OpenSearch/Elasticsearch if you have search clusters and need hybrid search. Consider managed or dedicated stores for very large scale, high QPS or zero-ops requirements. Validate with recall, latency, filter performance, security features and cost.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Vector databases answer &ldquo;nearest vectors with filters&rdquo; using ANN indexes.</li>
+<li>HNSW is the default: high recall, low latency, memory-heavy. IVF and PQ trade recall for scale and memory.</li>
+<li>Filter during search, index the filter fields, and enforce ACLs in the query.</li>
+<li>Hybrid (vector + BM25) beats either alone for enterprise text.</li>
+<li>Start with pgvector or your existing search engine; move when measurements demand it.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Malkov &amp; Yashunin, <a href="https://arxiv.org/abs/1603.09320" rel="noopener">Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs</a>, 2016.</li>
+<li>Jégou, Douze, Schmid, <a href="https://ieeexplore.ieee.org/document/5432202" rel="noopener">Product Quantization for Nearest Neighbor Search</a>, 2011.</li>
+<li><a href="https://github.com/pgvector/pgvector" rel="noopener">pgvector</a> documentation.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/advanced-retrieval/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Advanced retrieval</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI RAG</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/chunking-and-embeddings/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Chunking &amp; embeddings</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-evaluation/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/graphrag/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">GraphRAG</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/rag/chunking-and-embeddings/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Chunking &amp; embeddings</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/rag/advanced-retrieval/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Advanced retrieval</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#ann-index-types">ANN index types</a>
+      <ul>
+        <li><a href="#hnsw--hierarchical-navigable-small-world">HNSW — Hierarchical Navigable Small World</a></li>
+        <li><a href="#ivf--inverted-file-index">IVF — Inverted File index</a></li>
+        <li><a href="#pq--product-quantization-compression">PQ — Product Quantization (compression)</a></li>
+        <li><a href="#diskann-and-tiered-storage">DiskANN and tiered storage</a></li>
+      </ul>
+    </li>
+    <li><a href="#metadata-filtering">Metadata filtering</a></li>
+    <li><a href="#hybrid-search">Hybrid search</a></li>
+    <li><a href="#choosing-a-vector-store">Choosing a vector store</a></li>
+    <li><a href="#scaling-and-operations">Scaling and operations</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic Workflow Patterns · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="The building-block patterns of agentic systems with diagrams and examples: prompt chaining, routing, parallelization (sectioning and voting), orchestrator-workers, evaluator-optimizer, plan-and-execute, reflection, and human-in-the-loop — and how to choose.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Agentic Workflow Patterns">
+<meta property="og:description" content="The building-block patterns of agentic systems with diagrams and examples: prompt chaining, routing, parallelization (sectioning and voting), orchestrator-workers, evaluator-optimizer, plan-and-execute, reflection, and human-in-the-loop — and how to choose.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agentic Workflow Patterns">
+<meta name="twitter:description" content="The building-block patterns of agentic systems with diagrams and examples: prompt chaining, routing, parallelization (sectioning and voting), orchestrator-workers, evaluator-optimizer, plan-and-execute, reflection, and human-in-the-loop — and how to choose.">
+<meta name="keywords" content="agents, patterns, agentic-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"The building-block patterns of agentic systems with diagrams and examples: prompt chaining, routing, parallelization (sectioning and voting), orchestrator-workers, evaluator-optimizer, plan-and-execute, reflection, and human-in-the-loop — and how to choose.","headline":"Agentic Workflow Patterns","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, patterns, agentic-ai","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/","name":"Workflow \u0026 agent patterns","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/" aria-current="page">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Workflow &amp; agent patterns</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Agentic Workflow Patterns</h1><p class="article__lede" itemprop="description">The building-block patterns of agentic systems with diagrams and examples: prompt chaining, routing, parallelization (sectioning and voting), orchestrator-workers, evaluator-optimizer, plan-and-execute, reflection, and human-in-the-loop — and how to choose.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/patterns/">#Patterns</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a>, <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#1-prompt-chaining">1. Prompt chaining</a></li>
+    <li><a href="#2-routing">2. Routing</a></li>
+    <li><a href="#3-parallelization">3. Parallelization</a></li>
+    <li><a href="#4-orchestratorworkers">4. Orchestrator–workers</a></li>
+    <li><a href="#5-evaluatoroptimizer">5. Evaluator–optimizer</a></li>
+    <li><a href="#6-plan-and-execute">6. Plan-and-execute</a></li>
+    <li><a href="#7-reflection">7. Reflection</a></li>
+    <li><a href="#8-human-in-the-loop-hitl">8. Human-in-the-loop (HITL)</a></li>
+    <li><a href="#choosing-a-pattern">Choosing a pattern</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Agentic patterns</strong> are reusable shapes for combining LLM calls, tools and code — the &ldquo;design patterns&rdquo; of AI systems. Most production systems are a composition of a few of them. They range from fully code-controlled workflows to fully model-controlled agents.</p>
+<figure class="diagram" aria-label="Patterns by how much control the LLM has"><figcaption class="diagram__title">Patterns by how much control the LLM has</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Prompt chaining&#34;] --&gt; B[&#34;Routing&#34;] --&gt; C[&#34;Parallelization&#34;] --&gt; D[&#34;Orchestrator–workers&#34;] --&gt; E[&#34;Evaluator–optimizer&#34;] --&gt; F[&#34;Autonomous agent&#34;]
+    L[&#34;More predictable,&lt;br/&gt;code decides&#34;] -.-&gt; A
+    F -.-&gt; R[&#34;More flexible,&lt;br/&gt;LLM decides&#34;]</pre>
+</figure>
+<h2 id="1-prompt-chaining">1. Prompt chaining<a class="heading-anchor" href="#1-prompt-chaining" aria-label="Link to this section">#</a></h2>
+<p>Break a task into fixed steps; each LLM call processes the previous output. Add <strong>gates</strong> (code checks) between steps.</p>
+<figure class="diagram" aria-label="Prompt chaining with a gate"><figcaption class="diagram__title">Prompt chaining with a gate</figcaption>
+  <pre class="mermaid">flowchart LR
+    IN[&#34;Input&#34;] --&gt; S1[&#34;LLM: extract key facts&#34;] --&gt; GATE{&#34;Gate:&lt;br/&gt;all required fields?&#34;}
+    GATE --&gt;|&#34;yes&#34;| S2[&#34;LLM: draft letter&#34;] --&gt; S3[&#34;LLM: translate&#34;] --&gt; OUT[&#34;Output&#34;]
+    GATE --&gt;|&#34;no&#34;| FAIL[&#34;Ask for missing info&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Use when:</strong> the task decomposes cleanly into fixed sub-tasks.</li>
+<li><strong>Example:</strong> claim email → extract claim fields → validate → draft acknowledgement → translate.</li>
+<li><strong>Why it works:</strong> each call is simpler and testable; accuracy improves at the cost of latency.</li>
+</ul>
+<h2 id="2-routing">2. Routing<a class="heading-anchor" href="#2-routing" aria-label="Link to this section">#</a></h2>
+<p>Classify the input, then send it to a specialised handler (prompt, model or workflow).</p>
+<figure class="diagram" aria-label="Routing"><figcaption class="diagram__title">Routing</figcaption>
+  <pre class="mermaid">flowchart LR
+    IN[&#34;Customer message&#34;] --&gt; R{&#34;Router&lt;br/&gt;LLM or classifier&#34;}
+    R --&gt;|&#34;billing&#34;| B[&#34;Billing prompt + tools&#34;]
+    R --&gt;|&#34;technical&#34;| T[&#34;Tech-support RAG&#34;]
+    R --&gt;|&#34;cancellation&#34;| C[&#34;Retention workflow&#34;]
+    R --&gt;|&#34;simple FAQ&#34;| F[&#34;Small model&#34;]
+    R --&gt;|&#34;unclear / sensitive&#34;| H[&#34;Human agent&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Use when:</strong> inputs fall into distinct categories that are better handled separately.</li>
+<li><strong>Benefits:</strong> specialised prompts, cheaper models for easy cases (see <a href="/enterprise-ai/foundations/model-selection/#model-routing-and-cascades">model routing</a>).</li>
+</ul>
+<h2 id="3-parallelization">3. Parallelization<a class="heading-anchor" href="#3-parallelization" aria-label="Link to this section">#</a></h2>
+<p>Run LLM calls simultaneously and combine results programmatically.</p>
+<figure class="diagram" aria-label="Sectioning and voting"><figcaption class="diagram__title">Sectioning and voting</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph Sectioning[&#34;Sectioning — different sub-tasks&#34;]
+        I1[&#34;Contract&#34;] --&gt; A1[&#34;LLM: liability clauses&#34;]
+        I1 --&gt; A2[&#34;LLM: termination clauses&#34;]
+        I1 --&gt; A3[&#34;LLM: data-protection clauses&#34;]
+        A1 --&gt; M1[&#34;Merge into review&#34;]
+        A2 --&gt; M1
+        A3 --&gt; M1
+    end
+    subgraph Voting[&#34;Voting — same task, several times&#34;]
+        I2[&#34;Code change&#34;] --&gt; V1[&#34;LLM reviewer 1&#34;]
+        I2 --&gt; V2[&#34;LLM reviewer 2&#34;]
+        I2 --&gt; V3[&#34;LLM reviewer 3&#34;]
+        V1 --&gt; M2{&#34;Majority /&lt;br/&gt;any flags?&#34;}
+        V2 --&gt; M2
+        V3 --&gt; M2
+    end</pre>
+</figure>
+<ul>
+<li><strong>Sectioning</strong> — independent sub-tasks in parallel (speed, focus). Also: one call answers while another checks guardrails.</li>
+<li><strong>Voting</strong> — same task several times for confidence (security review, content moderation).</li>
+</ul>
+<h2 id="4-orchestratorworkers">4. Orchestrator–workers<a class="heading-anchor" href="#4-orchestratorworkers" aria-label="Link to this section">#</a></h2>
+<p>A central LLM breaks a task into sub-tasks <strong>dynamically</strong>, delegates them to worker LLMs, and synthesises the results. Unlike sectioning, the sub-tasks are not known in advance.</p>
+<figure class="diagram" aria-label="Orchestrator–workers"><figcaption class="diagram__title">Orchestrator–workers</figcaption>
+  <pre class="mermaid">flowchart TB
+    T[&#34;Task: &#39;Assess impact of new&lt;br/&gt;EU regulation on our products&#39;&#34;] --&gt; O[&#34;Orchestrator LLM&lt;br/&gt;plans sub-tasks&#34;]
+    O --&gt;|&#34;sub-task 1&#34;| W1[&#34;Worker: summarise regulation&#34;]
+    O --&gt;|&#34;sub-task 2&#34;| W2[&#34;Worker: list affected products&#34;]
+    O --&gt;|&#34;sub-task 3&#34;| W3[&#34;Worker: check current controls&#34;]
+    W1 --&gt; S[&#34;Orchestrator synthesises&#34;]
+    W2 --&gt; S
+    W3 --&gt; S
+    S --&gt; R[&#34;Impact report&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Use when:</strong> the number and nature of sub-tasks depend on the input (research, multi-file code changes).</li>
+<li>This is the basis of the <strong>supervisor</strong> pattern in <a href="/enterprise-ai/agentic-ai/multi-agent-systems/">multi-agent systems</a>.</li>
+</ul>
+<h2 id="5-evaluatoroptimizer">5. Evaluator–optimizer<a class="heading-anchor" href="#5-evaluatoroptimizer" aria-label="Link to this section">#</a></h2>
+<p>One LLM generates; another evaluates against criteria and gives feedback; repeat until good enough.</p>
+<figure class="diagram" aria-label="Evaluator–optimizer loop"><figcaption class="diagram__title">Evaluator–optimizer loop</figcaption>
+  <pre class="mermaid">flowchart LR
+    IN[&#34;Task&#34;] --&gt; G[&#34;Generator LLM&#34;]
+    G --&gt; D[&#34;Draft&#34;]
+    D --&gt; E{&#34;Evaluator LLM&lt;br/&gt;meets criteria?&#34;}
+    E --&gt;|&#34;no + feedback&#34;| G
+    E --&gt;|&#34;yes&#34;| OUT[&#34;Final&#34;]
+    E --&gt;|&#34;max rounds&#34;| OUT</pre>
+</figure>
+<ul>
+<li><strong>Use when:</strong> clear evaluation criteria exist and iteration measurably helps (translation nuance, SQL that must pass tests, policy-compliant marketing copy).</li>
+<li>Use <strong>deterministic evaluators</strong> where you can: unit tests, schema validation, SQL <code>EXPLAIN</code>, linters.</li>
+</ul>
+<h2 id="6-plan-and-execute">6. Plan-and-execute<a class="heading-anchor" href="#6-plan-and-execute" aria-label="Link to this section">#</a></h2>
+<p>The agent writes an explicit <strong>plan</strong> first, executes steps (often with a cheaper model or plain code), and <strong>re-plans</strong> when results differ from expectations.</p>
+<figure class="diagram" aria-label="Plan, execute, re-plan"><figcaption class="diagram__title">Plan, execute, re-plan</figcaption>
+  <pre class="mermaid">flowchart TD
+    G[&#34;Goal&#34;] --&gt; P[&#34;Planner LLM:&lt;br/&gt;numbered plan&#34;]
+    P --&gt; X[&#34;Executor:&lt;br/&gt;run next step with tools&#34;]
+    X --&gt; C{&#34;Step result&lt;br/&gt;as expected?&#34;}
+    C --&gt;|&#34;yes, more steps&#34;| X
+    C --&gt;|&#34;no&#34;| RP[&#34;Re-plan with&lt;br/&gt;what was learned&#34;]
+    RP --&gt; X
+    C --&gt;|&#34;all done&#34;| F[&#34;Final answer&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Benefits:</strong> the plan is visible (users and reviewers can approve it), cheaper execution, better long-horizon behaviour.</li>
+<li>Variants: ReWOO (plan all tool calls up front), LLMCompiler (plan a DAG of parallel calls).</li>
+</ul>
+<h2 id="7-reflection">7. Reflection<a class="heading-anchor" href="#7-reflection" aria-label="Link to this section">#</a></h2>
+<p>The agent critiques its own output or failed attempts and stores lessons for the next try (<strong>Reflexion</strong>). Cheaper than a separate evaluator, but self-critique is less reliable than external checks — prefer real signals (test results, tool errors) as the input to reflection.</p>
+<h2 id="8-human-in-the-loop-hitl">8. Human-in-the-loop (HITL)<a class="heading-anchor" href="#8-human-in-the-loop-hitl" aria-label="Link to this section">#</a></h2>
+<p>A pattern that combines with all others: pause at defined points for human <strong>approval</strong>, <strong>correction</strong> or <strong>input</strong>.</p>
+<figure class="diagram" aria-label="Approval checkpoint"><figcaption class="diagram__title">Approval checkpoint</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant A as Agent
+    participant S as State store
+    participant H as Human approver
+    participant SYS as Payment system
+    A-&gt;&gt;A: decides: refund €480 to customer C-301
+    A-&gt;&gt;S: checkpoint state, status = AWAITING_APPROVAL
+    A--&gt;&gt;H: approval request with reasoning and evidence
+    Note over A,H: Agent paused — minutes or days
+    H-&gt;&gt;S: approve (or edit amount / reject)
+    S-&gt;&gt;A: resume from checkpoint
+    A-&gt;&gt;SYS: refund(C-301, 480, idempotencyKey)
+    A--&gt;&gt;H: done, audit record written</pre>
+</figure>
+<p>Requires durable state (checkpoints) so the agent can wait without holding a thread; see <a href="/enterprise-ai/agentic-ai/agent-memory-and-state/#durable-execution-and-checkpoints">memory and state</a>.</p>
+<h2 id="choosing-a-pattern">Choosing a pattern<a class="heading-anchor" href="#choosing-a-pattern" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Situation</th>
+      <th>Pattern</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fixed steps, each simpler than the whole</td>
+      <td>Prompt chaining</td>
+    </tr>
+    <tr>
+      <td>Distinct input categories</td>
+      <td>Routing</td>
+    </tr>
+    <tr>
+      <td>Independent sub-tasks, or need confidence</td>
+      <td>Parallelization</td>
+    </tr>
+    <tr>
+      <td>Sub-tasks unknown until runtime</td>
+      <td>Orchestrator–workers</td>
+    </tr>
+    <tr>
+      <td>Clear quality criteria, iteration helps</td>
+      <td>Evaluator–optimizer</td>
+    </tr>
+    <tr>
+      <td>Long multi-step tasks needing a visible plan</td>
+      <td>Plan-and-execute</td>
+    </tr>
+    <tr>
+      <td>Open-ended, path unknowable</td>
+      <td>Autonomous agent (ReAct loop)</td>
+    </tr>
+    <tr>
+      <td>Risky or irreversible actions</td>
+      <td>+ Human-in-the-loop</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Starting with a framework instead of the pattern</span></p>
+  <div class="callout__body"><p>Frameworks hide prompts and control flow, making debugging hard. Understand the pattern; many can be implemented in a few dozen lines with a plain chat client.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Loops without exit criteria</span></p>
+  <div class="callout__body"><p>Evaluator–optimizer and reflection loops need a maximum number of rounds and a definition of &ldquo;good enough&rdquo;.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What is the difference between prompt chaining and an agent?</strong>
+In prompt chaining, code defines a fixed sequence of LLM calls with checks between them. In an agent, the LLM decides the next step at runtime in a loop.</p>
+<p><strong>When would you use orchestrator–workers instead of parallel sectioning?</strong>
+When sub-tasks cannot be known in advance and depend on the input — the orchestrator plans them dynamically. Sectioning uses a fixed, predefined split.</p>
+<p><strong>Explain the evaluator–optimizer pattern.</strong>
+A generator produces output, an evaluator checks it against explicit criteria and returns feedback, and the generator revises — looping until criteria are met or a round limit is reached. Use deterministic evaluators such as tests where possible.</p>
+<p><strong>What is plan-and-execute and why use it?</strong>
+A planner produces an explicit multi-step plan, an executor runs steps with tools, and the planner re-plans when results deviate. It makes long tasks more reliable, visible and cheaper.</p>
+<p><strong>How do you implement human-in-the-loop in an agent?</strong>
+Define checkpoints for risky actions, persist the agent&rsquo;s state, notify an approver with context, resume from the checkpoint after approval or edit, and log the decision.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Combine patterns out loud</span></p>
+  <div class="callout__body"><p>A strong design answer composes patterns: &ldquo;A router sends claims to specialised chains; complex claims go to an orchestrator–workers agent; refunds above €100 pause for human approval.&rdquo;</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Patterns range from code-controlled (chaining, routing, parallelization) to model-controlled (orchestrator–workers, agents).</li>
+<li>Evaluator–optimizer, plan-and-execute and reflection improve quality on hard tasks.</li>
+<li>Human-in-the-loop adds safety to any pattern and needs durable state.</li>
+<li>Choose the simplest pattern that meets requirements; compose patterns for real systems.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://www.anthropic.com/research/building-effective-agents" rel="noopener">Building effective agents</a>, 2024.</li>
+<li>Shinn et al., <a href="https://arxiv.org/abs/2303.11366" rel="noopener">Reflexion: Language Agents with Verbal Reinforcement Learning</a>, 2023.</li>
+<li>Wang et al., <a href="https://arxiv.org/abs/2305.04091" rel="noopener">Plan-and-Solve Prompting</a>, 2023.</li>
+<li>Xu et al., <a href="https://arxiv.org/abs/2305.18323" rel="noopener">ReWOO: Decoupling Reasoning from Observations</a>, 2023.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/multi-agent-systems/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Multi-agent systems</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/model-context-protocol/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/tool-calling/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Tool calling</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/model-context-protocol/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">MCP</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/multi-agent-systems/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Multi-agent systems</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#1-prompt-chaining">1. Prompt chaining</a></li>
+    <li><a href="#2-routing">2. Routing</a></li>
+    <li><a href="#3-parallelization">3. Parallelization</a></li>
+    <li><a href="#4-orchestratorworkers">4. Orchestrator–workers</a></li>
+    <li><a href="#5-evaluatoroptimizer">5. Evaluator–optimizer</a></li>
+    <li><a href="#6-plan-and-execute">6. Plan-and-execute</a></li>
+    <li><a href="#7-reflection">7. Reflection</a></li>
+    <li><a href="#8-human-in-the-loop-hitl">8. Human-in-the-loop (HITL)</a></li>
+    <li><a href="#choosing-a-pattern">Choosing a pattern</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

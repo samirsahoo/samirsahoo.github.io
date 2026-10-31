@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model Selection for the Enterprise · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How to choose LLMs: capability tiers, open-weight vs proprietary, benchmarks and their limits, a weighted scoring matrix, model routing and cascades, and avoiding lock-in.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/model-selection/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Model Selection for the Enterprise">
+<meta property="og:description" content="How to choose LLMs: capability tiers, open-weight vs proprietary, benchmarks and their limits, a weighted scoring matrix, model routing and cascades, and avoiding lock-in.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/model-selection/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Model Selection for the Enterprise">
+<meta name="twitter:description" content="How to choose LLMs: capability tiers, open-weight vs proprietary, benchmarks and their limits, a weighted scoring matrix, model routing and cascades, and avoiding lock-in.">
+<meta name="keywords" content="llm, foundations, architecture-decision">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"How to choose LLMs: capability tiers, open-weight vs proprietary, benchmarks and their limits, a weighted scoring matrix, model routing and cascades, and avoiding lock-in.","headline":"Model Selection for the Enterprise","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, architecture-decision","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/model-selection/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/model-selection/","name":"Model selection","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/" aria-current="page">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">Model selection</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Model Selection for the Enterprise</h1><p class="article__lede" itemprop="description">How to choose LLMs: capability tiers, open-weight vs proprietary, benchmarks and their limits, a weighted scoring matrix, model routing and cascades, and avoiding lock-in.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/llm/">#Llm</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/architecture-decision/">#Architecture-Decision</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-matters">Why it matters</a></li>
+    <li><a href="#the-selection-criteria">The selection criteria</a></li>
+    <li><a href="#model-tiers">Model tiers</a></li>
+    <li><a href="#proprietary-vs-open-weight">Proprietary vs open-weight</a></li>
+    <li><a href="#benchmarks-useful-but-not-sufficient">Benchmarks: useful, but not sufficient</a></li>
+    <li><a href="#a-repeatable-selection-process">A repeatable selection process</a></li>
+    <li><a href="#model-routing-and-cascades">Model routing and cascades</a></li>
+    <li><a href="#avoiding-lock-in">Avoiding lock-in</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Model selection</strong> is choosing which LLM (or which <em>mix</em> of LLMs) serves each use case, based on quality for the task, cost, latency, data-protection requirements and operational fit. In an enterprise it is not a one-time choice: models change every few months, so the architecture must make swapping cheap.</p>
+<h2 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to this section">#</a></h2>
+<p>The difference between models on <em>your</em> task can be large, and price per token varies by more than 50× between the smallest and largest models. Picking the biggest model for everything wastes money; picking the cheapest for everything fails on hard tasks.</p>
+<h2 id="the-selection-criteria">The selection criteria<a class="heading-anchor" href="#the-selection-criteria" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion</th>
+      <th>Questions to ask</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Task quality</strong></td>
+      <td>How does it score on <em>our</em> evaluation set? Reasoning, extraction accuracy, code, tool use, multilingual?</td>
+    </tr>
+    <tr>
+      <td><strong>Cost</strong></td>
+      <td>Price per million input/output tokens; caching and batch discounts; total cost at projected volume.</td>
+    </tr>
+    <tr>
+      <td><strong>Latency</strong></td>
+      <td>TTFT and tokens/s at our prompt sizes; is streaming supported?</td>
+    </tr>
+    <tr>
+      <td><strong>Context window</strong></td>
+      <td>Fits our largest realistic prompt with headroom?</td>
+    </tr>
+    <tr>
+      <td><strong>Capabilities</strong></td>
+      <td>Tool calling, structured outputs, vision, audio, reasoning mode, embeddings.</td>
+    </tr>
+    <tr>
+      <td><strong>Data protection</strong></td>
+      <td>Data retention, training-on-your-data terms, regional hosting, certifications (SOC 2, ISO 27001), private networking.</td>
+    </tr>
+    <tr>
+      <td><strong>Deployment</strong></td>
+      <td>Provider API, your cloud (Bedrock, Azure, Vertex), or self-hosted?</td>
+    </tr>
+    <tr>
+      <td><strong>Licence</strong></td>
+      <td>For open-weight models: commercial use allowed? usage restrictions?</td>
+    </tr>
+    <tr>
+      <td><strong>Safety</strong></td>
+      <td>Refusal behaviour, jailbreak resistance, content filters.</td>
+    </tr>
+    <tr>
+      <td><strong>Vendor and roadmap</strong></td>
+      <td>Deprecation policy, SLAs, support, financial stability.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="model-tiers">Model tiers<a class="heading-anchor" href="#model-tiers" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Capability tiers and typical uses"><figcaption class="diagram__title">Capability tiers and typical uses</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph T1[&#34;Frontier / reasoning models&#34;]
+        A[&#34;Complex reasoning, planning,&lt;br/&gt;agentic coding, hard analysis&#34;]
+    end
+    subgraph T2[&#34;Mid-tier models&#34;]
+        B[&#34;Most RAG, chat, summarisation,&lt;br/&gt;tool use at scale&#34;]
+    end
+    subgraph T3[&#34;Small models, SLMs&#34;]
+        C[&#34;Classification, routing, extraction,&lt;br/&gt;guardrails, on-device, high volume&#34;]
+    end
+    subgraph T4[&#34;Specialised models&#34;]
+        D[&#34;Embeddings, rerankers,&lt;br/&gt;speech, vision, code&#34;]
+    end
+    T1 ---|&#34;higher quality, cost, latency&#34;| T2 ---|&#34;lower cost, faster&#34;| T3</pre>
+</figure>
+<h2 id="proprietary-vs-open-weight">Proprietary vs open-weight<a class="heading-anchor" href="#proprietary-vs-open-weight" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Proprietary (API)</th>
+      <th>Open-weight (self-host or managed)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Examples</td>
+      <td>Claude, GPT, Gemini families</td>
+      <td>Llama, Mistral, Qwen, Gemma, DeepSeek families</td>
+    </tr>
+    <tr>
+      <td>Peak quality</td>
+      <td>Usually highest</td>
+      <td>Close behind, especially at mid-tier</td>
+    </tr>
+    <tr>
+      <td>Operations</td>
+      <td>None — pay per token</td>
+      <td>You run GPUs, scaling, patching (unless a cloud hosts it)</td>
+    </tr>
+    <tr>
+      <td>Data control</td>
+      <td>Contractual (retention, region)</td>
+      <td>Full — data never leaves your environment</td>
+    </tr>
+    <tr>
+      <td>Customisation</td>
+      <td>Prompting; some offer fine-tuning</td>
+      <td>Full fine-tuning, LoRA, quantization</td>
+    </tr>
+    <tr>
+      <td>Cost profile</td>
+      <td>Variable, scales with usage</td>
+      <td>Fixed GPU cost; cheaper at high steady volume</td>
+    </tr>
+    <tr>
+      <td>Lock-in</td>
+      <td>API differences between vendors</td>
+      <td>Low for the model, but you own the platform</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Note: &ldquo;open-weight&rdquo; means the weights are downloadable; licences differ and are not always open source in the OSI sense.</p>
+<h2 id="benchmarks-useful-but-not-sufficient">Benchmarks: useful, but not sufficient<a class="heading-anchor" href="#benchmarks-useful-but-not-sufficient" aria-label="Link to this section">#</a></h2>
+<p>Public benchmarks (MMLU-style knowledge tests, GPQA for hard science, SWE-bench for coding, tool-use and agent benchmarks, LMArena-style human preference rankings) are good for <strong>shortlisting</strong>. They are poor for <strong>deciding</strong>, because:</p>
+<ul>
+<li>They may not resemble your task, documents or language.</li>
+<li>Models can be over-optimised for popular benchmarks (&ldquo;contamination&rdquo;).</li>
+<li>They ignore your latency, cost and data constraints.</li>
+</ul>
+<p>The decision must come from <strong>your own evaluation set</strong>: 50–500 representative inputs with expected outputs or grading criteria, scored automatically and spot-checked by experts. See <a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a> for the methods.</p>
+<h2 id="a-repeatable-selection-process">A repeatable selection process<a class="heading-anchor" href="#a-repeatable-selection-process" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Model selection process"><figcaption class="diagram__title">Model selection process</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;1 · Define use case&lt;br/&gt;and success metrics&#34;] --&gt; B[&#34;2 · Hard filters&lt;br/&gt;data residency, licence,&lt;br/&gt;capabilities, context&#34;]
+    B --&gt; C[&#34;3 · Shortlist 3–5 models&lt;br/&gt;benchmarks, cost tier&#34;]
+    C --&gt; D[&#34;4 · Evaluate on own dataset&lt;br/&gt;quality, latency, cost&#34;]
+    D --&gt; E[&#34;5 · Weighted scoring&lt;br/&gt;+ risk review&#34;]
+    E --&gt; F[&#34;6 · Decide primary&lt;br/&gt;and fallback model&#34;]
+    F --&gt; G[&#34;7 · Re-evaluate on&lt;br/&gt;every new model release&#34;]
+    G --&gt; C</pre>
+</figure>
+<p><strong>Weighted scoring example — customer-support RAG assistant</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion (weight)</th>
+      <th>Model A frontier</th>
+      <th>Model B mid-tier</th>
+      <th>Model C open-weight 70B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Answer quality on eval set (40%)</td>
+      <td>9</td>
+      <td>8</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>Cost at volume (20%)</td>
+      <td>4</td>
+      <td>8</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>Latency (15%)</td>
+      <td>6</td>
+      <td>8</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>Data protection fit (15%)</td>
+      <td>7</td>
+      <td>7</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Operational effort (10%)</td>
+      <td>9</td>
+      <td>9</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td><strong>Weighted total</strong></td>
+      <td><strong>7.25</strong></td>
+      <td><strong>7.95</strong></td>
+      <td><strong>7.15</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Model B wins <em>for this use case</em>. A legal-analysis use case with different weights might pick Model A.</p>
+<h2 id="model-routing-and-cascades">Model routing and cascades<a class="heading-anchor" href="#model-routing-and-cascades" aria-label="Link to this section">#</a></h2>
+<p>You rarely need one model for everything. An <strong>AI gateway</strong> or router sends each request to the cheapest model that can handle it.</p>
+<figure class="diagram" aria-label="Router and cascade patterns"><figcaption class="diagram__title">Router and cascade patterns</figcaption>
+  <pre class="mermaid">flowchart TB
+    Q[&#34;Request&#34;] --&gt; R{&#34;Router&lt;br/&gt;rules or small classifier&#34;}
+    R --&gt;|&#34;simple: FAQ, classification&#34;| S[&#34;Small model&#34;]
+    R --&gt;|&#34;standard&#34;| M[&#34;Mid-tier model&#34;]
+    R --&gt;|&#34;complex reasoning&#34;| L[&#34;Frontier / reasoning model&#34;]
+    S --&gt; V{&#34;Confidence or&lt;br/&gt;validation OK?&#34;}
+    V --&gt;|&#34;No: escalate&#34;| M
+    V --&gt;|&#34;Yes&#34;| OUT[&#34;Response&#34;]
+    M --&gt; OUT
+    L --&gt; OUT</pre>
+</figure>
+<ul>
+<li><strong>Routing</strong> — classify the request first, then choose a model.</li>
+<li><strong>Cascade</strong> — try the cheap model first; escalate if validation or confidence fails.</li>
+<li><strong>Fallback</strong> — on provider outage or rate limit, switch to an equivalent model from another provider.</li>
+</ul>
+<p>Routing commonly cuts cost by 40–70% when most traffic is simple.</p>
+<h2 id="avoiding-lock-in">Avoiding lock-in<a class="heading-anchor" href="#avoiding-lock-in" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Call models through an abstraction: <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI</a>&rsquo;s <code>ChatModel</code>, or an <a href="/enterprise-ai/foundations/enterprise-ai-stack/#ai-gateway">AI gateway</a> with an OpenAI-compatible API.</li>
+<li>Keep prompts, evaluation sets and tool definitions model-agnostic and in version control.</li>
+<li>Store embeddings with the embedding model name and version; changing the embedding model means re-indexing.</li>
+<li>Re-run the evaluation suite before switching models — prompts often need adjustment.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Choosing by leaderboard or hype</span></p>
+  <div class="callout__body"><p>A model at the top of a public leaderboard can underperform on your documents and language. Decide with your own evaluation set.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One model for every use case</span></p>
+  <div class="callout__body"><p>The biggest model for a sentiment label wastes money; the smallest for legal reasoning fails. Match the tier to the task and route.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No fallback model</span></p>
+  <div class="callout__body"><p>Provider outages and rate limits happen. A second, pre-evaluated model on a different provider keeps critical features running.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>How would you choose an LLM for a new enterprise use case?</strong>
+Define the task and success metrics; apply hard filters (data residency, licence, required capabilities, context size); shortlist a few models using benchmarks and price; evaluate them on our own dataset for quality, latency and cost; score with weights agreed with the business; choose a primary and fallback; and re-evaluate when new models appear.</p>
+<p><strong>Open-weight or proprietary?</strong>
+Proprietary APIs give the best quality and zero operations; open-weight gives full data control, customisation and lower cost at high steady volume. Many enterprises use proprietary models through their cloud provider for most work and open-weight models for sensitive or very high-volume tasks.</p>
+<p><strong>What is model routing and why use it?</strong>
+Sending each request to the cheapest model capable of handling it, using rules or a classifier, sometimes with escalation on low confidence. It cuts cost and latency without hurting quality on hard requests.</p>
+<p><strong>Why are public benchmarks not enough?</strong>
+They do not reflect your data, task or constraints, can be contaminated, and ignore cost and latency. Use them to shortlist and your own evaluation set to decide.</p>
+<p><strong>How do you avoid vendor lock-in?</strong>
+Abstraction layer or gateway, model-agnostic prompts and tool schemas, an evaluation suite to qualify replacements quickly, and a tested fallback provider.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Select per use case, on task quality, cost, latency, data protection and operational fit.</li>
+<li>Shortlist with benchmarks; decide with your own evaluation set and weighted scoring.</li>
+<li>Use tiers: frontier for hard reasoning, mid-tier for most work, small models for high-volume simple tasks.</li>
+<li>Route and cascade to save cost; keep a fallback model; abstract the provider.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chen, Zaharia, Zou, <a href="https://arxiv.org/abs/2305.05176" rel="noopener">FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance</a>, 2023.</li>
+<li>Ong et al., <a href="https://arxiv.org/abs/2406.18665" rel="noopener">RouteLLM: Learning to Route LLMs with Preference Data</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/enterprise-ai-stack/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Enterprise AI stack</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/customizing-models/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompting vs RAG vs fine-tuning</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-evaluation/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/how-llms-work/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">How LLMs work</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Inference, latency &amp; cost</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/customizing-models/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Prompting vs RAG vs fine-tuning</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/enterprise-ai-stack/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Enterprise AI stack</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-matters">Why it matters</a></li>
+    <li><a href="#the-selection-criteria">The selection criteria</a></li>
+    <li><a href="#model-tiers">Model tiers</a></li>
+    <li><a href="#proprietary-vs-open-weight">Proprietary vs open-weight</a></li>
+    <li><a href="#benchmarks-useful-but-not-sufficient">Benchmarks: useful, but not sufficient</a></li>
+    <li><a href="#a-repeatable-selection-process">A repeatable selection process</a></li>
+    <li><a href="#model-routing-and-cascades">Model routing and cascades</a></li>
+    <li><a href="#avoiding-lock-in">Avoiding lock-in</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

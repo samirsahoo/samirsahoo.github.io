@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>RAG, Vector Databases &amp; GraphRAG on Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/enterprise-ai/rag/</link>
+		<description>Recent content in RAG, Vector Databases &amp; GraphRAG on Enterprise AI &amp; Agentic AI Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/enterprise-ai/rag/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>RAG Fundamentals: Retrieval-Augmented Generation</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/rag/rag-fundamentals/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/rag/rag-fundamentals/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Retrieval-augmented generation (RAG)&lt;/strong&gt; answers a question in two steps: first &lt;strong&gt;retrieve&lt;/strong&gt; the most relevant pieces of your own documents, then ask the LLM to &lt;strong&gt;generate&lt;/strong&gt; an answer using those pieces as context.&lt;/p&gt;&#xA;&lt;p&gt;Analogy: an open-book exam. The model is a smart student who has not read your company handbook. RAG hands them the right pages before they answer.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Chunking and Embeddings</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/rag/chunking-and-embeddings/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/rag/chunking-and-embeddings/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Chunking&lt;/strong&gt; is splitting documents into smaller passages so that search can return just the relevant part, and so it fits in the prompt.&lt;/li&gt;&#xA;&lt;li&gt;An &lt;strong&gt;embedding&lt;/strong&gt; is a list of numbers (a vector) that represents the &lt;em&gt;meaning&lt;/em&gt; of a piece of text. Texts with similar meaning have vectors that are close together.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Together they decide what your RAG system can find.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Vector Databases Explained</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;vector database&lt;/strong&gt; stores embeddings (vectors) together with their text and metadata, and answers one question fast: &lt;em&gt;&amp;ldquo;which stored vectors are closest to this query vector?&amp;rdquo;&lt;/em&gt; — usually with filters such as &amp;ldquo;only documents this user may see&amp;rdquo;.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Advanced RAG: Hybrid Search, Reranking, Query Transformation and Agentic RAG</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/rag/advanced-retrieval/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/rag/advanced-retrieval/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Advanced RAG&lt;/strong&gt; adds steps before, during and after retrieval to find better context: fix the question (&lt;em&gt;pre-retrieval&lt;/em&gt;), search in more than one way (&lt;em&gt;retrieval&lt;/em&gt;), and filter and order what was found (&lt;em&gt;post-retrieval&lt;/em&gt;). &lt;strong&gt;Agentic RAG&lt;/strong&gt; goes further and lets an LLM decide when, where and how many times to search.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>GraphRAG and Knowledge Graphs</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/rag/graphrag/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/rag/graphrag/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;knowledge graph&lt;/strong&gt; stores facts as &lt;strong&gt;entities&lt;/strong&gt; (nodes: people, products, systems, contracts) and &lt;strong&gt;relationships&lt;/strong&gt; (edges: &lt;em&gt;owns&lt;/em&gt;, &lt;em&gt;depends on&lt;/em&gt;, &lt;em&gt;supplies&lt;/em&gt;). &lt;strong&gt;GraphRAG&lt;/strong&gt; uses such a graph — often built automatically from documents by an LLM — to retrieve connected facts and summaries that plain vector search cannot find.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Evaluating RAG and LLM Applications</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/rag/rag-evaluation/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/rag/rag-evaluation/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Evaluation&lt;/strong&gt; is measuring how well your AI system does its job, on a fixed set of test cases, with repeatable scores. For RAG you measure two things separately: did we &lt;strong&gt;find&lt;/strong&gt; the right information (retrieval), and did we &lt;strong&gt;use&lt;/strong&gt; it correctly (generation)?&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>System Design: Enterprise Knowledge Assistant (RAG)</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/rag/case-study-knowledge-assistant/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/rag/case-study-knowledge-assistant/</guid>
+				<description>&lt;h2 id=&#34;the-interview-question&#34;&gt;The interview question&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-interview-question&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design an AI assistant that lets 50,000 employees ask questions about internal policies, procedures and technical documentation, with answers grounded in company documents.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;p&gt;This walk-through follows the &lt;a href=&#34;https://samirsahoo.github.io/enterprise-ai/interview-prep/ai-system-design-framework/&#34;&gt;AI system design framework&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-requirements&#34;&gt;1. Requirements&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Functional&lt;/strong&gt;&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

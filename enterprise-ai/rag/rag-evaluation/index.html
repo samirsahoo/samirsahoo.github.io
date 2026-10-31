@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evaluating RAG and LLM Applications · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How to measure AI quality: golden datasets, retrieval metrics (recall@k, precision@k, MRR, nDCG), generation metrics (faithfulness, answer relevance, context precision and recall), LLM-as-judge, RAGAS-style frameworks, human review, and evaluation in CI and production.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/rag/rag-evaluation/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Evaluating RAG and LLM Applications">
+<meta property="og:description" content="How to measure AI quality: golden datasets, retrieval metrics (recall@k, precision@k, MRR, nDCG), generation metrics (faithfulness, answer relevance, context precision and recall), LLM-as-judge, RAGAS-style frameworks, human review, and evaluation in CI and production.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/rag/rag-evaluation/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Evaluating RAG and LLM Applications">
+<meta name="twitter:description" content="How to measure AI quality: golden datasets, retrieval metrics (recall@k, precision@k, MRR, nDCG), generation metrics (faithfulness, answer relevance, context precision and recall), LLM-as-judge, RAGAS-style frameworks, human review, and evaluation in CI and production.">
+<meta name="keywords" content="rag, evaluation, quality">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"How to measure AI quality: golden datasets, retrieval metrics (recall@k, precision@k, MRR, nDCG), generation metrics (faithfulness, answer relevance, context precision and recall), LLM-as-judge, RAGAS-style frameworks, human review, and evaluation in CI and production.","headline":"Evaluating RAG and LLM Applications","inLanguage":"en","isAccessibleForFree":true,"keywords":"rag, evaluation, quality","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/rag/rag-evaluation/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/","name":"2 · RAG \u0026 GraphRAG","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/rag-evaluation/","name":"RAG evaluation","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-rag">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/" aria-current="page">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a></li>
+    <li><span aria-current="page">RAG evaluation</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Evaluating RAG and LLM Applications</h1><p class="article__lede" itemprop="description">How to measure AI quality: golden datasets, retrieval metrics (recall@k, precision@k, MRR, nDCG), generation metrics (faithfulness, answer relevance, context precision and recall), LLM-as-judge, RAGAS-style frameworks, human review, and evaluation in CI and production.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/rag/">#Rag</a><a class="tag" href="/enterprise-ai/tags/evaluation/">#Evaluation</a><a class="tag" href="/enterprise-ai/tags/quality/">#Quality</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#what-to-evaluate">What to evaluate</a></li>
+    <li><a href="#the-golden-dataset">The golden dataset</a></li>
+    <li><a href="#retrieval-metrics">Retrieval metrics</a></li>
+    <li><a href="#generation-metrics">Generation metrics</a></li>
+    <li><a href="#llm-as-a-judge">LLM-as-a-judge</a></li>
+    <li><a href="#evaluation-in-the-lifecycle">Evaluation in the lifecycle</a></li>
+    <li><a href="#human-evaluation">Human evaluation</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Evaluation</strong> is measuring how well your AI system does its job, on a fixed set of test cases, with repeatable scores. For RAG you measure two things separately: did we <strong>find</strong> the right information (retrieval), and did we <strong>use</strong> it correctly (generation)?</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">No evaluation, no engineering</span></p>
+  <div class="callout__body"><p>Without numbers, every change to chunking, prompts or models is a guess. Evaluation turns AI development into normal engineering: change, measure, compare, decide.</p></div>
+</aside><h2 id="what-to-evaluate">What to evaluate<a class="heading-anchor" href="#what-to-evaluate" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="The RAG triad, plus correctness"><figcaption class="diagram__title">The RAG triad, plus correctness</figcaption>
+  <pre class="mermaid">flowchart LR
+    Q[&#34;Question&#34;] --&gt;|&#34;Context relevance:&lt;br/&gt;is the retrieved context&lt;br/&gt;relevant to the question?&#34;| C[&#34;Retrieved context&#34;]
+    C --&gt;|&#34;Faithfulness / groundedness:&lt;br/&gt;is every claim in the answer&lt;br/&gt;supported by the context?&#34;| A[&#34;Answer&#34;]
+    A --&gt;|&#34;Answer relevance:&lt;br/&gt;does it address&lt;br/&gt;the question?&#34;| Q
+    A --&gt;|&#34;Correctness:&lt;br/&gt;does it match the&lt;br/&gt;reference answer?&#34;| REF[&#34;Reference answer&#34;]</pre>
+</figure>
+<h2 id="the-golden-dataset">The golden dataset<a class="heading-anchor" href="#the-golden-dataset" aria-label="Link to this section">#</a></h2>
+<p>A <strong>golden dataset</strong> (evaluation set) is a list of test cases:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Question</td>
+      <td>&ldquo;Can contractors claim home-office equipment?&rdquo;</td>
+    </tr>
+    <tr>
+      <td>Reference answer</td>
+      <td>&ldquo;No. Only employees on permanent or fixed-term contracts may claim, up to €500 per year.&rdquo;</td>
+    </tr>
+    <tr>
+      <td>Relevant document/chunk IDs</td>
+      <td><code>policy-equipment-2026#3.1</code></td>
+    </tr>
+    <tr>
+      <td>Metadata</td>
+      <td>Category: HR; difficulty: medium; type: single-hop</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>How to build it:</p>
+<ol>
+<li><strong>Start with real questions</strong> from users, support tickets, search logs or subject-matter experts.</li>
+<li><strong>Cover the space</strong> — easy and hard, single- and multi-hop, every major document type, questions with <em>no</em> answer in the corpus, adversarial inputs.</li>
+<li><strong>Synthetic generation</strong> — an LLM generates question–answer pairs from chunks; experts review a sample. Fast for coverage, but check realism.</li>
+<li><strong>Size</strong> — 50–100 cases to start, growing to several hundred. Add every production failure.</li>
+<li><strong>Version it</strong> like code.</li>
+</ol>
+<h2 id="retrieval-metrics">Retrieval metrics<a class="heading-anchor" href="#retrieval-metrics" aria-label="Link to this section">#</a></h2>
+<p>Given the known relevant chunks for each question:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Question it answers</th>
+      <th>Formula, simply</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Recall@k</strong></td>
+      <td>Did the relevant chunks appear in the top k?</td>
+      <td>relevant found in top k ÷ total relevant</td>
+    </tr>
+    <tr>
+      <td><strong>Precision@k</strong></td>
+      <td>How much of the top k is relevant?</td>
+      <td>relevant in top k ÷ k</td>
+    </tr>
+    <tr>
+      <td><strong>Hit rate@k</strong></td>
+      <td>Was <em>at least one</em> relevant chunk in the top k?</td>
+      <td>% of questions with a hit</td>
+    </tr>
+    <tr>
+      <td><strong>MRR</strong> (mean reciprocal rank)</td>
+      <td>How high is the first relevant result?</td>
+      <td>average of 1 ÷ rank of first relevant</td>
+    </tr>
+    <tr>
+      <td><strong>nDCG@k</strong></td>
+      <td>Are the most relevant results at the top?</td>
+      <td>rank-weighted gain, normalised to the ideal order</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Example.</strong> Relevant chunk found at rank 3 → reciprocal rank 1/3. Over three questions with first-hit ranks 1, 3 and &ldquo;not found&rdquo;: MRR = (1 + 0.33 + 0) / 3 = 0.44.</p>
+<p>Recall@k is the most important for RAG: if the right chunk is not retrieved, nothing downstream can fix it.</p>
+<h2 id="generation-metrics">Generation metrics<a class="heading-anchor" href="#generation-metrics" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>What it measures</th>
+      <th>How it is computed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Faithfulness / groundedness</strong></td>
+      <td>Are the answer&rsquo;s claims supported by the retrieved context? (hallucination check)</td>
+      <td>LLM splits the answer into claims and checks each against the context</td>
+    </tr>
+    <tr>
+      <td><strong>Answer relevance</strong></td>
+      <td>Does the answer address the question?</td>
+      <td>LLM judge, or similarity between the question and questions generated from the answer</td>
+    </tr>
+    <tr>
+      <td><strong>Context precision</strong></td>
+      <td>Are the relevant chunks ranked at the top?</td>
+      <td>LLM or labels judge each retrieved chunk</td>
+    </tr>
+    <tr>
+      <td><strong>Context recall</strong></td>
+      <td>Does the context contain everything needed for the reference answer?</td>
+      <td>Check reference-answer claims against context</td>
+    </tr>
+    <tr>
+      <td><strong>Answer correctness</strong></td>
+      <td>Does it match the reference?</td>
+      <td>LLM judge or semantic similarity to reference</td>
+    </tr>
+    <tr>
+      <td><strong>Citation accuracy</strong></td>
+      <td>Do citations point to sources that support the sentence?</td>
+      <td>Rule check + LLM judge</td>
+    </tr>
+    <tr>
+      <td><strong>Format / policy compliance</strong></td>
+      <td>Length, tone, required disclaimers, no PII</td>
+      <td>Rules, regex, classifiers</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>These are the metrics implemented by frameworks such as <strong>RAGAS</strong>, <strong>DeepEval</strong>, <strong>TruLens</strong>, <strong>Arize Phoenix</strong>, <strong>LangSmith</strong> and <strong>Langfuse</strong>. Spring AI has <code>RelevancyEvaluator</code> and <code>FactCheckingEvaluator</code> for tests; see <a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a>.</p>
+<h2 id="llm-as-a-judge">LLM-as-a-judge<a class="heading-anchor" href="#llm-as-a-judge" aria-label="Link to this section">#</a></h2>
+<p>Using a strong LLM to grade outputs against a rubric. It scales human-like judgement to thousands of cases.</p>
+<figure class="diagram" aria-label="LLM-as-judge evaluation run"><figcaption class="diagram__title">LLM-as-judge evaluation run</figcaption>
+  <pre class="mermaid">flowchart LR
+    DS[(&#34;Golden dataset&#34;)] --&gt; SUT[&#34;System under test&lt;br/&gt;RAG app, version N&#34;]
+    SUT --&gt; OUT[&#34;Answers + retrieved context&#34;]
+    OUT --&gt; J[&#34;Judge LLM&lt;br/&gt;rubric + few-shot examples&#34;]
+    DS --&gt; J
+    J --&gt; S[&#34;Scores + reasons&lt;br/&gt;per case&#34;]
+    S --&gt; R[&#34;Report vs baseline&lt;br/&gt;pass / fail gate&#34;]</pre>
+</figure>
+<p>Make judges reliable:</p>
+<ul>
+<li><strong>Specific rubrics</strong> — &ldquo;Score 1 if every claim is supported by the context, else 0&rdquo;, not &ldquo;rate quality 1–10&rdquo;.</li>
+<li><strong>Binary or small scales</strong> with explanations before the score.</li>
+<li><strong>Calibrate</strong> — compare judge scores with expert labels on 50–100 cases; aim for high agreement.</li>
+<li><strong>Known biases</strong> — position bias (prefers first option), verbosity bias (prefers longer), self-preference (prefers its own model family). Mitigate with swapped order, length-neutral rubrics and a different model family as judge.</li>
+<li><strong>Pairwise comparison</strong> (A vs B) is often more reliable than absolute scores when comparing versions.</li>
+</ul>
+<h2 id="evaluation-in-the-lifecycle">Evaluation in the lifecycle<a class="heading-anchor" href="#evaluation-in-the-lifecycle" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Offline and online evaluation"><figcaption class="diagram__title">Offline and online evaluation</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph Offline[&#34;Offline — before release&#34;]
+        O1[&#34;PR changes prompt / chunking / model&#34;] --&gt; O2[&#34;Run eval suite in CI&#34;]
+        O2 --&gt; O3{&#34;Scores ≥ baseline&lt;br/&gt;on all key metrics?&#34;}
+        O3 --&gt;|&#34;yes&#34;| O4[&#34;Merge + deploy canary&#34;]
+        O3 --&gt;|&#34;no&#34;| O5[&#34;Block + investigate&#34;]
+    end
+    subgraph Online[&#34;Online — in production&#34;]
+        N1[&#34;Sample live traces&#34;] --&gt; N2[&#34;Judge: faithfulness,&lt;br/&gt;relevance, safety&#34;]
+        N3[&#34;User feedback,&lt;br/&gt;escalations&#34;] --&gt; N4[&#34;Dashboards &amp; alerts&#34;]
+        N2 --&gt; N4
+        N4 --&gt; N5[&#34;Failures → new&lt;br/&gt;golden test cases&#34;]
+    end
+    O4 --&gt; N1
+    N5 --&gt; O1</pre>
+</figure>
+<p>Also run <strong>A/B tests</strong> for business outcomes (resolution rate, time saved, customer satisfaction) — the metrics that justify the investment.</p>
+<h2 id="human-evaluation">Human evaluation<a class="heading-anchor" href="#human-evaluation" aria-label="Link to this section">#</a></h2>
+<p>Automated metrics do not replace experts for high-stakes domains. Use <strong>human review</strong> to build the golden dataset, calibrate judges, review samples of production traffic, and sign off releases for regulated use cases. Keep review guidelines written and consistent.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Only measuring the final answer</span></p>
+  <div class="callout__body"><p>When the score drops you will not know if retrieval or generation broke. Measure both.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Trusting an uncalibrated judge</span></p>
+  <div class="callout__body"><p>An LLM judge with a vague rubric produces confident, inconsistent numbers. Calibrate against human labels.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">A static dataset</span></p>
+  <div class="callout__body"><p>Users ask new questions and documents change. Grow the dataset from production failures and refresh references when sources change.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>How do you evaluate a RAG system?</strong>
+Build a golden dataset of real questions with reference answers and relevant chunk IDs. Measure retrieval (recall@k, MRR, nDCG) and generation (faithfulness, answer relevance, correctness, citation accuracy) separately, using LLM-as-judge calibrated against human labels. Run it in CI on every change, and monitor sampled production traffic online with user feedback.</p>
+<p><strong>What is faithfulness?</strong>
+Whether every claim in the answer is supported by the retrieved context — the main hallucination metric for RAG. It is computed by splitting the answer into claims and verifying each against the context.</p>
+<p><strong>What is the difference between context precision and context recall?</strong>
+Context precision asks whether retrieved chunks are relevant and ranked at the top. Context recall asks whether the retrieved context contains all the information needed for the reference answer.</p>
+<p><strong>What are the risks of LLM-as-a-judge?</strong>
+Position, verbosity and self-preference biases, inconsistent scoring with vague rubrics, and cost. Mitigate with precise binary rubrics, explanations, order swapping, a different model family, and calibration against human labels.</p>
+<p><strong>How do you prevent regressions when changing a prompt or model?</strong>
+Version prompts and datasets, run the evaluation suite in CI against the current baseline, block on drops in key metrics, roll out with canaries, and monitor online.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Name metrics <em>and</em> the process</span></p>
+  <div class="callout__body"><p>Listing RAGAS metrics is good; explaining how the dataset is built, how judges are calibrated and how evaluation gates releases is what distinguishes senior candidates.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Evaluate retrieval and generation separately, plus end-to-end correctness and business outcomes.</li>
+<li>Retrieval: recall@k, precision@k, MRR, nDCG. Generation: faithfulness, answer relevance, context precision/recall, citation accuracy.</li>
+<li>LLM-as-judge scales evaluation; calibrate it and control its biases.</li>
+<li>Run offline evaluation in CI and online evaluation on production samples; turn failures into test cases.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Es et al., <a href="https://arxiv.org/abs/2309.15217" rel="noopener">RAGAS: Automated Evaluation of Retrieval Augmented Generation</a>, 2023.</li>
+<li>Zheng et al., <a href="https://arxiv.org/abs/2306.05685" rel="noopener">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a>, 2023.</li>
+<li>Järvelin &amp; Kekäläinen, <a href="https://dl.acm.org/doi/10.1145/582415.582418" rel="noopener">Cumulated gain-based evaluation of IR techniques</a> (nDCG), 2002.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-production/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI in production</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/advanced-retrieval/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Advanced retrieval</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/chunking-and-embeddings/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Chunking &amp; embeddings</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/rag/graphrag/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">GraphRAG</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/rag/case-study-knowledge-assistant/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Case study: knowledge assistant</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#what-to-evaluate">What to evaluate</a></li>
+    <li><a href="#the-golden-dataset">The golden dataset</a></li>
+    <li><a href="#retrieval-metrics">Retrieval metrics</a></li>
+    <li><a href="#generation-metrics">Generation metrics</a></li>
+    <li><a href="#llm-as-a-judge">LLM-as-a-judge</a></li>
+    <li><a href="#evaluation-in-the-lifecycle">Evaluation in the lifecycle</a></li>
+    <li><a href="#human-evaluation">Human evaluation</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

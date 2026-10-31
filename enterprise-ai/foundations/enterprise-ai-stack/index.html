@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Enterprise AI Stack: Reference Architecture · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="The layers of an enterprise AI platform — infrastructure, models, AI gateway, data and knowledge, orchestration and agents, applications, LLMOps, security and governance — with a reference architecture, request flow and platform-team operating model.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/enterprise-ai-stack/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="The Enterprise AI Stack: Reference Architecture">
+<meta property="og:description" content="The layers of an enterprise AI platform — infrastructure, models, AI gateway, data and knowledge, orchestration and agents, applications, LLMOps, security and governance — with a reference architecture, request flow and platform-team operating model.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/enterprise-ai-stack/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Enterprise AI Stack: Reference Architecture">
+<meta name="twitter:description" content="The layers of an enterprise AI platform — infrastructure, models, AI gateway, data and knowledge, orchestration and agents, applications, LLMOps, security and governance — with a reference architecture, request flow and platform-team operating model.">
+<meta name="keywords" content="architecture, foundations, platform">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"The layers of an enterprise AI platform — infrastructure, models, AI gateway, data and knowledge, orchestration and agents, applications, LLMOps, security and governance — with a reference architecture, request flow and platform-team operating model.","headline":"The Enterprise AI Stack: Reference Architecture","inLanguage":"en","isAccessibleForFree":true,"keywords":"architecture, foundations, platform","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/enterprise-ai-stack/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/enterprise-ai-stack/","name":"Enterprise AI stack","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/" aria-current="page">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">Enterprise AI stack</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">The Enterprise AI Stack: Reference Architecture</h1><p class="article__lede" itemprop="description">The layers of an enterprise AI platform — infrastructure, models, AI gateway, data and knowledge, orchestration and agents, applications, LLMOps, security and governance — with a reference architecture, request flow and platform-team operating model.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/architecture/">#Architecture</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/platform/">#Platform</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/model-selection/">Model selection</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-it-solves">The problem it solves</a></li>
+    <li><a href="#the-layered-architecture">The layered architecture</a></li>
+    <li><a href="#ai-gateway">AI gateway</a></li>
+    <li><a href="#a-request-flowing-through-the-stack">A request flowing through the stack</a></li>
+    <li><a href="#build-vs-buy-at-each-layer">Build vs buy at each layer</a></li>
+    <li><a href="#operating-model-the-ai-platform-team">Operating model: the AI platform team</a></li>
+    <li><a href="#use-case-prioritisation">Use-case prioritisation</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>The <strong>enterprise AI stack</strong> is the set of shared layers an organisation builds so that many teams can ship AI features safely and cheaply: access to models, a gateway to control that access, pipelines that turn company data into retrievable knowledge, frameworks for chains and agents, and the operations, security and governance around all of it.</p>
+<h2 id="the-problem-it-solves">The problem it solves<a class="heading-anchor" href="#the-problem-it-solves" aria-label="Link to this section">#</a></h2>
+<p>Without a platform, every team picks its own model, stores its own API keys, builds its own vector store, logs prompts (with customer data) in different places, and nobody knows the total cost or which apps send personal data to which vendor. That is &ldquo;shadow AI&rdquo;: fast at first, ungovernable at scale.</p>
+<h2 id="the-layered-architecture">The layered architecture<a class="heading-anchor" href="#the-layered-architecture" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Enterprise AI reference stack"><figcaption class="diagram__title">Enterprise AI reference stack</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph L7[&#34;7 · Experiences&#34;]
+        A1[&#34;Copilots &amp; chat&#34;]
+        A2[&#34;AI features in business apps&#34;]
+        A3[&#34;Autonomous agents &amp; batch AI&#34;]
+    end
+    subgraph L6[&#34;6 · Orchestration &amp; agents&#34;]
+        O1[&#34;Chains &amp; workflows&#34;]
+        O2[&#34;Agent runtime&lt;br/&gt;planning, memory, HITL&#34;]
+        O3[&#34;Tool &amp; MCP registry&#34;]
+    end
+    subgraph L5[&#34;5 · Knowledge &amp; data&#34;]
+        K1[&#34;Ingestion &amp; ETL&lt;br/&gt;parse, chunk, embed&#34;]
+        K2[&#34;Vector / hybrid search&#34;]
+        K3[&#34;Knowledge graph&#34;]
+        K4[&#34;Operational data via APIs&#34;]
+    end
+    subgraph L4[&#34;4 · AI gateway&#34;]
+        G1[&#34;Auth, quotas, routing, fallback,&lt;br/&gt;caching, guardrails, cost, logging&#34;]
+    end
+    subgraph L3[&#34;3 · Models&#34;]
+        M1[&#34;Proprietary APIs&#34;]
+        M2[&#34;Cloud-managed models&#34;]
+        M3[&#34;Self-hosted open-weight&lt;br/&gt;+ fine-tuned&#34;]
+        M4[&#34;Embeddings &amp; rerankers&#34;]
+    end
+    subgraph L2[&#34;2 · Infrastructure&#34;]
+        I1[&#34;GPUs / accelerators, Kubernetes,&lt;br/&gt;networking, storage&#34;]
+    end
+    X1[&#34;LLMOps &amp; observability&lt;br/&gt;tracing, evaluation, cost&#34;]
+    X2[&#34;Security &amp; governance&lt;br/&gt;identity, data protection, policy, audit&#34;]
+    L7 --&gt; L6 --&gt; L5
+    L6 --&gt; L4
+    L5 --&gt; L4
+    L4 --&gt; L3 --&gt; L2
+    X1 -.- L7
+    X1 -.- L4
+    X2 -.- L7
+    X2 -.- L4</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Responsibility</th>
+      <th>Typical technologies</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1–2 Infrastructure</strong></td>
+      <td>Compute, GPUs, networking, storage</td>
+      <td>Kubernetes, GPU node pools, vLLM/TGI, object storage</td>
+    </tr>
+    <tr>
+      <td><strong>3 Models</strong></td>
+      <td>Generation, embeddings, reranking, speech/vision</td>
+      <td>Provider APIs, AWS Bedrock, Azure AI Foundry, Google Vertex AI, open-weight models</td>
+    </tr>
+    <tr>
+      <td><strong>4 AI gateway</strong></td>
+      <td>Single controlled entry point to all models</td>
+      <td>LiteLLM, Kong AI Gateway, Azure APIM, Envoy AI Gateway, Portkey, Cloudflare AI Gateway</td>
+    </tr>
+    <tr>
+      <td><strong>5 Knowledge</strong></td>
+      <td>Turn enterprise data into context</td>
+      <td>ETL, Apache Tika/parsers, pgvector, OpenSearch, Elasticsearch, Pinecone, Neo4j</td>
+    </tr>
+    <tr>
+      <td><strong>6 Orchestration</strong></td>
+      <td>Chains, RAG flows, agents, tool access</td>
+      <td>Spring AI, LangChain/LangGraph, LlamaIndex, Semantic Kernel, MCP servers</td>
+    </tr>
+    <tr>
+      <td><strong>7 Experiences</strong></td>
+      <td>What users touch</td>
+      <td>Web/mobile apps, chat in Teams/Slack, IDE plugins, back-office automations</td>
+    </tr>
+    <tr>
+      <td><strong>Cross-cutting: LLMOps</strong></td>
+      <td>Traces, evals, prompt versions, cost</td>
+      <td>OpenTelemetry, Langfuse, LangSmith, Arize Phoenix, MLflow</td>
+    </tr>
+    <tr>
+      <td><strong>Cross-cutting: Governance</strong></td>
+      <td>Policy, risk, audit, compliance</td>
+      <td>AI inventory, model cards, DLP, IAM, policy engines</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="ai-gateway">AI gateway<a class="heading-anchor" href="#ai-gateway" aria-label="Link to this section">#</a></h2>
+<p>The <strong>AI gateway</strong> (LLM gateway) is the most important platform component for control. Every model call in the company goes through it.</p>
+<figure class="diagram" aria-label="What the AI gateway does on every request"><figcaption class="diagram__title">What the AI gateway does on every request</figcaption>
+  <pre class="mermaid">flowchart LR
+    APP[&#34;App / agent&lt;br/&gt;OpenAI-compatible or provider API&#34;] --&gt; AUTH[&#34;1 · Authenticate app &amp; user&lt;br/&gt;virtual API keys&#34;]
+    AUTH --&gt; QUOTA[&#34;2 · Quotas &amp; rate limits&lt;br/&gt;per team, per user&#34;]
+    QUOTA --&gt; IN[&#34;3 · Input guardrails&lt;br/&gt;PII masking, injection checks, policy&#34;]
+    IN --&gt; CACHE{&#34;4 · Cache hit?&lt;br/&gt;exact or semantic&#34;}
+    CACHE --&gt;|&#34;hit&#34;| RESP[&#34;Response&#34;]
+    CACHE --&gt;|&#34;miss&#34;| ROUTE[&#34;5 · Route &amp; fallback&lt;br/&gt;model choice, provider failover&#34;]
+    ROUTE --&gt; LLM((&#34;Model provider&#34;))
+    LLM --&gt; OUTG[&#34;6 · Output guardrails&lt;br/&gt;toxicity, PII, schema&#34;]
+    OUTG --&gt; LOG[&#34;7 · Log, trace, meter cost&lt;br/&gt;chargeback per team&#34;]
+    LOG --&gt; RESP</pre>
+</figure>
+<p>Benefits: one place for provider keys and contracts, central cost visibility and chargeback, consistent safety policies, provider failover, and a single audit trail.</p>
+<h2 id="a-request-flowing-through-the-stack">A request flowing through the stack<a class="heading-anchor" href="#a-request-flowing-through-the-stack" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Employee asks the HR copilot a question"><figcaption class="diagram__title">Employee asks the HR copilot a question</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    actor U as Employee
+    participant App as HR Copilot (Spring Boot)
+    participant IdP as Identity provider
+    participant Ret as Retrieval service
+    participant VDB as Vector store
+    participant GW as AI gateway
+    participant LLM as LLM provider
+    participant Obs as Tracing &amp; evals
+    U-&gt;&gt;App: &#34;How many days of parental leave do I get in Germany?&#34;
+    App-&gt;&gt;IdP: validate token, get groups, country
+    App-&gt;&gt;Ret: search(query, filters: country=DE, groups)
+    Ret-&gt;&gt;GW: embed(query)
+    GW-&gt;&gt;LLM: embedding model
+    Ret-&gt;&gt;VDB: hybrid search + ACL filter
+    VDB--&gt;&gt;Ret: top 20 chunks
+    Ret-&gt;&gt;GW: rerank → top 5
+    Ret--&gt;&gt;App: 5 chunks with sources
+    App-&gt;&gt;GW: chat(system prompt + chunks + question)
+    GW-&gt;&gt;GW: guardrails, routing, cost metering
+    GW-&gt;&gt;LLM: generate
+    LLM--&gt;&gt;GW: answer with citations
+    GW--&gt;&gt;App: answer
+    App--&gt;&gt;U: answer + source links
+    App-)Obs: trace: retrieval, prompt version, tokens, latency</pre>
+</figure>
+<h2 id="build-vs-buy-at-each-layer">Build vs buy at each layer<a class="heading-anchor" href="#build-vs-buy-at-each-layer" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Usually buy / use managed</th>
+      <th>Usually build</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Models</td>
+      <td>Yes (APIs, cloud-managed)</td>
+      <td>Fine-tuned adapters for narrow tasks</td>
+    </tr>
+    <tr>
+      <td>Gateway</td>
+      <td>Product or open source, configured centrally</td>
+      <td>Custom policies, chargeback integration</td>
+    </tr>
+    <tr>
+      <td>Vector store</td>
+      <td>Managed DB or extension (pgvector, OpenSearch)</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Ingestion pipelines</td>
+      <td>Connectors where available</td>
+      <td>Parsing, chunking and metadata for <em>your</em> documents</td>
+    </tr>
+    <tr>
+      <td>Orchestration</td>
+      <td>Framework (Spring AI, LangGraph)</td>
+      <td>Business workflows, tools, prompts</td>
+    </tr>
+    <tr>
+      <td>Evaluation</td>
+      <td>Tooling</td>
+      <td>Golden datasets and domain metrics — only you can build these</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="operating-model-the-ai-platform-team">Operating model: the AI platform team<a class="heading-anchor" href="#operating-model-the-ai-platform-team" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Hub-and-spoke AI operating model"><figcaption class="diagram__title">Hub-and-spoke AI operating model</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph Hub[&#34;AI platform team + AI governance board&#34;]
+        H1[&#34;Gateway, model catalogue, vector platform&#34;]
+        H2[&#34;Reusable components: RAG starter, guardrails,&lt;br/&gt;eval harness, MCP servers&#34;]
+        H3[&#34;Standards, risk review, AI inventory&#34;]
+    end
+    Hub --&gt; S1[&#34;Product team: customer service&#34;]
+    Hub --&gt; S2[&#34;Product team: underwriting&#34;]
+    Hub --&gt; S3[&#34;Product team: engineering productivity&#34;]
+    S1 -.-&gt;|&#34;feedback, reusable tools&#34;| Hub
+    S2 -.-&gt; Hub
+    S3 -.-&gt; Hub</pre>
+</figure>
+<p>The platform team provides paved roads; product teams own use cases, prompts, evaluation sets and outcomes. A governance board (risk, legal, security, data protection) approves use cases by risk tier. See <a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a>.</p>
+<h2 id="use-case-prioritisation">Use-case prioritisation<a class="heading-anchor" href="#use-case-prioritisation" aria-label="Link to this section">#</a></h2>
+<p>A strategic AI architect also decides <em>what</em> to build. Score candidate use cases on:</p>
+<ul>
+<li><strong>Value</strong> — revenue, cost saving, risk reduction, customer experience.</li>
+<li><strong>Feasibility</strong> — data availability and quality, task suits current models, integration effort.</li>
+<li><strong>Risk</strong> — regulatory tier, harm if wrong, need for human oversight.</li>
+</ul>
+<p>Start with high-value, high-feasibility, lower-risk internal use cases (knowledge assistants, document processing, developer productivity), build the platform through them, then move to customer-facing and agentic use cases.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Building the platform before any use case</span></p>
+  <div class="callout__body"><p>A platform designed in the abstract builds the wrong things. Build it through the first two or three real use cases and extract the shared parts.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Apps calling providers directly with shared keys</span></p>
+  <div class="callout__body"><p>No cost attribution, no consistent guardrails, no audit, and a key leak affects everyone. Route everything through the gateway with per-app credentials.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Treating the vector store as the knowledge layer</span></p>
+  <div class="callout__body"><p>The hard part is ingestion: parsing PDFs and tables, chunking, metadata, permissions and freshness. Budget most RAG effort there.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>Describe an enterprise AI reference architecture.</strong>
+Infrastructure and models at the bottom (provider APIs, cloud-managed and self-hosted models, embeddings and rerankers); an AI gateway as the single controlled entry point; a knowledge layer for ingestion, vector and hybrid search and knowledge graphs; an orchestration layer for chains, RAG and agents with a tool/MCP registry; applications on top; and cross-cutting LLMOps (tracing, evaluation, cost) and governance (identity, data protection, policy, audit).</p>
+<p><strong>What does an AI gateway do and why do you need one?</strong>
+Authenticates apps, enforces quotas, applies input and output guardrails, caches, routes to models with fallback, and logs and meters every call for cost and audit. It centralises control, security and cost visibility and avoids lock-in.</p>
+<p><strong>How do you organise teams for enterprise AI?</strong>
+A central platform team builds paved roads (gateway, RAG components, eval tooling, guardrails), a governance board sets policy and reviews risk, and product teams own use cases, prompts, evaluation data and outcomes.</p>
+<p><strong>How do you decide which AI use cases to do first?</strong>
+Score on value, feasibility (data, model fit, integration) and risk. Start with internal, high-value, lower-risk use cases to build the platform and capability, then expand.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Draw the layers, then trace a request</span></p>
+  <div class="callout__body"><p>In a whiteboard interview, draw the stack quickly, then walk one request through it end to end — identity, retrieval with access filters, gateway, model, guardrails, response, tracing. That shows you understand how the parts interact, not just their names.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>The stack: infrastructure → models → AI gateway → knowledge → orchestration/agents → experiences, with LLMOps and governance across all layers.</li>
+<li>The AI gateway is the control point for cost, security, routing and audit.</li>
+<li>Buy commodity layers; build ingestion, business logic and evaluation data.</li>
+<li>A platform team with governance and product teams on top scales AI safely.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>NIST, <a href="https://www.nist.gov/itl/ai-risk-management-framework" rel="noopener">AI Risk Management Framework</a>.</li>
+<li>a16z, <a href="https://a16z.com/emerging-architectures-for-llm-applications/" rel="noopener">Emerging Architectures for LLM Applications</a>, 2023.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/case-study-knowledge-assistant/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Case study: knowledge assistant</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-governance/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI governance</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/how-llms-work/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">How LLMs work</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Inference, latency &amp; cost</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/model-selection/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Model selection</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/llmops/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">LLMOps &amp; observability</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-it-solves">The problem it solves</a></li>
+    <li><a href="#the-layered-architecture">The layered architecture</a></li>
+    <li><a href="#ai-gateway">AI gateway</a></li>
+    <li><a href="#a-request-flowing-through-the-stack">A request flowing through the stack</a></li>
+    <li><a href="#build-vs-buy-at-each-layer">Build vs buy at each layer</a></li>
+    <li><a href="#operating-model-the-ai-platform-team">Operating model: the AI platform team</a></li>
+    <li><a href="#use-case-prioritisation">Use-case prioritisation</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

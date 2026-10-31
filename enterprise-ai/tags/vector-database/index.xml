@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Vector-Database on Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/enterprise-ai/tags/vector-database/</link>
+		<description>Recent content in Vector-Database on Enterprise AI &amp; Agentic AI Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/vector-database/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Vector Databases Explained</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;vector database&lt;/strong&gt; stores embeddings (vectors) together with their text and metadata, and answers one question fast: &lt;em&gt;&amp;ldquo;which stored vectors are closest to this query vector?&amp;rdquo;&lt;/em&gt; — usually with filters such as &amp;ldquo;only documents this user may see&amp;rdquo;.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

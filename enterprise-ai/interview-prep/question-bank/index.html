@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interview Question Bank: Enterprise and Agentic AI · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Over 80 interview questions with concise model answers across LLM fundamentals, model selection, the enterprise AI stack, RAG, vector databases, GraphRAG, evaluation, agents, MCP, multi-agent systems, Spring AI, AI security and governance — plus scenario and behavioural questions.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/interview-prep/question-bank/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Interview Question Bank: Enterprise and Agentic AI">
+<meta property="og:description" content="Over 80 interview questions with concise model answers across LLM fundamentals, model selection, the enterprise AI stack, RAG, vector databases, GraphRAG, evaluation, agents, MCP, multi-agent systems, Spring AI, AI security and governance — plus scenario and behavioural questions.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/interview-prep/question-bank/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Interview Question Bank: Enterprise and Agentic AI">
+<meta name="twitter:description" content="Over 80 interview questions with concise model answers across LLM fundamentals, model selection, the enterprise AI stack, RAG, vector databases, GraphRAG, evaluation, agents, MCP, multi-agent systems, Spring AI, AI security and governance — plus scenario and behavioural questions.">
+<meta name="keywords" content="interview">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Over 80 interview questions with concise model answers across LLM fundamentals, model selection, the enterprise AI stack, RAG, vector databases, GraphRAG, evaluation, agents, MCP, multi-agent systems, Spring AI, AI security and governance — plus scenario and behavioural questions.","headline":"Interview Question Bank: Enterprise and Agentic AI","inLanguage":"en","isAccessibleForFree":true,"keywords":"interview","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/interview-prep/question-bank/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/interview-prep/","name":"Interview Prep","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/interview-prep/question-bank/","name":"Question bank","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-interview-prep">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/" aria-current="page">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/interview-prep/">Interview Prep</a></li>
+    <li><span aria-current="page">Question bank</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Interview Question Bank: Enterprise and Agentic AI</h1><p class="article__lede" itemprop="description">Over 80 interview questions with concise model answers across LLM fundamentals, model selection, the enterprise AI stack, RAG, vector databases, GraphRAG, evaluation, agents, MCP, multi-agent systems, Spring AI, AI security and governance — plus scenario and behavioural questions.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>14 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/interview/">#Interview</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#1-llm-fundamentals">1. LLM fundamentals</a></li>
+    <li><a href="#2-model-selection-and-customisation">2. Model selection and customisation</a></li>
+    <li><a href="#3-enterprise-ai-stack-and-llmops">3. Enterprise AI stack and LLMOps</a></li>
+    <li><a href="#4-rag">4. RAG</a></li>
+    <li><a href="#5-vector-databases-and-graphrag">5. Vector databases and GraphRAG</a></li>
+    <li><a href="#6-evaluation">6. Evaluation</a></li>
+    <li><a href="#7-agents-and-agentic-patterns">7. Agents and agentic patterns</a></li>
+    <li><a href="#8-mcp-and-multi-agent-systems">8. MCP and multi-agent systems</a></li>
+    <li><a href="#9-spring-ai">9. Spring AI</a></li>
+    <li><a href="#10-security-and-governance">10. Security and governance</a></li>
+    <li><a href="#11-scenario-questions">11. Scenario questions</a></li>
+    <li><a href="#12-behavioural-questions-for-ai-architects">12. Behavioural questions for AI architects</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <p>Answers are deliberately short — the length you would say aloud before the interviewer follows up. Each section links to the article with the full explanation.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">How to use this page</span></p>
+  <div class="callout__body"><p>Cover the answer, say yours aloud, then compare. Mark questions you hesitated on and reread the linked article.</p></div>
+</aside><h2 id="1-llm-fundamentals">1. LLM fundamentals<a class="heading-anchor" href="#1-llm-fundamentals" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a>, <a href="/enterprise-ai/foundations/inference-and-serving/">Inference &amp; cost</a>, <a href="/enterprise-ai/foundations/prompt-engineering/">Prompt engineering</a>.</p>
+<p><strong>What is an LLM, in one sentence?</strong>
+A transformer neural network trained on huge text corpora to predict the next token, which — repeated — generates text, code and structured output.</p>
+<p><strong>What is a token and why do architects care?</strong>
+A sub-word unit (~4 characters of English). Cost, latency, rate limits and context limits are all measured in tokens.</p>
+<p><strong>Explain self-attention simply.</strong>
+Each token compares its query vector with the key vectors of other tokens to decide how much to use each one&rsquo;s value vector. It lets tokens draw on relevant context anywhere in the sequence; cost grows quadratically with length.</p>
+<p><strong>What is the context window? Does a 1M-token window remove the need for RAG?</strong>
+The maximum tokens per call, input plus output. No: long prompts are costly and slow, models use the middle of long contexts less reliably, and corpora are much bigger — retrieval still selects the right context.</p>
+<p><strong>What do temperature and top-p do?</strong>
+Temperature sharpens or flattens the next-token distribution (low = focused, high = varied). Top-p samples only from the smallest set of tokens whose probability sums to <em>p</em>.</p>
+<p><strong>Why do LLMs hallucinate? How do you reduce it?</strong>
+They generate plausible text even without the facts. Ground with RAG, require citations, allow &ldquo;I don&rsquo;t know&rdquo;, lower temperature, use tools for facts and maths, and check faithfulness automatically.</p>
+<p><strong>Base vs instruction-tuned vs reasoning model?</strong>
+Base: next-token predictor only. Instruction-tuned: SFT and preference tuning to follow instructions safely. Reasoning: further RL training to think step by step before answering — better on hard multi-step tasks, slower and costlier.</p>
+<p><strong>What are prefill and decode?</strong>
+Prefill processes the prompt in parallel and determines time to first token; decode generates one token at a time and determines total generation time.</p>
+<p><strong>What is the KV cache?</strong>
+Stored attention keys and values of processed tokens, so decode does not recompute them; it consumes GPU memory and limits concurrency.</p>
+<p><strong>How does prompt caching work and how do you design for it?</strong>
+The provider reuses computation for an identical prompt prefix, cutting cost and TTFT. Put stable content (system prompt, tools, documents) first and variable content last.</p>
+<p><strong>How do you estimate LLM cost?</strong>
+Requests × (input tokens × input price + output tokens × output price), with realistic token counts including system prompt, retrieved context and history.</p>
+<p><strong>How do you get reliable structured output?</strong>
+Schema-constrained structured output from a typed class, parse into the type, validate business rules, retry or escalate on failure.</p>
+<h2 id="2-model-selection-and-customisation">2. Model selection and customisation<a class="heading-anchor" href="#2-model-selection-and-customisation" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/foundations/model-selection/">Model selection</a>, <a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a>.</p>
+<p><strong>How do you choose a model for a use case?</strong>
+Define metrics; apply hard filters (data residency, licence, capabilities, context); shortlist via benchmarks and price; evaluate on our own dataset for quality, latency and cost; weighted scoring; choose primary and fallback; re-evaluate on new releases.</p>
+<p><strong>Open-weight or proprietary?</strong>
+Proprietary: top quality, no ops, data leaves your network under contract. Open-weight: full control and customisation, cheaper at high steady volume, but you operate it. Many enterprises use both.</p>
+<p><strong>What is model routing?</strong>
+Sending each request to the cheapest model that can handle it, via rules or a classifier, sometimes with escalation on low confidence.</p>
+<p><strong>RAG or fine-tuning?</strong>
+RAG for knowledge — private, changing, citable, permissioned. Fine-tuning for behaviour — format, style, domain language, or making a small model good at one high-volume task. Start with prompting.</p>
+<p><strong>What is LoRA?</strong>
+Parameter-efficient fine-tuning: freeze the base model and train small low-rank adapter matrices; cheap to train and swap.</p>
+<p><strong>What is distillation?</strong>
+Training a small model on a large model&rsquo;s outputs to get most of its quality on a narrow task at lower cost and latency.</p>
+<p><strong>How do you avoid vendor lock-in?</strong>
+Abstraction layer or AI gateway, model-agnostic prompts and tool schemas, a reusable evaluation suite, a tested fallback provider.</p>
+<h2 id="3-enterprise-ai-stack-and-llmops">3. Enterprise AI stack and LLMOps<a class="heading-anchor" href="#3-enterprise-ai-stack-and-llmops" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a>, <a href="/enterprise-ai/foundations/llmops/">LLMOps</a>.</p>
+<p><strong>Describe an enterprise AI reference architecture.</strong>
+Infrastructure and models; an AI gateway; a knowledge layer (ingestion, hybrid search, graphs); orchestration and agents with a tool/MCP registry; applications; cross-cutting LLMOps and governance.</p>
+<p><strong>What does an AI gateway do?</strong>
+Central entry to all models: authentication, quotas, guardrails, caching, routing and fallback, logging, cost metering and chargeback.</p>
+<p><strong>What is LLMOps and how is it different from MLOps?</strong>
+Operating LLM apps: versioned prompts, evaluation of non-deterministic output, token cost control, safety guardrails, tracing of chains and agents, and handling provider model changes.</p>
+<p><strong>What would you put on an LLM dashboard?</strong>
+Requests, errors, 429s; p95 TTFT and latency; tokens and cost per feature/user; retrieval empty-rate; online faithfulness and relevance; guardrail triggers; user feedback.</p>
+<p><strong>How do you release a prompt change safely?</strong>
+Version it, run the evaluation suite in CI against the baseline, review, canary or A/B with feature flags, monitor, keep rollback.</p>
+<p><strong>What resilience patterns apply to LLM calls?</strong>
+Timeouts, retries with backoff and jitter, circuit breakers, bulkheads, fallback models/providers, queues for batch, degraded mode.</p>
+<h2 id="4-rag">4. RAG<a class="heading-anchor" href="#4-rag" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a>, <a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a>, <a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a>.</p>
+<p><strong>Walk through a RAG pipeline.</strong>
+Offline: load, parse, chunk, enrich with metadata and ACLs, embed, index. Online: rewrite query, embed, hybrid retrieve with filters, rerank, build prompt with numbered sources, generate with citations, validate, log.</p>
+<p><strong>How do you choose chunk size?</strong>
+Follow document structure, typically 300–800 tokens with 10–20% overlap and heading context; tune on retrieval recall.</p>
+<p><strong>What is parent-child retrieval?</strong>
+Search small chunks for precision; send their larger parent sections to the LLM for context.</p>
+<p><strong>What is hybrid search and RRF?</strong>
+Combining vector and BM25 results; Reciprocal Rank Fusion scores each document by Σ 1/(k + rank) across result lists, so it fuses different score scales.</p>
+<p><strong>Why rerank?</strong>
+Cross-encoders score query and document together — far more accurate than embedding similarity — but are too slow for the whole corpus, so they reorder the top candidates.</p>
+<p><strong>What is HyDE?</strong>
+Embed an LLM-generated hypothetical answer instead of the short question, because it resembles documents more closely.</p>
+<p><strong>What is contextual retrieval?</strong>
+Prepend an LLM-written sentence situating each chunk within its document before embedding and BM25 indexing; improves retrieval considerably.</p>
+<p><strong>How do you enforce permissions in RAG?</strong>
+ACL metadata on every chunk at ingestion; filter by the user&rsquo;s identity inside the retrieval query.</p>
+<p><strong>How do you keep a RAG index fresh?</strong>
+Event-driven or delta-sync connectors, idempotent upserts per document version, deletion handling, ACL-only updates without re-embedding, periodic reconciliation.</p>
+<p><strong>Your RAG answers are wrong. How do you debug?</strong>
+Check retrieval first (was the right chunk retrieved, at what rank?), then generation (faithfulness, prompt, conflicts, ordering). Fix the stage that fails.</p>
+<p><strong>What is agentic RAG?</strong>
+An agent uses retrieval as a tool, deciding which sources to query and iterating — for multi-hop and analytical questions.</p>
+<p><strong>What is corrective RAG?</strong>
+Grade retrieved documents; if poor, rewrite the query or use another source before generating; verify grounding afterwards.</p>
+<h2 id="5-vector-databases-and-graphrag">5. Vector databases and GraphRAG<a class="heading-anchor" href="#5-vector-databases-and-graphrag" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/rag/vector-databases/">Vector databases</a>, <a href="/enterprise-ai/rag/graphrag/">GraphRAG</a>.</p>
+<p><strong>What is an embedding?</strong>
+A vector representing meaning; similar meanings are close under cosine similarity.</p>
+<p><strong>Exact vs approximate nearest-neighbour search?</strong>
+Exact compares with every vector — perfect recall, slow at scale. ANN (HNSW, IVF) searches a subset with high recall and low latency.</p>
+<p><strong>Explain HNSW.</strong>
+A multi-layer proximity graph searched greedily from sparse top layers to the dense bottom layer; high recall and speed, high memory.</p>
+<p><strong>HNSW vs IVF-PQ?</strong>
+HNSW: best recall/latency, memory-heavy. IVF-PQ: clusters plus compression; far less memory for huge scale, lower recall.</p>
+<p><strong>pgvector or a dedicated vector DB?</strong>
+pgvector if you run PostgreSQL and have up to tens of millions of vectors — one fewer system, SQL filters, transactions. Dedicated or managed stores for very large scale, high QPS or special features.</p>
+<p><strong>How do you do multi-tenancy in a vector store?</strong>
+Tenant filter on every query, partitions/namespaces per tenant, or separate indexes — by isolation need and scale.</p>
+<p><strong>What is GraphRAG?</strong>
+Build a knowledge graph of entities and relationships from documents (via LLM extraction), cluster into communities with summaries, and retrieve neighbourhoods or summaries for multi-hop and global questions.</p>
+<p><strong>Local vs global search in GraphRAG?</strong>
+Local: start from entities in the question and expand their neighbourhood. Global: map-reduce over community summaries for corpus-wide questions.</p>
+<p><strong>When is GraphRAG not worth it?</strong>
+When questions are mostly single-fact lookups, the corpus changes constantly, or the indexing cost is unjustified — vector/hybrid RAG is enough.</p>
+<h2 id="6-evaluation">6. Evaluation<a class="heading-anchor" href="#6-evaluation" aria-label="Link to this section">#</a></h2>
+<p>Full explanation: <a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a>, <a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Agent evaluation</a>.</p>
+<p><strong>How do you evaluate a RAG system?</strong>
+Golden dataset; retrieval metrics (recall@k, MRR, nDCG) and generation metrics (faithfulness, answer relevance, correctness, citation accuracy); LLM-as-judge calibrated with humans; CI gates; online sampling and feedback.</p>
+<p><strong>Faithfulness vs answer relevance?</strong>
+Faithfulness: are all claims supported by the retrieved context? Relevance: does the answer address the question?</p>
+<p><strong>What is MRR?</strong>
+Mean of 1/rank of the first relevant result across queries.</p>
+<p><strong>What are LLM-as-judge pitfalls?</strong>
+Position, verbosity and self-preference bias; inconsistency with vague rubrics. Use binary specific rubrics, explanations, order swaps, a different model family and human calibration.</p>
+<p><strong>How do you build a golden dataset?</strong>
+Real user questions and expert input, coverage of types and difficulty, no-answer and adversarial cases, synthetic expansion reviewed by experts, versioned, grown from production failures.</p>
+<p><strong>How do you evaluate an agent?</strong>
+Outcome (task success, final system state), trajectory (tools and order, forbidden actions), step accuracy, safety, efficiency, and consistency with pass^k — using sandboxed tools and simulated users.</p>
+<h2 id="7-agents-and-agentic-patterns">7. Agents and agentic patterns<a class="heading-anchor" href="#7-agents-and-agentic-patterns" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent</a>, <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>, <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Patterns</a>, <a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory</a>.</p>
+<p><strong>What is an AI agent?</strong>
+An LLM-driven system that loops — reason, act via tools, observe — until the goal is met or it must stop.</p>
+<p><strong>Workflow vs agent?</strong>
+Workflow: code defines the path. Agent: the LLM decides the path. Prefer workflows when the path is known.</p>
+<p><strong>Explain ReAct.</strong>
+Interleaved reasoning, actions (tool calls) and observations in a loop, until a final answer.</p>
+<p><strong>How does function calling work?</strong>
+The app sends tool schemas; the model returns structured tool calls; the app validates, authorises and executes them, returns results, and loops.</p>
+<p><strong>What makes a good tool?</strong>
+Task-level purpose, clear description of when to use it, minimal typed parameters, compact results, helpful errors, idempotent writes.</p>
+<p><strong>Name the main agentic workflow patterns.</strong>
+Prompt chaining, routing, parallelization (sectioning and voting), orchestrator–workers, evaluator–optimizer, plus plan-and-execute, reflection and human-in-the-loop.</p>
+<p><strong>What types of agent memory exist?</strong>
+Short-term working memory; long-term semantic (facts), episodic (past events) and procedural (skills/instructions).</p>
+<p><strong>How do you manage long conversations?</strong>
+Recent turns verbatim, summary of older turns, pinned key facts, trimmed tool results, optional retrieval of past turns.</p>
+<p><strong>How do you make long-running agents reliable?</strong>
+Checkpoint state after each step or use durable execution (Temporal, Step Functions), idempotent tools, pause/resume for approvals, tracing.</p>
+<p><strong>Why do agents fail on long tasks?</strong>
+Errors compound (0.95¹⁰ ≈ 60%), context gets noisy, loops and goal drift. Use fewer steps, verification, budgets and checkpoints.</p>
+<p><strong>How do you decide an agent&rsquo;s autonomy?</strong>
+Per action, by impact and reversibility: autonomous reads; limited automatic writes; approval for high-value or irreversible actions.</p>
+<h2 id="8-mcp-and-multi-agent-systems">8. MCP and multi-agent systems<a class="heading-anchor" href="#8-mcp-and-multi-agent-systems" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a>, <a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a>.</p>
+<p><strong>What is MCP?</strong>
+An open protocol standardising how AI applications connect to tools and data — N+M integrations instead of N×M.</p>
+<p><strong>Host, client, server?</strong>
+Host: the AI app with the LLM. Client: one connector per server inside the host. Server: exposes tools, resources and prompts.</p>
+<p><strong>Tools vs resources vs prompts?</strong>
+Tools: model-invoked functions. Resources: application-controlled read-only data by URI. Prompts: user-selected templates.</p>
+<p><strong>What are sampling, roots and elicitation?</strong>
+Client capabilities: servers can request LLM completions from the host (sampling), learn allowed directories/URIs (roots), and ask the user for input (elicitation).</p>
+<p><strong>MCP transports?</strong>
+stdio for local subprocess servers; Streamable HTTP for remote servers. HTTP+SSE is deprecated.</p>
+<p><strong>How is MCP secured?</strong>
+OAuth 2.1 with PKCE, audience-bound tokens, no token passthrough; in enterprises add an MCP gateway, an approved-server registry, least-privilege scopes, approvals for destructive tools and audit.</p>
+<p><strong>What is tool poisoning?</strong>
+Malicious instructions hidden in a tool&rsquo;s description or metadata that the model reads and follows.</p>
+<p><strong>MCP vs A2A?</strong>
+MCP connects an agent to tools and data; A2A lets agents discover each other (agent cards) and delegate tasks.</p>
+<p><strong>When should you use multiple agents?</strong>
+When parallelism, context isolation, distinct tool sets, security boundaries or team ownership justify the extra cost and complexity.</p>
+<p><strong>Supervisor vs handoff?</strong>
+Supervisor keeps control and calls sub-agents; handoff transfers control to a peer agent that then talks to the user.</p>
+<h2 id="9-spring-ai">9. Spring AI<a class="heading-anchor" href="#9-spring-ai" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Fundamentals</a>, <a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">RAG</a>, <a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Tools, MCP &amp; memory</a>, <a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Production</a>.</p>
+<p><strong>What is Spring AI?</strong>
+The Spring project providing portable model and vector-store APIs plus ChatClient, advisors, RAG, tools, MCP, memory, structured output and observability for Java.</p>
+<p><strong>ChatModel vs ChatClient?</strong>
+ChatModel: low-level portable provider interface. ChatClient: fluent high-level API with templates, options, advisors, tools and <code>.entity()</code>.</p>
+<p><strong>What are advisors?</strong>
+Interceptors around model calls — memory, RAG, logging, safeguards, tool-calling loop, custom concerns.</p>
+<p><strong>How do you implement RAG in Spring AI?</strong>
+ETL: DocumentReader → TokenTextSplitter → metadata → VectorStore. Query: QuestionAnswerAdvisor or modular RetrievalAugmentationAdvisor with query transformers, VectorStoreDocumentRetriever and filters.</p>
+<p><strong>How do you pass the user&rsquo;s identity to a tool safely?</strong>
+<code>ToolContext</code> from the authenticated session — it reaches the tool without going through the model.</p>
+<p><strong>How do you use MCP in Spring AI?</strong>
+Client starter exposes remote tools as a <code>ToolCallbackProvider</code>; server starter plus <code>@McpTool</code> exposes your methods as an MCP server.</p>
+<p><strong>How does chat memory work in Spring AI?</strong>
+<code>ChatMemory</code> (e.g. <code>MessageWindowChatMemory</code>) backed by a repository (JDBC, Redis…) used through <code>MessageChatMemoryAdvisor</code>, with <code>ChatMemory.CONVERSATION_ID</code> on every call.</p>
+<p><strong>How do you observe and test Spring AI apps?</strong>
+Micrometer observations exported via OpenTelemetry (token usage, latency, spans per advisor/tool); evaluation tests with RelevancyEvaluator and FactCheckingEvaluator; Testcontainers.</p>
+<h2 id="10-security-and-governance">10. Security and governance<a class="heading-anchor" href="#10-security-and-governance" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a>, <a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a>.</p>
+<p><strong>What is prompt injection?</strong>
+Input that makes the model follow attacker instructions; indirect injection arrives via content the system reads on an innocent user&rsquo;s behalf.</p>
+<p><strong>How do you defend against it?</strong>
+Architecture first: least privilege, isolate untrusted content (dual LLM), break the lethal trifecta, gate tools, approvals, output sanitisation; plus classifiers and monitoring.</p>
+<p><strong>What is excessive agency?</strong>
+An LLM system with more tools, permissions or autonomy than needed, so manipulation or error causes damage.</p>
+<p><strong>What is the lethal trifecta?</strong>
+Private data + untrusted content + external communication in one agent → exfiltration risk.</p>
+<p><strong>Name five OWASP LLM Top 10 risks.</strong>
+Prompt injection, sensitive information disclosure, supply chain, data/model poisoning, improper output handling, excessive agency, system prompt leakage, vector/embedding weaknesses, misinformation, unbounded consumption.</p>
+<p><strong>EU AI Act risk tiers?</strong>
+Unacceptable (prohibited), high (strict obligations), limited (transparency), minimal (none) — plus GPAI model obligations.</p>
+<p><strong>NIST AI RMF functions?</strong>
+Govern, Map, Measure, Manage.</p>
+<p><strong>What is ISO/IEC 42001?</strong>
+A certifiable standard for an AI management system.</p>
+<p><strong>How do you govern AI at enterprise scale?</strong>
+Governance council, policies and risk tiers, AI inventory, proportionate lifecycle gates, platform paved roads with built-in controls, continuous monitoring and audit.</p>
+<h2 id="11-scenario-questions">11. Scenario questions<a class="heading-anchor" href="#11-scenario-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>The CFO says the AI bill tripled last month. What do you do?</strong>
+Break cost down by feature, model and tenant from gateway metrics; look for prompt growth (history not trimmed, too much retrieved context), a model change, missing caching, runaway agents or abuse. Fix with context trimming, prompt caching, routing, output limits, quotas and budgets; add cost alerts.</p>
+<p><strong>Users say the assistant &ldquo;got worse&rdquo; after nothing changed.</strong>
+Check provider model version changes, data/index changes (new documents, failed ingestion), retrieval metrics, prompt or config drift; compare online eval scores over time; pin model versions; re-run the golden set.</p>
+<p><strong>Legal asks whether you can guarantee the bot never gives wrong policy answers.</strong>
+No probabilistic system can guarantee that. Explain controls: grounding with citations, abstaining when unsure, evaluation thresholds, human escalation, disclaimers, monitoring and review — and use rules or forms for decisions that must be exact.</p>
+<p><strong>A team wants to give an agent write access to production databases.</strong>
+Ask for the use case; offer task-level tools with validation instead of raw SQL; read-only by default; scoped writes through services with limits; approvals; audit; sandbox testing; progressive rollout.</p>
+<p><strong>How would you introduce GenAI into a bank with strict regulation?</strong>
+Start with internal, lower-risk use cases (knowledge assistants, developer productivity, document summarisation) on a governed platform (gateway, approved models in-region, logging, evaluation); establish governance and model-risk processes; build skills; then move to customer-facing and decision-support use cases with human oversight.</p>
+<h2 id="12-behavioural-questions-for-ai-architects">12. Behavioural questions for AI architects<a class="heading-anchor" href="#12-behavioural-questions-for-ai-architects" aria-label="Link to this section">#</a></h2>
+<p>Prepare a short story (situation, action, result) for each:</p>
+<ul>
+<li>A time you chose a simpler solution than the team wanted (for example a workflow instead of an agent).</li>
+<li>A time an AI feature failed in production and how you diagnosed it.</li>
+<li>How you convinced stakeholders to invest in evaluation or governance.</li>
+<li>How you balanced innovation speed with risk and compliance.</li>
+<li>How you built a platform or reusable capability adopted by other teams.</li>
+</ul>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<p>Know the definitions, but practise connecting each concept to a <strong>design decision</strong>, a <strong>metric</strong> and a <strong>risk</strong>. That connection is what interviewers for architect roles listen for.</p>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/interview-prep/ai-system-design-framework/">
+        <span class="card__eyebrow">Interview Prep</span>
+        <span class="card__title">AI system design framework</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/interview-prep/cheat-sheet/">
+        <span class="card__eyebrow">Interview Prep</span>
+        <span class="card__title">Cheat sheet</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/interview-prep/ai-system-design-framework/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">AI system design framework</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/interview-prep/cheat-sheet/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Cheat sheet</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-llm-fundamentals">1. LLM fundamentals</a></li>
+    <li><a href="#2-model-selection-and-customisation">2. Model selection and customisation</a></li>
+    <li><a href="#3-enterprise-ai-stack-and-llmops">3. Enterprise AI stack and LLMOps</a></li>
+    <li><a href="#4-rag">4. RAG</a></li>
+    <li><a href="#5-vector-databases-and-graphrag">5. Vector databases and GraphRAG</a></li>
+    <li><a href="#6-evaluation">6. Evaluation</a></li>
+    <li><a href="#7-agents-and-agentic-patterns">7. Agents and agentic patterns</a></li>
+    <li><a href="#8-mcp-and-multi-agent-systems">8. MCP and multi-agent systems</a></li>
+    <li><a href="#9-spring-ai">9. Spring AI</a></li>
+    <li><a href="#10-security-and-governance">10. Security and governance</a></li>
+    <li><a href="#11-scenario-questions">11. Scenario questions</a></li>
+    <li><a href="#12-behavioural-questions-for-ai-architects">12. Behavioural questions for AI architects</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

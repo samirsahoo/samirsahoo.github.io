@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spring AI in Production · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Running Spring AI services in production: Micrometer observations and OpenTelemetry tracing, token and cost metrics, evaluation tests with RelevancyEvaluator and FactCheckingEvaluator, Testcontainers, resilience, timeouts, virtual threads, configuration of models via an AI gateway, and a deployment reference.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-production/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Spring AI in Production">
+<meta property="og:description" content="Running Spring AI services in production: Micrometer observations and OpenTelemetry tracing, token and cost metrics, evaluation tests with RelevancyEvaluator and FactCheckingEvaluator, Testcontainers, resilience, timeouts, virtual threads, configuration of models via an AI gateway, and a deployment reference.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-production/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring AI in Production">
+<meta name="twitter:description" content="Running Spring AI services in production: Micrometer observations and OpenTelemetry tracing, token and cost metrics, evaluation tests with RelevancyEvaluator and FactCheckingEvaluator, Testcontainers, resilience, timeouts, virtual threads, configuration of models via an AI gateway, and a deployment reference.">
+<meta name="keywords" content="spring-ai, operations, java, implementation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"Running Spring AI services in production: Micrometer observations and OpenTelemetry tracing, token and cost metrics, evaluation tests with RelevancyEvaluator and FactCheckingEvaluator, Testcontainers, resilience, timeouts, virtual threads, configuration of models via an AI gateway, and a deployment reference.","headline":"Spring AI in Production","inLanguage":"en","isAccessibleForFree":true,"keywords":"spring-ai, operations, java, implementation","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-production/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/","name":"4 · Spring AI \u0026 Governance","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-production/","name":"Spring AI in production","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-spring-ai-governance">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/" aria-current="page">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a></li>
+    <li><span aria-current="page">Spring AI in production</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Spring AI in Production</h1><p class="article__lede" itemprop="description">Running Spring AI services in production: Micrometer observations and OpenTelemetry tracing, token and cost metrics, evaluation tests with RelevancyEvaluator and FactCheckingEvaluator, Testcontainers, resilience, timeouts, virtual threads, configuration of models via an AI gateway, and a deployment reference.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/spring-ai/">#Spring-Ai</a><a class="tag" href="/enterprise-ai/tags/operations/">#Operations</a><a class="tag" href="/enterprise-ai/tags/java/">#Java</a><a class="tag" href="/enterprise-ai/tags/implementation/">#Implementation</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a>, <a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#what-changes-in-production">What changes in production</a></li>
+    <li><a href="#observability">Observability</a></li>
+    <li><a href="#evaluation-in-tests">Evaluation in tests</a></li>
+    <li><a href="#resilience">Resilience</a></li>
+    <li><a href="#configuration-and-secrets">Configuration and secrets</a></li>
+    <li><a href="#deployment-reference">Deployment reference</a></li>
+    <li><a href="#production-checklist">Production checklist</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="what-changes-in-production">What changes in production<a class="heading-anchor" href="#what-changes-in-production" aria-label="Link to this section">#</a></h2>
+<p>A demo calls a model and prints the answer. A production service must be <strong>observable</strong> (what did it do, how long, at what cost), <strong>tested</strong> (evaluated on a dataset), <strong>resilient</strong> (timeouts, retries, fallbacks), <strong>secure</strong> and <strong>governed</strong>. Spring AI plugs into the Spring Boot production toolkit you already use for this.</p>
+<h2 id="observability">Observability<a class="heading-anchor" href="#observability" aria-label="Link to this section">#</a></h2>
+<p>Spring AI instruments <code>ChatClient</code>, <code>ChatModel</code>, <code>EmbeddingModel</code>, <code>VectorStore</code>, advisors and tool calls with <strong>Micrometer observations</strong>. With Spring Boot Actuator and an OpenTelemetry or Prometheus exporter you get metrics and traces without extra code.</p>
+<figure class="diagram" aria-label="Observability pipeline"><figcaption class="diagram__title">Observability pipeline</figcaption>
+  <pre class="mermaid">flowchart LR
+    APP[&#34;Spring AI service&lt;br/&gt;Micrometer observations&#34;] --&gt; OTLP[&#34;OpenTelemetry exporter&lt;br/&gt;OTLP&#34;]
+    APP --&gt; PROM[&#34;Prometheus endpoint&lt;br/&gt;/actuator/prometheus&#34;]
+    OTLP --&gt; COL[&#34;OTel Collector&#34;]
+    COL --&gt; TR[&#34;Tracing backend&lt;br/&gt;Tempo, Jaeger, vendor APM,&lt;br/&gt;or LLM tools like Langfuse&#34;]
+    PROM --&gt; GRAF[&#34;Grafana dashboards&lt;br/&gt;tokens, latency, errors, cost&#34;]</pre>
+</figure>
+<p>What you get (names follow the OpenTelemetry GenAI conventions where they exist):</p>
+<ul>
+<li>Spans for ChatClient calls, each advisor, model calls, tool calls and vector store queries.</li>
+<li>Attributes such as operation, provider, request model, response model, temperature, max tokens, finish reason.</li>
+<li><strong>Token usage metrics</strong> (<code>gen_ai.client.token.usage</code> with input/output type) — the basis for cost dashboards.</li>
+<li>Latency histograms per operation and model.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">management.tracing.sampling.probability</span><span class="o">=</span><span class="s">1.0</span>
+</span></span><span class="line"><span class="cl"><span class="na">management.otlp.tracing.endpoint</span><span class="o">=</span><span class="s">http://otel-collector:4318/v1/traces</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Content logging is OFF by default — prompts and completions may contain personal data.</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.chat.client.observations.log-prompt</span><span class="o">=</span><span class="s">false</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.chat.client.observations.log-completion</span><span class="o">=</span><span class="s">false</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.tools.observations.include-content</span><span class="o">=</span><span class="s">false</span>
+</span></span></code></pre></div><aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Prompt content in traces</span></p>
+  <div class="callout__body"><p>Turning on prompt and completion logging is valuable for debugging and evaluation, but it copies user data into your observability stack. Enable it only with masking, restricted access and retention aligned with your data-protection policy.</p></div>
+</aside><p><strong>Cost per request:</strong> multiply token metrics by your price table in the dashboard, tagged by application, feature and tenant (add custom observation tags or an advisor that records them).</p>
+<h2 id="evaluation-in-tests">Evaluation in tests<a class="heading-anchor" href="#evaluation-in-tests" aria-label="Link to this section">#</a></h2>
+<p>Spring AI includes LLM-as-judge evaluators you can use in JUnit tests:</p>
+<ul>
+<li><code>RelevancyEvaluator</code> — is the answer relevant to the question given the retrieved context?</li>
+<li><code>FactCheckingEvaluator</code> — is the claim supported by the provided documents (faithfulness)?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootTest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">PolicyAssistantEvaluationTest</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Autowired</span><span class="w"> </span><span class="n">PolicyAssistant</span><span class="w"> </span><span class="n">assistant</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Autowired</span><span class="w"> </span><span class="n">ChatClient</span><span class="p">.</span><span class="na">Builder</span><span class="w"> </span><span class="n">judgeBuilder</span><span class="p">;</span><span class="w">   </span><span class="c1">// ideally a different, strong model</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@ParameterizedTest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@CsvFileSource</span><span class="p">(</span><span class="n">resources</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;/golden/policy-questions.csv&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">numLinesToSkip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">1</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">answersAreRelevantAndGrounded</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">question</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">AssistantAnswer</span><span class="w"> </span><span class="n">answer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assistant</span><span class="p">.</span><span class="na">answerWithSources</span><span class="p">(</span><span class="n">question</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="n">relevancy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RelevancyEvaluator</span><span class="p">(</span><span class="n">judgeBuilder</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EvaluationRequest</span><span class="p">(</span><span class="n">question</span><span class="p">,</span><span class="w"> </span><span class="n">answer</span><span class="p">.</span><span class="na">documents</span><span class="p">(),</span><span class="w"> </span><span class="n">answer</span><span class="p">.</span><span class="na">text</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">relevancy</span><span class="p">.</span><span class="na">evaluate</span><span class="p">(</span><span class="n">request</span><span class="p">).</span><span class="na">isPass</span><span class="p">()).</span><span class="na">isTrue</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="n">factCheck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FactCheckingEvaluator</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="n">judgeBuilder</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">factCheck</span><span class="p">.</span><span class="na">evaluate</span><span class="p">(</span><span class="n">request</span><span class="p">).</span><span class="na">isPass</span><span class="p">()).</span><span class="na">isTrue</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>Practical tips:</p>
+<ul>
+<li>Keep evaluation suites in a <strong>separate test task</strong> (they cost money and take minutes); run them in CI on prompt, model and retrieval changes and nightly.</li>
+<li>Report <strong>aggregate scores vs baseline</strong> rather than failing on a single case — non-determinism makes single-case assertions flaky. A common approach: fail the build if the pass rate drops more than a few points.</li>
+<li>Use <strong>Testcontainers</strong> for pgvector, Redis and even local models (Ollama) in integration tests.</li>
+<li>Use a <strong>mock <code>ChatModel</code></strong> for fast unit tests of your orchestration logic.</li>
+</ul>
+<h2 id="resilience">Resilience<a class="heading-anchor" href="#resilience" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Resilient Spring AI call path"><figcaption class="diagram__title">Resilient Spring AI call path</figcaption>
+  <pre class="mermaid">flowchart LR
+    C[&#34;ChatClient call&#34;] --&gt; TO[&#34;HTTP client timeouts&lt;br/&gt;connect + read&#34;]
+    TO --&gt; RT[&#34;Spring AI retry&lt;br/&gt;backoff on 429/5xx&#34;]
+    RT --&gt; CB[&#34;Resilience4j circuit breaker&lt;br/&gt;+ bulkhead&#34;]
+    CB --&gt; GW[&#34;AI gateway&lt;br/&gt;fallback provider&#34;]
+    CB --&gt;|&#34;open&#34;| DEG[&#34;Degraded response&lt;br/&gt;sources only / cached / handoff&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Retries:</strong> Spring AI&rsquo;s retry support (<code>spring.ai.retry.*</code> properties) retries transient errors with exponential backoff. Do not retry non-idempotent tool side effects blindly.</li>
+<li><strong>Timeouts:</strong> configure the underlying HTTP client (<code>RestClient</code> / <code>WebClient</code>) — long generations need generous read timeouts, interactive endpoints should stream.</li>
+<li><strong>Circuit breakers and bulkheads:</strong> wrap calls with Resilience4j (via Spring Cloud Circuit Breaker or annotations) so a slow provider does not exhaust threads.</li>
+<li><strong>Virtual threads (Java 21):</strong> <code>spring.threads.virtual.enabled=true</code> lets thousands of concurrent blocking model calls run cheaply.</li>
+<li><strong>Fallback models:</strong> prefer doing provider failover in the <a href="/enterprise-ai/foundations/enterprise-ai-stack/#ai-gateway">AI gateway</a>; otherwise catch errors and call a second <code>ChatClient</code>.</li>
+</ul>
+<h2 id="configuration-and-secrets">Configuration and secrets<a class="heading-anchor" href="#configuration-and-secrets" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>API keys from a secrets manager (Vault, cloud secret stores) via Spring Cloud integrations — never in Git.</li>
+<li>Point model base URLs at the <strong>AI gateway</strong>, so routing, quotas and audit are central.</li>
+<li>Externalise model names, temperatures and prompt template locations into configuration; change them per environment and feature flag.</li>
+</ul>
+<h2 id="deployment-reference">Deployment reference<a class="heading-anchor" href="#deployment-reference" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Spring AI service on Kubernetes"><figcaption class="diagram__title">Spring AI service on Kubernetes</figcaption>
+  <pre class="mermaid">flowchart TB
+    ING[&#34;Ingress / API gateway&lt;br/&gt;OIDC, rate limits&#34;] --&gt; SVC[&#34;Spring AI service&lt;br/&gt;N replicas, virtual threads,&lt;br/&gt;HPA on concurrency&#34;]
+    SVC --&gt; AIGW[&#34;AI gateway&#34;]
+    SVC --&gt; PG[(&#34;PostgreSQL + pgvector&lt;br/&gt;chat memory, vectors&#34;)]
+    SVC --&gt; REDIS[(&#34;Redis&lt;br/&gt;cache, sessions&#34;)]
+    SVC --&gt; MCPG[&#34;MCP gateway&#34;]
+    ING2[&#34;Ingestion job&lt;br/&gt;CronJob / queue consumer&#34;] --&gt; PG
+    ING2 --&gt; AIGW
+    SVC -.-&gt; OTEL[&#34;OTel collector&#34;]
+    VAULT[&#34;Secrets manager&#34;] -.-&gt; SVC</pre>
+</figure>
+<ul>
+<li>Stateless service replicas; state in PostgreSQL/Redis.</li>
+<li>Separate deployment for <strong>ingestion</strong> so re-indexing never affects chat latency.</li>
+<li>Scale on concurrent requests rather than CPU — the service mostly waits on I/O.</li>
+<li>Readiness checks should not call the LLM (cost, flakiness); check configuration and dependencies instead.</li>
+</ul>
+<h2 id="production-checklist">Production checklist<a class="heading-anchor" href="#production-checklist" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Check</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Observability</td>
+      <td>Traces across advisors, tools and vector store; token and cost dashboards; alerts</td>
+    </tr>
+    <tr>
+      <td>Evaluation</td>
+      <td>Golden dataset; CI evaluation gate; online sampling</td>
+    </tr>
+    <tr>
+      <td>Resilience</td>
+      <td>Timeouts, retries, circuit breaker, fallback, degraded mode</td>
+    </tr>
+    <tr>
+      <td>Security</td>
+      <td>Input/output guardrails, tool authorisation, ToolContext identity, secrets in vault</td>
+    </tr>
+    <tr>
+      <td>Data</td>
+      <td>PII masking in logs, retention, no-training terms with providers</td>
+    </tr>
+    <tr>
+      <td>Cost</td>
+      <td>Quotas at gateway, prompt caching, model routing, max tokens</td>
+    </tr>
+    <tr>
+      <td>Governance</td>
+      <td>Registered in AI inventory, risk assessment, model and prompt versions recorded</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>How do you monitor a Spring AI application?</strong>
+Spring AI emits Micrometer observations for chat clients, advisors, models, tools and vector stores. Export traces via OpenTelemetry and metrics via Prometheus; build dashboards for latency, errors and token usage (cost); keep prompt content logging off unless masked and governed.</p>
+<p><strong>How do you test LLM features in Spring?</strong>
+Unit-test orchestration with a mocked <code>ChatModel</code>; integration-test with Testcontainers; evaluate quality with <code>RelevancyEvaluator</code> and <code>FactCheckingEvaluator</code> over a golden dataset in a separate CI stage, gating on aggregate scores against a baseline.</p>
+<p><strong>How do you make Spring AI calls resilient?</strong>
+HTTP timeouts, Spring AI retry with backoff for transient errors, Resilience4j circuit breakers and bulkheads, virtual threads for concurrency, gateway-level provider fallback, and a designed degraded mode.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Micrometer observations + OpenTelemetry give traces, token metrics and cost dashboards; keep content logging governed.</li>
+<li>Evaluate with Spring AI evaluators on golden datasets in CI, gating on aggregate scores.</li>
+<li>Timeouts, retries, circuit breakers, virtual threads and gateway fallbacks for resilience.</li>
+<li>Separate ingestion from serving; route models through the AI gateway; keep secrets in a vault.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Spring AI, <a href="https://docs.spring.io/spring-ai/reference/observability/index.html" rel="noopener">Observability</a>.</li>
+<li>Spring AI, <a href="https://docs.spring.io/spring-ai/reference/api/testing.html" rel="noopener">Evaluation Testing</a>.</li>
+<li>OpenTelemetry, <a href="https://opentelemetry.io/docs/specs/semconv/gen-ai/" rel="noopener">GenAI semantic conventions</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-evaluation/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI tools, MCP &amp; memory</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI RAG</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI fundamentals</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Spring AI tools, MCP &amp; memory</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/spring-ai-governance/ai-security/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">AI security</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-changes-in-production">What changes in production</a></li>
+    <li><a href="#observability">Observability</a></li>
+    <li><a href="#evaluation-in-tests">Evaluation in tests</a></li>
+    <li><a href="#resilience">Resilience</a></li>
+    <li><a href="#configuration-and-secrets">Configuration and secrets</a></li>
+    <li><a href="#deployment-reference">Deployment reference</a></li>
+    <li><a href="#production-checklist">Production checklist</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

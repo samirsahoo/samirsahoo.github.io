@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advanced RAG: Hybrid Search, Reranking, Query Transformation and Agentic RAG · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="The techniques that turn a prototype RAG into a production one: hybrid search with RRF, cross-encoder reranking, query rewriting, multi-query, HyDE, decomposition, contextual retrieval, context compression, routing, corrective and self-RAG, and agentic RAG.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/rag/advanced-retrieval/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Advanced RAG: Hybrid Search, Reranking, Query Transformation and Agentic RAG">
+<meta property="og:description" content="The techniques that turn a prototype RAG into a production one: hybrid search with RRF, cross-encoder reranking, query rewriting, multi-query, HyDE, decomposition, contextual retrieval, context compression, routing, corrective and self-RAG, and agentic RAG.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/rag/advanced-retrieval/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Advanced RAG: Hybrid Search, Reranking, Query Transformation and Agentic RAG">
+<meta name="twitter:description" content="The techniques that turn a prototype RAG into a production one: hybrid search with RRF, cross-encoder reranking, query rewriting, multi-query, HyDE, decomposition, contextual retrieval, context compression, routing, corrective and self-RAG, and agentic RAG.">
+<meta name="keywords" content="rag, retrieval, search">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"The techniques that turn a prototype RAG into a production one: hybrid search with RRF, cross-encoder reranking, query rewriting, multi-query, HyDE, decomposition, contextual retrieval, context compression, routing, corrective and self-RAG, and agentic RAG.","headline":"Advanced RAG: Hybrid Search, Reranking, Query Transformation and Agentic RAG","inLanguage":"en","isAccessibleForFree":true,"keywords":"rag, retrieval, search","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/rag/advanced-retrieval/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/","name":"2 · RAG \u0026 GraphRAG","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/rag/advanced-retrieval/","name":"Advanced retrieval","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-rag">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/" aria-current="page">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a></li>
+    <li><span aria-current="page">Advanced retrieval</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Advanced RAG: Hybrid Search, Reranking, Query Transformation and Agentic RAG</h1><p class="article__lede" itemprop="description">The techniques that turn a prototype RAG into a production one: hybrid search with RRF, cross-encoder reranking, query rewriting, multi-query, HyDE, decomposition, contextual retrieval, context compression, routing, corrective and self-RAG, and agentic RAG.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/rag/">#Rag</a><a class="tag" href="/enterprise-ai/tags/retrieval/">#Retrieval</a><a class="tag" href="/enterprise-ai/tags/search/">#Search</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a>, <a href="/enterprise-ai/rag/vector-databases/">Vector databases</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-advanced-rag-pipeline">The advanced RAG pipeline</a></li>
+    <li><a href="#pre-retrieval-improve-the-query">Pre-retrieval: improve the query</a></li>
+    <li><a href="#hybrid-search">Hybrid search</a></li>
+    <li><a href="#reranking">Reranking</a></li>
+    <li><a href="#contextual-retrieval">Contextual retrieval</a></li>
+    <li><a href="#post-retrieval-make-the-context-better">Post-retrieval: make the context better</a></li>
+    <li><a href="#self-correcting-rag">Self-correcting RAG</a></li>
+    <li><a href="#agentic-rag">Agentic RAG</a></li>
+    <li><a href="#what-to-add-first">What to add first</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Advanced RAG</strong> adds steps before, during and after retrieval to find better context: fix the question (<em>pre-retrieval</em>), search in more than one way (<em>retrieval</em>), and filter and order what was found (<em>post-retrieval</em>). <strong>Agentic RAG</strong> goes further and lets an LLM decide when, where and how many times to search.</p>
+<h2 id="the-advanced-rag-pipeline">The advanced RAG pipeline<a class="heading-anchor" href="#the-advanced-rag-pipeline" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Advanced RAG: pre-retrieval, retrieval, post-retrieval"><figcaption class="diagram__title">Advanced RAG: pre-retrieval, retrieval, post-retrieval</figcaption>
+  <pre class="mermaid">flowchart LR
+    Q[&#34;User question&lt;br/&gt;+ chat history&#34;] --&gt; PRE
+    subgraph PRE[&#34;Pre-retrieval&#34;]
+        direction TB
+        Q1[&#34;Rewrite / condense&#34;] --&gt; Q2[&#34;Expand: multi-query, HyDE&#34;]
+        Q2 --&gt; Q3[&#34;Route: which source?&#34;]
+    end
+    PRE --&gt; RET
+    subgraph RET[&#34;Retrieval&#34;]
+        direction TB
+        V[&#34;Vector search&#34;] --&gt; F[&#34;Fusion — RRF&#34;]
+        K[&#34;Keyword search BM25&#34;] --&gt; F
+        F --&gt; MF[&#34;Metadata &amp; ACL filters&#34;]
+    end
+    RET --&gt; POST
+    subgraph POST[&#34;Post-retrieval&#34;]
+        direction TB
+        RR[&#34;Rerank — cross-encoder&#34;] --&gt; CMP[&#34;Compress / dedupe&#34;]
+        CMP --&gt; ORD[&#34;Order &amp; cite&#34;]
+    end
+    POST --&gt; G[&#34;Generate&#34;]</pre>
+</figure>
+<h2 id="pre-retrieval-improve-the-query">Pre-retrieval: improve the query<a class="heading-anchor" href="#pre-retrieval-improve-the-query" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>What it does</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Query rewriting / condensing</strong></td>
+      <td>Turns a follow-up into a standalone query using history</td>
+      <td>&ldquo;What about for contractors?&rdquo; → &ldquo;What is the parental leave policy for contractors in Germany?&rdquo;</td>
+    </tr>
+    <tr>
+      <td><strong>Multi-query expansion</strong></td>
+      <td>LLM generates 3–5 paraphrases; retrieve for each; merge</td>
+      <td>Catches different wording in documents</td>
+    </tr>
+    <tr>
+      <td><strong>HyDE</strong> (Hypothetical Document Embeddings)</td>
+      <td>LLM writes a hypothetical answer; embed <em>that</em> and search</td>
+      <td>Answers look more like documents than questions do</td>
+    </tr>
+    <tr>
+      <td><strong>Query decomposition</strong></td>
+      <td>Splits multi-part questions into sub-questions</td>
+      <td>&ldquo;Compare the 2025 and 2026 travel policies&rdquo; → two retrievals</td>
+    </tr>
+    <tr>
+      <td><strong>Step-back prompting</strong></td>
+      <td>Ask a more general question first</td>
+      <td>&ldquo;Which leave types exist?&rdquo; before a specific case</td>
+    </tr>
+    <tr>
+      <td><strong>Translation</strong></td>
+      <td>Translate the query into the corpus language</td>
+      <td>User asks in French, documents in English</td>
+    </tr>
+    <tr>
+      <td><strong>Routing</strong></td>
+      <td>Choose the right index, source or tool</td>
+      <td>HR question → HR index; &ldquo;my open tickets&rdquo; → ticket API</td>
+    </tr>
+    <tr>
+      <td><strong>Metadata extraction</strong></td>
+      <td>Pull filters out of the question</td>
+      <td>&ldquo;in 2025 for Germany&rdquo; → <code>year=2025, country=DE</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="hybrid-search">Hybrid search<a class="heading-anchor" href="#hybrid-search" aria-label="Link to this section">#</a></h2>
+<p>Dense (vector) search matches meaning; sparse (keyword/BM25) search matches exact terms. Enterprise questions need both: &ldquo;error E-4031 when exporting invoices&rdquo; has an exact code <em>and</em> a meaning.</p>
+<figure class="diagram" aria-label="Hybrid search with Reciprocal Rank Fusion"><figcaption class="diagram__title">Hybrid search with Reciprocal Rank Fusion</figcaption>
+  <pre class="mermaid">flowchart LR
+    Q[&#34;Query&#34;] --&gt; D[&#34;Dense search&lt;br/&gt;top 50 by cosine&#34;]
+    Q --&gt; S[&#34;BM25 search&lt;br/&gt;top 50 by keywords&#34;]
+    D --&gt; RRF[&#34;RRF&lt;br/&gt;score = Σ 1 / (k + rank)&lt;br/&gt;k ≈ 60&#34;]
+    S --&gt; RRF
+    RRF --&gt; T[&#34;Fused top 20&#34;]</pre>
+</figure>
+<p><strong>Reciprocal Rank Fusion</strong> uses ranks, not raw scores, so it combines systems whose scores are on different scales. A document ranked 1st by BM25 and 3rd by vectors gets 1/61 + 1/63 ≈ 0.032, beating a document ranked 2nd by only one system (1/62 ≈ 0.016).</p>
+<p>Alternatives: weighted score fusion (normalise then blend), or <strong>learned sparse</strong> models such as SPLADE that combine both ideas.</p>
+<h2 id="reranking">Reranking<a class="heading-anchor" href="#reranking" aria-label="Link to this section">#</a></h2>
+<p>Retrieval models (bi-encoders) embed query and document <em>separately</em> — fast but approximate. A <strong>reranker</strong> (cross-encoder) reads the query and a candidate <em>together</em> and outputs a relevance score — slower but much more accurate.</p>
+<figure class="diagram" aria-label="Two-stage retrieval: recall, then precision"><figcaption class="diagram__title">Two-stage retrieval: recall, then precision</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Corpus&lt;br/&gt;millions of chunks&#34;] --&gt;|&#34;Stage 1: fast&lt;br/&gt;bi-encoder + BM25&#34;| B[&#34;Top 50 candidates&lt;br/&gt;high recall&#34;]
+    B --&gt;|&#34;Stage 2: accurate&lt;br/&gt;cross-encoder reranker&#34;| C[&#34;Top 5&lt;br/&gt;high precision&#34;]
+    C --&gt; LLM[&#34;LLM prompt&#34;]</pre>
+</figure>
+<ul>
+<li>Typical gain: one of the largest single quality improvements in RAG.</li>
+<li>Options: hosted rerank APIs (Cohere, Voyage, cloud providers), open-weight cross-encoders (BGE reranker, ms-marco models), or an LLM as reranker (expensive).</li>
+<li><strong>Cost:</strong> adds ~50–300 ms; rerank only the top 20–100.</li>
+<li><strong>ColBERT</strong> (late interaction) sits between bi- and cross-encoders: token-level matching with pre-computed document vectors.</li>
+</ul>
+<h2 id="contextual-retrieval">Contextual retrieval<a class="heading-anchor" href="#contextual-retrieval" aria-label="Link to this section">#</a></h2>
+<p>Chunks lose context when cut from their document. <strong>Contextual retrieval</strong> uses an LLM at ingestion time to write one or two sentences situating each chunk (&ldquo;This chunk is from ACME&rsquo;s Q2 2026 10-Q, discussing revenue in the EMEA segment…&rdquo;) and prepends it before embedding <em>and</em> BM25 indexing. Combined with reranking, this was reported to cut retrieval failures by roughly two thirds. Prompt caching makes the ingestion cost modest.</p>
+<h2 id="post-retrieval-make-the-context-better">Post-retrieval: make the context better<a class="heading-anchor" href="#post-retrieval-make-the-context-better" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Rerank</strong> and keep the top 3–8 chunks.</li>
+<li><strong>Deduplicate</strong> near-identical chunks (versions, copies).</li>
+<li><strong>Compress</strong> — extract only the relevant sentences, or summarise long chunks.</li>
+<li><strong>Order</strong> — most relevant first (and possibly last), to counter &ldquo;lost in the middle&rdquo;.</li>
+<li><strong>Expand</strong> — fetch parent sections or neighbouring chunks for context (small-to-big).</li>
+<li><strong>Prefer fresh</strong> — use dates and version metadata; tell the model to prefer the newest source.</li>
+<li><strong>Number sources</strong> for citations.</li>
+</ul>
+<h2 id="self-correcting-rag">Self-correcting RAG<a class="heading-anchor" href="#self-correcting-rag" aria-label="Link to this section">#</a></h2>
+<p><strong>Corrective RAG (CRAG)</strong> grades retrieved documents for relevance; if they are poor, it rewrites the query or falls back to another source (such as web or another index).</p>
+<p><strong>Self-RAG</strong> trains or prompts the model to decide whether retrieval is needed, to critique retrieved passages, and to check that its answer is supported.</p>
+<figure class="diagram" aria-label="Corrective RAG loop"><figcaption class="diagram__title">Corrective RAG loop</figcaption>
+  <pre class="mermaid">flowchart TD
+    Q[&#34;Question&#34;] --&gt; R[&#34;Retrieve&#34;]
+    R --&gt; G{&#34;Grade relevance&lt;br/&gt;LLM or classifier&#34;}
+    G --&gt;|&#34;relevant&#34;| GEN[&#34;Generate&#34;]
+    G --&gt;|&#34;ambiguous&#34;| RW[&#34;Rewrite query&#34;] --&gt; R
+    G --&gt;|&#34;irrelevant&#34;| ALT[&#34;Search another source&#34;] --&gt; GEN
+    GEN --&gt; H{&#34;Answer grounded&lt;br/&gt;in sources?&#34;}
+    H --&gt;|&#34;yes&#34;| OUT[&#34;Answer + citations&#34;]
+    H --&gt;|&#34;no&#34;| RW</pre>
+</figure>
+<p>Put a <strong>limit on loops</strong> (for example two rewrites) so cost and latency stay bounded.</p>
+<h2 id="agentic-rag">Agentic RAG<a class="heading-anchor" href="#agentic-rag" aria-label="Link to this section">#</a></h2>
+<p>In <strong>agentic RAG</strong>, retrieval becomes a <em>tool</em> that an <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">agent</a> can call as often as it likes, alongside other tools.</p>
+<figure class="diagram" aria-label="Agentic RAG"><figcaption class="diagram__title">Agentic RAG</figcaption>
+  <pre class="mermaid">flowchart TD
+    U[&#34;Question: &#39;Did our Q3 incident&lt;br/&gt;breach any customer SLA?&#39;&#34;] --&gt; A{&#34;Agent&lt;br/&gt;plans next step&#34;}
+    A --&gt;|&#34;search incidents&#34;| T1[&#34;Tool: search_postmortems&#34;]
+    A --&gt;|&#34;search contracts&#34;| T2[&#34;Tool: search_contracts&#34;]
+    A --&gt;|&#34;get metrics&#34;| T3[&#34;Tool: query_sla_metrics SQL&#34;]
+    T1 --&gt; O[&#34;Observations&#34;]
+    T2 --&gt; O
+    T3 --&gt; O
+    O --&gt; A
+    A --&gt;|&#34;enough evidence&#34;| ANS[&#34;Answer with citations&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Classic / advanced RAG</th>
+      <th>Agentic RAG</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Retrieval</td>
+      <td>Once, fixed pipeline</td>
+      <td>As many times as needed, chosen by the model</td>
+    </tr>
+    <tr>
+      <td>Sources</td>
+      <td>Usually one index</td>
+      <td>Many: indexes, SQL, APIs, web</td>
+    </tr>
+    <tr>
+      <td>Questions handled</td>
+      <td>Single-hop</td>
+      <td>Multi-hop, comparative, analytical</td>
+    </tr>
+    <tr>
+      <td>Latency / cost</td>
+      <td>Predictable, low</td>
+      <td>Higher, variable</td>
+    </tr>
+    <tr>
+      <td>Control</td>
+      <td>High</td>
+      <td>Lower — needs step limits and evaluation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Use agentic RAG when questions genuinely need multiple steps or sources; keep a fixed pipeline for simple Q&amp;A, where it is cheaper, faster and easier to test.</p>
+<h2 id="what-to-add-first">What to add first<a class="heading-anchor" href="#what-to-add-first" aria-label="Link to this section">#</a></h2>
+<p>Ranked by typical impact per effort:</p>
+<ol>
+<li>Better parsing and structure-aware chunking with heading context.</li>
+<li>Hybrid search (BM25 + vectors).</li>
+<li>Reranking.</li>
+<li>Metadata filters (date, product, region, ACL).</li>
+<li>Query rewriting for multi-turn chat.</li>
+<li>Contextual retrieval.</li>
+<li>Multi-query / HyDE / decomposition for hard questions.</li>
+<li>Agentic or graph-based retrieval for multi-hop questions.</li>
+</ol>
+<p>Measure each change with <a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a>; not every technique helps every corpus.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Adding every technique at once</span></p>
+  <div class="callout__body"><p>Each step adds latency, cost and failure modes. Add one, measure, keep it only if it helps.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Retrieving 50 chunks into the prompt instead of reranking</span></p>
+  <div class="callout__body"><p>More context is not better context. It costs more and distracts the model. Retrieve wide, rerank, send few.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What is hybrid search and why use it?</strong>
+Running dense vector search and sparse keyword (BM25) search together and fusing results, typically with Reciprocal Rank Fusion. Vectors capture meaning; BM25 captures exact terms such as codes and names. Together they outperform either alone on enterprise text.</p>
+<p><strong>What does a reranker do and why not use it for the initial search?</strong>
+A cross-encoder that scores each query–document pair jointly, which is far more accurate than comparing separate embeddings. It is too slow to run over the whole corpus, so it reranks the top 20–100 candidates from fast retrieval.</p>
+<p><strong>Explain HyDE.</strong>
+Hypothetical Document Embeddings: the LLM writes a plausible answer to the query, and that text is embedded and used for search. Because it resembles the style of documents more than a short question does, it can retrieve better matches.</p>
+<p><strong>What is agentic RAG and when would you use it?</strong>
+An agent that uses retrieval as a tool, deciding which sources to query and iterating until it has enough evidence. Use it for multi-hop or analytical questions across multiple sources; avoid it for simple Q&amp;A where a fixed pipeline is cheaper and more predictable.</p>
+<p><strong>How would you improve a RAG system with poor answer quality?</strong>
+Measure retrieval recall first. If retrieval is weak: fix parsing and chunking, add hybrid search, reranking, metadata filters, query rewriting, contextual retrieval. If retrieval is good but answers are poor: improve the prompt, context ordering and compression, model choice, and add faithfulness checks.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Pre-retrieval fixes the question; retrieval searches in multiple ways; post-retrieval filters and orders.</li>
+<li>Hybrid search + reranking is the highest-value upgrade for most systems.</li>
+<li>Contextual retrieval restores context lost by chunking.</li>
+<li>Corrective/self-RAG and agentic RAG add loops and tools for hard questions — with step limits.</li>
+<li>Add techniques one at a time and measure.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Cormack, Clarke, Büttcher, <a href="https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf" rel="noopener">Reciprocal Rank Fusion outperforms Condorcet and individual rank learning methods</a>, 2009.</li>
+<li>Gao et al., <a href="https://arxiv.org/abs/2212.10496" rel="noopener">Precise Zero-Shot Dense Retrieval without Relevance Labels</a> (HyDE), 2022.</li>
+<li>Yan et al., <a href="https://arxiv.org/abs/2401.15884" rel="noopener">Corrective Retrieval Augmented Generation</a>, 2024.</li>
+<li>Asai et al., <a href="https://arxiv.org/abs/2310.11511" rel="noopener">Self-RAG</a>, 2023.</li>
+<li>Khattab &amp; Zaharia, <a href="https://arxiv.org/abs/2004.12832" rel="noopener">ColBERT</a>, 2020.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/news/contextual-retrieval" rel="noopener">Introducing Contextual Retrieval</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/graphrag/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">GraphRAG</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-evaluation/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI RAG</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-fundamentals/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG fundamentals</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/chunking-and-embeddings/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Chunking &amp; embeddings</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/rag/vector-databases/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Vector databases</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/rag/graphrag/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">GraphRAG</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-advanced-rag-pipeline">The advanced RAG pipeline</a></li>
+    <li><a href="#pre-retrieval-improve-the-query">Pre-retrieval: improve the query</a></li>
+    <li><a href="#hybrid-search">Hybrid search</a></li>
+    <li><a href="#reranking">Reranking</a></li>
+    <li><a href="#contextual-retrieval">Contextual retrieval</a></li>
+    <li><a href="#post-retrieval-make-the-context-better">Post-retrieval: make the context better</a></li>
+    <li><a href="#self-correcting-rag">Self-correcting RAG</a></li>
+    <li><a href="#agentic-rag">Agentic RAG</a></li>
+    <li><a href="#what-to-add-first">What to add first</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

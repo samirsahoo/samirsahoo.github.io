@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Inference, Latency and Cost · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="What happens when you call an LLM: prefill and decode, the KV cache, time to first token, throughput, batching, streaming, quantization, prompt caching, rate limits and how to estimate cost.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/inference-and-serving/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="LLM Inference, Latency and Cost">
+<meta property="og:description" content="What happens when you call an LLM: prefill and decode, the KV cache, time to first token, throughput, batching, streaming, quantization, prompt caching, rate limits and how to estimate cost.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/inference-and-serving/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LLM Inference, Latency and Cost">
+<meta name="twitter:description" content="What happens when you call an LLM: prefill and decode, the KV cache, time to first token, throughput, batching, streaming, quantization, prompt caching, rate limits and how to estimate cost.">
+<meta name="keywords" content="llm, foundations, performance, cost">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"What happens when you call an LLM: prefill and decode, the KV cache, time to first token, throughput, batching, streaming, quantization, prompt caching, rate limits and how to estimate cost.","headline":"LLM Inference, Latency and Cost","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, performance, cost","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/inference-and-serving/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/inference-and-serving/","name":"Inference, latency \u0026 cost","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/" aria-current="page">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">Inference, latency &amp; cost</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">LLM Inference, Latency and Cost</h1><p class="article__lede" itemprop="description">What happens when you call an LLM: prefill and decode, the KV cache, time to first token, throughput, batching, streaming, quantization, prompt caching, rate limits and how to estimate cost.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/llm/">#Llm</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/performance/">#Performance</a><a class="tag" href="/enterprise-ai/tags/cost/">#Cost</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-two-phases-of-a-request">The two phases of a request</a></li>
+    <li><a href="#latency-metrics">Latency metrics</a></li>
+    <li><a href="#kv-cache">KV cache</a></li>
+    <li><a href="#prompt-caching">Prompt caching</a></li>
+    <li><a href="#throughput-batching">Throughput: batching</a></li>
+    <li><a href="#making-models-smaller-and-faster">Making models smaller and faster</a></li>
+    <li><a href="#hosted-api-or-self-hosted">Hosted API or self-hosted?</a></li>
+    <li><a href="#rate-limits-and-capacity">Rate limits and capacity</a></li>
+    <li><a href="#estimating-cost">Estimating cost</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Inference</strong> is running a trained model to produce output. For an LLM it has two phases: reading the whole prompt (<strong>prefill</strong>) and then generating the answer one token at a time (<strong>decode</strong>). Almost every latency, throughput and cost decision in an AI system traces back to these two phases.</p>
+<h2 id="the-two-phases-of-a-request">The two phases of a request<a class="heading-anchor" href="#the-two-phases-of-a-request" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Prefill and decode"><figcaption class="diagram__title">Prefill and decode</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant App as Application
+    participant GW as Inference server
+    participant GPU as GPU
+    App-&gt;&gt;GW: prompt of 3,000 tokens
+    GW-&gt;&gt;GPU: Prefill: process all 3,000 tokens in parallel
+    Note over GPU: Builds the KV cache.&lt;br/&gt;Compute-bound. Sets time to first token.
+    GPU--&gt;&gt;App: first output token
+    loop Decode, one token per step
+        GW-&gt;&gt;GPU: next step uses KV cache
+        GPU--&gt;&gt;App: next token, streamed
+    end
+    Note over GPU: Memory-bandwidth-bound.&lt;br/&gt;Sets tokens per second.
+    GPU--&gt;&gt;App: stop token or max tokens</pre>
+</figure>
+<ul>
+<li><strong>Prefill</strong> processes the input tokens in parallel. Long prompts mean a longer wait before the first token.</li>
+<li><strong>Decode</strong> generates output tokens one at a time; each step depends on the previous one. Long answers mean a long total time.</li>
+</ul>
+<p>That is why <strong>output tokens cost more and take longer than input tokens</strong>, typically 3–5× the price per token.</p>
+<h2 id="latency-metrics">Latency metrics<a class="heading-anchor" href="#latency-metrics" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Meaning</th>
+      <th>What drives it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>TTFT</strong> — time to first token</td>
+      <td>Wait before anything appears</td>
+      <td>Prompt length, queueing, model size, network</td>
+    </tr>
+    <tr>
+      <td><strong>TPOT / ITL</strong> — time per output token</td>
+      <td>Speed of generation</td>
+      <td>Model size, hardware, batch load</td>
+    </tr>
+    <tr>
+      <td><strong>Tokens per second</strong> (per request)</td>
+      <td>1 / TPOT</td>
+      <td>Same as above</td>
+    </tr>
+    <tr>
+      <td><strong>End-to-end latency</strong></td>
+      <td>TTFT + output tokens × TPOT</td>
+      <td>Mostly <em>output length</em></td>
+    </tr>
+    <tr>
+      <td><strong>Throughput</strong></td>
+      <td>Total tokens per second across all users</td>
+      <td>Batching, hardware, concurrency</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Worked example.</strong> TTFT 0.5 s, 60 tokens/s, 600-token answer → 0.5 + 600/60 = <strong>10.5 s</strong>. Halving the answer length saves 5 s; a model twice as fast saves 5 s. Asking for concise output is often the cheapest latency win.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Streaming improves <em>perceived</em> latency</span></p>
+  <div class="callout__body"><p>Stream tokens to the user (server-sent events or WebSockets). The total time is unchanged, but users see progress after TTFT instead of waiting for the whole answer.</p></div>
+</aside><h2 id="kv-cache">KV cache<a class="heading-anchor" href="#kv-cache" aria-label="Link to this section">#</a></h2>
+<p>During decode, each new token needs the keys and values of every earlier token for attention. Recomputing them every step would be wasteful, so the server keeps them in GPU memory: the <strong>KV cache</strong>.</p>
+<ul>
+<li>It grows with <em>sequence length × batch size</em> and is often the main consumer of GPU memory.</li>
+<li>Long contexts and many concurrent users compete for the same cache memory, which limits concurrency.</li>
+<li>Techniques such as <strong>PagedAttention</strong> (vLLM) store the cache in pages, like virtual memory, to cut waste and fit more concurrent requests.</li>
+</ul>
+<h2 id="prompt-caching">Prompt caching<a class="heading-anchor" href="#prompt-caching" aria-label="Link to this section">#</a></h2>
+<p>Many requests share a long, identical prefix: the same system prompt, tool definitions or document. <strong>Prompt caching</strong> (also called prefix caching) stores the prefill result for that prefix and reuses it.</p>
+<figure class="diagram" aria-label="Prompt caching rewards a stable prefix"><figcaption class="diagram__title">Prompt caching rewards a stable prefix</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Prompt
+        direction LR
+        A[&#34;System prompt + tool definitions&lt;br/&gt;STATIC, cached&#34;] --&gt; B[&#34;Reference documents&lt;br/&gt;static per session, cached&#34;] --&gt; C[&#34;Conversation + new user message&lt;br/&gt;DYNAMIC&#34;]
+    end
+    A -.-&gt;|&#34;cache hit: up to ~90% cheaper, faster TTFT&#34;| X[(Provider cache)]</pre>
+</figure>
+<p>Design rule: <strong>put stable content first and variable content last</strong>. A timestamp or user name at the top of the system prompt breaks the cache for every request.</p>
+<h2 id="throughput-batching">Throughput: batching<a class="heading-anchor" href="#throughput-batching" aria-label="Link to this section">#</a></h2>
+<p>A GPU is far more efficient when processing many requests together. <strong>Continuous batching</strong> (in-flight batching) adds new requests to the running batch as soon as others finish, instead of waiting for a whole batch to complete. It is the default in serving engines such as vLLM, TensorRT-LLM, SGLang and Hugging Face TGI.</p>
+<p>Trade-off: larger batches give higher total throughput but each request&rsquo;s TPOT gets slightly worse.</p>
+<h2 id="making-models-smaller-and-faster">Making models smaller and faster<a class="heading-anchor" href="#making-models-smaller-and-faster" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>Idea</th>
+      <th>Trade-off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Quantization</strong></td>
+      <td>Store weights in 8-bit or 4-bit instead of 16-bit (INT8, FP8, INT4, GPTQ, AWQ, GGUF)</td>
+      <td>2–4× less memory and faster; small quality loss, larger at 4-bit</td>
+    </tr>
+    <tr>
+      <td><strong>Distillation</strong></td>
+      <td>Train a small &ldquo;student&rdquo; model to imitate a large &ldquo;teacher&rdquo;</td>
+      <td>Much cheaper per call; needs training and data</td>
+    </tr>
+    <tr>
+      <td><strong>Speculative decoding</strong></td>
+      <td>A small draft model proposes several tokens; the big model verifies them in one step</td>
+      <td>2–3× faster decode, same output quality</td>
+    </tr>
+    <tr>
+      <td><strong>Smaller model / routing</strong></td>
+      <td>Send easy requests to a small model</td>
+      <td>See <a href="/enterprise-ai/foundations/model-selection/">model selection</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>GPU memory estimate for self-hosting.</strong> Weights ≈ parameters × bytes per parameter. A 70B model in FP16 (2 bytes) needs ~140 GB just for weights — two 80 GB GPUs before any KV cache. In INT4 (0.5 bytes) it needs ~35 GB.</p>
+<h2 id="hosted-api-or-self-hosted">Hosted API or self-hosted?<a class="heading-anchor" href="#hosted-api-or-self-hosted" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Deployment options"><figcaption class="diagram__title">Deployment options</figcaption>
+  <pre class="mermaid">flowchart TB
+    Q{&#34;Where should inference run?&#34;}
+    Q --&gt; A[&#34;Provider API&lt;br/&gt;Anthropic, OpenAI, Google&#34;]
+    Q --&gt; B[&#34;Cloud-managed&lt;br/&gt;AWS Bedrock, Azure AI Foundry, Google Vertex AI&#34;]
+    Q --&gt; C[&#34;Self-hosted open-weight&lt;br/&gt;Llama, Mistral, Qwen, Gemma on vLLM or similar&#34;]
+    A --- A1[&#34;Fastest start, frontier quality,&lt;br/&gt;pay per token, data leaves your network&#34;]
+    B --- B1[&#34;Same models inside your cloud account,&lt;br/&gt;enterprise controls, regional data residency&#34;]
+    C --- C1[&#34;Full control and data isolation,&lt;br/&gt;you run GPUs, scaling and upgrades&#34;]</pre>
+</figure>
+<p>Most enterprises start with a cloud-managed or direct API, and self-host only for data-sovereignty requirements, very high steady volume, offline use or specialised fine-tuned models.</p>
+<h2 id="rate-limits-and-capacity">Rate limits and capacity<a class="heading-anchor" href="#rate-limits-and-capacity" aria-label="Link to this section">#</a></h2>
+<p>Providers limit <strong>requests per minute (RPM)</strong>, <strong>input tokens per minute (ITPM)</strong> and <strong>output tokens per minute (OTPM)</strong>. A design that works for one user can fail at 500 concurrent users.</p>
+<ul>
+<li>Estimate peak tokens per minute: <em>peak requests/min × average tokens per request</em>.</li>
+<li>Handle HTTP 429 with exponential backoff and jitter; respect <code>retry-after</code>.</li>
+<li>Queue non-interactive work and use <strong>batch APIs</strong> (typically ~50% cheaper, results within hours).</li>
+<li>Spread load across regions or providers through an <a href="/enterprise-ai/foundations/enterprise-ai-stack/#ai-gateway">AI gateway</a>.</li>
+<li>Provisioned throughput (reserved capacity) gives predictable latency for steady high volume.</li>
+</ul>
+<h2 id="estimating-cost">Estimating cost<a class="heading-anchor" href="#estimating-cost" aria-label="Link to this section">#</a></h2>
+<p><strong>Formula:</strong> monthly cost = requests per month × (input tokens × input price + output tokens × output price).</p>
+<p><strong>Worked example — internal RAG assistant</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Input</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Users</td>
+      <td>2,000 employees, 10 questions/day, 22 working days → 440,000 requests/month</td>
+    </tr>
+    <tr>
+      <td>Input tokens per request</td>
+      <td>500 system + 4,000 retrieved context + 500 history/question = 5,000</td>
+    </tr>
+    <tr>
+      <td>Output tokens per request</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>Illustrative prices</td>
+      <td>$3 per million input, $15 per million output</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Input: 440,000 × 5,000 = 2.2B tokens → $6,600. Output: 440,000 × 400 = 176M tokens → $2,640. <strong>≈ $9,240/month</strong>, before caching.</p>
+<p>Levers, roughly in order of impact: shorter retrieved context (better retrieval and reranking), prompt caching for the static prefix, routing simple questions to a cheaper model, response caching for repeated questions, and concise output instructions.</p>
+<aside class="callout callout--tradeoff" role="note">
+  <p class="callout__title"><span class="callout__label">Trade-off</span><span class="callout__heading">Cost, latency and quality pull against each other</span></p>
+  <div class="callout__body"><p>A bigger model or more context usually improves quality and costs more and is slower. Decide per use case which matters most, measure it, and route accordingly.</p></div>
+</aside><h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Synchronous calls in request threads with no timeout</span></p>
+  <div class="callout__body"><p>LLM calls take seconds to minutes. Without timeouts, bulkheads and streaming, a slow provider exhausts your thread pool. Treat the LLM like any slow, unreliable remote dependency: timeouts, retries with backoff, circuit breakers and fallbacks.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Putting dynamic data at the start of the prompt</span></p>
+  <div class="callout__body"><p>It defeats prompt caching. Keep the prefix stable.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>Why is time to first token different from total latency?</strong>
+TTFT is dominated by prefill (prompt length and queueing); total latency adds output tokens × time per token, which usually dominates. Long answers are slow even on fast models.</p>
+<p><strong>What is the KV cache and why does it limit concurrency?</strong>
+The stored attention keys and values for every token processed so far, kept in GPU memory so decode does not recompute them. Its size grows with context length and the number of concurrent sequences, so it caps how many requests fit on a GPU.</p>
+<p><strong>How would you reduce LLM latency in a chat application?</strong>
+Stream responses; shorten prompts and outputs; use prompt caching with a stable prefix; route simple requests to smaller, faster models; cache frequent answers; run independent calls in parallel; place inference in a nearby region.</p>
+<p><strong>How do you estimate the monthly cost of an LLM feature?</strong>
+Requests per month × (input tokens × input price + output tokens × output price), with realistic token counts including system prompt, retrieved context and history. Then apply caching, routing and batch discounts.</p>
+<p><strong>When would you self-host a model?</strong>
+Strict data residency or air-gapped environments, very high steady volume where GPUs are cheaper than per-token pricing, need for a fine-tuned open-weight model, or latency control at the edge. Otherwise managed APIs are cheaper to operate.</p>
+<p><strong>What is quantization?</strong>
+Storing model weights at lower numerical precision (8-bit or 4-bit) to reduce memory and speed up inference, with a small loss in quality.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Prefill reads the prompt in parallel (sets TTFT); decode writes one token at a time (sets total time).</li>
+<li>Output tokens are slower and pricier than input tokens; concise answers save both.</li>
+<li>KV cache, batching and quantization determine self-hosted capacity.</li>
+<li>Prompt caching rewards a stable prefix.</li>
+<li>Cost = requests × tokens × price; retrieval quality and routing are the biggest levers.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kwon et al., <a href="https://arxiv.org/abs/2309.06180" rel="noopener">Efficient Memory Management for Large Language Model Serving with PagedAttention</a> (vLLM), 2023.</li>
+<li>Leviathan et al., <a href="https://arxiv.org/abs/2211.17192" rel="noopener">Fast Inference from Transformers via Speculative Decoding</a>, 2023.</li>
+<li>Anthropic, <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching" rel="noopener">Prompt caching</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/model-selection/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Model selection</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/enterprise-ai-stack/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Enterprise AI stack</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/how-llms-work/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">How LLMs work</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/prompt-engineering/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompt &amp; context engineering</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/how-llms-work/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">How LLMs work</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/prompt-engineering/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Prompt &amp; context engineering</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-two-phases-of-a-request">The two phases of a request</a></li>
+    <li><a href="#latency-metrics">Latency metrics</a></li>
+    <li><a href="#kv-cache">KV cache</a></li>
+    <li><a href="#prompt-caching">Prompt caching</a></li>
+    <li><a href="#throughput-batching">Throughput: batching</a></li>
+    <li><a href="#making-models-smaller-and-faster">Making models smaller and faster</a></li>
+    <li><a href="#hosted-api-or-self-hosted">Hosted API or self-hosted?</a></li>
+    <li><a href="#rate-limits-and-capacity">Rate limits and capacity</a></li>
+    <li><a href="#estimating-cost">Estimating cost</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

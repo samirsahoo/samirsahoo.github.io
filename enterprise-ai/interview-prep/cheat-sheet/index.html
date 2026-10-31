@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enterprise AI Cheat Sheet · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="One page of numbers, rules of thumb, comparisons and decision guides for last-minute interview revision: tokens and cost, latency, context, chunking, retrieval, vector indexes, evaluation metrics, agent patterns, MCP, security and governance.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/interview-prep/cheat-sheet/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Enterprise AI Cheat Sheet">
+<meta property="og:description" content="One page of numbers, rules of thumb, comparisons and decision guides for last-minute interview revision: tokens and cost, latency, context, chunking, retrieval, vector indexes, evaluation metrics, agent patterns, MCP, security and governance.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/interview-prep/cheat-sheet/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Enterprise AI Cheat Sheet">
+<meta name="twitter:description" content="One page of numbers, rules of thumb, comparisons and decision guides for last-minute interview revision: tokens and cost, latency, context, chunking, retrieval, vector indexes, evaluation metrics, agent patterns, MCP, security and governance.">
+<meta name="keywords" content="interview, reference">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"One page of numbers, rules of thumb, comparisons and decision guides for last-minute interview revision: tokens and cost, latency, context, chunking, retrieval, vector indexes, evaluation metrics, agent patterns, MCP, security and governance.","headline":"Enterprise AI Cheat Sheet","inLanguage":"en","isAccessibleForFree":true,"keywords":"interview, reference","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/interview-prep/cheat-sheet/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/interview-prep/","name":"Interview Prep","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/interview-prep/cheat-sheet/","name":"Cheat sheet","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-interview-prep">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/" aria-current="page">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/interview-prep/">Interview Prep</a></li>
+    <li><span aria-current="page">Cheat sheet</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Enterprise AI Cheat Sheet</h1><p class="article__lede" itemprop="description">One page of numbers, rules of thumb, comparisons and decision guides for last-minute interview revision: tokens and cost, latency, context, chunking, retrieval, vector indexes, evaluation metrics, agent patterns, MCP, security and governance.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/interview/">#Interview</a><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#numbers-to-know">Numbers to know</a></li>
+    <li><a href="#cost-formula">Cost formula</a></li>
+    <li><a href="#prompting-vs-rag-vs-fine-tuning">Prompting vs RAG vs fine-tuning</a></li>
+    <li><a href="#rag-pipeline-at-a-glance">RAG pipeline at a glance</a></li>
+    <li><a href="#vector-index-comparison">Vector index comparison</a></li>
+    <li><a href="#evaluation-metrics">Evaluation metrics</a></li>
+    <li><a href="#agent-patterns">Agent patterns</a></li>
+    <li><a href="#mcp-in-30-seconds">MCP in 30 seconds</a></li>
+    <li><a href="#spring-ai-map">Spring AI map</a></li>
+    <li><a href="#security-checklist">Security checklist</a></li>
+    <li><a href="#governance-checklist">Governance checklist</a></li>
+    <li><a href="#decision-quick-guides">Decision quick-guides</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="numbers-to-know">Numbers to know<a class="heading-anchor" href="#numbers-to-know" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Rule of thumb</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Token ↔ text</td>
+      <td>1 token ≈ 4 characters ≈ 0.75 English words; 1,000 tokens ≈ 750 words ≈ 1.5 pages</td>
+    </tr>
+    <tr>
+      <td>Output vs input price</td>
+      <td>Output tokens typically cost 3–5× input tokens</td>
+    </tr>
+    <tr>
+      <td>Prompt caching</td>
+      <td>Cached input often ~90% cheaper; needs a stable prefix</td>
+    </tr>
+    <tr>
+      <td>Batch APIs</td>
+      <td>~50% cheaper; results within hours</td>
+    </tr>
+    <tr>
+      <td>Generation speed</td>
+      <td>Tens to a few hundred tokens/s depending on model and load</td>
+    </tr>
+    <tr>
+      <td>Total latency</td>
+      <td>≈ TTFT + output tokens ÷ tokens per second</td>
+    </tr>
+    <tr>
+      <td>Context windows</td>
+      <td>~128K to 1M+ tokens on current frontier models</td>
+    </tr>
+    <tr>
+      <td>Weights memory</td>
+      <td>Parameters × bytes per parameter (FP16 = 2, INT8 = 1, INT4 = 0.5); 70B FP16 ≈ 140 GB</td>
+    </tr>
+    <tr>
+      <td>Vector storage</td>
+      <td>vectors × dimensions × 4 bytes (float32); +~50% for HNSW graph</td>
+    </tr>
+    <tr>
+      <td>Chunk size</td>
+      <td>300–800 tokens, 10–20% overlap, plus heading context</td>
+    </tr>
+    <tr>
+      <td>Retrieval</td>
+      <td>Retrieve 20–100 candidates → rerank → send 3–8</td>
+    </tr>
+    <tr>
+      <td>Golden dataset</td>
+      <td>Start with 50–100 cases, grow to several hundred</td>
+    </tr>
+    <tr>
+      <td>Error compounding</td>
+      <td>0.95 per step over 10 steps ≈ 60% success</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="cost-formula">Cost formula<a class="heading-anchor" href="#cost-formula" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">monthly cost = requests/month × (input tokens × input price + output tokens × output price)
+</span></span><span class="line"><span class="cl">peak TPM     = peak requests/min × (input + output tokens per request)
+</span></span></code></pre></div><h2 id="prompting-vs-rag-vs-fine-tuning">Prompting vs RAG vs fine-tuning<a class="heading-anchor" href="#prompting-vs-rag-vs-fine-tuning" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Need</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Task definition, format, tone</td>
+      <td>Prompting (+ few-shot)</td>
+    </tr>
+    <tr>
+      <td>Private, fresh, citable, permissioned knowledge</td>
+      <td>RAG</td>
+    </tr>
+    <tr>
+      <td>Consistent behaviour, domain style, cheaper small model</td>
+      <td>Fine-tuning (LoRA)</td>
+    </tr>
+    <tr>
+      <td>Actions and live data</td>
+      <td>Tools / agents</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="rag-pipeline-at-a-glance">RAG pipeline at a glance<a class="heading-anchor" href="#rag-pipeline-at-a-glance" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="RAG in one line each"><figcaption class="diagram__title">RAG in one line each</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Load&#34;] --&gt; B[&#34;Parse&#34;] --&gt; C[&#34;Chunk&#34;] --&gt; D[&#34;Enrich + ACL&#34;] --&gt; E[&#34;Embed&#34;] --&gt; F[(&#34;Index&#34;)]
+    Q[&#34;Query&#34;] --&gt; R[&#34;Rewrite&#34;] --&gt; S[&#34;Hybrid search + filter&#34;] --&gt; T[&#34;Rerank&#34;] --&gt; U[&#34;Augment&#34;] --&gt; V[&#34;Generate + cite&#34;]
+    F --&gt; S</pre>
+</figure>
+<p><strong>Top upgrades by impact:</strong> parsing &amp; structure-aware chunking → hybrid search → reranking → metadata/ACL filters → query rewriting → contextual retrieval → agentic/graph retrieval.</p>
+<h2 id="vector-index-comparison">Vector index comparison<a class="heading-anchor" href="#vector-index-comparison" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>Recall</th>
+      <th>Speed</th>
+      <th>Memory</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Flat</td>
+      <td>100%</td>
+      <td>Slow at scale</td>
+      <td>High</td>
+      <td>Small sets, ground truth</td>
+    </tr>
+    <tr>
+      <td>HNSW</td>
+      <td>Very high</td>
+      <td>Very fast</td>
+      <td>High</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>IVF</td>
+      <td>High</td>
+      <td>Fast</td>
+      <td>Medium</td>
+      <td>Large, static</td>
+    </tr>
+    <tr>
+      <td>IVF-PQ / quantized</td>
+      <td>Medium–high</td>
+      <td>Very fast</td>
+      <td>Very low</td>
+      <td>Huge scale</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="evaluation-metrics">Evaluation metrics<a class="heading-anchor" href="#evaluation-metrics" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Stage</th>
+      <th>Metrics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Retrieval</td>
+      <td>Recall@k, precision@k, hit rate, MRR, nDCG</td>
+    </tr>
+    <tr>
+      <td>Generation</td>
+      <td>Faithfulness, answer relevance, correctness, citation accuracy</td>
+    </tr>
+    <tr>
+      <td>RAG triad</td>
+      <td>Context relevance, groundedness, answer relevance</td>
+    </tr>
+    <tr>
+      <td>Agents</td>
+      <td>Task success, final state, trajectory match, forbidden actions, steps/cost, pass^k</td>
+    </tr>
+    <tr>
+      <td>Business</td>
+      <td>Deflection/resolution rate, time saved, CSAT, escalation rate</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="agent-patterns">Agent patterns<a class="heading-anchor" href="#agent-patterns" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>One-liner</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Prompt chaining</td>
+      <td>Fixed sequence of LLM steps with gates</td>
+    </tr>
+    <tr>
+      <td>Routing</td>
+      <td>Classify, then specialised handler</td>
+    </tr>
+    <tr>
+      <td>Parallelization</td>
+      <td>Sectioning (split) or voting (repeat)</td>
+    </tr>
+    <tr>
+      <td>Orchestrator–workers</td>
+      <td>Dynamic sub-tasks delegated and synthesised</td>
+    </tr>
+    <tr>
+      <td>Evaluator–optimizer</td>
+      <td>Generate → critique → revise loop</td>
+    </tr>
+    <tr>
+      <td>Plan-and-execute</td>
+      <td>Explicit plan, execute, re-plan</td>
+    </tr>
+    <tr>
+      <td>ReAct agent</td>
+      <td>Think → act → observe loop</td>
+    </tr>
+    <tr>
+      <td>Human-in-the-loop</td>
+      <td>Pause for approval on risky actions</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Multi-agent topologies:</strong> supervisor, hierarchical, sequential pipeline, handoff/swarm, network, debate, blackboard.</p>
+<h2 id="mcp-in-30-seconds">MCP in 30 seconds<a class="heading-anchor" href="#mcp-in-30-seconds" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Why:</strong> N×M integrations → N+M.</li>
+<li><strong>Who:</strong> host (AI app) → one client per server → server.</li>
+<li><strong>What:</strong> server offers tools (model-controlled), resources (app-controlled), prompts (user-controlled); client offers sampling, roots, elicitation.</li>
+<li><strong>How:</strong> JSON-RPC 2.0; initialize + capability negotiation; stdio (local) or Streamable HTTP (remote); OAuth 2.1 for remote auth.</li>
+<li><strong>Risks:</strong> tool poisoning, rug pulls, shadowing, indirect injection, over-privilege, token passthrough, supply chain.</li>
+<li><strong>A2A:</strong> agent ↔ agent (agent cards, tasks); MCP: agent ↔ tools.</li>
+</ul>
+<h2 id="spring-ai-map">Spring AI map<a class="heading-anchor" href="#spring-ai-map" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Need</th>
+      <th>Spring AI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Call a model</td>
+      <td><code>ChatClient</code> (<code>.prompt().user().call().content()</code>)</td>
+    </tr>
+    <tr>
+      <td>Typed output</td>
+      <td><code>.entity(MyRecord.class)</code></td>
+    </tr>
+    <tr>
+      <td>RAG</td>
+      <td><code>QuestionAnswerAdvisor</code>, <code>RetrievalAugmentationAdvisor</code></td>
+    </tr>
+    <tr>
+      <td>Ingestion</td>
+      <td><code>DocumentReader</code> → <code>TokenTextSplitter</code> → <code>VectorStore.add()</code></td>
+    </tr>
+    <tr>
+      <td>Tools</td>
+      <td><code>@Tool</code>, <code>ToolContext</code>, <code>ToolCallingAdvisor</code></td>
+    </tr>
+    <tr>
+      <td>MCP</td>
+      <td><code>spring-ai-starter-mcp-client</code>, <code>spring-ai-starter-mcp-server-webmvc</code>, <code>@McpTool</code></td>
+    </tr>
+    <tr>
+      <td>Memory</td>
+      <td><code>MessageWindowChatMemory</code> + <code>JdbcChatMemoryRepository</code> + <code>MessageChatMemoryAdvisor</code></td>
+    </tr>
+    <tr>
+      <td>Observability</td>
+      <td>Micrometer observations, <code>gen_ai.client.token.usage</code></td>
+    </tr>
+    <tr>
+      <td>Evaluation</td>
+      <td><code>RelevancyEvaluator</code>, <code>FactCheckingEvaluator</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="security-checklist">Security checklist<a class="heading-anchor" href="#security-checklist" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>OWASP LLM Top 10 (2025): injection, sensitive info disclosure, supply chain, poisoning, improper output handling, excessive agency, system prompt leakage, vector/embedding weaknesses, misinformation, unbounded consumption.</li>
+<li>Break the <strong>lethal trifecta</strong> (private data + untrusted content + external comms).</li>
+<li>Permissions at retrieval and in tools; identity from the session, never from model arguments.</li>
+<li>Approvals for irreversible actions; limits enforced in code.</li>
+<li>Sanitise output (no live links/images from untrusted generations).</li>
+<li>Red-team continuously.</li>
+</ul>
+<h2 id="governance-checklist">Governance checklist<a class="heading-anchor" href="#governance-checklist" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>EU AI Act tiers:</strong> unacceptable / high / limited / minimal (+ GPAI obligations).</li>
+<li><strong>NIST AI RMF:</strong> Govern, Map, Measure, Manage (+ GenAI profile NIST AI 600-1).</li>
+<li><strong>ISO/IEC 42001:</strong> AI management system.</li>
+<li><strong>Artefacts:</strong> AI inventory, system card, impact assessment/DPIA, evaluation report, monitoring plan, AI-BOM.</li>
+<li><strong>Controls via architecture:</strong> AI gateway, tracing with versions, eval gates, approval workflows, kill switches.</li>
+</ul>
+<h2 id="decision-quick-guides">Decision quick-guides<a class="heading-anchor" href="#decision-quick-guides" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Simplest thing that works"><figcaption class="diagram__title">Simplest thing that works</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Single prompt&#34;] --&gt;|&#34;needs knowledge&#34;| B[&#34;+ RAG&#34;]
+    B --&gt;|&#34;needs actions&#34;| C[&#34;+ Tools in a workflow&#34;]
+    C --&gt;|&#34;path unknowable&#34;| D[&#34;Single agent&#34;]
+    D --&gt;|&#34;parallel / isolated / many domains&#34;| E[&#34;Multi-agent&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Default answer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Which vector store?</td>
+      <td>pgvector or your existing search engine, until measurements say otherwise</td>
+    </tr>
+    <tr>
+      <td>Which model?</td>
+      <td>Mid-tier by default; route easy to small, hard to frontier; keep a fallback</td>
+    </tr>
+    <tr>
+      <td>Agent or workflow?</td>
+      <td>Workflow, unless the path cannot be known in advance</td>
+    </tr>
+    <tr>
+      <td>Fine-tune?</td>
+      <td>Only after prompting + RAG baseline, with an evaluation set</td>
+    </tr>
+    <tr>
+      <td>How much autonomy?</td>
+      <td>By impact and reversibility of each action</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/interview-prep/question-bank/">
+        <span class="card__eyebrow">Interview Prep</span>
+        <span class="card__title">Question bank</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/interview-prep/ai-system-design-framework/">
+        <span class="card__eyebrow">Interview Prep</span>
+        <span class="card__title">AI system design framework</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/about/">
+        <span class="card__eyebrow">Enterprise AI &amp; Agentic AI Knowledge Hub</span>
+        <span class="card__title">About</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/glossary/">
+        <span class="card__eyebrow">Enterprise AI &amp; Agentic AI Knowledge Hub</span>
+        <span class="card__title">Glossary</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/interview-prep/question-bank/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Question bank</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#numbers-to-know">Numbers to know</a></li>
+    <li><a href="#cost-formula">Cost formula</a></li>
+    <li><a href="#prompting-vs-rag-vs-fine-tuning">Prompting vs RAG vs fine-tuning</a></li>
+    <li><a href="#rag-pipeline-at-a-glance">RAG pipeline at a glance</a></li>
+    <li><a href="#vector-index-comparison">Vector index comparison</a></li>
+    <li><a href="#evaluation-metrics">Evaluation metrics</a></li>
+    <li><a href="#agent-patterns">Agent patterns</a></li>
+    <li><a href="#mcp-in-30-seconds">MCP in 30 seconds</a></li>
+    <li><a href="#spring-ai-map">Spring AI map</a></li>
+    <li><a href="#security-checklist">Security checklist</a></li>
+    <li><a href="#governance-checklist">Governance checklist</a></li>
+    <li><a href="#decision-quick-guides">Decision quick-guides</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

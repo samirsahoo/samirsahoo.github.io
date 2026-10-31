@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Is an AI Agent? · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Agents explained simply: the agent loop, ReAct, workflows vs agents, the components of an agent (model, tools, memory, planning, guardrails), levels of autonomy, and when to use — and not use — agents.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/what-is-an-agent/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="What Is an AI Agent?">
+<meta property="og:description" content="Agents explained simply: the agent loop, ReAct, workflows vs agents, the components of an agent (model, tools, memory, planning, guardrails), levels of autonomy, and when to use — and not use — agents.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/what-is-an-agent/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="What Is an AI Agent?">
+<meta name="twitter:description" content="Agents explained simply: the agent loop, ReAct, workflows vs agents, the components of an agent (model, tools, memory, planning, guardrails), levels of autonomy, and when to use — and not use — agents.">
+<meta name="keywords" content="agents, agentic-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"Agents explained simply: the agent loop, ReAct, workflows vs agents, the components of an agent (model, tools, memory, planning, guardrails), levels of autonomy, and when to use — and not use — agents.","headline":"What Is an AI Agent?","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, agentic-ai","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/what-is-an-agent/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/what-is-an-agent/","name":"What is an agent?","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/" aria-current="page">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">What is an agent?</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">What Is an AI Agent?</h1><p class="article__lede" itemprop="description">Agents explained simply: the agent loop, ReAct, workflows vs agents, the components of an agent (model, tools, memory, planning, guardrails), levels of autonomy, and when to use — and not use — agents.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#from-llm-to-agent">From LLM to agent</a></li>
+    <li><a href="#the-agent-loop">The agent loop</a></li>
+    <li><a href="#react-reason--act">ReAct: Reason + Act</a></li>
+    <li><a href="#components-of-an-agent">Components of an agent</a></li>
+    <li><a href="#levels-of-autonomy">Levels of autonomy</a></li>
+    <li><a href="#when-to-use-an-agent">When to use an agent</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>An <strong>AI agent</strong> is a system where an LLM <strong>decides what to do next</strong>, does it by <strong>calling tools</strong>, <strong>observes</strong> the result, and <strong>repeats</strong> until the goal is reached or it must stop.</p>
+<p>A chatbot answers. An agent <em>acts</em>: it can look up an order, check a policy, issue a refund, and email the customer — choosing the steps itself.</p>
+<h2 id="from-llm-to-agent">From LLM to agent<a class="heading-anchor" href="#from-llm-to-agent" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Levels of LLM systems"><figcaption class="diagram__title">Levels of LLM systems</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Single LLM call&lt;br/&gt;prompt → answer&#34;] --&gt; B[&#34;Augmented LLM&lt;br/&gt;+ retrieval, tools, memory&#34;]
+    B --&gt; C[&#34;Workflow&lt;br/&gt;LLM calls and tools in a&lt;br/&gt;path defined by code&#34;]
+    C --&gt; D[&#34;Agent&lt;br/&gt;LLM decides the path&lt;br/&gt;in a loop&#34;]
+    D --&gt; E[&#34;Multi-agent system&lt;br/&gt;several agents&lt;br/&gt;coordinate&#34;]</pre>
+</figure>
+<p>The most useful distinction:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th><strong>Workflow</strong></th>
+      <th><strong>Agent</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Who decides the steps?</td>
+      <td>Your code (predefined path)</td>
+      <td>The LLM (dynamic)</td>
+    </tr>
+    <tr>
+      <td>Predictability</td>
+      <td>High</td>
+      <td>Lower</td>
+    </tr>
+    <tr>
+      <td>Testing</td>
+      <td>Like normal software</td>
+      <td>Needs scenario-based evaluation</td>
+    </tr>
+    <tr>
+      <td>Cost and latency</td>
+      <td>Bounded, known</td>
+      <td>Variable</td>
+    </tr>
+    <tr>
+      <td>Best for</td>
+      <td>Well-understood, repeatable tasks</td>
+      <td>Open-ended tasks where steps cannot be predicted</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Start with the simplest thing</span></p>
+  <div class="callout__body"><p>Most enterprise &ldquo;agent&rdquo; use cases are better built as <strong>workflows</strong> with a few LLM steps. Use a true agent only when the path really cannot be known in advance.</p></div>
+</aside><h2 id="the-agent-loop">The agent loop<a class="heading-anchor" href="#the-agent-loop" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="The agent loop: think, act, observe"><figcaption class="diagram__title">The agent loop: think, act, observe</figcaption>
+  <pre class="mermaid">flowchart TD
+    G[&#34;Goal from user&#34;] --&gt; T[&#34;THINK&lt;br/&gt;LLM reasons about the state&lt;br/&gt;and picks the next action&#34;]
+    T --&gt; D{&#34;Done?&#34;}
+    D --&gt;|&#34;No&#34;| A[&#34;ACT&lt;br/&gt;call a tool with arguments&#34;]
+    A --&gt; O[&#34;OBSERVE&lt;br/&gt;tool result added to context&#34;]
+    O --&gt; T
+    D --&gt;|&#34;Yes&#34;| R[&#34;Final answer to user&#34;]
+    T --&gt;|&#34;budget exceeded,&lt;br/&gt;needs approval, or stuck&#34;| H[&#34;Stop: ask human / escalate&#34;]</pre>
+</figure>
+<p>In code, the loop is short:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">messages = [system_prompt, user_goal]
+</span></span><span class="line"><span class="cl">for step in 1..MAX_STEPS:
+</span></span><span class="line"><span class="cl">    response = llm(messages, tools)
+</span></span><span class="line"><span class="cl">    if response has no tool calls:
+</span></span><span class="line"><span class="cl">        return response.text                  # final answer
+</span></span><span class="line"><span class="cl">    for call in response.tool_calls:
+</span></span><span class="line"><span class="cl">        check permissions / ask for approval if risky
+</span></span><span class="line"><span class="cl">        result = execute(call.name, call.arguments)
+</span></span><span class="line"><span class="cl">        messages.append(tool_result(call.id, result))
+</span></span><span class="line"><span class="cl">return &#34;Stopped: step limit reached&#34;          # always bound the loop
+</span></span></code></pre></div><h2 id="react-reason--act">ReAct: Reason + Act<a class="heading-anchor" href="#react-reason--act" aria-label="Link to this section">#</a></h2>
+<p><strong>ReAct</strong> (Yao et al., 2022) interleaves reasoning and actions. The model writes a thought, chooses an action, reads the observation, and continues:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Thought: The customer asks why order 8812 is late. I need the order status.
+</span></span><span class="line"><span class="cl">Action: get_order(order_id=&#34;8812&#34;)
+</span></span><span class="line"><span class="cl">Observation: {&#34;status&#34;: &#34;held&#34;, &#34;reason&#34;: &#34;address_verification_failed&#34;}
+</span></span><span class="line"><span class="cl">Thought: Address verification failed. I should check the address on file.
+</span></span><span class="line"><span class="cl">Action: get_customer_address(customer_id=&#34;C-301&#34;)
+</span></span><span class="line"><span class="cl">Observation: {&#34;postcode&#34;: &#34;SW1A 1AA&#34;, &#34;verified&#34;: false}
+</span></span><span class="line"><span class="cl">Thought: I can explain and offer to update the address.
+</span></span><span class="line"><span class="cl">Final answer: Your order is on hold because we could not verify the delivery address...
+</span></span></code></pre></div><p>Modern models do this natively through <a href="/enterprise-ai/agentic-ai/tool-calling/">tool calling</a>: the &ldquo;Action&rdquo; is a structured tool call, not text to parse.</p>
+<h2 id="components-of-an-agent">Components of an agent<a class="heading-anchor" href="#components-of-an-agent" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Anatomy of an agent"><figcaption class="diagram__title">Anatomy of an agent</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph Agent
+        M[&#34;Model&lt;br/&gt;reasoning engine&#34;]
+        P[&#34;Instructions&lt;br/&gt;role, goals, rules, stop conditions&#34;]
+        TL[&#34;Tools&lt;br/&gt;APIs, search, code, MCP servers&#34;]
+        MEM[&#34;Memory&lt;br/&gt;short-term context, long-term store&#34;]
+        PL[&#34;Planning&lt;br/&gt;decompose, reflect, re-plan&#34;]
+        GR[&#34;Guardrails&lt;br/&gt;permissions, approvals, budgets&#34;]
+    end
+    U[&#34;User / trigger&#34;] --&gt; Agent
+    Agent --&gt; ENV[&#34;Environment&lt;br/&gt;business systems, data, people&#34;]
+    ENV --&gt; Agent</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Role</th>
+      <th>Read more</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model</td>
+      <td>Chooses actions, reasons over results</td>
+      <td><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></td>
+    </tr>
+    <tr>
+      <td>Instructions</td>
+      <td>Define goal, scope, tone, rules, when to stop</td>
+      <td><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt engineering</a></td>
+    </tr>
+    <tr>
+      <td>Tools</td>
+      <td>The agent&rsquo;s hands: read and change the world</td>
+      <td><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>, <a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></td>
+    </tr>
+    <tr>
+      <td>Memory</td>
+      <td>Conversation state, user preferences, past cases</td>
+      <td><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory and state</a></td>
+    </tr>
+    <tr>
+      <td>Planning</td>
+      <td>Break goals into steps; reflect and correct</td>
+      <td><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow patterns</a></td>
+    </tr>
+    <tr>
+      <td>Guardrails</td>
+      <td>Limit what it can do and spend</td>
+      <td><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability</a>, <a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="levels-of-autonomy">Levels of autonomy<a class="heading-anchor" href="#levels-of-autonomy" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>0 — Assist</strong></td>
+      <td>Suggests; human does everything</td>
+      <td>Draft an email reply</td>
+    </tr>
+    <tr>
+      <td><strong>1 — Act with approval</strong></td>
+      <td>Proposes actions; human approves each</td>
+      <td>&ldquo;Refund €40? [Approve]&rdquo;</td>
+    </tr>
+    <tr>
+      <td><strong>2 — Act within limits</strong></td>
+      <td>Acts alone below thresholds; escalates above</td>
+      <td>Auto-refund ≤ €50, else approval</td>
+    </tr>
+    <tr>
+      <td><strong>3 — Autonomous with oversight</strong></td>
+      <td>Completes whole tasks; humans review samples and exceptions</td>
+      <td>Overnight reconciliation agent</td>
+    </tr>
+    <tr>
+      <td><strong>4 — Fully autonomous</strong></td>
+      <td>No routine human involvement</td>
+      <td>Rare in regulated enterprises</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Choose the level per action by <strong>impact and reversibility</strong>: reading is safe, writing needs limits, irreversible or high-value actions need human approval.</p>
+<h2 id="when-to-use-an-agent">When to use an agent<a class="heading-anchor" href="#when-to-use-an-agent" aria-label="Link to this section">#</a></h2>
+<p><strong>Good fit:</strong> open-ended tasks with many possible paths (investigation, research, troubleshooting, coding), tasks spanning several systems, and tasks where a human currently follows judgment rather than a fixed procedure.</p>
+<p><strong>Poor fit:</strong> fixed procedures (use a workflow or plain code), strict latency or cost budgets, tasks needing guaranteed exact outcomes, and high-risk actions without a review step.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">An agent where a workflow would do</span></p>
+  <div class="callout__body"><p>Letting the LLM decide steps that are always the same adds cost, latency and failure modes. If you can draw the flowchart, code it.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Unbounded loops</span></p>
+  <div class="callout__body"><p>Without a maximum number of steps, tokens and time, an agent can loop on a failing tool and burn budget. Always bound it.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Too many tools</span></p>
+  <div class="callout__body"><p>Giving one agent 80 tools confuses tool selection. Group tools, load them on demand, or split into specialised agents.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What is an AI agent?</strong>
+An LLM-driven system that pursues a goal by deciding on actions, executing them through tools, observing the results and iterating until done — with memory, instructions and guardrails around it.</p>
+<p><strong>What is the difference between a workflow and an agent?</strong>
+In a workflow, code defines the sequence of LLM calls and tools; in an agent, the LLM decides the sequence dynamically. Workflows are more predictable and cheaper; agents are more flexible for open-ended tasks.</p>
+<p><strong>Explain the ReAct pattern.</strong>
+The model alternates reasoning (&ldquo;thought&rdquo;), an action (tool call) and an observation (tool result) in a loop, so reasoning guides actions and results inform further reasoning, until it produces a final answer.</p>
+<p><strong>How do you decide how much autonomy to give an agent?</strong>
+By the impact and reversibility of each action: read-only actions can be autonomous; low-value reversible writes can be automatic within limits; high-value or irreversible actions require human approval. Combine with budgets, monitoring and audit logs.</p>
+<p><strong>When would you not use an agent?</strong>
+When the process is fixed and known, when latency or cost must be tightly bounded, when outcomes must be exact and auditable step by step, or when there is no safe way to limit its actions.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Show restraint</span></p>
+  <div class="callout__body"><p>Interviewers are wary of candidates who make everything an agent. Explicitly comparing a workflow and an agent for the problem, and choosing the simpler option where possible, is a strong signal.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>An agent loops: think → act through tools → observe → repeat, until done or stopped.</li>
+<li>Workflows (code decides) vs agents (LLM decides): prefer workflows when the path is known.</li>
+<li>Components: model, instructions, tools, memory, planning, guardrails.</li>
+<li>Set autonomy per action by impact and reversibility; always bound steps, tokens and time.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Yao et al., <a href="https://arxiv.org/abs/2210.03629" rel="noopener">ReAct: Synergizing Reasoning and Acting in Language Models</a>, 2022.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/research/building-effective-agents" rel="noopener">Building effective agents</a>, 2024.</li>
+<li>OpenAI, <a href="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" rel="noopener">A practical guide to building agents</a>, 2025.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/tool-calling/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Tool calling</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Workflow &amp; agent patterns</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/multi-agent-systems/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Multi-agent systems</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/tool-calling/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Tool calling</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#from-llm-to-agent">From LLM to agent</a></li>
+    <li><a href="#the-agent-loop">The agent loop</a></li>
+    <li><a href="#react-reason--act">ReAct: Reason + Act</a></li>
+    <li><a href="#components-of-an-agent">Components of an agent</a></li>
+    <li><a href="#levels-of-autonomy">Levels of autonomy</a></li>
+    <li><a href="#when-to-use-an-agent">When to use an agent</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

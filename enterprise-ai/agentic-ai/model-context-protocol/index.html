@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model Context Protocol (MCP) · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="MCP explained simply: why it exists (the N×M problem), hosts, clients and servers, tools, resources and prompts, sampling, roots and elicitation, JSON-RPC lifecycle, stdio and Streamable HTTP transports, OAuth authorization, security threats, enterprise MCP architecture, and MCP vs A2A.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/model-context-protocol/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Model Context Protocol (MCP)">
+<meta property="og:description" content="MCP explained simply: why it exists (the N×M problem), hosts, clients and servers, tools, resources and prompts, sampling, roots and elicitation, JSON-RPC lifecycle, stdio and Streamable HTTP transports, OAuth authorization, security threats, enterprise MCP architecture, and MCP vs A2A.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/model-context-protocol/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Model Context Protocol (MCP)">
+<meta name="twitter:description" content="MCP explained simply: why it exists (the N×M problem), hosts, clients and servers, tools, resources and prompts, sampling, roots and elicitation, JSON-RPC lifecycle, stdio and Streamable HTTP transports, OAuth authorization, security threats, enterprise MCP architecture, and MCP vs A2A.">
+<meta name="keywords" content="agents, mcp, protocols, agentic-ai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"MCP explained simply: why it exists (the N×M problem), hosts, clients and servers, tools, resources and prompts, sampling, roots and elicitation, JSON-RPC lifecycle, stdio and Streamable HTTP transports, OAuth authorization, security threats, enterprise MCP architecture, and MCP vs A2A.","headline":"Model Context Protocol (MCP)","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, mcp, protocols, agentic-ai","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/model-context-protocol/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/model-context-protocol/","name":"MCP","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.07f69fff471a750b924bd641ee5a44790130a34abea69e974b67edbd8a2b8724.css" integrity="sha256-B/af/0cadQuSS9ZB7lpEeQEwo0q&#43;pp6XS2ftvYorhyQ=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Interview Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/" aria-current="page">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/interview-prep/">Interview Prep</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/ai-system-design-framework/">AI system design framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/question-bank/">Question bank</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/interview-prep/cheat-sheet/">Cheat sheet</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">MCP</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Model Context Protocol (MCP)</h1><p class="article__lede" itemprop="description">MCP explained simply: why it exists (the N×M problem), hosts, clients and servers, tools, resources and prompts, sampling, roots and elicitation, JSON-RPC lifecycle, stdio and Streamable HTTP transports, OAuth authorization, security threats, enterprise MCP architecture, and MCP vs A2A.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>9 min read</li>
+  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/mcp/">#Mcp</a><a class="tag" href="/enterprise-ai/tags/protocols/">#Protocols</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-n--m-integrations">The problem: N × M integrations</a></li>
+    <li><a href="#architecture-host-client-server">Architecture: host, client, server</a></li>
+    <li><a href="#the-primitives">The primitives</a>
+      <ul>
+        <li><a href="#server-side-primitives">Server-side primitives</a></li>
+        <li><a href="#client-side-primitives-server-asks-the-host">Client-side primitives (server asks the host)</a></li>
+      </ul>
+    </li>
+    <li><a href="#protocol-lifecycle">Protocol lifecycle</a>
+      <ul>
+        <li><a href="#an-example-tool-call-on-the-wire">An example tool call on the wire</a></li>
+      </ul>
+    </li>
+    <li><a href="#transports">Transports</a></li>
+    <li><a href="#authorization">Authorization</a></li>
+    <li><a href="#security-threats-specific-to-mcp">Security threats specific to MCP</a></li>
+    <li><a href="#enterprise-mcp-architecture">Enterprise MCP architecture</a></li>
+    <li><a href="#mcp-compared">MCP compared</a></li>
+    <li><a href="#when-to-build-an-mcp-server">When to build an MCP server</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Model Context Protocol (MCP)</strong> is an open standard for connecting AI applications to tools and data. An <strong>MCP server</strong> exposes capabilities — tools to call, resources to read, prompt templates to use — and any <strong>MCP-compatible AI application</strong> can discover and use them.</p>
+<p>Analogy: <strong>USB-C for AI</strong>. Before USB, every device needed its own cable; before MCP, every AI app needed custom integration code for every system.</p>
+<p>MCP was introduced by Anthropic in November 2024, adopted by the major AI vendors, IDEs and frameworks during 2025, and is now governed as an open project under the Linux Foundation&rsquo;s Agentic AI Foundation.</p>
+<h2 id="the-problem-n--m-integrations">The problem: N × M integrations<a class="heading-anchor" href="#the-problem-n--m-integrations" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Without and with MCP"><figcaption class="diagram__title">Without and with MCP</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Before[&#34;Without MCP: N × M custom integrations&#34;]
+        A1[&#34;Chat app&#34;] --- S1[&#34;Jira&#34;]
+        A1 --- S2[&#34;GitHub&#34;]
+        A1 --- S3[&#34;Database&#34;]
+        A2[&#34;IDE agent&#34;] --- S1
+        A2 --- S2
+        A2 --- S3
+        A3[&#34;Support agent&#34;] --- S1
+        A3 --- S3
+    end
+    subgraph After[&#34;With MCP: N + M&#34;]
+        B1[&#34;Chat app&#34;] --- P((&#34;MCP&#34;))
+        B2[&#34;IDE agent&#34;] --- P
+        B3[&#34;Support agent&#34;] --- P
+        P --- M1[&#34;Jira MCP server&#34;]
+        P --- M2[&#34;GitHub MCP server&#34;]
+        P --- M3[&#34;Database MCP server&#34;]
+    end</pre>
+</figure>
+<p>Each tool is wrapped once as an MCP server and reused by every MCP client. Each AI application implements MCP once and gains access to every server.</p>
+<h2 id="architecture-host-client-server">Architecture: host, client, server<a class="heading-anchor" href="#architecture-host-client-server" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="MCP participants"><figcaption class="diagram__title">MCP participants</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Host[&#34;MCP host = AI application&#34;]
+        LLM((&#34;LLM&#34;))
+        C1[&#34;MCP client 1&#34;]
+        C2[&#34;MCP client 2&#34;]
+        C3[&#34;MCP client 3&#34;]
+        LLM --- C1
+        LLM --- C2
+        LLM --- C3
+    end
+    C1 &lt;--&gt;|&#34;stdio&#34;| S1[&#34;Local MCP server&lt;br/&gt;filesystem&#34;]
+    C2 &lt;--&gt;|&#34;Streamable HTTP&#34;| S2[&#34;Remote MCP server&lt;br/&gt;CRM&#34;]
+    C3 &lt;--&gt;|&#34;Streamable HTTP + OAuth&#34;| S3[&#34;Remote MCP server&lt;br/&gt;ticketing&#34;]
+    S1 --- R1[(&#34;Local files&#34;)]
+    S2 --- R2[(&#34;CRM API&#34;)]
+    S3 --- R3[(&#34;Ticket system&#34;)]</pre>
+</figure>
+<ul>
+<li><strong>Host</strong> — the application the user interacts with; it owns the LLM, the user&rsquo;s consent and security policy.</li>
+<li><strong>Client</strong> — a connector inside the host; <strong>one client per server</strong>, keeping a 1:1 stateful session.</li>
+<li><strong>Server</strong> — a program exposing capabilities. It can be local (a subprocess) or remote (a web service).</li>
+</ul>
+<h2 id="the-primitives">The primitives<a class="heading-anchor" href="#the-primitives" aria-label="Link to this section">#</a></h2>
+<h3 id="server-side-primitives">Server-side primitives<a class="heading-anchor" href="#server-side-primitives" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Primitive</th>
+      <th>Controlled by</th>
+      <th>What it is</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Tools</strong></td>
+      <td>The <strong>model</strong> decides to call</td>
+      <td>Functions with JSON Schema input (and optional output schema)</td>
+      <td><code>create_ticket</code>, <code>query_orders</code></td>
+    </tr>
+    <tr>
+      <td><strong>Resources</strong></td>
+      <td>The <strong>application</strong> decides what to include</td>
+      <td>Read-only data identified by URI</td>
+      <td><code>file:///reports/q3.md</code>, <code>crm://accounts/123</code></td>
+    </tr>
+    <tr>
+      <td><strong>Prompts</strong></td>
+      <td>The <strong>user</strong> chooses</td>
+      <td>Reusable prompt templates with arguments</td>
+      <td><code>/summarise-incident incident_id</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Tools can carry <strong>annotations</strong> that hint at behaviour — <code>readOnlyHint</code>, <code>destructiveHint</code>, <code>idempotentHint</code>, <code>openWorldHint</code> — which hosts use for approval UX. Annotations are hints from the server, so hosts must not trust them from untrusted servers.</p>
+<h3 id="client-side-primitives-server-asks-the-host">Client-side primitives (server asks the host)<a class="heading-anchor" href="#client-side-primitives-server-asks-the-host" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Primitive</th>
+      <th>What it lets a server do</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Sampling</strong></td>
+      <td>Ask the host&rsquo;s LLM to generate text — so a server can use AI without its own model credentials, under the host&rsquo;s control and user approval</td>
+    </tr>
+    <tr>
+      <td><strong>Roots</strong></td>
+      <td>Learn which directories or URIs the host allows it to work within</td>
+    </tr>
+    <tr>
+      <td><strong>Elicitation</strong></td>
+      <td>Ask the user for missing information or confirmation through the host&rsquo;s UI</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Servers can also send <strong>notifications</strong> (for example &ldquo;tool list changed&rdquo;, progress updates, log messages) and support <strong>cancellation</strong>.</p>
+<h2 id="protocol-lifecycle">Protocol lifecycle<a class="heading-anchor" href="#protocol-lifecycle" aria-label="Link to this section">#</a></h2>
+<p>MCP messages are <strong>JSON-RPC 2.0</strong> requests, responses and notifications.</p>
+<figure class="diagram" aria-label="MCP session lifecycle"><figcaption class="diagram__title">MCP session lifecycle</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant C as MCP client (in host)
+    participant S as MCP server
+    C-&gt;&gt;S: initialize {protocolVersion, capabilities, clientInfo}
+    S--&gt;&gt;C: result {protocolVersion, capabilities: tools, resources, prompts, serverInfo}
+    C-&gt;&gt;S: notifications/initialized
+    C-&gt;&gt;S: tools/list
+    S--&gt;&gt;C: [{name, description, inputSchema, annotations}, ...]
+    Note over C: Host passes tool definitions to its LLM
+    C-&gt;&gt;S: tools/call {name: &#34;create_ticket&#34;, arguments: {...}}
+    S--&gt;&gt;C: result {content: [...], structuredContent, isError: false}
+    S--)C: notifications/tools/list_changed
+    C-&gt;&gt;S: tools/list (refresh)</pre>
+</figure>
+<ol>
+<li><strong>Initialize</strong> — agree on protocol version and <strong>capabilities</strong> (what each side supports).</li>
+<li><strong>Operate</strong> — list and call tools, read resources, get prompts; server may request sampling or elicitation.</li>
+<li><strong>Shutdown</strong> — close the transport.</li>
+</ol>
+<h3 id="an-example-tool-call-on-the-wire">An example tool call on the wire<a class="heading-anchor" href="#an-example-tool-call-on-the-wire" aria-label="Link to this section">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;jsonrpc&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span><span class="p">,</span> <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="nt">&#34;method&#34;</span><span class="p">:</span> <span class="s2">&#34;tools/call&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;params&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;get_order_status&#34;</span><span class="p">,</span> <span class="nt">&#34;arguments&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;orderId&#34;</span><span class="p">:</span> <span class="s2">&#34;A-10293&#34;</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;jsonrpc&#34;</span><span class="p">:</span> <span class="s2">&#34;2.0&#34;</span><span class="p">,</span> <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;content&#34;</span><span class="p">:</span> <span class="p">[</span> <span class="p">{</span> <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span> <span class="nt">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;Order A-10293: shipped, arriving 2 Nov.&#34;</span> <span class="p">}</span> <span class="p">],</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&#34;isError&#34;</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}</span> <span class="p">}</span>
+</span></span></code></pre></div><h2 id="transports">Transports<a class="heading-anchor" href="#transports" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Transport</th>
+      <th>How</th>
+      <th>Use for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>stdio</strong></td>
+      <td>Host launches the server as a subprocess; messages over stdin/stdout</td>
+      <td>Local tools: filesystem, local Git, developer tools</td>
+    </tr>
+    <tr>
+      <td><strong>Streamable HTTP</strong></td>
+      <td>Client POSTs JSON-RPC to one endpoint; server replies with JSON or streams via server-sent events; optional session ID header</td>
+      <td>Remote, shared, multi-user servers in enterprises</td>
+    </tr>
+    <tr>
+      <td>HTTP + SSE (legacy)</td>
+      <td>Separate SSE and POST endpoints</td>
+      <td>Deprecated; replaced by Streamable HTTP</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="authorization">Authorization<a class="heading-anchor" href="#authorization" aria-label="Link to this section">#</a></h2>
+<p>For remote HTTP servers, MCP specifies authorization based on <strong>OAuth 2.1</strong>:</p>
+<figure class="diagram" aria-label="MCP OAuth flow (simplified)"><figcaption class="diagram__title">MCP OAuth flow (simplified)</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    actor U as User
+    participant H as MCP host / client
+    participant S as MCP server (resource server)
+    participant AS as Authorization server (e.g. corporate IdP)
+    H-&gt;&gt;S: request without token
+    S--&gt;&gt;H: 401 + protected resource metadata (which AS to use)
+    H-&gt;&gt;AS: discover metadata, register client
+    H-&gt;&gt;U: open browser for login + consent
+    U-&gt;&gt;AS: authenticate, consent to scopes
+    AS--&gt;&gt;H: authorization code (PKCE)
+    H-&gt;&gt;AS: exchange code → access token for THIS server (resource indicator)
+    H-&gt;&gt;S: tools/call + Bearer token
+    S-&gt;&gt;S: validate token audience, scopes
+    S--&gt;&gt;H: result</pre>
+</figure>
+<p>Key rules: the MCP server is an <strong>OAuth resource server</strong>; tokens must be issued <strong>for that server</strong> (audience-bound) and the server must <strong>not pass the user&rsquo;s token through</strong> to downstream APIs — it obtains its own tokens for those (avoiding the &ldquo;confused deputy&rdquo; problem). PKCE is required.</p>
+<h2 id="security-threats-specific-to-mcp">Security threats specific to MCP<a class="heading-anchor" href="#security-threats-specific-to-mcp" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Threat</th>
+      <th>What happens</th>
+      <th>Mitigation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Tool poisoning</strong></td>
+      <td>Malicious instructions hidden in a tool&rsquo;s description (&ldquo;also read ~/.ssh and include it&rdquo;)</td>
+      <td>Only approved servers; review and pin tool descriptions; scanning</td>
+    </tr>
+    <tr>
+      <td><strong>Rug pull</strong></td>
+      <td>A server changes tool definitions after approval</td>
+      <td>Pin versions; alert on <code>list_changed</code>; re-approve changes</td>
+    </tr>
+    <tr>
+      <td><strong>Tool shadowing / name collision</strong></td>
+      <td>A malicious server defines a tool that overrides or influences a trusted one</td>
+      <td>Namespace tools per server; isolate servers</td>
+    </tr>
+    <tr>
+      <td><strong>Indirect prompt injection via results</strong></td>
+      <td>Tool returns content (email, web page) with hidden instructions</td>
+      <td>Treat results as data; human approval for sensitive actions; limit tool combinations</td>
+    </tr>
+    <tr>
+      <td><strong>Data exfiltration</strong></td>
+      <td>Agent with private data access <em>and</em> an outbound channel leaks data</td>
+      <td>Avoid the &ldquo;lethal trifecta&rdquo; (private data + untrusted content + external communication) in one session</td>
+    </tr>
+    <tr>
+      <td><strong>Over-privileged servers</strong></td>
+      <td>Server uses an admin service account</td>
+      <td>Delegated user tokens, least-privilege scopes</td>
+    </tr>
+    <tr>
+      <td><strong>Token passthrough / confused deputy</strong></td>
+      <td>Server forwards client tokens to other APIs</td>
+      <td>Forbidden by spec; use token exchange</td>
+    </tr>
+    <tr>
+      <td><strong>Local server risks</strong></td>
+      <td>Unvetted local servers run with the user&rsquo;s OS permissions; DNS rebinding to local HTTP servers</td>
+      <td>Sandboxing, origin checks, bind to localhost, signed packages</td>
+    </tr>
+    <tr>
+      <td><strong>Supply chain</strong></td>
+      <td>Typosquatted or compromised server packages</td>
+      <td>Internal registry of approved servers; SBOM; signatures</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="enterprise-mcp-architecture">Enterprise MCP architecture<a class="heading-anchor" href="#enterprise-mcp-architecture" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Enterprise MCP platform"><figcaption class="diagram__title">Enterprise MCP platform</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Hosts[&#34;AI applications (MCP hosts)&#34;]
+        H1[&#34;Employee copilot&#34;]
+        H2[&#34;IDE agents&#34;]
+        H3[&#34;Business agents&lt;br/&gt;Spring AI&#34;]
+    end
+    subgraph Platform[&#34;MCP platform&#34;]
+        REG[&#34;Registry / catalogue&lt;br/&gt;approved servers, owners, versions&#34;]
+        MGW[&#34;MCP gateway&lt;br/&gt;authN/Z, policy, rate limits,&lt;br/&gt;audit, tool filtering&#34;]
+    end
+    subgraph Servers[&#34;MCP servers — owned by domain teams&#34;]
+        M1[&#34;HR server&#34;]
+        M2[&#34;CRM server&#34;]
+        M3[&#34;Ticketing server&#34;]
+        M4[&#34;Data warehouse server&lt;br/&gt;read-only&#34;]
+    end
+    IDP[&#34;Corporate IdP&lt;br/&gt;OAuth / OIDC&#34;]
+    H1 --&gt; MGW
+    H2 --&gt; MGW
+    H3 --&gt; MGW
+    MGW --&gt; M1
+    MGW --&gt; M2
+    MGW --&gt; M3
+    MGW --&gt; M4
+    MGW -.-&gt; REG
+    MGW -.-&gt; IDP</pre>
+</figure>
+<ul>
+<li><strong>Domain teams own MCP servers</strong> for their systems — like they own APIs.</li>
+<li>An <strong>MCP gateway</strong> centralises authentication, authorization, policy, per-tool allow-lists, rate limits and audit.</li>
+<li>A <strong>registry</strong> lists approved servers with owners, data classification and versions.</li>
+<li>Hosts connect only through the gateway; unapproved servers are blocked.</li>
+</ul>
+<h2 id="mcp-compared">MCP compared<a class="heading-anchor" href="#mcp-compared" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>REST/OpenAPI</th>
+      <th>Framework tool (e.g. <code>@Tool</code>)</th>
+      <th><strong>MCP</strong></th>
+      <th><strong>A2A</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Purpose</td>
+      <td>Program-to-program API</td>
+      <td>In-process tool for one app</td>
+      <td>Standard way for AI apps to use tools and context</td>
+      <td>Standard way for <strong>agents to talk to agents</strong></td>
+    </tr>
+    <tr>
+      <td>Discovery</td>
+      <td>Docs / spec</td>
+      <td>Code</td>
+      <td>Runtime <code>tools/list</code></td>
+      <td>Agent cards</td>
+    </tr>
+    <tr>
+      <td>Reuse across AI apps</td>
+      <td>Custom glue each time</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Typical unit</td>
+      <td>Endpoint</td>
+      <td>Method</td>
+      <td>Tool / resource / prompt</td>
+      <td>Task delegated to a remote agent</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>MCP and <strong>A2A (Agent2Agent protocol)</strong> are complementary: MCP connects an agent to its <em>tools and data</em>; A2A lets independent <em>agents</em> delegate tasks to each other. See <a href="/enterprise-ai/agentic-ai/multi-agent-systems/#agent-to-agent-protocols">multi-agent systems</a>.</p>
+<h2 id="when-to-build-an-mcp-server">When to build an MCP server<a class="heading-anchor" href="#when-to-build-an-mcp-server" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>A system will be used by <strong>several</strong> AI applications or agents (copilot, IDE, business agents).</li>
+<li>You want vendors&rsquo; AI products (desktop assistants, IDEs) to access your internal systems in a governed way.</li>
+<li>You want domain teams to own AI access to their systems.</li>
+</ul>
+<p>For a tool used only inside one application, an in-process tool (Spring AI <code>@Tool</code>) is simpler.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">&ldquo;MCP makes it secure&rdquo;</span></p>
+  <div class="callout__body"><p>MCP standardises <em>connection</em>, not <em>trust</em>. A malicious or over-privileged MCP server is as dangerous as any other code with access to your data. Vet, sandbox, scope and audit.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Exposing a 1:1 copy of an internal API</span></p>
+  <div class="callout__body"><p>MCP tools are read by an LLM. Apply the same <a href="/enterprise-ai/agentic-ai/tool-calling/#designing-good-tools">tool design</a> principles: task-level tools, clear descriptions, compact results.</p></div>
+</aside><h2 id="interview-questions-and-answers">Interview questions and answers<a class="heading-anchor" href="#interview-questions-and-answers" aria-label="Link to this section">#</a></h2>
+<p><strong>What is MCP and what problem does it solve?</strong>
+An open protocol that standardises how AI applications connect to tools and data sources. It turns N×M custom integrations into N+M: each system is wrapped once as an MCP server and each AI application implements an MCP client once.</p>
+<p><strong>Explain host, client and server.</strong>
+The host is the AI application with the LLM and user. It creates one MCP client per server; each client keeps a stateful JSON-RPC session with one server. Servers expose tools, resources and prompts.</p>
+<p><strong>What are tools, resources and prompts in MCP?</strong>
+Tools are model-invoked functions with input schemas; resources are application-controlled read-only data identified by URIs; prompts are user-selected templates. Clients can additionally offer sampling, roots and elicitation to servers.</p>
+<p><strong>Which transports does MCP support?</strong>
+stdio for local subprocess servers and Streamable HTTP for remote servers (HTTP POST with optional server-sent-event streaming). The older HTTP+SSE transport is deprecated.</p>
+<p><strong>How is MCP secured?</strong>
+Remote servers use OAuth 2.1 authorization with PKCE and audience-bound tokens; servers must not pass through client tokens. In the enterprise add an MCP gateway, an approved-server registry, least-privilege scopes, human approval for destructive tools, pinned tool definitions, and audit logs.</p>
+<p><strong>What are the main MCP security risks?</strong>
+Tool poisoning, rug pulls, tool shadowing, indirect prompt injection through tool results, data exfiltration, over-privileged servers, token passthrough and supply-chain attacks on server packages.</p>
+<p><strong>MCP vs A2A?</strong>
+MCP connects an agent to tools and context; A2A lets agents built by different teams or vendors discover each other and delegate tasks. Many systems use both.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Interview tip</span><span class="callout__heading">Draw it</span></p>
+  <div class="callout__body"><p>Draw host → clients → servers with transports, then add the gateway, IdP and registry. Mentioning tool poisoning and the no-token-passthrough rule shows you have gone beyond the marketing.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>MCP standardises how AI apps use external tools and data: N+M instead of N×M.</li>
+<li>Host (AI app) → one client per server → server exposing tools, resources and prompts.</li>
+<li>JSON-RPC 2.0 with capability negotiation; stdio locally, Streamable HTTP remotely; OAuth 2.1 for auth.</li>
+<li>MCP standardises connection, not trust: govern servers with a gateway, registry, least privilege and audit.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://modelcontextprotocol.io/specification" rel="noopener">Model Context Protocol specification</a>.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/news/model-context-protocol" rel="noopener">Introducing the Model Context Protocol</a>, 2024.</li>
+<li><a href="https://modelcontextprotocol.io/specification/draft/basic/security_best_practices" rel="noopener">MCP security best practices</a>.</li>
+<li><a href="https://a2a-protocol.org/" rel="noopener">Agent2Agent (A2A) protocol</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/multi-agent-systems/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Multi-agent systems</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI tools, MCP &amp; memory</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/tool-calling/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Tool calling</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Workflow &amp; agent patterns</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-n--m-integrations">The problem: N × M integrations</a></li>
+    <li><a href="#architecture-host-client-server">Architecture: host, client, server</a></li>
+    <li><a href="#the-primitives">The primitives</a>
+      <ul>
+        <li><a href="#server-side-primitives">Server-side primitives</a></li>
+        <li><a href="#client-side-primitives-server-asks-the-host">Client-side primitives (server asks the host)</a></li>
+      </ul>
+    </li>
+    <li><a href="#protocol-lifecycle">Protocol lifecycle</a>
+      <ul>
+        <li><a href="#an-example-tool-call-on-the-wire">An example tool call on the wire</a></li>
+      </ul>
+    </li>
+    <li><a href="#transports">Transports</a></li>
+    <li><a href="#authorization">Authorization</a></li>
+    <li><a href="#security-threats-specific-to-mcp">Security threats specific to MCP</a></li>
+    <li><a href="#enterprise-mcp-architecture">Enterprise MCP architecture</a></li>
+    <li><a href="#mcp-compared">MCP compared</a></li>
+    <li><a href="#when-to-build-an-mcp-server">When to build an MCP server</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#interview-questions-and-answers">Interview questions and answers</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Ace the interview.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>
