@@ -381,38 +381,14 @@
 </ol>
 <h2 id="hybrid-reference-architecture">Hybrid reference architecture<a class="heading-anchor" href="#hybrid-reference-architecture" aria-label="Link to this section">#</a></h2>
 <p>The defining component of a hybrid platform is an <strong>AI gateway that routes by data classification</strong>, not just by cost. Applications call one endpoint; the gateway decides which deployment is allowed to see the request.</p>
-<figure class="diagram" aria-label="Hybrid GenAI platform"><figcaption class="diagram__title">Hybrid GenAI platform</figcaption>
-  <pre class="mermaid">flowchart TB
-    subgraph Apps[&#34;Enterprise applications and agents&#34;]
-        APP1[&#34;Internal assistants&#34;]
-        APP2[&#34;Business apps&lt;br/&gt;Spring AI / LangGraph&#34;]
-        APP3[&#34;Batch document processing&#34;]
-    end
-    subgraph CP[&#34;Control plane (on-prem or private cloud)&#34;]
-        GW[&#34;AI gateway&lt;br/&gt;authN/Z, data-class routing,&lt;br/&gt;PII redaction, quotas, audit&#34;]
-        CAT[&#34;Model catalogue&lt;br/&gt;approved models per target&#34;]
-        POL[&#34;Policy engine&lt;br/&gt;classification rules&#34;]
-    end
-    subgraph OnPrem[&#34;On-premise data centre&#34;]
-        K8S[&#34;Kubernetes GPU cluster&lt;br/&gt;vLLM / TGI / Triton / NIM&#34;]
-        VDB[(&#34;Vector + search index&lt;br/&gt;restricted corpora&#34;)]
-        OBS[&#34;Tracing + logs&lt;br/&gt;OpenTelemetry&#34;]
-    end
-    subgraph Cloud[&#34;Cloud tenancy, in-region&#34;]
-        CM[&#34;Cloud-managed models&lt;br/&gt;private endpoint&#34;]
-        VDB2[(&#34;Vector index&lt;br/&gt;confidential corpora&#34;)]
-    end
-    EXT[&#34;Public provider API&lt;br/&gt;public / internal data only&#34;]
-    Apps --&gt; GW
-    GW --&gt; POL
-    GW --&gt; CAT
-    GW --&gt;|&#34;restricted&#34;| K8S
-    GW --&gt;|&#34;confidential&#34;| CM
-    GW --&gt;|&#34;public / internal,&lt;br/&gt;after DLP&#34;| EXT
-    K8S --- VDB
-    CM --- VDB2
-    GW --&gt; OBS</pre>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/hybrid-genai-platform.html" title="Hybrid GenAI platform: routing by data class" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>Hybrid GenAI platform: routing by data class · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/enterprise-ai/diagrams/hybrid-genai-platform.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
 </figure>
+
 <h3 id="data-classification-routing">Data-classification routing<a class="heading-anchor" href="#data-classification-routing" aria-label="Link to this section">#</a></h3>
 <div class="table-wrap" tabindex="0" role="region" aria-label="Table">
 <table>

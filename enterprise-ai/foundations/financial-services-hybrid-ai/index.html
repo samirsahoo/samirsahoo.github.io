@@ -230,7 +230,11 @@
     <li><a href="#lifecycle-costs">Lifecycle costs</a></li>
     <li><a href="#reliability-in-a-regulated-estate">Reliability in a regulated estate</a></li>
     <li><a href="#unmet-needs">Unmet needs</a></li>
-    <li><a href="#reference-architecture">Reference architecture</a></li>
+    <li><a href="#reference-architecture">Reference architecture</a>
+      <ul>
+        <li><a href="#one-request-end-to-end">One request end to end</a></li>
+      </ul>
+    </li>
     <li><a href="#common-mistakes">Common mistakes</a></li>
     <li><a href="#review-questions">Review questions</a></li>
     <li><a href="#summary">Summary</a></li>
@@ -902,6 +906,16 @@
     GW --&gt;|&#34;confidential / internal,&lt;br/&gt;after redaction&#34;| CLM
     GW --&gt; EVAL</pre>
 </figure>
+<h3 id="one-request-end-to-end">One request end to end<a class="heading-anchor" href="#one-request-end-to-end" aria-label="Link to this section">#</a></h3>
+<p>A financial-crime alert shows the controls working together: the retrieved case data makes the prompt restricted, the gateway routes it only to the bank&rsquo;s own model, and the investigator — not the model — makes the decision, with evidence recorded for model risk and audit.</p>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/fincrime-hybrid.html" title="Financial-crime alert through a hybrid AI platform" loading="lazy" style="height: 740px"></iframe>
+  <figcaption>
+    <span>Financial-crime alert through a hybrid AI platform · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/enterprise-ai/diagrams/fincrime-hybrid.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
 <h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
 <aside class="callout callout--mistake" role="note">
   <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Letting the LLM produce the numbers</span></p>
@@ -1020,7 +1034,11 @@ Frontier-quality models on-prem, change control for API models, validation metho
     <li><a href="#lifecycle-costs">Lifecycle costs</a></li>
     <li><a href="#reliability-in-a-regulated-estate">Reliability in a regulated estate</a></li>
     <li><a href="#unmet-needs">Unmet needs</a></li>
-    <li><a href="#reference-architecture">Reference architecture</a></li>
+    <li><a href="#reference-architecture">Reference architecture</a>
+      <ul>
+        <li><a href="#one-request-end-to-end">One request end to end</a></li>
+      </ul>
+    </li>
     <li><a href="#common-mistakes">Common mistakes</a></li>
     <li><a href="#review-questions">Review questions</a></li>
     <li><a href="#summary">Summary</a></li>
