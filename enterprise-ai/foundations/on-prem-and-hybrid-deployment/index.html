@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On-Premise and Hybrid GenAI Deployment · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Where GenAI should run — public API, cloud-managed, sovereign cloud, on-premise or air-gapped — and how to design a hybrid platform: data-classification routing, security, data privacy, GPU capacity and TCO, governance, and integration with existing enterprise systems.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="On-Premise and Hybrid GenAI Deployment">
+<meta property="og:description" content="Where GenAI should run — public API, cloud-managed, sovereign cloud, on-premise or air-gapped — and how to design a hybrid platform: data-classification routing, security, data privacy, GPU capacity and TCO, governance, and integration with existing enterprise systems.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="On-Premise and Hybrid GenAI Deployment">
+<meta name="twitter:description" content="Where GenAI should run — public API, cloud-managed, sovereign cloud, on-premise or air-gapped — and how to design a hybrid platform: data-classification routing, security, data privacy, GPU capacity and TCO, governance, and integration with existing enterprise systems.">
+<meta name="keywords" content="architecture, foundations, platform, security, deployment">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Where GenAI should run — public API, cloud-managed, sovereign cloud, on-premise or air-gapped — and how to design a hybrid platform: data-classification routing, security, data privacy, GPU capacity and TCO, governance, and integration with existing enterprise systems.","headline":"On-Premise and Hybrid GenAI Deployment","inLanguage":"en","isAccessibleForFree":true,"keywords":"architecture, foundations, platform, security, deployment","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/","name":"On-prem \u0026 hybrid deployment","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/" aria-current="page">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">On-prem &amp; hybrid deployment</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">On-Premise and Hybrid GenAI Deployment</h1><p class="article__lede" itemprop="description">Where GenAI should run — public API, cloud-managed, sovereign cloud, on-premise or air-gapped — and how to design a hybrid platform: data-classification routing, security, data privacy, GPU capacity and TCO, governance, and integration with existing enterprise systems.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>15 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/architecture/">#Architecture</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/platform/">#Platform</a><a class="tag" href="/enterprise-ai/tags/security/">#Security</a><a class="tag" href="/enterprise-ai/tags/deployment/">#Deployment</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a>, <a href="/enterprise-ai/foundations/model-selection/">Model selection</a>, <a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-matters">Why it matters</a></li>
+    <li><a href="#the-deployment-spectrum">The deployment spectrum</a></li>
+    <li><a href="#choosing-per-workload">Choosing per workload</a></li>
+    <li><a href="#hybrid-reference-architecture">Hybrid reference architecture</a>
+      <ul>
+        <li><a href="#data-classification-routing">Data-classification routing</a></li>
+      </ul>
+    </li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#data-privacy">Data privacy</a></li>
+    <li><a href="#scalability-and-capacity-planning">Scalability and capacity planning</a>
+      <ul>
+        <li><a href="#what-limits-a-self-hosted-model">What limits a self-hosted model</a></li>
+        <li><a href="#scaling-patterns">Scaling patterns</a></li>
+        <li><a href="#tco-when-does-on-prem-pay-off">TCO: when does on-prem pay off?</a></li>
+      </ul>
+    </li>
+    <li><a href="#governance">Governance</a></li>
+    <li><a href="#integration-with-existing-enterprise-systems">Integration with existing enterprise systems</a></li>
+    <li><a href="#running-it-day-to-day">Running it day to day</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Deployment topology</strong> decides <em>where</em> each part of a GenAI system runs: the model, the retrieval index, the orchestration code and the logs. <strong>On-premise</strong> means inference runs on hardware you operate; <strong>hybrid</strong> means some workloads run on your hardware or private cloud and others call cloud-hosted models, with one control plane deciding which request goes where.</p>
+<p>The architect&rsquo;s job is not to pick &ldquo;cloud&rdquo; or &ldquo;on-prem&rdquo; once. It is to make the choice <strong>per data class and per workload</strong>, and to make that choice enforceable.</p>
+<h2 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to this section">#</a></h2>
+<p>Five drivers push enterprises away from &ldquo;call the public API for everything&rdquo;:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Driver</th>
+      <th>Typical source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Data sovereignty and residency</strong></td>
+      <td>GDPR transfer rules, banking secrecy, public-sector and defence classification, customer contracts</td>
+    </tr>
+    <tr>
+      <td><strong>Regulatory operational resilience</strong></td>
+      <td>EU DORA, PRA/EBA outsourcing rules: concentration risk, exit plans, audit rights over critical third parties</td>
+    </tr>
+    <tr>
+      <td><strong>Cost at high steady volume</strong></td>
+      <td>Per-token pricing loses to amortised GPUs once utilisation is high and predictable</td>
+    </tr>
+    <tr>
+      <td><strong>Latency and availability</strong></td>
+      <td>Plant floors, branches, ships, field devices; no dependency on internet links</td>
+    </tr>
+    <tr>
+      <td><strong>Control and customisation</strong></td>
+      <td>Fine-tuned open-weight models, pinned versions, no surprise model deprecations</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>And three forces pull the other way: frontier quality (still mostly API-only), zero GPU operations, and speed of adoption. Hybrid exists because both lists are true at the same time.</p>
+<h2 id="the-deployment-spectrum">The deployment spectrum<a class="heading-anchor" href="#the-deployment-spectrum" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="From most managed to most controlled"><figcaption class="diagram__title">From most managed to most controlled</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Public provider API&lt;br/&gt;shared endpoints&#34;] --&gt; B[&#34;Cloud-managed models&lt;br/&gt;Bedrock, Azure AI Foundry,&lt;br/&gt;Vertex AI, private endpoints&#34;]
+    B --&gt; C[&#34;Dedicated capacity&lt;br/&gt;provisioned throughput,&lt;br/&gt;single-tenant deployments&#34;]
+    C --&gt; D[&#34;Sovereign / national cloud&lt;br/&gt;local operator, local staff,&lt;br/&gt;local jurisdiction&#34;]
+    D --&gt; E[&#34;On-premise self-hosted&lt;br/&gt;open-weight models on&lt;br/&gt;your GPUs and Kubernetes&#34;]
+    E --&gt; F[&#34;Air-gapped&lt;br/&gt;no network path out;&lt;br/&gt;offline model updates&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Data path</th>
+      <th>Model choice</th>
+      <th>You operate</th>
+      <th>Best for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Public API</strong></td>
+      <td>Leaves your network over TLS; contractual retention terms</td>
+      <td>Full frontier range</td>
+      <td>Nothing but the client</td>
+      <td>Public and internal data, prototypes</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud-managed, private networking</strong></td>
+      <td>Stays in your cloud tenancy and region; private link, no internet</td>
+      <td>Frontier + hosted open-weight, per-region availability</td>
+      <td>IAM, networking, quotas</td>
+      <td>Most confidential enterprise workloads</td>
+    </tr>
+    <tr>
+      <td><strong>Dedicated capacity</strong></td>
+      <td>As above, with reserved, isolated throughput</td>
+      <td>Usually a subset</td>
+      <td>Capacity planning</td>
+      <td>Predictable latency at steady volume</td>
+    </tr>
+    <tr>
+      <td><strong>Sovereign cloud</strong></td>
+      <td>Local legal entity and operations</td>
+      <td>Narrower catalogue, often lagging</td>
+      <td>As above</td>
+      <td>Public sector, regulated sectors with jurisdiction rules</td>
+    </tr>
+    <tr>
+      <td><strong>On-premise</strong></td>
+      <td>Never leaves your data centre</td>
+      <td>Open-weight only (plus some vendors&rsquo; licensed on-prem offerings)</td>
+      <td>GPUs, drivers, serving stack, scaling, upgrades</td>
+      <td>Restricted data, very high volume, fine-tuned models</td>
+    </tr>
+    <tr>
+      <td><strong>Air-gapped</strong></td>
+      <td>No external connectivity at all</td>
+      <td>Open-weight, imported through a controlled transfer</td>
+      <td>Everything, including offline updates and evaluation</td>
+      <td>Defence, critical infrastructure, classified data</td>
+    </tr>
+    <tr>
+      <td><strong>Edge / on-device</strong></td>
+      <td>Stays on the device</td>
+      <td>Small models (1–8B, quantized)</td>
+      <td>Fleet distribution</td>
+      <td>Offline field work, low latency, privacy on device</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The quality gap is real but narrowing</span></p>
+  <div class="callout__body"><p>Open-weight models run on-premise are close to mid-tier proprietary models for RAG, extraction, summarisation and classification. The gap is widest for hard multi-step reasoning and long-horizon agentic work. Put the hard tasks where the best models are allowed, and the sensitive high-volume tasks where your data is allowed.</p></div>
+</aside><h2 id="choosing-per-workload">Choosing per workload<a class="heading-anchor" href="#choosing-per-workload" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Deployment decision guide"><figcaption class="diagram__title">Deployment decision guide</figcaption>
+  <pre class="mermaid">flowchart TB
+    Q1{&#34;Highest data class&lt;br/&gt;in the prompt or context?&#34;}
+    Q1 --&gt;|&#34;Public / internal&#34;| A[&#34;Public API or&lt;br/&gt;cloud-managed&#34;]
+    Q1 --&gt;|&#34;Confidential&#34;| Q2{&#34;Contract + region +&lt;br/&gt;private networking&lt;br/&gt;acceptable to DPO and risk?&#34;}
+    Q2 --&gt;|&#34;Yes&#34;| B[&#34;Cloud-managed in-region,&lt;br/&gt;zero data retention,&lt;br/&gt;private endpoints&#34;]
+    Q2 --&gt;|&#34;No&#34;| C[&#34;On-premise or sovereign&#34;]
+    Q1 --&gt;|&#34;Restricted / secret&#34;| Q3{&#34;Any network path&lt;br/&gt;allowed?&#34;}
+    Q3 --&gt;|&#34;Yes, internal only&#34;| C
+    Q3 --&gt;|&#34;No&#34;| D[&#34;Air-gapped&#34;]
+    B --&gt; Q4{&#34;Steady volume high enough&lt;br/&gt;to keep GPUs above ~50% busy?&#34;}
+    Q4 --&gt;|&#34;Yes&#34;| E[&#34;Consider on-prem&lt;br/&gt;for cost, keep cloud&lt;br/&gt;for burst and frontier tasks&#34;]
+    Q4 --&gt;|&#34;No&#34;| B</pre>
+</figure>
+<p>Questions that settle most cases:</p>
+<ol>
+<li><strong>What is the most sensitive data that can reach the model</strong> — including retrieved documents, tool results and conversation history, not just the user&rsquo;s question?</li>
+<li><strong>Does the task need frontier reasoning</strong>, or does a 30–70B open-weight model pass your evaluation set?</li>
+<li><strong>What is the steady and peak token volume</strong>, and how predictable is it?</li>
+<li><strong>What does the regulator or customer contract require</strong>: region, jurisdiction, audit rights, exit plan?</li>
+<li><strong>Can your organisation operate GPUs 24×7</strong> — skills, on-call, hardware supply?</li>
+</ol>
+<h2 id="hybrid-reference-architecture">Hybrid reference architecture<a class="heading-anchor" href="#hybrid-reference-architecture" aria-label="Link to this section">#</a></h2>
+<p>The defining component of a hybrid platform is an <strong>AI gateway that routes by data classification</strong>, not just by cost. Applications call one endpoint; the gateway decides which deployment is allowed to see the request.</p>
+<figure class="diagram" aria-label="Hybrid GenAI platform"><figcaption class="diagram__title">Hybrid GenAI platform</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph Apps[&#34;Enterprise applications and agents&#34;]
+        APP1[&#34;Internal assistants&#34;]
+        APP2[&#34;Business apps&lt;br/&gt;Spring AI / LangGraph&#34;]
+        APP3[&#34;Batch document processing&#34;]
+    end
+    subgraph CP[&#34;Control plane (on-prem or private cloud)&#34;]
+        GW[&#34;AI gateway&lt;br/&gt;authN/Z, data-class routing,&lt;br/&gt;PII redaction, quotas, audit&#34;]
+        CAT[&#34;Model catalogue&lt;br/&gt;approved models per target&#34;]
+        POL[&#34;Policy engine&lt;br/&gt;classification rules&#34;]
+    end
+    subgraph OnPrem[&#34;On-premise data centre&#34;]
+        K8S[&#34;Kubernetes GPU cluster&lt;br/&gt;vLLM / TGI / Triton / NIM&#34;]
+        VDB[(&#34;Vector + search index&lt;br/&gt;restricted corpora&#34;)]
+        OBS[&#34;Tracing + logs&lt;br/&gt;OpenTelemetry&#34;]
+    end
+    subgraph Cloud[&#34;Cloud tenancy, in-region&#34;]
+        CM[&#34;Cloud-managed models&lt;br/&gt;private endpoint&#34;]
+        VDB2[(&#34;Vector index&lt;br/&gt;confidential corpora&#34;)]
+    end
+    EXT[&#34;Public provider API&lt;br/&gt;public / internal data only&#34;]
+    Apps --&gt; GW
+    GW --&gt; POL
+    GW --&gt; CAT
+    GW --&gt;|&#34;restricted&#34;| K8S
+    GW --&gt;|&#34;confidential&#34;| CM
+    GW --&gt;|&#34;public / internal,&lt;br/&gt;after DLP&#34;| EXT
+    K8S --- VDB
+    CM --- VDB2
+    GW --&gt; OBS</pre>
+</figure>
+<h3 id="data-classification-routing">Data-classification routing<a class="heading-anchor" href="#data-classification-routing" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Data class</th>
+      <th>Examples</th>
+      <th>Allowed inference targets</th>
+      <th>Extra controls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Public</strong></td>
+      <td>Marketing copy, public docs</td>
+      <td>Any approved target</td>
+      <td>Standard logging</td>
+    </tr>
+    <tr>
+      <td><strong>Internal</strong></td>
+      <td>Policies, internal wiki</td>
+      <td>Public API with enterprise terms, cloud-managed, on-prem</td>
+      <td>Zero data retention where offered</td>
+    </tr>
+    <tr>
+      <td><strong>Confidential</strong></td>
+      <td>Customer records, contracts, source code</td>
+      <td>Cloud-managed in-region with private networking, on-prem</td>
+      <td>PII redaction or pseudonymisation, encrypted logs, DPIA</td>
+    </tr>
+    <tr>
+      <td><strong>Restricted</strong></td>
+      <td>Payment data, health data, trading strategy, M&amp;A</td>
+      <td>On-prem or sovereign only</td>
+      <td>No prompt logging or masked logging, named-user access, approvals</td>
+    </tr>
+    <tr>
+      <td><strong>Secret / classified</strong></td>
+      <td>Defence, national security</td>
+      <td>Air-gapped only</td>
+      <td>Physical and personnel controls</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>How the gateway knows the class:</p>
+<ul>
+<li><strong>Declared by the caller</strong>: each application is registered with a maximum data class; the gateway rejects calls above it.</li>
+<li><strong>Derived from the data</strong>: the retrieval layer stamps each chunk with its source classification; the highest class in the assembled prompt wins.</li>
+<li><strong>Detected</strong>: DLP or PII classifiers on the prompt catch what the first two miss. Detection is a safety net, not the primary control.</li>
+</ul>
+<aside class="callout callout--tradeoff" role="note">
+  <p class="callout__title"><span class="callout__label">Trade-off</span><span class="callout__heading">Route by the context, not the question</span></p>
+  <div class="callout__body"><p>&ldquo;Summarise this account&rsquo;s complaints&rdquo; is a harmless question. The retrieved complaints are confidential. Classify the <em>assembled prompt</em>, including RAG context and tool results, or a public-API route will leak data that the question alone did not reveal.</p></div>
+</aside><h2 id="security">Security<a class="heading-anchor" href="#security" aria-label="Link to this section">#</a></h2>
+<p>Self-hosting moves responsibilities from the provider to you. Treat the model server as a high-value internal service.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Controls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Network</strong></td>
+      <td>Zero-trust segmentation; model servers reachable only from the gateway; private endpoints for cloud models; egress allow-lists so self-hosted models and agents cannot call the internet</td>
+    </tr>
+    <tr>
+      <td><strong>Identity</strong></td>
+      <td>Workload identity (SPIFFE or cloud IAM) between gateway and model servers; end-user identity propagated for audit; no shared API keys in applications. See <a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity</a></td>
+    </tr>
+    <tr>
+      <td><strong>Model supply chain</strong></td>
+      <td>Download weights only from verified sources; prefer <code>safetensors</code> over pickle formats that can execute code; verify hashes and signatures; scan model files; record each model in an AI-BOM; review licences</td>
+    </tr>
+    <tr>
+      <td><strong>Serving stack</strong></td>
+      <td>Hardened, minimal container images; pinned CUDA, driver and serving-engine versions; patch cadence for CVEs in inference servers and their web front ends</td>
+    </tr>
+    <tr>
+      <td><strong>Isolation</strong></td>
+      <td>Separate GPU pools or GPU partitioning (for example NVIDIA MIG) between tenants or data classes; no shared KV or prefix cache across trust boundaries</td>
+    </tr>
+    <tr>
+      <td><strong>Data at rest</strong></td>
+      <td>Encrypt weights, vector indexes, prompt logs and fine-tuning datasets; keys in HSM/KMS; fine-tuned weights are as sensitive as their training data</td>
+    </tr>
+    <tr>
+      <td><strong>Confidential computing</strong></td>
+      <td>Optional: TEEs and GPU confidential-computing modes protect data in use from the host operator — relevant for sovereign and multi-party scenarios</td>
+    </tr>
+    <tr>
+      <td><strong>Application-layer threats</strong></td>
+      <td>Unchanged by location: prompt injection, excessive agency and output handling apply on-prem too. See <a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">&ldquo;It&rsquo;s on-prem, so it&rsquo;s secure&rdquo;</span></p>
+  <div class="callout__body"><p>On-premise removes third-party data exposure. It does not remove prompt injection, over-privileged tools, leaky logs or a vulnerable inference server. Many self-hosted model servers have been found exposed without authentication on internal and even public networks.</p></div>
+</aside><h2 id="data-privacy">Data privacy<a class="heading-anchor" href="#data-privacy" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Design response</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Residency and transfers</strong></td>
+      <td>Pin cloud models to in-region endpoints; check that cross-region inference or failover is switched off or approved; document transfer mechanisms</td>
+    </tr>
+    <tr>
+      <td><strong>Provider retention and training</strong></td>
+      <td>Enterprise terms with zero data retention where available and no training on your data; verify abuse-monitoring retention exceptions</td>
+    </tr>
+    <tr>
+      <td><strong>Minimisation</strong></td>
+      <td>Send only the fields the task needs; redact or pseudonymise identifiers at the gateway and re-identify in the response if required</td>
+    </tr>
+    <tr>
+      <td><strong>Prompt and trace logs</strong></td>
+      <td>Logs contain personal data: classify them, restrict access, set retention, mask by default for restricted classes</td>
+    </tr>
+    <tr>
+      <td><strong>Vector stores</strong></td>
+      <td>Embeddings and chunks are derived personal data: carry source ACLs and classification; support deletion so the right to erasure reaches the index</td>
+    </tr>
+    <tr>
+      <td><strong>Fine-tuning data</strong></td>
+      <td>Models can memorise training data; avoid personal data in fine-tuning sets or treat the resulting weights as personal data</td>
+    </tr>
+    <tr>
+      <td><strong>Assessments</strong></td>
+      <td>DPIA for high-risk processing; records of processing; link to the <a href="/enterprise-ai/spring-ai-governance/ai-governance/#data-protection-gdpr">AI governance</a> artefacts</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="scalability-and-capacity-planning">Scalability and capacity planning<a class="heading-anchor" href="#scalability-and-capacity-planning" aria-label="Link to this section">#</a></h2>
+<h3 id="what-limits-a-self-hosted-model">What limits a self-hosted model<a class="heading-anchor" href="#what-limits-a-self-hosted-model" aria-label="Link to this section">#</a></h3>
+<p>Self-hosted capacity is set by GPU memory and memory bandwidth, not CPU:</p>
+<ul>
+<li><strong>Weights</strong> ≈ parameters × bytes per parameter (FP16 = 2, FP8/INT8 = 1, INT4 ≈ 0.5).</li>
+<li><strong>KV cache</strong> grows with context length × concurrent sequences; it decides how many users fit.</li>
+<li><strong>Throughput</strong> depends on continuous batching; latency per user worsens as the batch grows.</li>
+</ul>
+<p>See <a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency and cost</a> for the mechanics.</p>
+<h3 id="scaling-patterns">Scaling patterns<a class="heading-anchor" href="#scaling-patterns" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Autoscale on the right signal</strong></td>
+      <td>Scale model replicas on queue depth, KV-cache utilisation or tokens/s, not CPU; GPUs pegged at 100% are normal</td>
+    </tr>
+    <tr>
+      <td><strong>Warm pools</strong></td>
+      <td>Loading a 70B model takes minutes; keep minimum replicas warm for interactive traffic; scale-to-zero only for batch</td>
+    </tr>
+    <tr>
+      <td><strong>Multi-LoRA serving</strong></td>
+      <td>Serve many fine-tuned adapters on one base model instead of one GPU set per variant</td>
+    </tr>
+    <tr>
+      <td><strong>Workload separation</strong></td>
+      <td>Separate interactive and batch pools; run batch overnight to raise utilisation</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud burst</strong></td>
+      <td>Overflow confidential-class traffic to in-region cloud models when on-prem is saturated — only if the class allows it</td>
+    </tr>
+    <tr>
+      <td><strong>Model tiering</strong></td>
+      <td>Small models on-prem for classification, routing and guardrails; larger ones only where evaluation says they are needed</td>
+    </tr>
+    <tr>
+      <td><strong>Disaggregated serving</strong></td>
+      <td>Advanced: separate prefill and decode onto different GPU pools to tune TTFT and throughput independently</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="tco-when-does-on-prem-pay-off">TCO: when does on-prem pay off?<a class="heading-anchor" href="#tco-when-does-on-prem-pay-off" aria-label="Link to this section">#</a></h3>
+<p><strong>Worked example — the internal RAG assistant</strong> from <a href="/enterprise-ai/foundations/inference-and-serving/#estimating-cost">Inference, latency and cost</a>: ~2.4 billion tokens per month, about <strong>$9,200/month</strong> on a mid-tier API before caching.</p>
+<p>Illustrative on-prem costs for one 8-GPU inference server (enough for this load with a quantized 70B model):</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Cost item</th>
+      <th>Monthly (illustrative)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Hardware amortised over 3–4 years</td>
+      <td>$6,000–9,000</td>
+    </tr>
+    <tr>
+      <td>Power, cooling, rack space</td>
+      <td>$1,500–3,000</td>
+    </tr>
+    <tr>
+      <td>Platform and on-call engineering (share of a team)</td>
+      <td>$8,000–15,000</td>
+    </tr>
+    <tr>
+      <td>Redundancy: a second server for availability</td>
+      <td>doubles hardware and power</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td><strong>≈ $20,000–35,000</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>At this volume the API is <strong>two to four times cheaper</strong>. The picture flips when volume grows 5–10×, when the same cluster serves many use cases at high utilisation, or when data rules forbid the API anyway. Do the calculation with <em>your</em> prices, utilisation and staffing; the most common error is leaving out people and redundancy.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Utilisation decides the economics</span></p>
+  <div class="callout__body"><p>An API charges for tokens you use. A GPU charges for hours that pass. On-prem wins only when the GPUs are busy most of the time — so consolidate use cases onto a shared platform rather than buying GPUs per project.</p></div>
+</aside><h2 id="governance">Governance<a class="heading-anchor" href="#governance" aria-label="Link to this section">#</a></h2>
+<p>Governance in a hybrid estate is mostly about <strong>knowing what runs where, and controlling change</strong>.</p>
+<ul>
+<li><strong>Model catalogue</strong>: every approved model with its licence, version, evaluation results, allowed data classes and allowed deployment targets. The gateway enforces it.</li>
+<li><strong>Version pinning and change control</strong>: on-prem you choose when to upgrade; in the cloud, track provider deprecation dates. Either way, a model change goes through the evaluation suite like a code change. See <a href="/enterprise-ai/foundations/llmops/">LLMOps</a>.</li>
+<li><strong>Policy as code</strong>: data-class routing rules, quotas and guardrail settings in version control, reviewed and audited.</li>
+<li><strong>Audit trail</strong>: who called which model, with what data class, through which application, under which policy version.</li>
+<li><strong>AI inventory and risk tiering</strong>: every use case registered with its deployment target. See <a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a>.</li>
+<li><strong>Third-party and concentration risk</strong>: for regulated firms, critical AI providers need exit plans and tested fallbacks — a hybrid platform with an on-prem or second-provider route <em>is</em> the exit plan.</li>
+<li><strong>FinOps</strong>: chargeback per team for tokens and GPU hours, so the on-prem vs cloud decision stays visible.</li>
+</ul>
+<h2 id="integration-with-existing-enterprise-systems">Integration with existing enterprise systems<a class="heading-anchor" href="#integration-with-existing-enterprise-systems" aria-label="Link to this section">#</a></h2>
+<p>GenAI succeeds or fails on integration. The model is the easy part; the value sits in systems of record, documents and workflows that already exist.</p>
+<figure class="diagram" aria-label="Integrating GenAI into the enterprise landscape"><figcaption class="diagram__title">Integrating GenAI into the enterprise landscape</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Identity[&#34;Identity and security&#34;]
+        IDP[&#34;IdP / SSO&lt;br/&gt;OIDC, SAML, SCIM&#34;]
+        SIEM[&#34;SIEM / SOC&#34;]
+        KMS[&#34;Vault / KMS / HSM&#34;]
+    end
+    subgraph AI[&#34;GenAI platform&#34;]
+        GW[&#34;AI gateway&#34;]
+        ORCH[&#34;Orchestration&lt;br/&gt;and agents&#34;]
+        MCP[&#34;MCP servers /&lt;br/&gt;tool adapters&#34;]
+        ING[&#34;Ingestion&lt;br/&gt;pipelines&#34;]
+    end
+    subgraph SoR[&#34;Systems of record&#34;]
+        ERP[&#34;ERP / core banking&#34;]
+        CRM[&#34;CRM&#34;]
+        ITSM[&#34;ITSM&#34;]
+        MF[&#34;Mainframe&lt;br/&gt;via APIs&#34;]
+    end
+    subgraph Data[&#34;Data and content&#34;]
+        ECM[&#34;SharePoint, Confluence,&lt;br/&gt;ECM, file shares&#34;]
+        LAKE[&#34;Lakehouse /&lt;br/&gt;warehouse&#34;]
+        KAFKA[&#34;Kafka / event bus&#34;]
+    end
+    IDP --&gt; GW
+    GW --&gt; ORCH
+    ORCH --&gt; MCP
+    MCP --&gt; APIM[&#34;API management /&lt;br/&gt;ESB&#34;]
+    APIM --&gt; ERP &amp; CRM &amp; ITSM &amp; MF
+    ECM --&gt; ING
+    LAKE --&gt; ING
+    KAFKA --&gt;|&#34;change events&#34;| ING
+    ORCH --&gt;|&#34;async jobs, results&#34;| KAFKA
+    GW --&gt;|&#34;audit events&#34;| SIEM
+    KMS -.-&gt; GW</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Integration point</th>
+      <th>Pattern</th>
+      <th>Watch out for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Identity (IdP, SSO)</strong></td>
+      <td>OIDC to the gateway; propagate user identity to tools; SCIM for groups that drive retrieval permissions</td>
+      <td>Agents acting with service accounts that bypass user entitlements</td>
+    </tr>
+    <tr>
+      <td><strong>API management / ESB</strong></td>
+      <td>Expose systems of record to agents through existing API gateways, wrapped as <a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP servers</a> or tools</td>
+      <td>Bypassing the API layer and letting agents hit databases directly</td>
+    </tr>
+    <tr>
+      <td><strong>Event streaming</strong></td>
+      <td>Kafka or similar for asynchronous LLM jobs, document-change events into ingestion, and results back into workflows</td>
+      <td>Synchronous LLM calls inside latency-critical transaction paths</td>
+    </tr>
+    <tr>
+      <td><strong>Content repositories</strong></td>
+      <td>Connectors for SharePoint, Confluence, ECM and file shares that copy ACLs into the index</td>
+      <td>Indexing content without permissions — the most common RAG data leak</td>
+    </tr>
+    <tr>
+      <td><strong>Data platforms</strong></td>
+      <td>Lakehouse or warehouse as a governed source; CDC to keep indexes fresh; text-to-SQL only through a semantic layer</td>
+      <td>Letting the model generate SQL against raw production schemas</td>
+    </tr>
+    <tr>
+      <td><strong>Business workflows</strong></td>
+      <td>BPM, ITSM and case-management tools call GenAI as a step, with human tasks for approvals</td>
+      <td>GenAI output written straight into systems of record without validation</td>
+    </tr>
+    <tr>
+      <td><strong>Observability</strong></td>
+      <td>OpenTelemetry GenAI semantic conventions into existing APM and logging</td>
+      <td>A separate AI-only monitoring silo nobody on call looks at</td>
+    </tr>
+    <tr>
+      <td><strong>Security operations</strong></td>
+      <td>Gateway and guardrail events to the SIEM; AI incidents in the existing incident process</td>
+      <td>Prompt logs with personal data shipped unmasked to the SIEM</td>
+    </tr>
+    <tr>
+      <td><strong>Secrets and keys</strong></td>
+      <td>Provider keys and model-server credentials in Vault/KMS, rotated, never in application config</td>
+      <td>Long-lived API keys copied into notebooks and pipelines</td>
+    </tr>
+    <tr>
+      <td><strong>CI/CD and GitOps</strong></td>
+      <td>Prompts, policies, model versions and evaluation sets in Git; deployments through the existing pipelines</td>
+      <td>Prompt changes made live in a vendor console with no review</td>
+    </tr>
+    <tr>
+      <td><strong>Legacy and mainframe</strong></td>
+      <td>Reach through existing service layers or APIs; use GenAI for code understanding and documentation of legacy estates</td>
+      <td>Screen-scraping 3270 terminals when an API exists; consider <a href="/enterprise-ai/agentic-ai/computer-use-agents/">computer use</a> only as a last resort</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>For Java estates, <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI</a> makes the hybrid model practical: the same <code>ChatClient</code> code can target an on-prem OpenAI-compatible vLLM endpoint or a cloud-managed model, selected by configuration and the gateway.</p>
+<h2 id="running-it-day-to-day">Running it day to day<a class="heading-anchor" href="#running-it-day-to-day" aria-label="Link to this section">#</a></h2>
+<p>On-prem inference is a product, not a project:</p>
+<ul>
+<li><strong>Upgrade cadence</strong> for models (quarterly evaluation of new open-weight releases), serving engines, GPU drivers and CUDA — tested together.</li>
+<li><strong>SLOs and on-call</strong> for TTFT, error rate and availability, with runbooks for GPU failures and out-of-memory events.</li>
+<li><strong>Capacity reviews</strong> monthly: utilisation, queueing, demand forecast, hardware lead times.</li>
+<li><strong>Disaster recovery</strong>: a second site or a cloud fallback for restricted workloads that cannot use the cloud is often needed — and expensive; decide it explicitly.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One deployment model for everything</span></p>
+  <div class="callout__body"><p>&ldquo;Everything on-prem&rdquo; sacrifices frontier quality and adoption speed; &ldquo;everything via public API&rdquo; blocks the restricted use cases with the most value. Classify data and route.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Buying GPUs before measuring demand</span></p>
+  <div class="callout__body"><p>Hardware bought per project sits idle. Start with cloud-managed models, measure token volumes and evaluation results, then size a shared cluster.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Classifying only the user&rsquo;s question</span></p>
+  <div class="callout__body"><p>The retrieved context and tool results usually carry the sensitive data. Classify the assembled prompt.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ignoring the people cost</span></p>
+  <div class="callout__body"><p>TCO comparisons that count hardware but not platform engineers, on-call and redundancy make on-prem look several times cheaper than it is.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No exit plan for the cloud provider</span></p>
+  <div class="callout__body"><p>Regulators increasingly ask how a critical AI service continues if a provider fails or changes terms. A tested second route is the answer.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>When would you deploy an LLM on-premise instead of using a cloud API?</strong>
+When data classification or regulation forbids the cloud route, when steady volume is high enough to keep GPUs busy, when the environment is offline or latency-critical, or when a fine-tuned open-weight model must be pinned and controlled — and only if the organisation can operate GPUs reliably.</p>
+<p><strong>What is a hybrid GenAI architecture?</strong>
+One control plane — usually an AI gateway with a policy engine and model catalogue — routing each request to an on-prem, private-cloud or public model according to data class, task difficulty, cost and availability, with shared identity, logging and governance.</p>
+<p><strong>How does the gateway know which model a request may use?</strong>
+The application&rsquo;s registered maximum data class, classification metadata carried by retrieved chunks and tool results (highest class wins), and DLP detection as a safety net. The policy maps each class to allowed targets.</p>
+<p><strong>What changes in security when you self-host?</strong>
+You take on the model supply chain (verified, safe-format weights, AI-BOM), serving-stack hardening and patching, network isolation and egress control, GPU and cache isolation between tenants, and encryption of weights, indexes and logs. Application-layer threats such as prompt injection are unchanged.</p>
+<p><strong>How do you size an on-prem inference cluster?</strong>
+From peak tokens per second and context lengths: weights memory by parameter count and precision, KV-cache memory by context × concurrency, throughput from benchmarks of your serving engine on your prompts, plus headroom and redundancy. Then validate with a load test.</p>
+<p><strong>How do you compare the cost of on-prem and API inference?</strong>
+Monthly tokens × API price versus amortised hardware, power, space, platform staff, on-call and redundancy, adjusted for expected utilisation. On-prem wins only with high, predictable utilisation.</p>
+<p><strong>How do you integrate GenAI with existing enterprise systems safely?</strong>
+Through existing identity, API management and event infrastructure: SSO with propagated user identity, systems of record exposed as governed APIs or MCP tools, ACL-aware content connectors, asynchronous jobs over the event bus, validation and human approval before writes, and telemetry into existing APM and SIEM.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Choose deployment per data class and workload, not once for the enterprise.</li>
+<li>The hybrid platform&rsquo;s core is a gateway that routes by the classification of the <em>assembled</em> prompt.</li>
+<li>Self-hosting moves security, supply-chain and patching duties to you; it does not remove application-layer risks.</li>
+<li>Treat prompts, logs, vector indexes and fine-tuned weights as personal data where they contain it.</li>
+<li>GPU economics depend on utilisation; count people and redundancy in TCO.</li>
+<li>Govern with a model catalogue, policy as code, version control and an exit plan.</li>
+<li>Integrate through existing identity, API, event, observability and security systems.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>vLLM project, <a href="https://docs.vllm.ai/" rel="noopener">vLLM documentation</a>.</li>
+<li>KServe, <a href="https://kserve.github.io/website/" rel="noopener">Model serving on Kubernetes</a>.</li>
+<li>Hugging Face, <a href="https://huggingface.co/docs/safetensors/index" rel="noopener">safetensors</a>.</li>
+<li>NIST, <a href="https://csrc.nist.gov/pubs/sp/800/207/final" rel="noopener">SP 800-207 Zero Trust Architecture</a>, 2020.</li>
+<li>OpenTelemetry, <a href="https://opentelemetry.io/docs/specs/semconv/gen-ai/" rel="noopener">Semantic conventions for generative AI</a>.</li>
+<li>European Union, <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" rel="noopener">Digital Operational Resilience Act (DORA), Regulation (EU) 2022/2554</a>.</li>
+<li>OWASP, <a href="https://genai.owasp.org/llm-top-10/" rel="noopener">Top 10 for LLM Applications</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-governance/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI governance</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/genai-adoption-strategy/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">GenAI adoption strategy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/enterprise-ai-stack/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Enterprise AI stack</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/enterprise-ai-stack/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Enterprise AI stack</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/llmops/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">LLMOps &amp; observability</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-matters">Why it matters</a></li>
+    <li><a href="#the-deployment-spectrum">The deployment spectrum</a></li>
+    <li><a href="#choosing-per-workload">Choosing per workload</a></li>
+    <li><a href="#hybrid-reference-architecture">Hybrid reference architecture</a>
+      <ul>
+        <li><a href="#data-classification-routing">Data-classification routing</a></li>
+      </ul>
+    </li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#data-privacy">Data privacy</a></li>
+    <li><a href="#scalability-and-capacity-planning">Scalability and capacity planning</a>
+      <ul>
+        <li><a href="#what-limits-a-self-hosted-model">What limits a self-hosted model</a></li>
+        <li><a href="#scaling-patterns">Scaling patterns</a></li>
+        <li><a href="#tco-when-does-on-prem-pay-off">TCO: when does on-prem pay off?</a></li>
+      </ul>
+    </li>
+    <li><a href="#governance">Governance</a></li>
+    <li><a href="#integration-with-existing-enterprise-systems">Integration with existing enterprise systems</a></li>
+    <li><a href="#running-it-day-to-day">Running it day to day</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

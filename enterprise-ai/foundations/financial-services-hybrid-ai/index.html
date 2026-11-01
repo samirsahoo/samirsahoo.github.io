@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hybrid AI in Financial Services: Practical Decisions · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="The practical decisions behind on-premise and hybrid AI in banks, insurers and asset managers: use-case placement for analytics, customer service, financial crime, investment research and document intelligence; vendor selection examples; trade-offs across quality, latency, compute, security and reliability; lifecycle costs; stack placement; model-weight ownership; and the needs the market still does not meet.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/financial-services-hybrid-ai/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Hybrid AI in Financial Services: Practical Decisions">
+<meta property="og:description" content="The practical decisions behind on-premise and hybrid AI in banks, insurers and asset managers: use-case placement for analytics, customer service, financial crime, investment research and document intelligence; vendor selection examples; trade-offs across quality, latency, compute, security and reliability; lifecycle costs; stack placement; model-weight ownership; and the needs the market still does not meet.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/financial-services-hybrid-ai/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hybrid AI in Financial Services: Practical Decisions">
+<meta name="twitter:description" content="The practical decisions behind on-premise and hybrid AI in banks, insurers and asset managers: use-case placement for analytics, customer service, financial crime, investment research and document intelligence; vendor selection examples; trade-offs across quality, latency, compute, security and reliability; lifecycle costs; stack placement; model-weight ownership; and the needs the market still does not meet.">
+<meta name="keywords" content="architecture, financial-services, deployment, strategy, architecture-decision, case-study">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"The practical decisions behind on-premise and hybrid AI in banks, insurers and asset managers: use-case placement for analytics, customer service, financial crime, investment research and document intelligence; vendor selection examples; trade-offs across quality, latency, compute, security and reliability; lifecycle costs; stack placement; model-weight ownership; and the needs the market still does not meet.","headline":"Hybrid AI in Financial Services: Practical Decisions","inLanguage":"en","isAccessibleForFree":true,"keywords":"architecture, financial-services, deployment, strategy, architecture-decision, case-study","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/financial-services-hybrid-ai/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/financial-services-hybrid-ai/","name":"Hybrid AI in financial services","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/" aria-current="page">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">Hybrid AI in financial services</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Hybrid AI in Financial Services: Practical Decisions</h1><p class="article__lede" itemprop="description">The practical decisions behind on-premise and hybrid AI in banks, insurers and asset managers: use-case placement for analytics, customer service, financial crime, investment research and document intelligence; vendor selection examples; trade-offs across quality, latency, compute, security and reliability; lifecycle costs; stack placement; model-weight ownership; and the needs the market still does not meet.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>17 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/architecture/">#Architecture</a><a class="tag" href="/enterprise-ai/tags/financial-services/">#Financial-Services</a><a class="tag" href="/enterprise-ai/tags/deployment/">#Deployment</a><a class="tag" href="/enterprise-ai/tags/strategy/">#Strategy</a><a class="tag" href="/enterprise-ai/tags/architecture-decision/">#Architecture-Decision</a><a class="tag" href="/enterprise-ai/tags/case-study/">#Case-Study</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a>, <a href="/enterprise-ai/foundations/model-selection/">Model selection</a>, <a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-financial-services-is-different">Why financial services is different</a></li>
+    <li><a href="#use-cases-and-where-they-belong">Use cases and where they belong</a></li>
+    <li><a href="#trade-offs-across-five-dimensions">Trade-offs across five dimensions</a></li>
+    <li><a href="#vendor-selection-worked-examples">Vendor selection: worked examples</a>
+      <ul>
+        <li><a href="#what-to-ask-every-ai-vendor-in-a-regulated-firm">What to ask every AI vendor in a regulated firm</a></li>
+        <li><a href="#example-1--investment-research-assistant-at-an-asset-manager">Example 1 — investment research assistant at an asset manager</a></li>
+        <li><a href="#example-2--financial-crime-investigator-assistant-at-a-retail-bank">Example 2 — financial-crime investigator assistant at a retail bank</a></li>
+        <li><a href="#example-3--document-intelligence-for-onboarding-and-lending">Example 3 — document intelligence for onboarding and lending</a></li>
+      </ul>
+    </li>
+    <li><a href="#stack-placement">Stack placement</a></li>
+    <li><a href="#model-weight-ownership">Model-weight ownership</a></li>
+    <li><a href="#lifecycle-costs">Lifecycle costs</a></li>
+    <li><a href="#reliability-in-a-regulated-estate">Reliability in a regulated estate</a></li>
+    <li><a href="#unmet-needs">Unmet needs</a></li>
+    <li><a href="#reference-architecture">Reference architecture</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>In financial services, <strong>hybrid AI</strong> means running each AI workload in the place its data, regulation and economics allow: frontier models through in-region cloud for tasks that need the best reasoning, open-weight or licensed models on the bank&rsquo;s own infrastructure for restricted data and high-volume work, and one governed control plane across both.</p>
+<p>This article applies the general patterns from <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-premise and hybrid deployment</a> to the decisions a bank, insurer or asset manager actually has to make.</p>
+<h2 id="why-financial-services-is-different">Why financial services is different<a class="heading-anchor" href="#why-financial-services-is-different" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Constraint</th>
+      <th>What it means for AI architecture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Model risk management</strong> (US SR 11-7, UK PRA SS1/23, similar rules elsewhere)</td>
+      <td>LLMs used in decisions are models: inventory, independent validation, ongoing monitoring, change control. A provider silently updating a model is a validation problem</td>
+    </tr>
+    <tr>
+      <td><strong>Outsourcing and operational resilience</strong> (EU DORA, EBA outsourcing guidelines)</td>
+      <td>AI providers supporting critical functions need contracts with audit rights, sub-processor transparency, incident reporting, exit plans and tested alternatives</td>
+    </tr>
+    <tr>
+      <td><strong>Data protection and secrecy</strong></td>
+      <td>GDPR, banking secrecy, PCI DSS for card data, client confidentiality in private banking; cross-border transfer limits</td>
+    </tr>
+    <tr>
+      <td><strong>Record-keeping and conduct</strong></td>
+      <td>Communications with clients and advice must be retained and supervised (for example MiFID II, FINRA rules); AI-drafted client messages fall in scope</td>
+    </tr>
+    <tr>
+      <td><strong>Fair treatment and explainability</strong></td>
+      <td>Credit, pricing and claims decisions must be explainable and non-discriminatory; EU AI Act lists creditworthiness assessment and life/health insurance pricing as high-risk</td>
+    </tr>
+    <tr>
+      <td><strong>Market-abuse and information barriers</strong></td>
+      <td>Research, trading and deal teams sit behind Chinese walls; retrieval must respect them</td>
+    </tr>
+    <tr>
+      <td><strong>Legacy estate</strong></td>
+      <td>Core banking, mainframes and payment hubs with batch windows and limited APIs</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The deciding question is usually &ldquo;who can see the data and change the model?&rdquo;</span></p>
+  <div class="callout__body"><p>Quality and cost matter, but in a regulated firm the first filter is data access and model change control. Those two decide whether a workload can go to a cloud API at all, and if so, under what contract.</p></div>
+</aside><h2 id="use-cases-and-where-they-belong">Use cases and where they belong<a class="heading-anchor" href="#use-cases-and-where-they-belong" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Use case</th>
+      <th>Typical tasks</th>
+      <th>Highest data class</th>
+      <th>Latency need</th>
+      <th>Quality need</th>
+      <th>Typical placement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Analytics</strong></td>
+      <td>Natural-language questions over data, report narration, variance commentary, SQL generation over a semantic layer</td>
+      <td>Confidential (aggregated) to restricted (client-level)</td>
+      <td>Interactive seconds</td>
+      <td>High for numbers; must be verifiable</td>
+      <td>Cloud-managed frontier/mid-tier for reasoning over <strong>aggregates</strong>; on-prem for client-level data; numbers always computed by the database, never the model</td>
+    </tr>
+    <tr>
+      <td><strong>Customer service</strong></td>
+      <td>Agent assist, chat and voice self-service, complaint triage, call summarisation</td>
+      <td>Confidential (client PII, account data)</td>
+      <td>Real-time: sub-second for voice, a few seconds for chat</td>
+      <td>Medium–high; tone and compliance</td>
+      <td>Cloud-managed in-region with zero data retention, PII redaction at gateway; small on-prem models for intent and PII detection; strict human handoff</td>
+    </tr>
+    <tr>
+      <td><strong>Financial crime</strong></td>
+      <td>Alert triage, adverse-media screening, SAR/STR narrative drafting, KYC/EDD summaries, transaction-pattern explanation</td>
+      <td>Restricted (SAR data has tipping-off restrictions)</td>
+      <td>Batch to near-real-time</td>
+      <td>High; auditable reasoning</td>
+      <td><strong>On-prem</strong> or sovereign; open-weight models fine-tuned on investigator narratives; LLM assists the investigator, rules and ML models still score</td>
+    </tr>
+    <tr>
+      <td><strong>Investment research</strong></td>
+      <td>Summarising filings, earnings calls and broker research, thematic screening, drafting notes, Q&amp;A over research library</td>
+      <td>Internal to confidential; MNPI behind walls is restricted</td>
+      <td>Interactive; long documents</td>
+      <td><strong>Highest</strong>: multi-step reasoning, long context</td>
+      <td>Cloud-managed frontier models for public and licensed content; on-prem or walled tenant for MNPI and proprietary positions; licence checks on third-party content</td>
+    </tr>
+    <tr>
+      <td><strong>Document intelligence</strong></td>
+      <td>KYC onboarding packs, loan and mortgage files, trade confirmations, ISDA/CSA clause extraction, claims, invoices</td>
+      <td>Confidential to restricted</td>
+      <td>Batch, high volume</td>
+      <td>High field accuracy; measurable straight-through rate</td>
+      <td><strong>On-prem</strong> or dedicated capacity for volume: OCR/layout models + small/mid open-weight LLMs with structured output; frontier models for rare complex documents</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="diagram" aria-label="Typical placement in a hybrid bank"><figcaption class="diagram__title">Typical placement in a hybrid bank</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph CloudRegion[&#34;Cloud tenancy, in-region, private endpoints&#34;]
+        F[&#34;Frontier / reasoning models&lt;br/&gt;investment research, analytics reasoning,&lt;br/&gt;complex documents&#34;]
+        M[&#34;Mid-tier models&lt;br/&gt;customer-service assist and chat&#34;]
+    end
+    subgraph OnPrem[&#34;Bank data centre / private cloud&#34;]
+        O1[&#34;Open-weight 30–70B, fine-tuned&lt;br/&gt;financial crime narratives, KYC summaries&#34;]
+        O2[&#34;Document models + small LLMs&lt;br/&gt;extraction at volume&#34;]
+        O3[&#34;Small models&lt;br/&gt;PII detection, intent, routing, guardrails&#34;]
+        IDX[(&#34;Restricted indexes&lt;br/&gt;SAR, MNPI, client files&#34;)]
+    end
+    GW[&#34;AI gateway + policy engine&lt;br/&gt;data-class routing, redaction,&lt;br/&gt;audit, quotas, model catalogue&#34;]
+    GW --&gt; F
+    GW --&gt; M
+    GW --&gt; O1
+    GW --&gt; O2
+    GW --&gt; O3
+    O1 --- IDX</pre>
+</figure>
+<h2 id="trade-offs-across-five-dimensions">Trade-offs across five dimensions<a class="heading-anchor" href="#trade-offs-across-five-dimensions" aria-label="Link to this section">#</a></h2>
+<p>For each use case, compare the realistic options on the same five dimensions.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Cloud frontier API (private endpoint)</th>
+      <th>Cloud-hosted open-weight / dedicated</th>
+      <th>On-prem open-weight</th>
+      <th>On-prem licensed commercial model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Quality</strong></td>
+      <td>Highest, especially reasoning and long context</td>
+      <td>Mid-tier to near-frontier</td>
+      <td>Mid-tier; improves with fine-tuning on your data</td>
+      <td>Varies; often a generation behind the vendor&rsquo;s cloud model</td>
+    </tr>
+    <tr>
+      <td><strong>Latency</strong></td>
+      <td>Good, but network, shared capacity and region affect p99</td>
+      <td>Predictable with reserved capacity</td>
+      <td>Best and most predictable when sized right</td>
+      <td>As on-prem</td>
+    </tr>
+    <tr>
+      <td><strong>Compute</strong></td>
+      <td>None to manage; pay per token</td>
+      <td>Reserved units; pay for idle</td>
+      <td>You buy, power and run GPUs; utilisation is the economic lever</td>
+      <td>As on-prem, plus licence fees</td>
+    </tr>
+    <tr>
+      <td><strong>Security</strong></td>
+      <td>Data leaves your perimeter under contract; provider controls weights</td>
+      <td>In your tenancy; provider operates platform</td>
+      <td>Full control; you own supply chain and patching</td>
+      <td>Full data control; vendor supplies weights under licence</td>
+    </tr>
+    <tr>
+      <td><strong>Reliability</strong></td>
+      <td>Provider SLAs, rate limits, deprecations; needs a second route</td>
+      <td>Better isolation; still a single provider</td>
+      <td>Under your control — including your failures; needs DR site</td>
+      <td>As on-prem; vendor support SLAs matter</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>How the dimensions trade against each other in practice:</p>
+<ul>
+<li><strong>Quality vs security</strong> — the strongest reasoning models are mostly available only as cloud services. For investment research the quality gain is worth an in-region cloud contract; for SAR drafting it is not, because the data cannot leave.</li>
+<li><strong>Latency vs quality</strong> — voice customer service needs sub-second responses, which pushes towards smaller, faster models and pre-retrieved context, even if a larger model would phrase answers better.</li>
+<li><strong>Compute vs reliability</strong> — on-prem needs N+1 GPU servers and often a second site to match cloud availability, which roughly doubles hardware cost.</li>
+<li><strong>Quality vs explainability</strong> — a fine-tuned 8B model with structured outputs and citations can be easier to validate than a larger general model with better raw scores.</li>
+</ul>
+<h2 id="vendor-selection-worked-examples">Vendor selection: worked examples<a class="heading-anchor" href="#vendor-selection-worked-examples" aria-label="Link to this section">#</a></h2>
+<h3 id="what-to-ask-every-ai-vendor-in-a-regulated-firm">What to ask every AI vendor in a regulated firm<a class="heading-anchor" href="#what-to-ask-every-ai-vendor-in-a-regulated-firm" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Questions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Data handling</strong></td>
+      <td>Retention and zero-data-retention options; abuse-monitoring exceptions; training on customer data; sub-processors; regions; cross-region failover</td>
+    </tr>
+    <tr>
+      <td><strong>Model change</strong></td>
+      <td>Version pinning; notice period for updates and deprecations; changelogs; can we re-validate before a change reaches us?</td>
+    </tr>
+    <tr>
+      <td><strong>Validation access</strong></td>
+      <td>Model cards, evaluation results, red-team reports; can we run our own evaluations at volume; bias testing support</td>
+    </tr>
+    <tr>
+      <td><strong>Security and certifications</strong></td>
+      <td>SOC 2 Type II, ISO 27001, ISO/IEC 42001; penetration tests; private networking; customer-managed keys</td>
+    </tr>
+    <tr>
+      <td><strong>Regulatory contract terms</strong></td>
+      <td>Audit and access rights, incident notification, termination and exit assistance, DORA register-of-information data, concentration-risk disclosures</td>
+    </tr>
+    <tr>
+      <td><strong>Deployment options</strong></td>
+      <td>Public API, cloud marketplace in our tenancy, dedicated, on-prem or air-gapped; feature parity between them</td>
+    </tr>
+    <tr>
+      <td><strong>IP and liability</strong></td>
+      <td>Ownership of outputs and fine-tuned artefacts; IP indemnity; limitation of liability</td>
+    </tr>
+    <tr>
+      <td><strong>Commercials</strong></td>
+      <td>Price per token or GPU, committed-use discounts, price-change terms, cost predictability</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="example-1--investment-research-assistant-at-an-asset-manager">Example 1 — investment research assistant at an asset manager<a class="heading-anchor" href="#example-1--investment-research-assistant-at-an-asset-manager" aria-label="Link to this section">#</a></h3>
+<p>Requirements: long filings and transcripts, multi-step reasoning, citations, public and licensed content, a small MNPI corpus behind an information barrier.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion (weight)</th>
+      <th>Frontier model via cloud marketplace in own tenancy</th>
+      <th>Frontier model via provider&rsquo;s direct API</th>
+      <th>Open-weight 70B on-prem</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Research quality on eval set (35%)</td>
+      <td>9</td>
+      <td>9</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>Data and contract fit (25%)</td>
+      <td>8</td>
+      <td>6</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Model change control (15%)</td>
+      <td>7</td>
+      <td>6</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Operational effort (15%)</td>
+      <td>8</td>
+      <td>9</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>Cost at expected volume (10%)</td>
+      <td>7</td>
+      <td>8</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td><strong>Weighted total</strong></td>
+      <td><strong>8.10</strong></td>
+      <td><strong>7.70</strong></td>
+      <td><strong>7.20</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Decision: frontier model through the cloud marketplace in the firm&rsquo;s own tenancy for public and licensed content; the MNPI corpus is served only to a walled, on-prem open-weight route. A second frontier provider is evaluated and kept as fallback.</p>
+<h3 id="example-2--financial-crime-investigator-assistant-at-a-retail-bank">Example 2 — financial-crime investigator assistant at a retail bank<a class="heading-anchor" href="#example-2--financial-crime-investigator-assistant-at-a-retail-bank" aria-label="Link to this section">#</a></h3>
+<p>Requirements: alert and case data, SAR narratives under tipping-off rules, full audit trail, validation by model risk, steady high volume.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion (weight)</th>
+      <th>Cloud frontier API</th>
+      <th>Licensed commercial model on-prem</th>
+      <th>Open-weight 30–70B on-prem, fine-tuned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Data and regulatory fit (35%)</td>
+      <td>3</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Narrative quality after tuning (25%)</td>
+      <td>9</td>
+      <td>7</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Validation and reproducibility (20%)</td>
+      <td>4</td>
+      <td>8</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Lifecycle cost (10%)</td>
+      <td>6</td>
+      <td>5</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>Operational effort (10%)</td>
+      <td>9</td>
+      <td>6</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td><strong>Weighted total</strong></td>
+      <td><strong>5.60</strong></td>
+      <td><strong>7.95</strong></td>
+      <td><strong>8.50</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Decision: open-weight model on-prem, fine-tuned with LoRA on anonymised historical narratives, pinned version, validated by model risk; the LLM drafts and summarises, investigators decide. Disqualifying the cloud API here is a hard filter, not a score — the table only shows how far apart the options are.</p>
+<h3 id="example-3--document-intelligence-for-onboarding-and-lending">Example 3 — document intelligence for onboarding and lending<a class="heading-anchor" href="#example-3--document-intelligence-for-onboarding-and-lending" aria-label="Link to this section">#</a></h3>
+<p>Options were a specialist intelligent-document-processing (IDP) vendor, a cloud document AI service, or a build on the platform. The bank chose a <strong>split</strong>: a specialist IDP product deployed in its private cloud for standard KYC and lending packs (mature connectors, human-review UI, accuracy SLAs), and a platform build with open-weight models for bespoke legal documents such as ISDA/CSA clause extraction, where no product met the accuracy target. The deciding factors were straight-through rate on the bank&rsquo;s own 2,000-document evaluation set and the ability to deploy inside the bank&rsquo;s network.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Make the evaluation set part of the RFP</span></p>
+  <div class="callout__body"><p>Vendors demo on their own documents. Give each shortlisted vendor the same anonymised sample of yours, with ground truth, and score field-level accuracy, straight-through rate, latency and cost per document.</p></div>
+</aside><h2 id="stack-placement">Stack placement<a class="heading-anchor" href="#stack-placement" aria-label="Link to this section">#</a></h2>
+<p>Not every layer needs the same location. Place each by the data it touches and the control it needs.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Typical placement in a bank</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Applications and channels</strong></td>
+      <td>Existing app estate (on-prem and cloud)</td>
+      <td>Unchanged</td>
+    </tr>
+    <tr>
+      <td><strong>AI gateway and policy engine</strong></td>
+      <td>Bank-controlled: on-prem or own cloud tenancy, multi-region</td>
+      <td>It is the enforcement point for routing, redaction and audit; must not depend on one vendor</td>
+    </tr>
+    <tr>
+      <td><strong>Orchestration and agents</strong></td>
+      <td>Next to the systems they call; containerised on the internal platform</td>
+      <td>Low latency to systems of record; identity and network controls already there</td>
+    </tr>
+    <tr>
+      <td><strong>Tools / MCP servers</strong></td>
+      <td>Inside the bank, in front of existing APIs</td>
+      <td>Systems of record stay behind existing API management</td>
+    </tr>
+    <tr>
+      <td><strong>Retrieval indexes</strong></td>
+      <td>Co-located with the data class: restricted on-prem, confidential in tenancy</td>
+      <td>Indexes contain the data; ACLs and information barriers enforced at query time</td>
+    </tr>
+    <tr>
+      <td><strong>Embedding models</strong></td>
+      <td>On-prem or in-tenancy; small and cheap to self-host</td>
+      <td>Every document passes through them — often the first thing to bring in-house</td>
+    </tr>
+    <tr>
+      <td><strong>Guardrails, PII and intent models</strong></td>
+      <td>On-prem, small models</td>
+      <td>Must run <em>before</em> data leaves the perimeter</td>
+    </tr>
+    <tr>
+      <td><strong>Generation models</strong></td>
+      <td>Hybrid per data class and task</td>
+      <td>See placement table above</td>
+    </tr>
+    <tr>
+      <td><strong>Evaluation, tracing, logs</strong></td>
+      <td>Bank-controlled, with masking</td>
+      <td>Logs contain client data and are audit evidence</td>
+    </tr>
+    <tr>
+      <td><strong>Fine-tuning pipelines and weights</strong></td>
+      <td>Bank-controlled storage and GPUs, or a dedicated tenancy</td>
+      <td>Training data and resulting weights are as sensitive as the source data</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="model-weight-ownership">Model-weight ownership<a class="heading-anchor" href="#model-weight-ownership" aria-label="Link to this section">#</a></h2>
+<p>Who holds the weights decides what you can validate, pin, move and keep if the vendor relationship ends.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Who holds the weights</th>
+      <th>You can</th>
+      <th>You cannot</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Proprietary API</strong></td>
+      <td>Provider</td>
+      <td>Use, evaluate black-box, choose versions while offered</td>
+      <td>Inspect, pin forever, run elsewhere</td>
+    </tr>
+    <tr>
+      <td><strong>Proprietary, fine-tuned by provider</strong></td>
+      <td>Provider; your adapter usually lives on their platform</td>
+      <td>Use the tuned model on that platform</td>
+      <td>Usually export the tuned weights — check the contract</td>
+    </tr>
+    <tr>
+      <td><strong>Licensed commercial model on-prem</strong></td>
+      <td>You hold a copy under licence</td>
+      <td>Run in your network, pin versions</td>
+      <td>Redistribute; use beyond licence term or scope</td>
+    </tr>
+    <tr>
+      <td><strong>Open-weight base model</strong></td>
+      <td>You (licence varies: Apache 2.0, MIT, custom community licences with use restrictions)</td>
+      <td>Run, fine-tune, quantize, pin indefinitely</td>
+      <td>Ignore licence conditions such as acceptable-use clauses or user-count thresholds</td>
+    </tr>
+    <tr>
+      <td><strong>Your fine-tune of an open-weight model</strong></td>
+      <td>You own the adapter or merged weights, subject to the base licence</td>
+      <td>Everything above; move between clouds and on-prem</td>
+      <td>Assume it is free of personal data — it may memorise training data</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Practical rules:</p>
+<ul>
+<li><strong>Contract for your artefacts</strong>: fine-tuned adapters, evaluation sets, prompts and embeddings should be yours and exportable.</li>
+<li><strong>Keep a weight-owned fallback</strong> for critical functions: an open-weight model qualified on the same evaluation set gives you an exit plan regulators recognise.</li>
+<li><strong>Treat weights as sensitive assets</strong>: store in controlled registries, encrypt, track lineage to training data, and record in the AI-BOM.</li>
+<li><strong>Review licences legally</strong>, especially custom community licences and models whose training-data provenance is unclear.</li>
+<li><strong>Embeddings are a lock-in too</strong>: an index built with a provider&rsquo;s embedding model must be rebuilt to switch; self-hosted embedding models avoid this.</li>
+</ul>
+<h2 id="lifecycle-costs">Lifecycle costs<a class="heading-anchor" href="#lifecycle-costs" aria-label="Link to this section">#</a></h2>
+<p>The token or GPU bill is only part of the cost. Model risk management adds a cost that most other industries do not have: <strong>every material model change is re-validated</strong>.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Lifecycle stage</th>
+      <th>Cloud API cost drivers</th>
+      <th>On-prem cost drivers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Acquire</strong></td>
+      <td>Vendor due diligence, contract negotiation, DORA documentation</td>
+      <td>Hardware procurement (lead times of months), licences, data-centre space and power</td>
+    </tr>
+    <tr>
+      <td><strong>Build</strong></td>
+      <td>Integration, prompts, RAG, evaluation sets</td>
+      <td>Same, plus serving platform, model hardening, fine-tuning</td>
+    </tr>
+    <tr>
+      <td><strong>Validate</strong></td>
+      <td>Independent validation; repeat on provider updates you cannot control</td>
+      <td>Independent validation; repeat on <em>your</em> schedule</td>
+    </tr>
+    <tr>
+      <td><strong>Deploy</strong></td>
+      <td>Private networking, gateway policies</td>
+      <td>Cluster build, DR site, capacity testing</td>
+    </tr>
+    <tr>
+      <td><strong>Run</strong></td>
+      <td>Tokens (variable), provisioned throughput, monitoring</td>
+      <td>Power, support contracts, platform and on-call staff (largely fixed)</td>
+    </tr>
+    <tr>
+      <td><strong>Monitor</strong></td>
+      <td>Online evaluation, drift and quality checks, human review sampling</td>
+      <td>Same</td>
+    </tr>
+    <tr>
+      <td><strong>Upgrade</strong></td>
+      <td>Forced by provider deprecations, often on 6–12 month cycles</td>
+      <td>Chosen by you; hardware refresh every 3–5 years</td>
+    </tr>
+    <tr>
+      <td><strong>Retire</strong></td>
+      <td>Exit assistance, data deletion certificates, index rebuild</td>
+      <td>Hardware disposal, weight and data deletion</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Illustrative 3-year view — financial-crime assistant (steady 5B tokens/month)</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Cost</th>
+      <th>Cloud API</th>
+      <th>On-prem (shared cluster share)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Inference</td>
+      <td>≈ $25k/month on a mid-tier model → $0.9M</td>
+      <td>Hardware, power, DR share ≈ $0.5M</td>
+    </tr>
+    <tr>
+      <td>Platform and operations staff share</td>
+      <td>$0.3M</td>
+      <td>$0.9M</td>
+    </tr>
+    <tr>
+      <td>Validation (initial + each model change)</td>
+      <td>4 forced changes × $80k + initial $150k ≈ $0.5M</td>
+      <td>2 planned changes × $80k + initial $150k ≈ $0.3M</td>
+    </tr>
+    <tr>
+      <td>Build and integration</td>
+      <td>$0.6M</td>
+      <td>$0.7M (adds fine-tuning)</td>
+    </tr>
+    <tr>
+      <td><strong>3-year total</strong></td>
+      <td><strong>≈ $2.3M</strong></td>
+      <td><strong>≈ $2.4M</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>The totals are close; the decision is made by the hard constraint (SAR data cannot leave) and by control over change timing, not by price. Use your own numbers — the point of the table is which rows to include.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Re-validation turns model churn into cost</span></p>
+  <div class="callout__body"><p>A model that changes every six months costs a validation cycle every six months. Version pinning, documented change notices and a fast, automated evaluation suite reduce that cost on any deployment.</p></div>
+</aside><h2 id="reliability-in-a-regulated-estate">Reliability in a regulated estate<a class="heading-anchor" href="#reliability-in-a-regulated-estate" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Classify AI services by criticality</strong>: if a customer-service assistant supports a critical or important function under DORA, it needs resilience testing, incident processes and exit plans like any critical ICT service.</li>
+<li><strong>Degraded modes</strong>: when the model route fails, fall back to a second model, to a simpler deterministic flow, or to human handling — never to an unvalidated model.</li>
+<li><strong>Capacity isolation</strong>: separate GPU pools or reserved throughput for critical workloads so batch research jobs cannot starve customer service.</li>
+<li><strong>Deterministic numbers</strong>: balances, limits, prices and risk figures come from systems of record and calculation engines; the LLM explains and formats them.</li>
+<li><strong>Evidence</strong>: traces with model version, prompt version, retrieved sources and policy decisions, retained as audit evidence for the required period.</li>
+</ul>
+<h2 id="unmet-needs">Unmet needs<a class="heading-anchor" href="#unmet-needs" aria-label="Link to this section">#</a></h2>
+<p>The market does not yet solve these well; plan for them explicitly.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Gap</th>
+      <th>Why it hurts</th>
+      <th>What firms do today</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Frontier-quality models on-prem</strong></td>
+      <td>Restricted data cannot reach the best reasoning models</td>
+      <td>Fine-tune open-weight models; split tasks so only de-identified parts go to cloud; licensed on-prem offerings where available</td>
+    </tr>
+    <tr>
+      <td><strong>Model change control for APIs</strong></td>
+      <td>Silent or frequent updates break validation</td>
+      <td>Pin versions, negotiate notice periods, automate re-evaluation</td>
+    </tr>
+    <tr>
+      <td><strong>Validation methods for generative models</strong></td>
+      <td>MRM frameworks were built for scorecards with stable inputs and outputs</td>
+      <td>Task-specific evaluation sets, human review sampling, benchmarks per use case, NIST AI 600-1 profile</td>
+    </tr>
+    <tr>
+      <td><strong>Explainability of LLM reasoning</strong></td>
+      <td>Credit, AML and complaints decisions must be explained</td>
+      <td>Keep decisions in rules and traditional models; LLMs draft and cite; structured outputs with evidence fields</td>
+    </tr>
+    <tr>
+      <td><strong>Finance-specific evaluation benchmarks</strong></td>
+      <td>Public benchmarks do not reflect AML, KYC, ISDA or research tasks</td>
+      <td>Build internal golden datasets; industry consortia efforts are early</td>
+    </tr>
+    <tr>
+      <td><strong>Information barriers in retrieval and agents</strong></td>
+      <td>Chinese walls must hold across indexes, caches and agent memory</td>
+      <td>Per-barrier indexes and tenants, no shared prefix caches, identity-scoped retrieval</td>
+    </tr>
+    <tr>
+      <td><strong>Record-keeping for AI interactions</strong></td>
+      <td>Supervisors expect AI-assisted communications to be retained and supervised</td>
+      <td>Route all client-facing generations through the gateway and archive with surveillance</td>
+    </tr>
+    <tr>
+      <td><strong>Cost predictability</strong></td>
+      <td>Token prices, agent loops and usage spikes break budgets</td>
+      <td>Quotas per team, provisioned capacity, routing to smaller models, chargeback</td>
+    </tr>
+    <tr>
+      <td><strong>Concentration risk</strong></td>
+      <td>Few providers serve most frontier models; cloud and model risk stack up</td>
+      <td>Multi-provider gateway, open-weight fallback, exit plans</td>
+    </tr>
+    <tr>
+      <td><strong>GPU supply and skills</strong></td>
+      <td>Long lead times and scarce platform engineers</td>
+      <td>Shared clusters, managed Kubernetes GPU offerings, partner support</td>
+    </tr>
+    <tr>
+      <td><strong>Agent identity and delegated authority</strong></td>
+      <td>Agents acting on accounts need provable, scoped authority</td>
+      <td>OAuth token exchange, approvals, emerging standards — see <a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="reference-architecture">Reference architecture<a class="heading-anchor" href="#reference-architecture" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Hybrid AI platform for a bank"><figcaption class="diagram__title">Hybrid AI platform for a bank</figcaption>
+  <pre class="mermaid">flowchart LR
+    subgraph Channels
+        CH1[&#34;Branch, contact centre,&lt;br/&gt;digital channels&#34;]
+        CH2[&#34;Analysts, investigators,&lt;br/&gt;operations&#34;]
+    end
+    subgraph Bank[&#34;Bank-controlled zone&#34;]
+        GW[&#34;AI gateway&lt;br/&gt;identity, data-class routing,&lt;br/&gt;PII redaction, quotas, archive&#34;]
+        ORCH[&#34;Orchestration / agents&#34;]
+        TOOLS[&#34;MCP tools over&lt;br/&gt;API management&#34;]
+        SOR[&#34;Core banking, CRM,&lt;br/&gt;case management, AML&#34;]
+        LLMP[&#34;On-prem models&lt;br/&gt;open-weight + small models&#34;]
+        IDX[(&#34;Indexes per data class&lt;br/&gt;and information barrier&#34;)]
+        EVAL[&#34;Evaluation, tracing,&lt;br/&gt;MRM evidence&#34;]
+    end
+    subgraph Cloud[&#34;In-region cloud tenancy&#34;]
+        CLM[&#34;Frontier + mid-tier models&lt;br/&gt;private endpoints, ZDR&#34;]
+    end
+    CH1 --&gt; GW
+    CH2 --&gt; GW
+    GW --&gt; ORCH
+    ORCH --&gt; TOOLS --&gt; SOR
+    ORCH --&gt; IDX
+    GW --&gt;|&#34;restricted&#34;| LLMP
+    GW --&gt;|&#34;confidential / internal,&lt;br/&gt;after redaction&#34;| CLM
+    GW --&gt; EVAL</pre>
+</figure>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Letting the LLM produce the numbers</span></p>
+  <div class="callout__body"><p>Balances, exposures and ratios generated by a model will eventually be wrong. Compute numbers in systems of record; let the model narrate and cite them.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Treating vendor selection as a one-off</span></p>
+  <div class="callout__body"><p>Model quality, prices and terms change every quarter. Keep the evaluation set, the scoring matrix and a qualified alternative current.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ignoring model risk until go-live</span></p>
+  <div class="callout__body"><p>Bringing model risk management in at the end adds months. Involve validators when the evaluation set and metrics are designed.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One index for the whole firm</span></p>
+  <div class="callout__body"><p>A shared index across research, trading and advisory breaks information barriers. Separate indexes and tenants by barrier and data class.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No owned fallback for a critical function</span></p>
+  <div class="callout__body"><p>If the only model route is a single provider&rsquo;s API, the exit plan is fictional. Qualify an open-weight or second-provider route on the same evaluation set.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>Where would you run an AML investigator assistant, and why?</strong>
+On-prem or in a sovereign environment: SAR and case data are restricted with tipping-off rules, volumes are steady, and model risk needs pinned, reproducible versions. An open-weight model fine-tuned on anonymised narratives drafts and summarises; investigators decide and existing models still score alerts.</p>
+<p><strong>Why might investment research use a cloud frontier model while financial crime does not?</strong>
+Research works mostly on public and licensed content and benefits most from frontier reasoning and long context; the data can go to an in-region cloud tenancy under contract. Financial-crime data cannot, and the task is narrower, so a tuned open-weight model is good enough.</p>
+<p><strong>What do you ask an AI vendor in a regulated firm?</strong>
+Data retention and training terms, regions and sub-processors, version pinning and change notice, validation access, certifications, audit rights, incident notification, exit assistance, deployment options, IP ownership and indemnity, and price predictability.</p>
+<p><strong>Why does model-weight ownership matter?</strong>
+It decides whether you can pin and validate a version indefinitely, run in your own network, move between environments and keep the model if the vendor relationship ends. A weight-owned fallback is a credible exit plan for critical functions.</p>
+<p><strong>What makes GenAI lifecycle costs higher in financial services?</strong>
+Vendor due diligence and regulatory contracting, independent validation repeated on every material model change, audit-grade logging and retention, resilience requirements such as DR and second routes, and information-barrier separation.</p>
+<p><strong>Which layers would you keep under bank control in a hybrid design?</strong>
+The gateway and policy engine, orchestration and tools, retrieval indexes for confidential and restricted data, embedding and guardrail models, evaluation and logs, and fine-tuning pipelines and weights. Generation models are placed per data class and task.</p>
+<p><strong>What are the main unmet needs?</strong>
+Frontier-quality models on-prem, change control for API models, validation methods and benchmarks for generative tasks, explainability, information barriers in retrieval and agents, record-keeping, cost predictability, concentration risk, GPU supply and agent identity.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>In financial services the first filters are data access and model change control; quality and cost decide among what remains.</li>
+<li>Place each use case by data class, latency and quality: research and analytics reasoning often in-region cloud; financial crime and high-volume documents often on-prem; customer service hybrid with redaction.</li>
+<li>Select vendors with regulatory due diligence and your own evaluation set; keep scoring current.</li>
+<li>Keep the gateway, tools, indexes, guardrails, evaluation and weights under bank control.</li>
+<li>Own at least one fallback model&rsquo;s weights for critical functions.</li>
+<li>Count validation, resilience and exit costs across the lifecycle, not just tokens or GPUs.</li>
+<li>Plan explicitly for the gaps the market has not closed yet.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Board of Governors of the Federal Reserve System, <a href="https://www.federalreserve.gov/supervisionreg/srletters/sr1107.htm" rel="noopener">SR 11-7: Guidance on Model Risk Management</a>, 2011.</li>
+<li>Bank of England PRA, <a href="https://www.bankofengland.co.uk/prudential-regulation/publication/2023/may/model-risk-management-principles-for-banks-ss" rel="noopener">SS1/23 Model risk management principles for banks</a>, 2023.</li>
+<li>European Union, <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" rel="noopener">Digital Operational Resilience Act (DORA), Regulation (EU) 2022/2554</a>.</li>
+<li>European Union, <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" rel="noopener">AI Act, Regulation (EU) 2024/1689</a> — Annex III high-risk uses in credit and insurance.</li>
+<li>EBA, <a href="https://www.eba.europa.eu/regulation-and-policy/internal-governance/guidelines-on-outsourcing-arrangements" rel="noopener">Guidelines on outsourcing arrangements</a>, 2019.</li>
+<li>NIST, <a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence" rel="noopener">AI 600-1 Generative AI Profile</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-governance/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI governance</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/case-study-knowledge-assistant/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">Case study: knowledge assistant</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/case-study-support-agent/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Case study: support agent</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/genai-adoption-strategy/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">GenAI adoption strategy</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/genai-adoption-strategy/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">GenAI adoption strategy</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-financial-services-is-different">Why financial services is different</a></li>
+    <li><a href="#use-cases-and-where-they-belong">Use cases and where they belong</a></li>
+    <li><a href="#trade-offs-across-five-dimensions">Trade-offs across five dimensions</a></li>
+    <li><a href="#vendor-selection-worked-examples">Vendor selection: worked examples</a>
+      <ul>
+        <li><a href="#what-to-ask-every-ai-vendor-in-a-regulated-firm">What to ask every AI vendor in a regulated firm</a></li>
+        <li><a href="#example-1--investment-research-assistant-at-an-asset-manager">Example 1 — investment research assistant at an asset manager</a></li>
+        <li><a href="#example-2--financial-crime-investigator-assistant-at-a-retail-bank">Example 2 — financial-crime investigator assistant at a retail bank</a></li>
+        <li><a href="#example-3--document-intelligence-for-onboarding-and-lending">Example 3 — document intelligence for onboarding and lending</a></li>
+      </ul>
+    </li>
+    <li><a href="#stack-placement">Stack placement</a></li>
+    <li><a href="#model-weight-ownership">Model-weight ownership</a></li>
+    <li><a href="#lifecycle-costs">Lifecycle costs</a></li>
+    <li><a href="#reliability-in-a-regulated-estate">Reliability in a regulated estate</a></li>
+    <li><a href="#unmet-needs">Unmet needs</a></li>
+    <li><a href="#reference-architecture">Reference architecture</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

@@ -12,6 +12,20 @@
 		
 			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/strategy/index.xml" rel="self" type="application/rss+xml" />
 			<item>
+				<title>GenAI Adoption Strategy for the Enterprise</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;GenAI adoption strategy&lt;/strong&gt; decides where generative AI should create value, which capabilities the organisation buys or builds, which models and deployments it standardises on, how risk is governed, and how people and processes change — so that AI moves from scattered experiments to a measured, repeatable capability.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Hybrid AI in Financial Services: Practical Decisions</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/financial-services-hybrid-ai/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/financial-services-hybrid-ai/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;In financial services, &lt;strong&gt;hybrid AI&lt;/strong&gt; means running each AI workload in the place its data, regulation and economics allow: frontier models through in-region cloud for tasks that need the best reasoning, open-weight or licensed models on the bank&amp;rsquo;s own infrastructure for restricted data and high-volume work, and one governed control plane across both.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>Agentic AI Strategy and Operating Model</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

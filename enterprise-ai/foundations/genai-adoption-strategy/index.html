@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenAI Adoption Strategy for the Enterprise · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How an enterprise adopts generative AI at scale: an adoption maturity model, use-case discovery and prioritisation, build vs buy vs embed, model and deployment strategy, the operating model, business case and value measurement, responsible-use guardrails, people and change, and a 24-month roadmap.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="GenAI Adoption Strategy for the Enterprise">
+<meta property="og:description" content="How an enterprise adopts generative AI at scale: an adoption maturity model, use-case discovery and prioritisation, build vs buy vs embed, model and deployment strategy, the operating model, business case and value measurement, responsible-use guardrails, people and change, and a 24-month roadmap.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GenAI Adoption Strategy for the Enterprise">
+<meta name="twitter:description" content="How an enterprise adopts generative AI at scale: an adoption maturity model, use-case discovery and prioritisation, build vs buy vs embed, model and deployment strategy, the operating model, business case and value measurement, responsible-use guardrails, people and change, and a 24-month roadmap.">
+<meta name="keywords" content="strategy, foundations, governance, architecture-decision">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"How an enterprise adopts generative AI at scale: an adoption maturity model, use-case discovery and prioritisation, build vs buy vs embed, model and deployment strategy, the operating model, business case and value measurement, responsible-use guardrails, people and change, and a 24-month roadmap.","headline":"GenAI Adoption Strategy for the Enterprise","inLanguage":"en","isAccessibleForFree":true,"keywords":"strategy, foundations, governance, architecture-decision","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/","name":"GenAI adoption strategy","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/" aria-current="page">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">GenAI adoption strategy</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">GenAI Adoption Strategy for the Enterprise</h1><p class="article__lede" itemprop="description">How an enterprise adopts generative AI at scale: an adoption maturity model, use-case discovery and prioritisation, build vs buy vs embed, model and deployment strategy, the operating model, business case and value measurement, responsible-use guardrails, people and change, and a 24-month roadmap.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>11 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/strategy/">#Strategy</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/governance/">#Governance</a><a class="tag" href="/enterprise-ai/tags/architecture-decision/">#Architecture-Decision</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a>, <a href="/enterprise-ai/foundations/model-selection/">Model selection</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-adoption-stalls">Why adoption stalls</a></li>
+    <li><a href="#adoption-maturity-model">Adoption maturity model</a></li>
+    <li><a href="#the-strategic-pillars">The strategic pillars</a></li>
+    <li><a href="#use-case-discovery-and-prioritisation">Use-case discovery and prioritisation</a>
+      <ul>
+        <li><a href="#genai-use-case-archetypes">GenAI use-case archetypes</a></li>
+        <li><a href="#scoring-and-the-portfolio">Scoring and the portfolio</a></li>
+      </ul>
+    </li>
+    <li><a href="#build-buy-or-embed">Build, buy or embed?</a></li>
+    <li><a href="#model-strategy">Model strategy</a></li>
+    <li><a href="#deployment-strategy">Deployment strategy</a></li>
+    <li><a href="#operating-model">Operating model</a></li>
+    <li><a href="#business-case-and-value-measurement">Business case and value measurement</a>
+      <ul>
+        <li><a href="#count-the-full-cost">Count the full cost</a></li>
+        <li><a href="#measure-outcomes-not-usage">Measure outcomes, not usage</a></li>
+      </ul>
+    </li>
+    <li><a href="#responsible-adoption-and-guardrails">Responsible adoption and guardrails</a></li>
+    <li><a href="#people-and-change">People and change</a></li>
+    <li><a href="#a-24-month-roadmap">A 24-month roadmap</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>GenAI adoption strategy</strong> decides where generative AI should create value, which capabilities the organisation buys or builds, which models and deployments it standardises on, how risk is governed, and how people and processes change — so that AI moves from scattered experiments to a measured, repeatable capability.</p>
+<p>It is the umbrella over the more specific <a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">agentic AI strategy</a>: most enterprises adopt assistive GenAI first and agents second, on the same platform and governance.</p>
+<h2 id="why-adoption-stalls">Why adoption stalls<a class="heading-anchor" href="#why-adoption-stalls" aria-label="Link to this section">#</a></h2>
+<p>Most enterprises do not fail at building a GenAI demo. They fail at the step after:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Root cause</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Pilot purgatory</strong> — many pilots, few in production</td>
+      <td>No shared platform, evaluation or governance path; each pilot is rebuilt from scratch</td>
+    </tr>
+    <tr>
+      <td><strong>Shadow AI</strong> — staff paste data into consumer tools</td>
+      <td>No approved alternative that is as easy to use</td>
+    </tr>
+    <tr>
+      <td><strong>No measurable value</strong></td>
+      <td>Success defined as &ldquo;users like it&rdquo;, no baseline, no business owner</td>
+    </tr>
+    <tr>
+      <td><strong>Data not ready</strong></td>
+      <td>Documents without owners, permissions or quality; systems without APIs</td>
+    </tr>
+    <tr>
+      <td><strong>Risk blocks everything</strong></td>
+      <td>Governance designed as a one-off committee review instead of risk-tiered paved roads</td>
+    </tr>
+    <tr>
+      <td><strong>Cost surprises</strong></td>
+      <td>Token spend unmetered, no chargeback, largest model used everywhere</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>A strategy exists to remove these causes in a deliberate order.</p>
+<h2 id="adoption-maturity-model">Adoption maturity model<a class="heading-anchor" href="#adoption-maturity-model" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="GenAI adoption maturity"><figcaption class="diagram__title">GenAI adoption maturity</figcaption>
+  <pre class="mermaid">flowchart LR
+    S1[&#34;1 · Explore&lt;br/&gt;individual use,&lt;br/&gt;policy, approved tools&#34;] --&gt; S2[&#34;2 · Experiment&lt;br/&gt;funded pilots,&lt;br/&gt;first evaluation sets&#34;]
+    S2 --&gt; S3[&#34;3 · Formalise&lt;br/&gt;AI platform, gateway,&lt;br/&gt;governance tiers&#34;]
+    S3 --&gt; S4[&#34;4 · Scale&lt;br/&gt;portfolio in production,&lt;br/&gt;reuse, chargeback&#34;]
+    S4 --&gt; S5[&#34;5 · Transform&lt;br/&gt;processes and products&lt;br/&gt;redesigned around AI and agents&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Stage</th>
+      <th>What it looks like</th>
+      <th>Exit criteria to move on</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1 Explore</strong></td>
+      <td>Acceptable-use policy, an approved enterprise chat assistant and coding assistant, AI literacy training</td>
+      <td>Shadow-AI usage measurably down; inventory of ideas</td>
+    </tr>
+    <tr>
+      <td><strong>2 Experiment</strong></td>
+      <td>3–6 funded pilots with business owners and baselines</td>
+      <td>At least two pilots meet their success metric on an evaluation set</td>
+    </tr>
+    <tr>
+      <td><strong>3 Formalise</strong></td>
+      <td>AI gateway, model catalogue, RAG starter, evaluation harness, risk-tiered approvals</td>
+      <td>A new use case can reach production in weeks, not months</td>
+    </tr>
+    <tr>
+      <td><strong>4 Scale</strong></td>
+      <td>Dozens of use cases on the platform; reusable components; cost per team visible</td>
+      <td>Portfolio value reported quarterly; platform reuse &gt; 50%</td>
+    </tr>
+    <tr>
+      <td><strong>5 Transform</strong></td>
+      <td>End-to-end processes redesigned; agents with progressive autonomy; AI in products</td>
+      <td>Process KPIs (cycle time, cost to serve) shifted, not just task time saved</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Many large enterprises in 2026 sit between stages 3 and 4. Skipping stage 3 is the most common reason stage 4 never arrives.</p>
+<h2 id="the-strategic-pillars">The strategic pillars<a class="heading-anchor" href="#the-strategic-pillars" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Pillars of GenAI adoption"><figcaption class="diagram__title">Pillars of GenAI adoption</figcaption>
+  <pre class="mermaid">flowchart TB
+    V[&#34;Value and use cases&lt;br/&gt;portfolio, business cases&#34;]
+    subgraph Foundations
+        P[&#34;Platform&lt;br/&gt;gateway, models, RAG,&lt;br/&gt;eval, LLMOps&#34;]
+        D[&#34;Data&lt;br/&gt;ownership, quality,&lt;br/&gt;permissions, APIs&#34;]
+        G[&#34;Governance&lt;br/&gt;risk tiers, policy,&lt;br/&gt;regulation&#34;]
+    end
+    subgraph Enablers
+        O[&#34;Operating model&lt;br/&gt;CoE, platform team,&lt;br/&gt;domain teams&#34;]
+        H[&#34;People and change&lt;br/&gt;literacy, roles,&lt;br/&gt;champions&#34;]
+    end
+    V --&gt; Foundations
+    Foundations --&gt; Enablers
+    Enablers -.-&gt;|&#34;feedback, new ideas&#34;| V</pre>
+</figure>
+<p>Each pillar needs an owner. The architect usually owns the platform and contributes to data and governance; the value pillar must be owned by the business.</p>
+<h2 id="use-case-discovery-and-prioritisation">Use-case discovery and prioritisation<a class="heading-anchor" href="#use-case-discovery-and-prioritisation" aria-label="Link to this section">#</a></h2>
+<h3 id="genai-use-case-archetypes">GenAI use-case archetypes<a class="heading-anchor" href="#genai-use-case-archetypes" aria-label="Link to this section">#</a></h3>
+<p>Grouping ideas into archetypes reveals reuse: one platform capability serves many use cases.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Archetype</th>
+      <th>Examples</th>
+      <th>Platform capability reused</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Knowledge retrieval and Q&amp;A</strong></td>
+      <td>Policy assistant, IT/HR helpdesk, product knowledge for agents</td>
+      <td><a href="/enterprise-ai/rag/rag-fundamentals/">RAG</a> with permissions</td>
+    </tr>
+    <tr>
+      <td><strong>Summarisation</strong></td>
+      <td>Call notes, case histories, research digests</td>
+      <td>Prompt templates, evaluation for faithfulness</td>
+    </tr>
+    <tr>
+      <td><strong>Extraction and classification</strong></td>
+      <td>Invoices, KYC documents, claims, email triage</td>
+      <td><a href="/enterprise-ai/foundations/prompt-engineering/#structured-output">Structured output</a>, small models</td>
+    </tr>
+    <tr>
+      <td><strong>Content generation</strong></td>
+      <td>Marketing drafts, RFP responses, reports</td>
+      <td>Style guides, review workflows</td>
+    </tr>
+    <tr>
+      <td><strong>Code and IT</strong></td>
+      <td>Coding assistants, test generation, legacy code explanation, migration</td>
+      <td>Coding agents, repository context</td>
+    </tr>
+    <tr>
+      <td><strong>Conversational front ends</strong></td>
+      <td>Customer chat, employee self-service</td>
+      <td>Guardrails, handoff to humans</td>
+    </tr>
+    <tr>
+      <td><strong>Agentic process work</strong></td>
+      <td>Case handling, reconciliation, service desk resolution</td>
+      <td><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">Agents</a>, tools, approvals</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="scoring-and-the-portfolio">Scoring and the portfolio<a class="heading-anchor" href="#scoring-and-the-portfolio" aria-label="Link to this section">#</a></h3>
+<p>Score each candidate on value, feasibility and risk, with weights agreed by the business sponsors.</p>
+<p><strong>Weighted scoring example</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Use case</th>
+      <th>Value (40%)</th>
+      <th>Feasibility (35%)</th>
+      <th>Risk, inverted (25%)</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IT helpdesk knowledge assistant</td>
+      <td>7</td>
+      <td>9</td>
+      <td>9</td>
+      <td><strong>8.2</strong></td>
+    </tr>
+    <tr>
+      <td>Invoice data extraction</td>
+      <td>8</td>
+      <td>8</td>
+      <td>7</td>
+      <td><strong>7.8</strong></td>
+    </tr>
+    <tr>
+      <td>Contract clause review for legal</td>
+      <td>9</td>
+      <td>6</td>
+      <td>5</td>
+      <td><strong>7.0</strong></td>
+    </tr>
+    <tr>
+      <td>Customer-facing advice chatbot</td>
+      <td>8</td>
+      <td>6</td>
+      <td>3</td>
+      <td><strong>6.1</strong></td>
+    </tr>
+    <tr>
+      <td>Automated credit decisions</td>
+      <td>9</td>
+      <td>4</td>
+      <td>1</td>
+      <td><strong>5.3</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Feasibility covers data availability and quality, integration effort and whether current models pass the task. Risk covers regulation (for example EU AI Act high-risk areas such as credit scoring), harm if wrong, and reversibility.</p>
+<p>Build a <strong>balanced portfolio</strong>: a few quick wins to earn trust, two or three strategic bets that justify the platform, and foundations work (data, APIs) for high-value cases that are not yet feasible. Start internal and assistive, then move to customer-facing and autonomous.</p>
+<h2 id="build-buy-or-embed">Build, buy or embed?<a class="heading-anchor" href="#build-buy-or-embed" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>What it is</th>
+      <th>Choose when</th>
+      <th>Watch out for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Buy horizontal tools</strong></td>
+      <td>Enterprise chat assistants, coding assistants, meeting assistants</td>
+      <td>Broad productivity; low differentiation; fast start</td>
+      <td>Data-handling terms, connector permissions, licence cost per seat vs actual use</td>
+    </tr>
+    <tr>
+      <td><strong>Use AI embedded in SaaS</strong></td>
+      <td>Copilots inside CRM, ITSM, ERP, office suites</td>
+      <td>The process lives in that SaaS</td>
+      <td>Fragmented governance; each vendor&rsquo;s AI is a separate data path to approve</td>
+    </tr>
+    <tr>
+      <td><strong>Configure low-code</strong></td>
+      <td>Agent and workflow builders on a platform</td>
+      <td>Departmental, moderate-risk automation</td>
+      <td>Sprawl; enforce the same gateway and evaluation rules</td>
+    </tr>
+    <tr>
+      <td><strong>Build on the platform</strong></td>
+      <td>Your code, your prompts, your evaluation, your integrations</td>
+      <td>Differentiating processes, sensitive data, cross-system work</td>
+      <td>Needs platform, skills and LLMOps maturity</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Most enterprises do all four. The strategy&rsquo;s job is to make sure <strong>every route uses the same identity, data-classification rules, logging and inventory</strong> — so bought and built AI can be governed as one estate.</p>
+<h2 id="model-strategy">Model strategy<a class="heading-anchor" href="#model-strategy" aria-label="Link to this section">#</a></h2>
+<p>A model strategy is a <strong>portfolio</strong>, not a single vendor choice:</p>
+<ul>
+<li><strong>Default tiers</strong>: a mid-tier model for most work, a frontier model for hard reasoning, small models for classification, routing and guardrails, plus embedding and reranker models. See <a href="/enterprise-ai/foundations/model-selection/">Model selection</a>.</li>
+<li><strong>At least two providers</strong> qualified on your evaluation sets, behind an <a href="/enterprise-ai/foundations/enterprise-ai-stack/#ai-gateway">AI gateway</a>, for resilience and negotiating power.</li>
+<li><strong>Open-weight models</strong> for restricted data, offline environments or very high volume.</li>
+<li><strong>A re-evaluation cadence</strong>: new models arrive every few months; the evaluation suite decides when to switch.</li>
+<li><strong>Fine-tuning only with evidence</strong>, after prompting and RAG baselines. See <a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a>.</li>
+</ul>
+<h2 id="deployment-strategy">Deployment strategy<a class="heading-anchor" href="#deployment-strategy" aria-label="Link to this section">#</a></h2>
+<p>Decide deployment per data class, not once for the company: public APIs for public and internal data, cloud-managed models with private networking for most confidential data, on-premise or sovereign for restricted data, and air-gapped where required. The full decision guide, security, privacy, capacity and integration design are in <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-premise and hybrid deployment</a>.</p>
+<h2 id="operating-model">Operating model<a class="heading-anchor" href="#operating-model" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Operating model evolution"><figcaption class="diagram__title">Operating model evolution</figcaption>
+  <pre class="mermaid">flowchart LR
+    C[&#34;Centralised CoE&lt;br/&gt;a small expert team&lt;br/&gt;builds everything&#34;] --&gt; H[&#34;Hub-and-spoke&lt;br/&gt;platform team + governance hub;&lt;br/&gt;domain teams build&#34;]
+    H --&gt; F[&#34;Federated&lt;br/&gt;domains own AI products;&lt;br/&gt;hub sets standards and paved roads&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Centralised</strong> suits stages 1–2: scarce skills, fast learning, consistent standards — but it becomes a bottleneck.</li>
+<li><strong>Hub-and-spoke</strong> suits stages 3–4: the hub runs the platform, governance and reusable components; domain teams own use cases, prompts, evaluation sets and outcomes. See <a href="/enterprise-ai/foundations/enterprise-ai-stack/#operating-model-the-ai-platform-team">Enterprise AI stack</a>.</li>
+<li><strong>Federated</strong> suits stage 5, once paved roads and controls are mature.</li>
+</ul>
+<p><strong>Key roles</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Responsibility</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Executive sponsor</td>
+      <td>Funding, priorities, removing blockers</td>
+    </tr>
+    <tr>
+      <td>AI product owner (per domain)</td>
+      <td>Use-case outcomes, success metrics, evaluation sets, adoption</td>
+    </tr>
+    <tr>
+      <td>AI / GenAI engineer</td>
+      <td>Prompts, retrieval, tools, agents, integration</td>
+    </tr>
+    <tr>
+      <td>AI platform team</td>
+      <td>Gateway, model catalogue, RAG and eval tooling, LLMOps, guardrails</td>
+    </tr>
+    <tr>
+      <td>Data owners and stewards</td>
+      <td>Content quality, classification, permissions</td>
+    </tr>
+    <tr>
+      <td>AI governance (risk, legal, privacy, security)</td>
+      <td>Risk tiers, approvals, regulatory compliance, audits</td>
+    </tr>
+    <tr>
+      <td>Change and enablement</td>
+      <td>Training, champions network, communications</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="business-case-and-value-measurement">Business case and value measurement<a class="heading-anchor" href="#business-case-and-value-measurement" aria-label="Link to this section">#</a></h2>
+<h3 id="count-the-full-cost">Count the full cost<a class="heading-anchor" href="#count-the-full-cost" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Cost category</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model usage</td>
+      <td>Tokens, provisioned throughput, GPU hours</td>
+    </tr>
+    <tr>
+      <td>Platform</td>
+      <td>Gateway, vector stores, observability, evaluation tooling</td>
+    </tr>
+    <tr>
+      <td>Licences</td>
+      <td>Seats for bought assistants and SaaS copilots</td>
+    </tr>
+    <tr>
+      <td>Build and integration</td>
+      <td>Engineering, connectors, APIs for systems of record</td>
+    </tr>
+    <tr>
+      <td>Quality and safety</td>
+      <td>Evaluation set creation, red teaming, human review time</td>
+    </tr>
+    <tr>
+      <td>Run</td>
+      <td>Support, on-call, model upgrades, re-evaluation</td>
+    </tr>
+    <tr>
+      <td>Change</td>
+      <td>Training, process redesign, communications</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="measure-outcomes-not-usage">Measure outcomes, not usage<a class="heading-anchor" href="#measure-outcomes-not-usage" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Metric</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Adoption</strong></td>
+      <td>Active users, retention, tasks per user</td>
+      <td>70% weekly active in target group</td>
+    </tr>
+    <tr>
+      <td><strong>Task</strong></td>
+      <td>Time saved, quality on evaluation set, error rate</td>
+      <td>Drafting time down 40%, faithfulness ≥ 0.9</td>
+    </tr>
+    <tr>
+      <td><strong>Process</strong></td>
+      <td>Cycle time, cost per case, first-contact resolution</td>
+      <td>Claim handling time down 25%</td>
+    </tr>
+    <tr>
+      <td><strong>Business</strong></td>
+      <td>Revenue, cost to serve, risk losses, customer satisfaction</td>
+      <td>Cost to serve down 10%</td>
+    </tr>
+    <tr>
+      <td><strong>Risk</strong></td>
+      <td>Incidents, policy violations, override rates</td>
+      <td>No restricted-data incidents</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Worked example — invoice extraction</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Volume</td>
+      <td>50,000 invoices/month</td>
+    </tr>
+    <tr>
+      <td>Current cost</td>
+      <td>6 minutes manual handling × €40/hour → ≈ €200,000/month</td>
+    </tr>
+    <tr>
+      <td>With GenAI</td>
+      <td>85% straight-through; 15% reviewed at 3 minutes → ≈ €15,000/month review</td>
+    </tr>
+    <tr>
+      <td>AI run cost</td>
+      <td>Tokens ≈ €2,000 + platform share and support ≈ €8,000 → ≈ €10,000/month</td>
+    </tr>
+    <tr>
+      <td>Monthly saving</td>
+      <td>≈ €175,000, before one-off build cost</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>The case stands or falls on the <strong>straight-through rate</strong> at acceptable accuracy — which only the evaluation set can tell you before go-live.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Time saved is not money saved</span></p>
+  <div class="callout__body"><p>Ten minutes saved per employee per day is real only if the work is redesigned to use it: fewer handoffs, higher volumes, faster cycle times. Report process and business metrics, not just hours.</p></div>
+</aside><h2 id="responsible-adoption-and-guardrails">Responsible adoption and guardrails<a class="heading-anchor" href="#responsible-adoption-and-guardrails" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Acceptable-use policy</strong>: what data may go into which tools, disclosure of AI-generated content, prohibited uses.</li>
+<li><strong>Approved tools catalogue</strong>: the fastest way to reduce shadow AI is a sanctioned tool that is as easy as the consumer one.</li>
+<li><strong>Risk tiers</strong>: lightweight approval for low-risk internal assistants; full assessment for customer-facing, high-risk or autonomous use cases. See <a href="/enterprise-ai/spring-ai-governance/ai-governance/#use-case-lifecycle-with-governance-gates">AI governance</a>.</li>
+<li><strong>AI inventory</strong>: every use case, model, data class and owner registered — a prerequisite for EU AI Act, ISO/IEC 42001 and internal audit.</li>
+<li><strong>Security by default</strong>: gateway, guardrails and <a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a> controls built into the platform so teams inherit them.</li>
+</ul>
+<h2 id="people-and-change">People and change<a class="heading-anchor" href="#people-and-change" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>AI literacy for everyone</strong>, deeper skills for builders and reviewers. Under the EU AI Act, providers and deployers must ensure sufficient AI literacy of their staff (applicable since February 2025).</li>
+<li><strong>Champions network</strong> in each department to share prompts, patterns and wins.</li>
+<li><strong>Job and process redesign</strong> with the people who do the work; involve works councils and HR early where required.</li>
+<li><strong>Honest communication</strong> about impact on roles; adoption collapses when people suspect AI is a covert headcount programme.</li>
+<li><strong>Trust signals</strong>: show sources, make it easy to give feedback, publish quality metrics.</li>
+</ul>
+<h2 id="a-24-month-roadmap">A 24-month roadmap<a class="heading-anchor" href="#a-24-month-roadmap" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Period</th>
+      <th>Focus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>0–3 months</strong></td>
+      <td>Acceptable-use policy and approved assistants; AI literacy; use-case intake and scoring; pick 3–5 pilots with owners and baselines; AI gateway in front of approved models</td>
+    </tr>
+    <tr>
+      <td><strong>3–6 months</strong></td>
+      <td>Pilots on a minimal platform (gateway, RAG starter, evaluation harness, tracing); risk-tier process; model catalogue with two providers; data-classification routing rules</td>
+    </tr>
+    <tr>
+      <td><strong>6–12 months</strong></td>
+      <td>First 5–10 use cases in production; chargeback; reusable components; on-prem or sovereign route for restricted data if needed; first agentic use cases with human approval</td>
+    </tr>
+    <tr>
+      <td><strong>12–24 months</strong></td>
+      <td>Scale to the portfolio; hub-and-spoke operating model; process redesign in two or three value streams; agentic processes with progressive autonomy; continuous evaluation and red teaming; quarterly value reporting</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Technology-first strategy</span></p>
+  <div class="callout__body"><p>Starting with &ldquo;which model?&rdquo; instead of &ldquo;which outcomes?&rdquo;. Choose use cases and metrics first; the model choice follows from evaluation.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Banning instead of providing</span></p>
+  <div class="callout__body"><p>Blocking all GenAI drives staff to personal devices. Provide an approved, logged alternative and a clear policy.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Every pilot builds its own stack</span></p>
+  <div class="callout__body"><p>Separate keys, vector stores and logging per team make governance and cost control impossible. Build the platform through the first pilots.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Measuring adoption as success</span></p>
+  <div class="callout__body"><p>Usage shows interest, not value. Agree process and business metrics with a baseline before the pilot starts.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One governance process for all risk levels</span></p>
+  <div class="callout__body"><p>A full committee review for an internal summariser blocks adoption; a lightweight review for credit decisions breaks the law. Tier the process.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How would you structure a GenAI adoption strategy for a large enterprise?</strong>
+Around value and use cases, a shared platform, data readiness, risk-tiered governance, an operating model and people change — sequenced through a maturity model: explore with policy and approved tools, run measured pilots, formalise a platform and governance, scale a portfolio, then redesign processes.</p>
+<p><strong>How do you prioritise GenAI use cases?</strong>
+Group ideas into archetypes, score them on value, feasibility (data, integration, model fit) and risk with business-agreed weights, and build a balanced portfolio of quick wins, strategic bets and foundations work — starting internal and assistive.</p>
+<p><strong>Build, buy or embed?</strong>
+Buy horizontal productivity tools, use AI embedded in the SaaS where the process lives, configure low-code for departmental automation, and build on the platform for differentiating, sensitive or cross-system work — with common identity, data rules, logging and inventory across all routes.</p>
+<p><strong>How do you build the business case for a GenAI use case?</strong>
+Baseline the current process cost and quality, estimate the automated or assisted share from an evaluation set, count the full cost (tokens, platform, licences, build, review, run, change), and measure process and business outcomes, not just usage.</p>
+<p><strong>How do you reduce shadow AI?</strong>
+An approved tool that is as easy as the consumer alternative, a clear acceptable-use policy, AI literacy training, and network or DLP controls as a backstop — not a blanket ban.</p>
+<p><strong>Which operating model would you recommend?</strong>
+Centralised while skills are scarce, hub-and-spoke once a platform exists — the hub owns platform, standards and governance, domains own use cases and outcomes — and federated when paved roads and controls are mature.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Adoption is a sequence: explore, experiment, formalise, scale, transform. Do not skip the platform and governance stage.</li>
+<li>Prioritise by value, feasibility and risk; group use cases into archetypes to maximise reuse.</li>
+<li>Buy, embed, configure and build — under one set of identity, data, logging and inventory rules.</li>
+<li>Treat models as a portfolio and deployment as a per-data-class decision.</li>
+<li>Move from a central CoE to hub-and-spoke as you scale.</li>
+<li>Count the full cost and measure process and business outcomes.</li>
+<li>Invest in literacy, champions and process redesign; adoption is a change programme.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>NIST, <a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence" rel="noopener">AI Risk Management Framework: Generative AI Profile (NIST AI 600-1)</a>, 2024.</li>
+<li>European Union, <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" rel="noopener">AI Act, Regulation (EU) 2024/1689</a> — Article 4 on AI literacy.</li>
+<li>ISO/IEC, <a href="https://www.iso.org/standard/81230.html" rel="noopener">42001:2023 Artificial intelligence — Management system</a>.</li>
+<li>McKinsey, <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" rel="noopener">The state of AI</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">On-prem &amp; hybrid deployment</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agentic AI strategy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-governance/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI governance</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/financial-services-hybrid-ai/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Hybrid AI in financial services</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/llmops/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">LLMOps &amp; observability</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/financial-services-hybrid-ai/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Hybrid AI in financial services</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-adoption-stalls">Why adoption stalls</a></li>
+    <li><a href="#adoption-maturity-model">Adoption maturity model</a></li>
+    <li><a href="#the-strategic-pillars">The strategic pillars</a></li>
+    <li><a href="#use-case-discovery-and-prioritisation">Use-case discovery and prioritisation</a>
+      <ul>
+        <li><a href="#genai-use-case-archetypes">GenAI use-case archetypes</a></li>
+        <li><a href="#scoring-and-the-portfolio">Scoring and the portfolio</a></li>
+      </ul>
+    </li>
+    <li><a href="#build-buy-or-embed">Build, buy or embed?</a></li>
+    <li><a href="#model-strategy">Model strategy</a></li>
+    <li><a href="#deployment-strategy">Deployment strategy</a></li>
+    <li><a href="#operating-model">Operating model</a></li>
+    <li><a href="#business-case-and-value-measurement">Business case and value measurement</a>
+      <ul>
+        <li><a href="#count-the-full-cost">Count the full cost</a></li>
+        <li><a href="#measure-outcomes-not-usage">Measure outcomes, not usage</a></li>
+      </ul>
+    </li>
+    <li><a href="#responsible-adoption-and-guardrails">Responsible adoption and guardrails</a></li>
+    <li><a href="#people-and-change">People and change</a></li>
+    <li><a href="#a-24-month-roadmap">A 24-month roadmap</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

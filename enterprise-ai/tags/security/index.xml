@@ -19,6 +19,13 @@
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;AI security&lt;/strong&gt; protects AI systems — models, prompts, data, tools and agents — from being manipulated, leaking information, or being used to cause harm. Classic application security still applies; LLMs add a new problem: &lt;strong&gt;instructions and data travel in the same channel&lt;/strong&gt; (natural language), so data can act like code.&lt;/p&gt;</description>
 			</item>
 			<item>
+				<title>On-Premise and Hybrid GenAI Deployment</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Deployment topology&lt;/strong&gt; decides &lt;em&gt;where&lt;/em&gt; each part of a GenAI system runs: the model, the retrieval index, the orchestration code and the logs. &lt;strong&gt;On-premise&lt;/strong&gt; means inference runs on hardware you operate; &lt;strong&gt;hybrid&lt;/strong&gt; means some workloads run on your hardware or private cloud and others call cloud-hosted models, with one control plane deciding which request goes where.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>Agent Identity and Access Control</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

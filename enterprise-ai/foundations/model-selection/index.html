@@ -19,7 +19,7 @@
 <meta name="twitter:description" content="How to choose LLMs: capability tiers, open-weight vs proprietary, benchmarks and their limits, a weighted scoring matrix, model routing and cascades, and avoiding lock-in.">
 <meta name="keywords" content="llm, foundations, architecture-decision">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"How to choose LLMs: capability tiers, open-weight vs proprietary, benchmarks and their limits, a weighted scoring matrix, model routing and cascades, and avoiding lock-in.","headline":"Model Selection for the Enterprise","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, architecture-decision","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/model-selection/"}
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"How to choose LLMs: capability tiers, open-weight vs proprietary, benchmarks and their limits, a weighted scoring matrix, model routing and cascades, and avoiding lock-in.","headline":"Model Selection for the Enterprise","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, architecture-decision","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/model-selection/"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/model-selection/","name":"Model selection","position":3}]}
@@ -86,7 +86,10 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/" aria-current="page">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
     </ul>
   </details>
 </li>
@@ -194,8 +197,8 @@
       <h1 itemprop="headline">Model Selection for the Enterprise</h1><p class="article__lede" itemprop="description">How to choose LLMs: capability tiers, open-weight vs proprietary, benchmarks and their limits, a weighted scoring matrix, model routing and cascades, and avoiding lock-in.</p>
 <ul class="article-meta" aria-label="Article details">
   <li><span class="badge badge--intermediate">Intermediate</span></li>
-  <li>6 min read</li>
-  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
   <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/llm/">#Llm</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/architecture-decision/">#Architecture-Decision</a>
   </li>
 </ul>
@@ -219,6 +222,7 @@
     <li><a href="#a-repeatable-selection-process">A repeatable selection process</a></li>
     <li><a href="#model-routing-and-cascades">Model routing and cascades</a></li>
     <li><a href="#avoiding-lock-in">Avoiding lock-in</a></li>
+    <li><a href="#selecting-under-deployment-constraints">Selecting under deployment constraints</a></li>
     <li><a href="#common-mistakes">Common mistakes</a></li>
     <li><a href="#review-questions">Review questions</a></li>
     <li><a href="#summary">Summary</a></li>
@@ -449,6 +453,51 @@
 <li>Store embeddings with the embedding model name and version; changing the embedding model means re-indexing.</li>
 <li>Re-run the evaluation suite before switching models — prompts often need adjustment.</li>
 </ul>
+<h2 id="selecting-under-deployment-constraints">Selecting under deployment constraints<a class="heading-anchor" href="#selecting-under-deployment-constraints" aria-label="Link to this section">#</a></h2>
+<p>Where a model may run narrows the choice <em>before</em> any quality comparison. Apply the deployment filter as step 2 of the process above.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Deployment target</th>
+      <th>What it does to the shortlist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Public API</strong></td>
+      <td>Full range; filter on data terms (retention, training, region)</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud-managed in your tenancy</strong></td>
+      <td>Only models in that cloud&rsquo;s catalogue <em>and region</em>; features (tool use, caching, batch) can lag the provider&rsquo;s own API</td>
+    </tr>
+    <tr>
+      <td><strong>Sovereign cloud</strong></td>
+      <td>Narrower catalogue, often older versions; check roadmap commitments</td>
+    </tr>
+    <tr>
+      <td><strong>On-premise</strong></td>
+      <td>Open-weight models, or vendors&rsquo; licensed on-prem offerings; size bounded by GPU memory (see <a href="/enterprise-ai/foundations/inference-and-serving/#making-models-smaller-and-faster">GPU memory estimate</a>)</td>
+    </tr>
+    <tr>
+      <td><strong>Air-gapped</strong></td>
+      <td>Open-weight only, imported and evaluated offline; plan an update cadence</td>
+    </tr>
+    <tr>
+      <td><strong>Edge / device</strong></td>
+      <td>Small quantized models, typically 1–8B parameters</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Three further checks matter in enterprise selection:</p>
+<ul>
+<li><strong>Model lifecycle</strong>: deprecation notice periods and version pinning. Regulated firms must re-validate on every material change, so a model that changes often costs more to own.</li>
+<li><strong>Weight ownership</strong>: whether you can keep and run the model if the vendor relationship ends. See <a href="/enterprise-ai/foundations/financial-services-hybrid-ai/#model-weight-ownership">model-weight ownership</a>.</li>
+<li><strong>Total cost of ownership</strong>: tokens or GPUs <em>plus</em> evaluation, validation, operations and switching cost — not price per token alone.</li>
+</ul>
+<p>For the full decision guide, see <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-premise and hybrid deployment</a>; for an industry example, see <a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a>.</p>
 <h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
 <aside class="callout callout--mistake" role="note">
   <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Choosing by leaderboard or hype</span></p>
@@ -466,6 +515,8 @@ Define the task and success metrics; apply hard filters (data residency, licence
 Proprietary APIs give the best quality and zero operations; open-weight gives full data control, customisation and lower cost at high steady volume. Many enterprises use proprietary models through their cloud provider for most work and open-weight models for sensitive or very high-volume tasks.</p>
 <p><strong>What is model routing and why use it?</strong>
 Sending each request to the cheapest model capable of handling it, using rules or a classifier, sometimes with escalation on low confidence. It cuts cost and latency without hurting quality on hard requests.</p>
+<p><strong>How does the deployment target change model selection?</strong>
+It is a hard filter: cloud tenancy limits you to that catalogue and region, on-premise and air-gapped to open-weight or licensed models that fit your GPUs, edge to small quantized models. Quality comparison happens only among what the target allows.</p>
 <p><strong>Why are public benchmarks not enough?</strong>
 They do not reflect your data, task or constraints, can be contaminated, and ignore cost and latency. Use them to shortlist and your own evaluation set to decide.</p>
 <p><strong>How do you avoid vendor lock-in?</strong>
@@ -476,6 +527,7 @@ Abstraction layer or gateway, model-agnostic prompts and tool schemas, an evalua
 <li>Shortlist with benchmarks; decide with your own evaluation set and weighted scoring.</li>
 <li>Use tiers: frontier for hard reasoning, mid-tier for most work, small models for high-volume simple tasks.</li>
 <li>Route and cascade to save cost; keep a fallback model; abstract the provider.</li>
+<li>Apply deployment, lifecycle and weight-ownership constraints before comparing quality.</li>
 </ul>
 <h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
 <ul>
@@ -506,15 +558,15 @@ Abstraction layer or gateway, model-agnostic prompts and tool schemas, an evalua
       </a>
     </li>
     <li class="card">
-      <a class="card__link" href="/enterprise-ai/foundations/how-llms-work/">
+      <a class="card__link" href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">
         <span class="card__eyebrow">1 · LLM Foundations</span>
-        <span class="card__title">How LLMs work</span>
+        <span class="card__title">On-prem &amp; hybrid deployment</span>
       </a>
     </li>
     <li class="card">
-      <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
+      <a class="card__link" href="/enterprise-ai/foundations/financial-services-hybrid-ai/">
         <span class="card__eyebrow">1 · LLM Foundations</span>
-        <span class="card__title">Inference, latency &amp; cost</span>
+        <span class="card__title">Hybrid AI in financial services</span>
       </a>
     </li>
   </ul>
@@ -546,6 +598,7 @@ Abstraction layer or gateway, model-agnostic prompts and tool schemas, an evalua
     <li><a href="#a-repeatable-selection-process">A repeatable selection process</a></li>
     <li><a href="#model-routing-and-cascades">Model routing and cascades</a></li>
     <li><a href="#avoiding-lock-in">Avoiding lock-in</a></li>
+    <li><a href="#selecting-under-deployment-constraints">Selecting under deployment constraints</a></li>
     <li><a href="#common-mistakes">Common mistakes</a></li>
     <li><a href="#review-questions">Review questions</a></li>
     <li><a href="#summary">Summary</a></li>

@@ -86,7 +86,10 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
     </ul>
   </details>
 </li>
@@ -194,7 +197,7 @@
       <h1 itemprop="headline">Review Questions: Enterprise and Agentic AI</h1><p class="article__lede" itemprop="description">Over 100 review questions with concise answers across LLM fundamentals, model selection, the enterprise AI stack, RAG, vector databases, GraphRAG, evaluation, agents, MCP, multi-agent systems, Spring AI, AI security and governance, agent frameworks and protocols — plus scenario and reflection questions.</p>
 <ul class="article-meta" aria-label="Article details">
   <li><span class="badge badge--intermediate">Intermediate</span></li>
-  <li>17 min read</li>
+  <li>18 min read</li>
   <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
   <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/review/">#Review</a>
   </li>
@@ -209,6 +212,7 @@
     <li><a href="#1-llm-fundamentals">1. LLM fundamentals</a></li>
     <li><a href="#2-model-selection-and-customisation">2. Model selection and customisation</a></li>
     <li><a href="#3-enterprise-ai-stack-and-llmops">3. Enterprise AI stack and LLMOps</a></li>
+    <li><a href="#3a-adoption-deployment-and-financial-services">3a. Adoption, deployment and financial services</a></li>
     <li><a href="#4-rag">4. RAG</a></li>
     <li><a href="#5-vector-databases-and-graphrag">5. Vector databases and GraphRAG</a></li>
     <li><a href="#6-evaluation">6. Evaluation</a></li>
@@ -286,6 +290,24 @@ Requests, errors, 429s; p95 TTFT and latency; tokens and cost per feature/user; 
 Version it, run the evaluation suite in CI against the baseline, review, canary or A/B with feature flags, monitor, keep rollback.</p>
 <p><strong>What resilience patterns apply to LLM calls?</strong>
 Timeouts, retries with backoff and jitter, circuit breakers, bulkheads, fallback models/providers, queues for batch, degraded mode.</p>
+<h2 id="3a-adoption-deployment-and-financial-services">3a. Adoption, deployment and financial services<a class="heading-anchor" href="#3a-adoption-deployment-and-financial-services" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a>, <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a>, <a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a>.</p>
+<p><strong>What are the stages of GenAI adoption maturity?</strong>
+Explore (policy, approved tools, literacy), experiment (measured pilots), formalise (platform, gateway, governance tiers), scale (portfolio, reuse, chargeback), transform (processes redesigned around AI and agents).</p>
+<p><strong>Why do GenAI pilots fail to reach production?</strong>
+No shared platform, evaluation or governance path; no business owner or baseline; data not ready; risk processes not tiered.</p>
+<p><strong>When would you deploy an LLM on-premise?</strong>
+When data class or regulation forbids the cloud route, volume is high and steady enough to keep GPUs busy, the environment is offline or latency-critical, or a fine-tuned model must be pinned — and the organisation can operate GPUs.</p>
+<p><strong>How does a hybrid platform decide where a request goes?</strong>
+An AI gateway classifies the assembled prompt (caller&rsquo;s registered class, chunk and tool-result classification, DLP as a safety net) and routes to the targets the policy allows for that class.</p>
+<p><strong>What security duties move to you when you self-host?</strong>
+Model supply chain (verified safe-format weights, AI-BOM), serving-stack patching, network isolation and egress control, GPU and cache isolation, encryption of weights, indexes and logs.</p>
+<p><strong>How do you compare on-prem and API inference cost?</strong>
+Tokens × price versus amortised hardware, power, space, staff, on-call and redundancy at expected utilisation. On-prem wins only at high, predictable utilisation.</p>
+<p><strong>Where would a bank place AML, research and customer-service AI?</strong>
+AML on-prem with a tuned open-weight model; investment research on in-region cloud frontier models for public content, walled on-prem for MNPI; customer service in-region cloud with redaction plus small on-prem guardrail models.</p>
+<p><strong>Why does model-weight ownership matter in regulated firms?</strong>
+It decides whether you can pin and re-validate on your schedule, run in your network and keep a credible exit plan if a provider fails or changes terms.</p>
 <h2 id="4-rag">4. RAG<a class="heading-anchor" href="#4-rag" aria-label="Link to this section">#</a></h2>
 <p>Full explanations: <a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a>, <a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a>, <a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a>.</p>
 <p><strong>Walk through a RAG pipeline.</strong>
@@ -542,6 +564,7 @@ Start with internal, lower-risk use cases (knowledge assistants, developer produ
     <li><a href="#1-llm-fundamentals">1. LLM fundamentals</a></li>
     <li><a href="#2-model-selection-and-customisation">2. Model selection and customisation</a></li>
     <li><a href="#3-enterprise-ai-stack-and-llmops">3. Enterprise AI stack and LLMOps</a></li>
+    <li><a href="#3a-adoption-deployment-and-financial-services">3a. Adoption, deployment and financial services</a></li>
     <li><a href="#4-rag">4. RAG</a></li>
     <li><a href="#5-vector-databases-and-graphrag">5. Vector databases and GraphRAG</a></li>
     <li><a href="#6-evaluation">6. Evaluation</a></li>

@@ -86,7 +86,10 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
     </ul>
   </details>
 </li>
@@ -230,6 +233,8 @@
 <dd>The transformer mechanism by which each token weighs and uses information from other tokens. See <a href="/enterprise-ai/foundations/how-llms-work/#3-the-transformer-and-attention">How LLMs work</a>.</dd>
 <dt><strong>AgentOps</strong></dt>
 <dd>Operating agents like production services: SLOs, monitoring, incidents, cost and continuous evaluation. See <a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/#operating-model-agentops">Agentic AI strategy</a>.</dd>
+<dt><strong>Air-gapped deployment</strong></dt>
+<dd>Running models with no network path to the outside; updates imported offline. See <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/#the-deployment-spectrum">On-prem &amp; hybrid</a>.</dd>
 </dl>
 <h3 id="bc">B–C<a class="heading-anchor" href="#bc" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -247,6 +252,8 @@
 <dd>Prepending an LLM-written situating sentence to each chunk before indexing. See <a href="/enterprise-ai/rag/advanced-retrieval/#contextual-retrieval">Advanced retrieval</a>.</dd>
 <dt><strong>Cross-encoder / reranker</strong></dt>
 <dd>A model that scores a query and a document together for precise relevance. See <a href="/enterprise-ai/rag/advanced-retrieval/#reranking">Advanced retrieval</a>.</dd>
+<dt><strong>Data-classification routing</strong></dt>
+<dd>An AI gateway choosing the allowed model deployment by the highest data class in the assembled prompt. See <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/#data-classification-routing">On-prem &amp; hybrid</a>.</dd>
 </dl>
 <h3 id="de">D–E<a class="heading-anchor" href="#de" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -269,6 +276,8 @@
 <dd>Whether every claim in an answer is supported by the retrieved context. See <a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a>.</dd>
 <dt><strong>Fine-tuning</strong></dt>
 <dd>Further training of a model&rsquo;s weights on your examples. See <a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a>.</dd>
+<dt><strong>GenAI adoption maturity</strong></dt>
+<dd>Stages from explore and experiment to formalise, scale and transform. See <a href="/enterprise-ai/foundations/genai-adoption-strategy/#adoption-maturity-model">GenAI adoption strategy</a>.</dd>
 <dt><strong>GOAP (goal-oriented action planning)</strong></dt>
 <dd>A planning algorithm from game AI that chains actions by preconditions and effects to reach a goal. See <a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM frameworks</a>.</dd>
 <dt><strong>Golden dataset</strong></dt>
@@ -283,6 +292,8 @@
 <dd>A multi-layer graph index for fast approximate vector search. See <a href="/enterprise-ai/rag/vector-databases/#hnsw--hierarchical-navigable-small-world">Vector databases</a>.</dd>
 <dt><strong>Human-in-the-loop (HITL)</strong></dt>
 <dd>Pausing an AI process for human approval, correction or input. See <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/#8-human-in-the-loop-hitl">Workflow patterns</a>.</dd>
+<dt><strong>Hybrid AI deployment</strong></dt>
+<dd>Some workloads on your own infrastructure, others on cloud models, under one control plane. See <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid</a>.</dd>
 <dt><strong>Hybrid search</strong></dt>
 <dd>Combining vector and keyword search, usually fused with RRF. See <a href="/enterprise-ai/rag/advanced-retrieval/#hybrid-search">Advanced retrieval</a>.</dd>
 <dt><strong>HyDE</strong></dt>
@@ -315,6 +326,10 @@
 <dd>Sending each request to the cheapest capable model. See <a href="/enterprise-ai/foundations/model-selection/#model-routing-and-cascades">Model selection</a>.</dd>
 <dt><strong>MRR / nDCG</strong></dt>
 <dd>Retrieval ranking metrics. See <a href="/enterprise-ai/rag/rag-evaluation/#retrieval-metrics">RAG evaluation</a>.</dd>
+<dt><strong>Model risk management (MRM)</strong></dt>
+<dd>Banking discipline (SR 11-7, PRA SS1/23) for inventorying, validating and monitoring models, now applied to LLMs. See <a href="/enterprise-ai/foundations/financial-services-hybrid-ai/#why-financial-services-is-different">Hybrid AI in financial services</a>.</dd>
+<dt><strong>Model-weight ownership</strong></dt>
+<dd>Who holds a model&rsquo;s weights, deciding whether you can pin, move and keep it. See <a href="/enterprise-ai/foundations/financial-services-hybrid-ai/#model-weight-ownership">Hybrid AI in financial services</a>.</dd>
 <dt><strong>NIST AI RMF</strong></dt>
 <dd>A risk-management framework with Govern, Map, Measure and Manage functions. See <a href="/enterprise-ai/spring-ai-governance/ai-governance/#nist-ai-risk-management-framework">AI governance</a>.</dd>
 </dl>
@@ -341,6 +356,10 @@
 </dl>
 <h3 id="sz">S–Z<a class="heading-anchor" href="#sz" aria-label="Link to this section">#</a></h3>
 <dl>
+<dt><strong>Shadow AI</strong></dt>
+<dd>Staff using unapproved AI tools, often with company data. See <a href="/enterprise-ai/foundations/genai-adoption-strategy/#why-adoption-stalls">GenAI adoption strategy</a>.</dd>
+<dt><strong>Sovereign cloud</strong></dt>
+<dd>Cloud operated under local jurisdiction by a local entity and staff. See <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/#the-deployment-spectrum">On-prem &amp; hybrid</a>.</dd>
 <dt><strong>Structured output</strong></dt>
 <dd>Model output constrained to a schema and parsed into types. See <a href="/enterprise-ai/foundations/prompt-engineering/#structured-output">Prompt engineering</a>.</dd>
 <dt><strong>Temperature</strong></dt>
@@ -355,6 +374,8 @@
 <dd>Data passed to tools without exposing it to the model. See <a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/#tools-with-tool">Spring AI tools</a>.</dd>
 <dt><strong>Vector database</strong></dt>
 <dd>A store optimised for nearest-neighbour search over embeddings with filters. See <a href="/enterprise-ai/rag/vector-databases/">Vector databases</a>.</dd>
+<dt><strong>Zero data retention (ZDR)</strong></dt>
+<dd>Provider terms under which prompts and outputs are not stored after processing. See <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/#data-privacy">On-prem &amp; hybrid</a>.</dd>
 </dl>
 
     </div>

@@ -86,7 +86,10 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
     </ul>
   </details>
 </li>
@@ -655,6 +658,18 @@
     <tr>
       <td>How much autonomy?</td>
       <td>By impact and reversibility of each action</td>
+    </tr>
+    <tr>
+      <td>Where should it run?</td>
+      <td>By the highest data class in the assembled prompt: public API → cloud tenancy → on-prem → air-gapped</td>
+    </tr>
+    <tr>
+      <td>On-prem for cost?</td>
+      <td>Only if GPUs stay busy most of the time; count staff and redundancy</td>
+    </tr>
+    <tr>
+      <td>Regulated critical function?</td>
+      <td>Pinned versions, validation evidence, and a weight-owned or second-provider fallback</td>
     </tr>
   </tbody>
 </table>
