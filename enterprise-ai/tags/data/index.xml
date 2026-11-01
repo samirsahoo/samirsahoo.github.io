@@ -20,5 +20,19 @@
 				<guid>https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;vector database&lt;/strong&gt; stores embeddings (vectors) together with their text and metadata, and answers one question fast: &lt;em&gt;&amp;ldquo;which stored vectors are closest to this query vector?&amp;rdquo;&lt;/em&gt; — usually with filters such as &amp;ldquo;only documents this user may see&amp;rdquo;.&lt;/p&gt;</description>
 			</item>
+			<item>
+				<title>Dataset Engineering: Curating, Synthesising and Processing Data</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Dataset engineering&lt;/strong&gt; is the work of producing the data a model is trained or evaluated on: deciding what data you need, getting it, generating it when you cannot get it, and cleaning it into a usable format.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Designing for User Feedback and the Data Flywheel</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/user-feedback/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/user-feedback/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;User feedback&lt;/strong&gt; is every signal users give — deliberately or not — about whether the application helped them. It is the one data source competitors cannot copy. Collected well, it drives &lt;strong&gt;evaluation&lt;/strong&gt; (are we getting better?), &lt;strong&gt;development&lt;/strong&gt; (what should we train or fix next?) and &lt;strong&gt;personalisation&lt;/strong&gt; (what does this user prefer?).&lt;/p&gt;</description>
+			</item>
 	</channel>
 </rss>

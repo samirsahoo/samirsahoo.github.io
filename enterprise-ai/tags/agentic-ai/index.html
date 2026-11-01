@@ -79,12 +79,21 @@
       <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
     </summary>
     <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
@@ -117,7 +126,9 @@
     </summary>
     <ul>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
@@ -128,6 +139,7 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
     </ul>
   </details>
@@ -194,8 +206,14 @@
 
     <header class="article__header">
       <h1>Tagged “Agentic-Ai”</h1>
-      <p class="article__lede">13 articles with this tag.</p>
+      <p class="article__lede">16 articles with this tag.</p>
     </header><ul class="card-list">
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/agentic-ai/agent-building-playbook/">
+      <span class="card__title">Agent building playbook</span><span class="card__desc">How to find, prioritise and build successful AI agents: the sweet spot of impact, feasibility and effort, scoring impact and feasibility, the prioritisation matrix, thinking in tasks not roles, the A.G.E.N.T. framework (identity, gear and brain, execution and workflow, navigation and rules, testing and trust), a multi-agent example, implementation principles and the three horizons of agentic business models.</span>
+      <span class="card__meta">Intermediate · 8 min read</span>
+    </a>
+  </li>
   <li class="card">
     <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
       <span class="card__title">Harnesses &amp; skills</span><span class="card__desc">What an agent harness is and why it matters as much as the model: context engineering for long tasks, compaction, sub-agents, file-based memory and progress notes, Agent Skills with progressive disclosure, permissions and hooks, durable checkpoints, and patterns for coding and operations agents.</span>
@@ -215,6 +233,12 @@
     </a>
   </li>
   <li class="card">
+    <a class="card__link" href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">
+      <span class="card__title">Planning &amp; failure modes</span><span class="card__desc">How agents plan: the three kinds of tools (knowledge augmentation, capability extension, write actions), plan generation and validation, decoupling planning from execution, planning granularity, control flow in plans (sequential, parallel, if, loops), reflection and error correction, choosing a tool inventory — and how to evaluate the failure modes unique to agents: planning failures, tool failures and inefficiency.</span>
+      <span class="card__meta">Intermediate · 8 min read</span>
+    </a>
+  </li>
+  <li class="card">
     <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
       <span class="card__title">Reliability &amp; evaluation</span><span class="card__desc">Making agents dependable: why errors compound, layered guardrails, budgets and stop conditions, sandboxing, permissions and approvals, trajectory and outcome evaluation, simulation testing, observability and production rollout.</span>
       <span class="card__meta">Advanced · 6 min read</span>
@@ -230,6 +254,12 @@
     <a class="card__link" href="/enterprise-ai/agentic-ai/computer-use-agents/">
       <span class="card__title">Computer-use agents</span><span class="card__desc">Agents that operate graphical interfaces: the see–decide–act loop, computer-use vs browser automation vs APIs, architecture with sandboxed VMs, reliability limits, security risks such as prompt injection from web pages, and when to use them in the enterprise.</span>
       <span class="card__meta">Intermediate · 4 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">
+      <span class="card__title">Levels, SPAR &amp; keystones</span><span class="card__desc">How agentic AI differs from generative AI, the six-step progression from manual work to fully autonomous agents (levels 0–5), the SPAR loop — sense, plan, act, reflect — the three keystones of action, reasoning and memory, LLMs vs large reasoning models, tool resilience by control and impact, and choosing between intelligent automation and agentic workflows.</span>
+      <span class="card__meta">Beginner · 9 min read</span>
     </a>
   </li>
   <li class="card">

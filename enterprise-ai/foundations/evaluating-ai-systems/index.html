@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Evaluating AI Systems: Criteria, Benchmarks and the Evaluation Pipeline · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Evaluation-driven development, the criteria that matter (domain capability, generation quality, factual consistency, safety, instruction following, roleplay, cost and latency), navigating public benchmarks and data contamination, and a step-by-step evaluation pipeline: components, rubrics, business metrics, methods, annotated data, slicing, sample size and evaluating the evaluator.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Evaluating AI Systems: Criteria, Benchmarks and the Evaluation Pipeline">
+<meta property="og:description" content="Evaluation-driven development, the criteria that matter (domain capability, generation quality, factual consistency, safety, instruction following, roleplay, cost and latency), navigating public benchmarks and data contamination, and a step-by-step evaluation pipeline: components, rubrics, business metrics, methods, annotated data, slicing, sample size and evaluating the evaluator.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Evaluating AI Systems: Criteria, Benchmarks and the Evaluation Pipeline">
+<meta name="twitter:description" content="Evaluation-driven development, the criteria that matter (domain capability, generation quality, factual consistency, safety, instruction following, roleplay, cost and latency), navigating public benchmarks and data contamination, and a step-by-step evaluation pipeline: components, rubrics, business metrics, methods, annotated data, slicing, sample size and evaluating the evaluator.">
+<meta name="keywords" content="evaluation, quality, llmops">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Evaluation-driven development, the criteria that matter (domain capability, generation quality, factual consistency, safety, instruction following, roleplay, cost and latency), navigating public benchmarks and data contamination, and a step-by-step evaluation pipeline: components, rubrics, business metrics, methods, annotated data, slicing, sample size and evaluating the evaluator.","headline":"Evaluating AI Systems: Criteria, Benchmarks and the Evaluation Pipeline","inLanguage":"en","isAccessibleForFree":true,"keywords":"evaluation, quality, llmops","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/","name":"Evaluating AI systems","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/" aria-current="page">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">Evaluating AI systems</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Evaluating AI Systems: Criteria, Benchmarks and the Evaluation Pipeline</h1><p class="article__lede" itemprop="description">Evaluation-driven development, the criteria that matter (domain capability, generation quality, factual consistency, safety, instruction following, roleplay, cost and latency), navigating public benchmarks and data contamination, and a step-by-step evaluation pipeline: components, rubrics, business metrics, methods, annotated data, slicing, sample size and evaluating the evaluator.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/evaluation/">#Evaluation</a><a class="tag" href="/enterprise-ai/tags/quality/">#Quality</a><a class="tag" href="/enterprise-ai/tags/llmops/">#Llmops</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#evaluation-criteria">Evaluation criteria</a>
+      <ul>
+        <li><a href="#1-domain-specific-capability">1. Domain-specific capability</a></li>
+        <li><a href="#2-generation-capability">2. Generation capability</a></li>
+        <li><a href="#3-instruction-following-capability">3. Instruction-following capability</a></li>
+        <li><a href="#4-cost-and-latency">4. Cost and latency</a></li>
+      </ul>
+    </li>
+    <li><a href="#public-benchmarks-useful-not-sufficient">Public benchmarks: useful, not sufficient</a></li>
+    <li><a href="#designing-the-evaluation-pipeline">Designing the evaluation pipeline</a>
+      <ul>
+        <li><a href="#step-1--evaluate-every-component">Step 1 — Evaluate every component</a></li>
+        <li><a href="#step-2--create-guidelines-and-scoring-rubrics">Step 2 — Create guidelines and scoring rubrics</a></li>
+        <li><a href="#step-3--tie-evaluation-metrics-to-business-metrics">Step 3 — Tie evaluation metrics to business metrics</a></li>
+        <li><a href="#step-4--select-evaluation-methods">Step 4 — Select evaluation methods</a></li>
+        <li><a href="#step-5--annotate-evaluation-data">Step 5 — Annotate evaluation data</a></li>
+        <li><a href="#step-6--evaluate-your-evaluation-pipeline">Step 6 — Evaluate your evaluation pipeline</a></li>
+        <li><a href="#step-7--iterate">Step 7 — Iterate</a></li>
+      </ul>
+    </li>
+    <li><a href="#where-evaluation-runs">Where evaluation runs</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Evaluating an AI <strong>system</strong> means checking whether the whole application — prompts, retrieval, model, tools and guardrails — does its job well enough, safely enough and cheaply enough. It turns the methods in <a href="/enterprise-ai/foundations/evaluation-methodology/">evaluation methodology</a> into a repeatable <strong>pipeline</strong> that runs before every change and continuously in production.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Evaluation-driven development</span></p>
+  <div class="callout__body"><p>Define how you will evaluate the application <strong>before</strong> you build it, the same way test-driven development writes tests first. The use cases that succeed in production are mostly the ones with clear, measurable outcomes — so make yours measurable from day one.</p></div>
+</aside><h2 id="evaluation-criteria">Evaluation criteria<a class="heading-anchor" href="#evaluation-criteria" aria-label="Link to this section">#</a></h2>
+<p>Group criteria into four buckets.</p>
+<h3 id="1-domain-specific-capability">1. Domain-specific capability<a class="heading-anchor" href="#1-domain-specific-capability" aria-label="Link to this section">#</a></h3>
+<p>Can the model do the work at all — write code in your language, understand your legal domain, reason over your tables? Measure with functional checks (code runs, SQL returns the right rows) or multiple-choice and closed-form questions from your domain.</p>
+<h3 id="2-generation-capability">2. Generation capability<a class="heading-anchor" href="#2-generation-capability" aria-label="Link to this section">#</a></h3>
+<p>The quality of open-ended text:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion</th>
+      <th>Question</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fluency and coherence</td>
+      <td>Is it readable and logically organised? (Rarely a problem with modern models)</td>
+    </tr>
+    <tr>
+      <td><strong>Factual consistency</strong></td>
+      <td>Is it supported by the facts?</td>
+    </tr>
+    <tr>
+      <td>Relevance</td>
+      <td>Does it answer the question asked?</td>
+    </tr>
+    <tr>
+      <td>Safety</td>
+      <td>Is it free of harmful content?</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h4 id="factual-consistency">Factual consistency<a class="heading-anchor" href="#factual-consistency" aria-label="Link to this section">#</a></h4>
+<p>Two settings:</p>
+<ul>
+<li><strong>Local</strong> — consistent with the context given (a document, retrieved passages). Central to <a href="/enterprise-ai/rag/rag-evaluation/">RAG</a> and summarisation.</li>
+<li><strong>Global</strong> — consistent with facts about the world. Harder: you need a source of truth.</li>
+</ul>
+<p>Ways to check it:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>How</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>AI judge</strong></td>
+      <td>Ask a model whether each claim is supported by the context</td>
+    </tr>
+    <tr>
+      <td><strong>Self-verification</strong></td>
+      <td>Sample several answers; if they disagree, the answer is probably made up</td>
+    </tr>
+    <tr>
+      <td><strong>Knowledge-augmented verification</strong></td>
+      <td>Split the answer into atomic claims, search for evidence for each, judge each claim (as in SAFE)</td>
+    </tr>
+    <tr>
+      <td><strong>Entailment classifiers</strong></td>
+      <td>A small model predicts whether the context <em>entails</em>, <em>contradicts</em> or is <em>neutral</em> to each claim</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h4 id="safety">Safety<a class="heading-anchor" href="#safety" aria-label="Link to this section">#</a></h4>
+<p>Check for harmful or inappropriate content (violence, self-harm, illegal advice), <strong>toxicity and bias</strong>, <strong>privacy leaks</strong>, and <strong>policy violations</strong> specific to your organisation. Use moderation models and red-team prompt sets; see <a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a>.</p>
+<h3 id="3-instruction-following-capability">3. Instruction-following capability<a class="heading-anchor" href="#3-instruction-following-capability" aria-label="Link to this section">#</a></h3>
+<p>Does the model follow the format, length, language and constraints you asked for? This matters most for <strong>structured outputs</strong> that downstream code parses.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Instruction type</th>
+      <th>Example check</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Format</td>
+      <td>Valid JSON matching the schema; no preamble</td>
+    </tr>
+    <tr>
+      <td>Content</td>
+      <td>Includes / excludes given keywords; stays on topic</td>
+    </tr>
+    <tr>
+      <td>Length</td>
+      <td>Under <em>n</em> words, exactly three bullet points</td>
+    </tr>
+    <tr>
+      <td>Language and style</td>
+      <td>Responds in French; formal tone</td>
+    </tr>
+    <tr>
+      <td><strong>Roleplay</strong></td>
+      <td>Stays in character and persona; consistent style</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Build a small set of <strong>verifiable instructions</strong> (like the IFEval benchmark) for your product&rsquo;s actual constraints, and test them on every model or prompt change.</p>
+<h3 id="4-cost-and-latency">4. Cost and latency<a class="heading-anchor" href="#4-cost-and-latency" aria-label="Link to this section">#</a></h3>
+<p>A perfect answer that takes 40 seconds or costs €2 may be useless. Track <strong>cost per request</strong>, <strong>TTFT</strong>, <strong>TPOT</strong> and <strong>total latency</strong> alongside quality, and decide what you would trade: a slightly worse but much cheaper model is often the right choice. See <a href="/enterprise-ai/foundations/inference-and-serving/#latency-metrics">inference and serving</a>.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Make a criteria table</span></p>
+  <div class="callout__body"><p>For each criterion, write the metric, the benchmark or dataset, the hard requirement and the ideal target. It becomes the contract for model selection and the agenda for review meetings.</p></div>
+</aside><div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion</th>
+      <th>Metric</th>
+      <th>Dataset</th>
+      <th>Hard requirement</th>
+      <th>Ideal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Factual consistency</td>
+      <td>Judge-scored grounding</td>
+      <td>300 internal Q&amp;A</td>
+      <td>≥ 0.90</td>
+      <td>≥ 0.97</td>
+    </tr>
+    <tr>
+      <td>Safety</td>
+      <td>Policy-violation rate</td>
+      <td>Red-team set</td>
+      <td>0 critical</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Format</td>
+      <td>Valid JSON rate</td>
+      <td>500 extraction samples</td>
+      <td>≥ 99%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td>Latency</td>
+      <td>p95 TTFT</td>
+      <td>Load test</td>
+      <td>&lt; 1.5 s</td>
+      <td>&lt; 0.5 s</td>
+    </tr>
+    <tr>
+      <td>Cost</td>
+      <td>€ per 1k requests</td>
+      <td>Production mix</td>
+      <td>&lt; €5</td>
+      <td>&lt; €2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="public-benchmarks-useful-not-sufficient">Public benchmarks: useful, not sufficient<a class="heading-anchor" href="#public-benchmarks-useful-not-sufficient" aria-label="Link to this section">#</a></h2>
+<p>Public benchmarks and leaderboards narrow the candidate list. Three problems limit them:</p>
+<ul>
+<li><strong>Selection and aggregation.</strong> Leaderboards average benchmarks that may be irrelevant to you, and the weights are arbitrary.</li>
+<li><strong>Saturation.</strong> Top models cluster near the ceiling, so differences are noise.</li>
+<li><strong>Data contamination.</strong> Benchmark questions leak into training data — through web crawls, deliberate inclusion or synthetic data — inflating scores.</li>
+</ul>
+<p>Detecting contamination: <strong>n-gram overlap</strong> between benchmark and training data (if you have it), and unusually <strong>low perplexity</strong> on benchmark items. Handling it: report results on a held-out, private set; prefer benchmarks with fresh or private questions.</p>
+<p>Build a <strong>custom leaderboard</strong>: pick the public benchmarks that match your criteria, weight them by importance, and add your own private evaluation set. See <a href="/enterprise-ai/foundations/model-selection/#benchmarks-useful-but-not-sufficient">model selection</a>.</p>
+<h2 id="designing-the-evaluation-pipeline">Designing the evaluation pipeline<a class="heading-anchor" href="#designing-the-evaluation-pipeline" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="An evaluation pipeline, from components to iteration"><figcaption class="diagram__title">An evaluation pipeline, from components to iteration</figcaption>
+  <pre class="mermaid">flowchart TD
+    C[&#34;1 · Evaluate every component&lt;br/&gt;retrieval, prompt steps, tools, final answer&#34;] --&gt; G[&#34;2 · Write guidelines and rubrics&lt;br/&gt;with scored examples&#34;]
+    G --&gt; B[&#34;3 · Tie metrics to business metrics&#34;]
+    B --&gt; M[&#34;4 · Select methods per criterion&lt;br/&gt;functional, judge, human&#34;]
+    M --&gt; D[&#34;5 · Annotate evaluation data&lt;br/&gt;by slice, enough samples&#34;]
+    D --&gt; E[&#34;6 · Evaluate the evaluator&lt;br/&gt;signal, reliability, cost&#34;]
+    E --&gt; I[&#34;7 · Iterate&lt;br/&gt;version everything&#34;]
+    I --&gt; C</pre>
+</figure>
+<h3 id="step-1--evaluate-every-component">Step 1 — Evaluate every component<a class="heading-anchor" href="#step-1--evaluate-every-component" aria-label="Link to this section">#</a></h3>
+<p>A system with several steps can fail at each one. Evaluate <strong>per step</strong> (was the right document retrieved? was the right tool chosen?) and <strong>end to end</strong> (was the final answer right?). Evaluate per <strong>turn</strong> and per <strong>task</strong>: a multi-turn conversation can have good turns and still fail the task.</p>
+<h3 id="step-2--create-guidelines-and-scoring-rubrics">Step 2 — Create guidelines and scoring rubrics<a class="heading-anchor" href="#step-2--create-guidelines-and-scoring-rubrics" aria-label="Link to this section">#</a></h3>
+<p>Write down what <em>good</em> means, with examples of each score. A rubric such as &ldquo;1 = wrong or ungrounded, 2 = partly correct, 3 = correct and grounded, with citations&rdquo; makes humans and judges consistent. Include what a <em>correct but unhelpful</em> answer looks like — it is common.</p>
+<h3 id="step-3--tie-evaluation-metrics-to-business-metrics">Step 3 — Tie evaluation metrics to business metrics<a class="heading-anchor" href="#step-3--tie-evaluation-metrics-to-business-metrics" aria-label="Link to this section">#</a></h3>
+<p>Map model quality to outcomes: &ldquo;at 80% factual consistency we can automate 30% of tickets; at 98% we can automate 60%.&rdquo; This tells you how much quality is worth, and when to stop improving.</p>
+<h3 id="step-4--select-evaluation-methods">Step 4 — Select evaluation methods<a class="heading-anchor" href="#step-4--select-evaluation-methods" aria-label="Link to this section">#</a></h3>
+<p>Mix methods by criterion and by cost: cheap <strong>classifiers and functional checks</strong> on everything, <strong>AI judges</strong> on a sample, <strong>humans</strong> on a smaller sample and on disagreements. Use <strong>log probabilities</strong> where available as confidence signals. Keep <strong>human evaluation</strong> in production even after automation — it catches drift that automated metrics miss.</p>
+<h3 id="step-5--annotate-evaluation-data">Step 5 — Annotate evaluation data<a class="heading-anchor" href="#step-5--annotate-evaluation-data" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>Use <strong>real production data</strong> wherever privacy allows; add synthetic and adversarial cases for coverage.</li>
+<li><strong>Slice</strong> the data — by user type, topic, language, input length, channel — and report per slice. Averages hide failures; a change can improve the average while hurting your most important segment (Simpson&rsquo;s paradox).</li>
+<li>Keep a <strong>separate set for each criterion</strong> where needed (format, safety, grounding).</li>
+<li>Use <strong>enough samples</strong>: to detect a difference of a few percentage points with confidence, you need hundreds to thousands of examples; small differences need more. Use <strong>bootstrapping</strong> — resample your evaluation set and check whether the result is stable.</li>
+</ul>
+<h3 id="step-6--evaluate-your-evaluation-pipeline">Step 6 — Evaluate your evaluation pipeline<a class="heading-anchor" href="#step-6--evaluate-your-evaluation-pipeline" aria-label="Link to this section">#</a></h3>
+<p>Ask:</p>
+<ul>
+<li>Does it give the <strong>right signal</strong>? Do better systems score higher, and do scores correlate with business metrics?</li>
+<li>Is it <strong>reliable</strong>? Run it twice; do you get the same result?</li>
+<li>Are metrics <strong>correlated</strong>? Two perfectly correlated metrics are redundant; two uncorrelated ones may reveal a problem.</li>
+<li>What does it <strong>cost</strong> and how long does it take? A pipeline too slow to run on every change will be skipped.</li>
+</ul>
+<h3 id="step-7--iterate">Step 7 — Iterate<a class="heading-anchor" href="#step-7--iterate" aria-label="Link to this section">#</a></h3>
+<p>Products, users and models change; so must the evaluation. <strong>Version</strong> the dataset, rubric, judge prompt, judge model and sampling settings, and log them with every result so runs are comparable.</p>
+<h2 id="where-evaluation-runs">Where evaluation runs<a class="heading-anchor" href="#where-evaluation-runs" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Stage</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Development</strong></td>
+      <td>Compare prompts, models and retrieval settings</td>
+    </tr>
+    <tr>
+      <td><strong>CI / pre-release</strong></td>
+      <td>Regression gate — block changes that reduce quality</td>
+    </tr>
+    <tr>
+      <td><strong>Canary / A/B</strong></td>
+      <td>Compare versions on live traffic</td>
+    </tr>
+    <tr>
+      <td><strong>Production</strong></td>
+      <td>Sampled judges, user feedback, drift detection — see <a href="/enterprise-ai/foundations/llmops/#evaluation-in-the-pipeline">LLMOps</a> and <a href="/enterprise-ai/foundations/user-feedback/">user feedback</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One aggregate score</span></p>
+  <div class="callout__body"><p>A single &ldquo;quality: 87%&rdquo; hides which criterion, slice or step failed. Report per criterion and per slice.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Too few examples</span></p>
+  <div class="callout__body"><p>Deciding between two prompts on 20 examples. Differences of a few points are noise at that size; bootstrap to check.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Evaluation as a launch task</span></p>
+  <div class="callout__body"><p>Building the evaluation set the week before launch. Start with it — evaluation-driven development.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What is evaluation-driven development?</strong>
+Defining evaluation criteria, data and methods before building, so every design choice is tested against measurable outcomes — the AI analogue of test-driven development.</p>
+<p><strong>How do you evaluate factual consistency?</strong>
+Against given context (local) or world knowledge (global), using AI judges, self-verification through sampling, claim-level search-and-verify, or entailment classifiers.</p>
+<p><strong>Why are public benchmarks insufficient for model selection?</strong>
+They may not match your task, are often saturated, aggregate arbitrarily and can be contaminated by training data. Use them to shortlist, then evaluate on a private set built from your data.</p>
+<p><strong>Why slice evaluation data?</strong>
+Averages hide failures. Per-slice results reveal segments where a change hurts quality, and avoid Simpson&rsquo;s paradox, where the aggregate result points the opposite way to every individual slice.</p>
+<p><strong>How do you know your evaluation pipeline is good?</strong>
+It ranks systems the way users and business metrics do, gives stable results across runs, has non-redundant metrics, and is cheap and fast enough to run on every change.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Design evaluation first; tie it to business outcomes.</li>
+<li>Criteria: domain capability, generation quality (especially factual consistency and safety), instruction following, cost and latency.</li>
+<li>Public benchmarks shortlist; private, sliced, sufficiently large datasets decide.</li>
+<li>Evaluate every component and end to end; mix functional checks, judges and humans.</li>
+<li>Evaluate the evaluator, version everything, iterate.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chip Huyen, <em>AI Engineering</em>, O&rsquo;Reilly, 2025 — chapter 4.</li>
+<li>Zhou et al., <a href="https://arxiv.org/abs/2311.07911" rel="noopener">Instruction-Following Evaluation for Large Language Models (IFEval)</a>, 2023.</li>
+<li>Wei et al., <a href="https://arxiv.org/abs/2403.18802" rel="noopener">Long-form factuality in large language models (SAFE)</a>, 2024.</li>
+<li>Manakul et al., <a href="https://arxiv.org/abs/2303.08896" rel="noopener">SelfCheckGPT</a>, 2023.</li>
+<li>Liang et al., <a href="https://arxiv.org/abs/2211.09110" rel="noopener">Holistic Evaluation of Language Models (HELM)</a>, 2022.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/model-selection/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Model selection</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/rag/rag-evaluation/">
+        <span class="card__eyebrow">2 · RAG &amp; GraphRAG</span>
+        <span class="card__title">RAG evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/user-feedback/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">User feedback</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/evaluation-methodology/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Evaluation methodology</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/evaluation-methodology/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Evaluation methodology</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/model-selection/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Model selection</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#evaluation-criteria">Evaluation criteria</a>
+      <ul>
+        <li><a href="#1-domain-specific-capability">1. Domain-specific capability</a></li>
+        <li><a href="#2-generation-capability">2. Generation capability</a></li>
+        <li><a href="#3-instruction-following-capability">3. Instruction-following capability</a></li>
+        <li><a href="#4-cost-and-latency">4. Cost and latency</a></li>
+      </ul>
+    </li>
+    <li><a href="#public-benchmarks-useful-not-sufficient">Public benchmarks: useful, not sufficient</a></li>
+    <li><a href="#designing-the-evaluation-pipeline">Designing the evaluation pipeline</a>
+      <ul>
+        <li><a href="#step-1--evaluate-every-component">Step 1 — Evaluate every component</a></li>
+        <li><a href="#step-2--create-guidelines-and-scoring-rubrics">Step 2 — Create guidelines and scoring rubrics</a></li>
+        <li><a href="#step-3--tie-evaluation-metrics-to-business-metrics">Step 3 — Tie evaluation metrics to business metrics</a></li>
+        <li><a href="#step-4--select-evaluation-methods">Step 4 — Select evaluation methods</a></li>
+        <li><a href="#step-5--annotate-evaluation-data">Step 5 — Annotate evaluation data</a></li>
+        <li><a href="#step-6--evaluate-your-evaluation-pipeline">Step 6 — Evaluate your evaluation pipeline</a></li>
+        <li><a href="#step-7--iterate">Step 7 — Iterate</a></li>
+      </ul>
+    </li>
+    <li><a href="#where-evaluation-runs">Where evaluation runs</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

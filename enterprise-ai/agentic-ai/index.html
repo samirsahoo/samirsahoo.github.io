@@ -5,20 +5,20 @@
 <meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
 <meta name="author" content="Samir Kumar Sahoo">
 <title>Agentic AI, MCP &amp; Multi-Agent Systems · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
-<meta name="description" content="The agent loop, tool calling, the Model Context Protocol, agentic workflow patterns, multi-agent topologies, memory, reliability and a full system design.">
+<meta name="description" content="Generative vs agentic AI, the five levels and SPAR, the agent loop, tool calling, planning and failure modes, the Model Context Protocol, agentic workflow patterns, multi-agent topologies, memory, reliability, strategy, an agent-building playbook and a full system design.">
 <link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
 <meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
 <meta property="og:title" content="Agentic AI, MCP &amp; Multi-Agent Systems">
-<meta property="og:description" content="The agent loop, tool calling, the Model Context Protocol, agentic workflow patterns, multi-agent topologies, memory, reliability and a full system design.">
+<meta property="og:description" content="Generative vs agentic AI, the five levels and SPAR, the agent loop, tool calling, planning and failure modes, the Model Context Protocol, agentic workflow patterns, multi-agent topologies, memory, reliability, strategy, an agent-building playbook and a full system design.">
 <meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Agentic AI, MCP &amp; Multi-Agent Systems">
-<meta name="twitter:description" content="The agent loop, tool calling, the Model Context Protocol, agentic workflow patterns, multi-agent topologies, memory, reliability and a full system design.">
+<meta name="twitter:description" content="Generative vs agentic AI, the five levels and SPAR, the agent loop, tool calling, planning and failure modes, the Model Context Protocol, agentic workflow patterns, multi-agent topologies, memory, reliability, strategy, an agent-building playbook and a full system design.">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2}]}
 </script>
@@ -79,12 +79,21 @@
       <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
     </summary>
     <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
@@ -117,7 +126,9 @@
     </summary>
     <ul>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
@@ -128,6 +139,7 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
     </ul>
   </details>
@@ -192,7 +204,7 @@
 </nav>
 
     <header class="article__header">
-      <h1>Agentic AI, MCP &amp; Multi-Agent Systems</h1><p class="article__lede">The agent loop, tool calling, the Model Context Protocol, agentic workflow patterns, multi-agent topologies, memory, reliability and a full system design.</p>
+      <h1>Agentic AI, MCP &amp; Multi-Agent Systems</h1><p class="article__lede">Generative vs agentic AI, the five levels and SPAR, the agent loop, tool calling, planning and failure modes, the Model Context Protocol, agentic workflow patterns, multi-agent topologies, memory, reliability, strategy, an agent-building playbook and a full system design.</p>
     </header>
     <div class="prose"><p>An agent is an LLM that decides which actions to take, takes them through tools, observes the results and repeats until the goal is met. Agents trade predictability for flexibility, so the architecture question is always <em>how much autonomy does this task need?</em></p>
 <aside class="callout callout--key" role="note">
@@ -208,9 +220,21 @@
     </a>
   </li>
   <li class="card">
+    <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">
+      <span class="card__title">Levels, SPAR &amp; keystones</span><span class="card__desc">How agentic AI differs from generative AI, the six-step progression from manual work to fully autonomous agents (levels 0–5), the SPAR loop — sense, plan, act, reflect — the three keystones of action, reasoning and memory, LLMs vs large reasoning models, tool resilience by control and impact, and choosing between intelligent automation and agentic workflows.</span>
+      <span class="card__meta">Beginner · 9 min read</span>
+    </a>
+  </li>
+  <li class="card">
     <a class="card__link" href="/enterprise-ai/agentic-ai/tool-calling/">
       <span class="card__title">Tool calling</span><span class="card__desc">How LLMs call tools: the request–response mechanics, JSON Schema tool definitions, parallel and sequential calls, designing good tools, error handling, security and permissions, and scaling to many tools.</span>
       <span class="card__meta">Intermediate · 6 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">
+      <span class="card__title">Planning &amp; failure modes</span><span class="card__desc">How agents plan: the three kinds of tools (knowledge augmentation, capability extension, write actions), plan generation and validation, decoupling planning from execution, planning granularity, control flow in plans (sequential, parallel, if, loops), reflection and error correction, choosing a tool inventory — and how to evaluate the failure modes unique to agents: planning failures, tool failures and inefficiency.</span>
+      <span class="card__meta">Intermediate · 8 min read</span>
     </a>
   </li>
   <li class="card">
@@ -271,6 +295,12 @@
     <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">
       <span class="card__title">Agentic AI strategy</span><span class="card__desc">How an enterprise moves from chatbots to agents: a maturity model, use-case selection and portfolio, build vs buy, value and cost measurement, the AgentOps operating model, workforce and change considerations, and a 12-month roadmap.</span>
       <span class="card__meta">Intermediate · 5 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/agentic-ai/agent-building-playbook/">
+      <span class="card__title">Agent building playbook</span><span class="card__desc">How to find, prioritise and build successful AI agents: the sweet spot of impact, feasibility and effort, scoring impact and feasibility, the prioritisation matrix, thinking in tasks not roles, the A.G.E.N.T. framework (identity, gear and brain, execution and workflow, navigation and rules, testing and trust), a multi-agent example, implementation principles and the three horizons of agentic business models.</span>
+      <span class="card__meta">Intermediate · 8 min read</span>
     </a>
   </li>
   <li class="card">

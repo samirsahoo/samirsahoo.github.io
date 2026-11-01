@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>AI Engineering Architecture: Building It Up Step by Step · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="A progressive reference architecture for AI applications: start with a single model call, then add context, input and output guardrails, a model router and gateway, exact and semantic caching, agent patterns and write actions — with monitoring, observability, drift detection and pipeline orchestration around it.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-architecture/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="AI Engineering Architecture: Building It Up Step by Step">
+<meta property="og:description" content="A progressive reference architecture for AI applications: start with a single model call, then add context, input and output guardrails, a model router and gateway, exact and semantic caching, agent patterns and write actions — with monitoring, observability, drift detection and pipeline orchestration around it.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-architecture/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI Engineering Architecture: Building It Up Step by Step">
+<meta name="twitter:description" content="A progressive reference architecture for AI applications: start with a single model call, then add context, input and output guardrails, a model router and gateway, exact and semantic caching, agent patterns and write actions — with monitoring, observability, drift detection and pipeline orchestration around it.">
+<meta name="keywords" content="architecture, enterprise, llmops">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"A progressive reference architecture for AI applications: start with a single model call, then add context, input and output guardrails, a model router and gateway, exact and semantic caching, agent patterns and write actions — with monitoring, observability, drift detection and pipeline orchestration around it.","headline":"AI Engineering Architecture: Building It Up Step by Step","inLanguage":"en","isAccessibleForFree":true,"keywords":"architecture, enterprise, llmops","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-architecture/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-architecture/","name":"AI engineering architecture","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/" aria-current="page">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">AI engineering architecture</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">AI Engineering Architecture: Building It Up Step by Step</h1><p class="article__lede" itemprop="description">A progressive reference architecture for AI applications: start with a single model call, then add context, input and output guardrails, a model router and gateway, exact and semantic caching, agent patterns and write actions — with monitoring, observability, drift detection and pipeline orchestration around it.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/architecture/">#Architecture</a><a class="tag" href="/enterprise-ai/tags/enterprise/">#Enterprise</a><a class="tag" href="/enterprise-ai/tags/llmops/">#Llmops</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#step-0--the-simplest-architecture">Step 0 — The simplest architecture</a></li>
+    <li><a href="#step-1--enhance-the-context">Step 1 — Enhance the context</a></li>
+    <li><a href="#step-2--put-in-guardrails">Step 2 — Put in guardrails</a>
+      <ul>
+        <li><a href="#input-guardrails">Input guardrails</a></li>
+        <li><a href="#output-guardrails">Output guardrails</a></li>
+        <li><a href="#the-trade-off">The trade-off</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-3--add-a-model-router-and-gateway">Step 3 — Add a model router and gateway</a>
+      <ul>
+        <li><a href="#router">Router</a></li>
+        <li><a href="#gateway">Gateway</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-4--reduce-latency-and-cost-with-caching">Step 4 — Reduce latency and cost with caching</a></li>
+    <li><a href="#step-5--add-agent-patterns-and-write-actions">Step 5 — Add agent patterns and write actions</a></li>
+    <li><a href="#the-full-picture">The full picture</a></li>
+    <li><a href="#monitoring-and-observability">Monitoring and observability</a>
+      <ul>
+        <li><a href="#metrics">Metrics</a></li>
+        <li><a href="#logs-and-traces">Logs and traces</a></li>
+        <li><a href="#drift-detection">Drift detection</a></li>
+      </ul>
+    </li>
+    <li><a href="#ai-pipeline-orchestration">AI pipeline orchestration</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Most AI applications converge on the same architecture, but no team should build it all on day one. This article grows it <strong>one component at a time</strong>, each added only when a concrete need appears: context, guardrails, routing, caching, actions — and the observability that makes all of it operable.</p>
+<p>The <a href="/enterprise-ai/foundations/enterprise-ai-stack/">enterprise AI stack</a> shows the destination as layers. This is the <em>journey</em>.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The one idea to keep</span></p>
+  <div class="callout__body"><p>Every component you add is something to evaluate, monitor and maintain. Add it when a measured problem demands it — not because the reference diagram has a box for it.</p></div>
+</aside><h2 id="step-0--the-simplest-architecture">Step 0 — The simplest architecture<a class="heading-anchor" href="#step-0--the-simplest-architecture" aria-label="Link to this section">#</a></h2>
+<p>The application sends the user&rsquo;s query to a model API and returns the response. No context, no guardrails, no optimisation.</p>
+<figure class="diagram" aria-label="Step 0: one call"><figcaption class="diagram__title">Step 0: one call</figcaption>
+  <pre class="mermaid">flowchart LR
+    U[&#34;User&#34;] --&gt; APP[&#34;Application&#34;] --&gt; M[&#34;Model API&lt;br/&gt;hosted or self-hosted&#34;] --&gt; APP --&gt; U</pre>
+</figure>
+<p>It is the right place to start: it tells you what the model can do unaided and gives a baseline for every later step.</p>
+<h2 id="step-1--enhance-the-context">Step 1 — Enhance the context<a class="heading-anchor" href="#step-1--enhance-the-context" aria-label="Link to this section">#</a></h2>
+<p>Give the model the information it lacks: <strong>retrieval</strong> over documents, <strong>tools</strong> that query databases, APIs and the web, and <strong>conversation memory</strong>. This is usually the largest quality jump. See <a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a> and <a href="/enterprise-ai/agentic-ai/tool-calling/">tool calling</a>.</p>
+<p>Context construction is to foundation models what feature engineering was to classic ML.</p>
+<h2 id="step-2--put-in-guardrails">Step 2 — Put in guardrails<a class="heading-anchor" href="#step-2--put-in-guardrails" aria-label="Link to this section">#</a></h2>
+<p>Guardrails protect users and the business. They sit on both sides of the model.</p>
+<figure class="diagram" aria-label="Step 2: guardrails around the model"><figcaption class="diagram__title">Step 2: guardrails around the model</figcaption>
+  <pre class="mermaid">flowchart LR
+    U[&#34;User&#34;] --&gt; IG[&#34;Input guardrails&lt;br/&gt;PII masking, injection checks,&lt;br/&gt;topic and policy filters&#34;]
+    IG --&gt; CTX[&#34;Context&lt;br/&gt;retrieval, tools&#34;]
+    CTX --&gt; M[&#34;Model&#34;]
+    M --&gt; OG[&#34;Output guardrails&lt;br/&gt;format, grounding, toxicity,&lt;br/&gt;PII, policy&#34;]
+    OG --&gt;|&#34;pass&#34;| U
+    OG --&gt;|&#34;fail&#34;| F[&#34;Retry, fallback,&lt;br/&gt;or human&#34;]</pre>
+</figure>
+<h3 id="input-guardrails">Input guardrails<a class="heading-anchor" href="#input-guardrails" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Risk</th>
+      <th>Guardrail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Leaking private data</strong> to an external model</td>
+      <td>Detect and mask PII, secrets and confidential terms before the call; reverse the mapping on the response</td>
+    </tr>
+    <tr>
+      <td><strong>Prompt attacks</strong></td>
+      <td>Detect injection and jailbreak attempts — see <a href="/enterprise-ai/spring-ai-governance/ai-security/#prompt-injection-in-depth">AI security</a></td>
+    </tr>
+    <tr>
+      <td><strong>Out-of-scope requests</strong></td>
+      <td>Topic classifiers; block or redirect</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="output-guardrails">Output guardrails<a class="heading-anchor" href="#output-guardrails" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Failure</th>
+      <th>Check</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Quality</strong></td>
+      <td>Malformed format, ungrounded claims, irrelevant answers</td>
+    </tr>
+    <tr>
+      <td><strong>Security</strong></td>
+      <td>Toxicity, leaked PII, unsafe code or commands, brand risk</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Define a <strong>policy per failure mode</strong>: retry (with the same or a different model), fall back to a safe answer, or hand off to a human. Retries add latency; run them in parallel where cost allows.</p>
+<h3 id="the-trade-off">The trade-off<a class="heading-anchor" href="#the-trade-off" aria-label="Link to this section">#</a></h3>
+<p>Guardrails add <strong>latency</strong> and <strong>false positives</strong>. Streaming responses complicate output checks, because the user sees tokens before the full answer can be checked. Decide per use case: stream and check incrementally, or buffer and check fully.</p>
+<h2 id="step-3--add-a-model-router-and-gateway">Step 3 — Add a model router and gateway<a class="heading-anchor" href="#step-3--add-a-model-router-and-gateway" aria-label="Link to this section">#</a></h2>
+<h3 id="router">Router<a class="heading-anchor" href="#router" aria-label="Link to this section">#</a></h3>
+<p>A <strong>router</strong> sends each request to the best handler, usually via an <strong>intent classifier</strong>:</p>
+<ul>
+<li>Route <strong>easy</strong> requests to a small, cheap model and <strong>hard</strong> ones to a large model.</li>
+<li>Route <strong>out-of-scope</strong> requests to a canned response, and <strong>sensitive</strong> ones to a human.</li>
+<li>Route by <strong>task type</strong> to specialised pipelines (billing, technical support, password reset).</li>
+<li>Detect <strong>ambiguous</strong> requests and ask for clarification.</li>
+</ul>
+<p>Routers must be fast and cheap — typically small classifiers or small models. See <a href="/enterprise-ai/foundations/model-selection/#model-routing-and-cascades">model routing and cascades</a>.</p>
+<h3 id="gateway">Gateway<a class="heading-anchor" href="#gateway" aria-label="Link to this section">#</a></h3>
+<p>A <strong>model gateway</strong> is the single, unified interface to every model provider and self-hosted model. It centralises <strong>access control and keys</strong>, <strong>cost tracking and budgets</strong>, <strong>rate limiting</strong>, <strong>fallbacks</strong> when a provider fails, <strong>logging</strong>, and sometimes <strong>caching and guardrails</strong>. Changing a model becomes a configuration change. See <a href="/enterprise-ai/foundations/enterprise-ai-stack/#ai-gateway">AI gateway</a>.</p>
+<h2 id="step-4--reduce-latency-and-cost-with-caching">Step 4 — Reduce latency and cost with caching<a class="heading-anchor" href="#step-4--reduce-latency-and-cost-with-caching" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Cache</th>
+      <th>Key</th>
+      <th>Hit when</th>
+      <th>Watch out for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Prompt (KV) cache</strong></td>
+      <td>Repeated prompt prefix</td>
+      <td>Same system prompt, tools, documents</td>
+      <td>Handled by the model provider or serving engine — see <a href="/enterprise-ai/foundations/inference-and-serving/#prompt-caching">prompt caching</a></td>
+    </tr>
+    <tr>
+      <td><strong>Exact cache</strong></td>
+      <td>Hash of the full request</td>
+      <td>Identical query (FAQ, product lookups, embeddings)</td>
+      <td>Personalised or time-sensitive answers; eviction policy (LRU, LFU)</td>
+    </tr>
+    <tr>
+      <td><strong>Semantic cache</strong></td>
+      <td>Embedding of the query</td>
+      <td>A <em>similar</em> query was answered before</td>
+      <td>A wrong hit returns a wrong answer; tune the similarity threshold carefully and measure hit precision</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Caches can leak data</span></p>
+  <div class="callout__body"><p>A cached answer generated for one user can be served to another. Scope cache keys by user, tenant and permissions where answers depend on them.</p></div>
+</aside><h2 id="step-5--add-agent-patterns-and-write-actions">Step 5 — Add agent patterns and write actions<a class="heading-anchor" href="#step-5--add-agent-patterns-and-write-actions" aria-label="Link to this section">#</a></h2>
+<p>Now the system can do more than answer: loop over retrieval, call several tools, <strong>reflect</strong> on its output, and take <strong>write actions</strong> — send an email, place an order, update a record.</p>
+<p>Write actions are where risk jumps. Add <a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">permissions and approvals</a>, <a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/#budgets-and-stop-conditions">budgets and stop conditions</a> and an audit trail before giving the system the ability to change the world. See <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">agentic workflow patterns</a>.</p>
+<h2 id="the-full-picture">The full picture<a class="heading-anchor" href="#the-full-picture" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="The progressive architecture, fully built"><figcaption class="diagram__title">The progressive architecture, fully built</figcaption>
+  <pre class="mermaid">flowchart TB
+    U[&#34;User&#34;] --&gt; IG[&#34;Input guardrails&#34;]
+    IG --&gt; R[&#34;Router / intent classifier&#34;]
+    R --&gt; CA{&#34;Cache hit?&#34;}
+    CA --&gt;|&#34;yes&#34;| OG
+    CA --&gt;|&#34;no&#34;| CTX[&#34;Context construction&lt;br/&gt;retrieval · tools · memory&#34;]
+    CTX --&gt; GW[&#34;Model gateway&#34;]
+    GW --&gt; M1[&#34;Small model&#34;]
+    GW --&gt; M2[&#34;Large model&#34;]
+    M1 --&gt; AG[&#34;Agent logic&lt;br/&gt;reflection · write actions&#34;]
+    M2 --&gt; AG
+    AG --&gt; OG[&#34;Output guardrails&#34;]
+    OG --&gt; U
+    subgraph OBS[&#34;Monitoring and observability&#34;]
+        MET[&#34;Metrics&#34;]
+        LOG[&#34;Logs and traces&#34;]
+        FB[&#34;User feedback&#34;]
+    end
+    IG -.-&gt; OBS
+    CTX -.-&gt; OBS
+    GW -.-&gt; OBS
+    OG -.-&gt; OBS</pre>
+</figure>
+<h2 id="monitoring-and-observability">Monitoring and observability<a class="heading-anchor" href="#monitoring-and-observability" aria-label="Link to this section">#</a></h2>
+<p><strong>Monitoring</strong> tells you <em>that</em> something is wrong; <strong>observability</strong> lets you find out <em>why</em> from the outside, without shipping new code. Design for observability from the start.</p>
+<p>Three numbers frame incident handling: <strong>MTTD</strong> (time to detect), <strong>MTTR</strong> (time to resolve) and <strong>CFR</strong> (change failure rate — the share of changes that cause failures).</p>
+<h3 id="metrics">Metrics<a class="heading-anchor" href="#metrics" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Format failures</strong></td>
+      <td>Invalid JSON rate, schema violations</td>
+    </tr>
+    <tr>
+      <td><strong>Quality</strong></td>
+      <td>Judge-scored grounding, relevance, hallucination flags (sampled)</td>
+    </tr>
+    <tr>
+      <td><strong>Safety</strong></td>
+      <td>Guardrail trigger rates, toxicity, PII detections</td>
+    </tr>
+    <tr>
+      <td><strong>User signals</strong></td>
+      <td>Thumbs up/down, regenerations, early stops, conversation length — see <a href="/enterprise-ai/foundations/user-feedback/">user feedback</a></td>
+    </tr>
+    <tr>
+      <td><strong>Component metrics</strong></td>
+      <td>Retrieval context precision, tool error rates, cache hit rate</td>
+    </tr>
+    <tr>
+      <td><strong>Latency</strong></td>
+      <td>TTFT, TPOT, total latency, by percentile</td>
+    </tr>
+    <tr>
+      <td><strong>Cost</strong></td>
+      <td>Tokens and spend per request, per user, per feature</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Slice every metric by user segment, release, model and prompt version.</p>
+<h3 id="logs-and-traces">Logs and traces<a class="heading-anchor" href="#logs-and-traces" aria-label="Link to this section">#</a></h3>
+<p>Log <strong>everything you need to reconstruct a request</strong>: configuration (model, prompt version, sampling parameters), the full prompt and context, tool calls and results, intermediate outputs and the final response, with user feedback attached. <strong>Traces</strong> link these steps for one request so you can see where it went wrong. Apply data-retention and PII rules to logs — they contain user data.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Look at the data every day</span></p>
+  <div class="callout__body"><p>Teams that read a sample of production conversations daily find problems — and opportunities — that no dashboard shows.</p></div>
+</aside><h3 id="drift-detection">Drift detection<a class="heading-anchor" href="#drift-detection" aria-label="Link to this section">#</a></h3>
+<p>Behaviour changes even when your code does not:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Drift source</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>System prompt changes</strong></td>
+      <td>A teammate edits the template; a variable renders differently</td>
+    </tr>
+    <tr>
+      <td><strong>User behaviour changes</strong></td>
+      <td>Users learn to write shorter queries, or new user groups arrive</td>
+    </tr>
+    <tr>
+      <td><strong>Underlying model changes</strong></td>
+      <td>A provider updates the model behind the same API name</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Pin model versions where possible, version prompts, and run your <a href="/enterprise-ai/foundations/evaluating-ai-systems/">evaluation suite</a> on a schedule against production samples.</p>
+<h2 id="ai-pipeline-orchestration">AI pipeline orchestration<a class="heading-anchor" href="#ai-pipeline-orchestration" aria-label="Link to this section">#</a></h2>
+<p>An <strong>orchestrator</strong> defines the components (models, retrievers, tools, guardrails, caches) and <strong>chains</strong> them: pre-process, retrieve, build the prompt, generate, check, post-process. Frameworks such as LangChain, LlamaIndex, Haystack and <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI</a> do this; for agents see the <a href="/enterprise-ai/agent-frameworks/framework-landscape/">framework landscape</a>.</p>
+<p>Choose by: <strong>integration and extensibility</strong> (does it support your models, stores and tools?), <strong>support for complex pipelines</strong> (branching, parallelism, retries, human steps), and <strong>ease of use, performance and scalability</strong>. Start without a framework if the pipeline is simple — you will understand it better, and can adopt one when the complexity is real.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Building the whole diagram first</span></p>
+  <div class="callout__body"><p>Shipping router, semantic cache, gateway and agents in version one. Each adds failure modes. Build progressively, measuring as you go.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Semantic caching without precision checks</span></p>
+  <div class="callout__body"><p>A similarity threshold that is too loose serves confidently wrong answers. Measure cache-hit correctness before enabling it widely.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Logs that cannot reconstruct a request</span></p>
+  <div class="callout__body"><p>Logging the final answer but not the prompt version, context and tool results. You cannot debug what you did not record.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>In what order would you add components to an AI application?</strong>
+Typically: enhance context (retrieval, tools), add input and output guardrails, add a router and gateway, add caching for latency and cost, then agent patterns and write actions — with monitoring and observability throughout. Adapt the order to measured needs.</p>
+<p><strong>What is the difference between a router and a gateway?</strong>
+A router decides <em>where</em> a request should go (which model or pipeline) based on intent or difficulty. A gateway is the unified access layer to models that handles authentication, cost, rate limits, fallbacks and logging.</p>
+<p><strong>What are the risks of semantic caching?</strong>
+Serving an answer to a query that is similar but not equivalent, returning a wrong answer with confidence, and leaking one user&rsquo;s answer to another if keys are not scoped.</p>
+<p><strong>What would you monitor in an LLM application?</strong>
+Format failures, quality (sampled judges), safety triggers, user feedback signals, component metrics (retrieval, tools, cache), latency percentiles and cost — sliced by segment and version — plus traces that reconstruct each request.</p>
+<p><strong>What causes drift when your code has not changed?</strong>
+Prompt template edits, changing user behaviour and silent updates to the underlying model behind an API.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Start with one call; add context, guardrails, router and gateway, caches and actions as measured needs appear.</li>
+<li>Guardrails need a policy per failure mode and cost latency.</li>
+<li>Routers pick the path; gateways unify access, cost control and fallback.</li>
+<li>Exact and semantic caches cut cost — scope them, and measure semantic hit precision.</li>
+<li>Monitoring, traces and drift detection make the system operable; orchestrators chain it together.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chip Huyen, <em>AI Engineering</em>, O&rsquo;Reilly, 2025 — chapter 10.</li>
+<li>Chip Huyen, <a href="https://huyenchip.com/2024/07/25/genai-platform.html" rel="noopener">Building A Generative AI Platform</a>, 2024.</li>
+<li>Google, <a href="https://dora.dev/guides/dora-metrics-four-keys/" rel="noopener">DORA metrics</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/user-feedback/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">User feedback</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/enterprise-ai-stack/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Enterprise AI stack</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/evaluating-ai-systems/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Evaluating AI systems</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/enterprise-ai-stack/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Enterprise AI stack</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/user-feedback/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">User feedback</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#step-0--the-simplest-architecture">Step 0 — The simplest architecture</a></li>
+    <li><a href="#step-1--enhance-the-context">Step 1 — Enhance the context</a></li>
+    <li><a href="#step-2--put-in-guardrails">Step 2 — Put in guardrails</a>
+      <ul>
+        <li><a href="#input-guardrails">Input guardrails</a></li>
+        <li><a href="#output-guardrails">Output guardrails</a></li>
+        <li><a href="#the-trade-off">The trade-off</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-3--add-a-model-router-and-gateway">Step 3 — Add a model router and gateway</a>
+      <ul>
+        <li><a href="#router">Router</a></li>
+        <li><a href="#gateway">Gateway</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-4--reduce-latency-and-cost-with-caching">Step 4 — Reduce latency and cost with caching</a></li>
+    <li><a href="#step-5--add-agent-patterns-and-write-actions">Step 5 — Add agent patterns and write actions</a></li>
+    <li><a href="#the-full-picture">The full picture</a></li>
+    <li><a href="#monitoring-and-observability">Monitoring and observability</a>
+      <ul>
+        <li><a href="#metrics">Metrics</a></li>
+        <li><a href="#logs-and-traces">Logs and traces</a></li>
+        <li><a href="#drift-detection">Drift detection</a></li>
+      </ul>
+    </li>
+    <li><a href="#ai-pipeline-orchestration">AI pipeline orchestration</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

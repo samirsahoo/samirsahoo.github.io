@@ -49,13 +49,6 @@
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Advanced RAG&lt;/strong&gt; adds steps before, during and after retrieval to find better context: fix the question (&lt;em&gt;pre-retrieval&lt;/em&gt;), search in more than one way (&lt;em&gt;retrieval&lt;/em&gt;), and filter and order what was found (&lt;em&gt;post-retrieval&lt;/em&gt;). &lt;strong&gt;Agentic RAG&lt;/strong&gt; goes further and lets an LLM decide when, where and how many times to search.&lt;/p&gt;</description>
 			</item>
 			<item>
-				<title>Prompting vs RAG vs Fine-Tuning</title>
-				<link>https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/</link>
-				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/</guid>
-				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;There are three main ways to make a general-purpose LLM useful for your business:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Prompting&lt;/strong&gt; — change the &lt;em&gt;instructions&lt;/em&gt; the model receives.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;RAG (retrieval-augmented generation)&lt;/strong&gt; — change the &lt;em&gt;knowledge&lt;/em&gt; the model receives, by retrieving relevant documents into the prompt.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Fine-tuning&lt;/strong&gt; — change the &lt;em&gt;model&amp;rsquo;s weights&lt;/em&gt; by training it further on your examples.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;A useful slogan: &lt;strong&gt;RAG for knowledge, fine-tuning for behaviour, prompting for everything first.&lt;/strong&gt;&lt;/p&gt;</description>
-			</item>
-			<item>
 				<title>GraphRAG and Knowledge Graphs</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/rag/graphrag/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -75,6 +68,13 @@
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/rag/case-study-knowledge-assistant/</guid>
 				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design an AI assistant that lets 50,000 employees ask questions about internal policies, procedures and technical documentation, with answers grounded in company documents.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;p&gt;This walk-through follows the &lt;a href=&#34;https://samirsahoo.github.io/enterprise-ai/review/architecture-review-framework/&#34;&gt;AI system design framework&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-requirements&#34;&gt;1. Requirements&lt;a class=&#34;heading-anchor&#34; href=&#34;#1-requirements&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Functional&lt;/strong&gt;&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Prompting vs RAG vs Fine-Tuning</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;There are three main ways to make a general-purpose LLM useful for your business:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Prompting&lt;/strong&gt; — change the &lt;em&gt;instructions&lt;/em&gt; the model receives.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;RAG (retrieval-augmented generation)&lt;/strong&gt; — change the &lt;em&gt;knowledge&lt;/em&gt; the model receives, by retrieving relevant documents into the prompt.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Fine-tuning&lt;/strong&gt; — change the &lt;em&gt;model&amp;rsquo;s weights&lt;/em&gt; by training it further on your examples.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;A useful slogan: &lt;strong&gt;RAG for knowledge, fine-tuning for behaviour, prompting for everything first.&lt;/strong&gt;&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>

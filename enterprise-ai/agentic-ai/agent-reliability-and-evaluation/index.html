@@ -21,7 +21,7 @@
 <meta name="twitter:description" content="Making agents dependable: why errors compound, layered guardrails, budgets and stop conditions, sandboxing, permissions and approvals, trajectory and outcome evaluation, simulation testing, observability and production rollout.">
 <meta name="keywords" content="agents, evaluation, reliability, agentic-ai">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"Making agents dependable: why errors compound, layered guardrails, budgets and stop conditions, sandboxing, permissions and approvals, trajectory and outcome evaluation, simulation testing, observability and production rollout.","headline":"Agent Reliability, Guardrails and Evaluation","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, evaluation, reliability, agentic-ai","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/"}
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Making agents dependable: why errors compound, layered guardrails, budgets and stop conditions, sandboxing, permissions and approvals, trajectory and outcome evaluation, simulation testing, observability and production rollout.","headline":"Agent Reliability, Guardrails and Evaluation","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, evaluation, reliability, agentic-ai","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/","name":"Reliability \u0026 evaluation","position":3}]}
@@ -82,12 +82,21 @@
       <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
     </summary>
     <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
@@ -120,7 +129,9 @@
     </summary>
     <ul>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
@@ -131,6 +142,7 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
     </ul>
   </details>
@@ -200,7 +212,7 @@
 <ul class="article-meta" aria-label="Article details">
   <li><span class="badge badge--advanced">Advanced</span></li>
   <li>6 min read</li>
-  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
   <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/evaluation/">#Evaluation</a><a class="tag" href="/enterprise-ai/tags/reliability/">#Reliability</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a>
   </li>
 </ul>
@@ -303,7 +315,7 @@
 <li>Prefer <strong>reversible actions</strong> (drafts, pending states) followed by confirmation.</li>
 </ul>
 <h2 id="evaluating-agents">Evaluating agents<a class="heading-anchor" href="#evaluating-agents" aria-label="Link to this section">#</a></h2>
-<p>Agents need more than input → output checks, because <em>how</em> they got there matters too.</p>
+<p>Agents need more than input → output checks, because <em>how</em> they got there matters too. For a taxonomy of planning, tool and efficiency failures and the metrics for each, see <a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/#agent-failure-modes">agent planning and failure modes</a>.</p>
 <figure class="diagram" aria-label="What to evaluate"><figcaption class="diagram__title">What to evaluate</figcaption>
   <pre class="mermaid">flowchart TB
     E[&#34;Agent evaluation&#34;] --&gt; O[&#34;Outcome&lt;br/&gt;was the task completed correctly?&lt;br/&gt;final state of systems&#34;]
@@ -444,21 +456,21 @@ Offline evaluation and red teaming, then shadow mode, then human approval of eve
       </a>
     </li>
     <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Planning &amp; failure modes</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-building-playbook/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent building playbook</span>
+      </a>
+    </li>
+    <li class="card">
       <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
         <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
         <span class="card__title">Harnesses &amp; skills</span>
-      </a>
-    </li>
-    <li class="card">
-      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
-        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
-        <span class="card__title">Agent identity &amp; access</span>
-      </a>
-    </li>
-    <li class="card">
-      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
-        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
-        <span class="card__title">Memory &amp; state</span>
       </a>
     </li>
   </ul>

@@ -14,6 +14,34 @@
 		
 			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/strategy/index.xml" rel="self" type="application/rss+xml" />
 			<item>
+				<title>AI Engineering Fundamentals: From Models to Products</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-fundamentals/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-fundamentals/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;AI engineering&lt;/strong&gt; is the discipline of building applications &lt;em&gt;on top of&lt;/em&gt; foundation models that someone else has usually trained. Instead of collecting data and training a model first, you start from a model that already works, then adapt it — with prompts, context, tools, fine-tuning — and wrap it in the product, evaluation and operations it needs.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>From Generative to Agentic AI: Five Levels, SPAR and the Three Keystones</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-progression-and-spar/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-progression-and-spar/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Generative AI&lt;/strong&gt; produces content when asked. &lt;strong&gt;Agentic AI&lt;/strong&gt; pursues a goal: it plans, uses tools, takes actions across systems, remembers, and improves from results — with as little human prompting as the task allows.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Agentic AI Strategy and Operating Model</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;agentic AI strategy&lt;/strong&gt; decides where agents should do work in the organisation, how much autonomy they get, what platform they run on, how value and risk are measured, and how people and processes change around them. It turns isolated pilots into a governed, scalable capability.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>A Practical Playbook for Building AI Agents: Opportunity Scoring and the A.G.E.N.T. Framework</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-building-playbook/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-building-playbook/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;This playbook covers the practical path from &amp;ldquo;we should use agents&amp;rdquo; to an agent that works in production: &lt;strong&gt;find&lt;/strong&gt; the right opportunity, &lt;strong&gt;score and prioritise&lt;/strong&gt; it, &lt;strong&gt;design&lt;/strong&gt; the agent with a structured framework, and &lt;strong&gt;implement&lt;/strong&gt; it with principles that avoid the most common failures.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>GenAI Adoption Strategy for the Enterprise</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -26,13 +54,6 @@
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/financial-services-hybrid-ai/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;In financial services, &lt;strong&gt;hybrid AI&lt;/strong&gt; means running each AI workload in the place its data, regulation and economics allow: frontier models through in-region cloud for tasks that need the best reasoning, open-weight or licensed models on the bank&amp;rsquo;s own infrastructure for restricted data and high-volume work, and one governed control plane across both.&lt;/p&gt;</description>
-			</item>
-			<item>
-				<title>Agentic AI Strategy and Operating Model</title>
-				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</link>
-				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</guid>
-				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;agentic AI strategy&lt;/strong&gt; decides where agents should do work in the organisation, how much autonomy they get, what platform they run on, how value and risk are measured, and how people and processes change around them. It turns isolated pilots into a governed, scalable capability.&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>

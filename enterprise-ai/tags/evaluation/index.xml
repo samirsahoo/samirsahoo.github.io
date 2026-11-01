@@ -14,6 +14,13 @@
 		
 			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/evaluation/index.xml" rel="self" type="application/rss+xml" />
 			<item>
+				<title>Agent Planning, Tool Selection and Failure Modes</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An agent is defined by two things: the &lt;strong&gt;environment&lt;/strong&gt; it operates in and the &lt;strong&gt;tools&lt;/strong&gt; it can use. &lt;strong&gt;Planning&lt;/strong&gt; is how it turns a goal into a sequence of tool calls; &lt;strong&gt;reflection&lt;/strong&gt; is how it notices mistakes and corrects them.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>Evaluating RAG and LLM Applications</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/rag/rag-evaluation/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -21,11 +28,39 @@
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Evaluation&lt;/strong&gt; is measuring how well your AI system does its job, on a fixed set of test cases, with repeatable scores. For RAG you measure two things separately: did we &lt;strong&gt;find&lt;/strong&gt; the right information (retrieval), and did we &lt;strong&gt;use&lt;/strong&gt; it correctly (generation)?&lt;/p&gt;</description>
 			</item>
 			<item>
+				<title>Dataset Engineering: Curating, Synthesising and Processing Data</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Dataset engineering&lt;/strong&gt; is the work of producing the data a model is trained or evaluated on: deciding what data you need, getting it, generating it when you cannot get it, and cleaning it into a usable format.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>Agent Reliability, Guardrails and Evaluation</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Agent reliability is the engineering that makes an agent do the right thing consistently, stop when it should, and fail safely when it cannot succeed. It combines &lt;strong&gt;guardrails&lt;/strong&gt; (prevent bad actions), &lt;strong&gt;budgets&lt;/strong&gt; (bound cost and time), &lt;strong&gt;evaluation&lt;/strong&gt; (measure behaviour before and after release) and &lt;strong&gt;observability&lt;/strong&gt; (see what happened).&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Evaluation Methodology: How to Measure Foundation Models</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/evaluation-methodology/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/evaluation-methodology/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Evaluation methodology&lt;/strong&gt; is the toolbox of ways to score a model&amp;rsquo;s output. There are four families: &lt;strong&gt;language-modelling metrics&lt;/strong&gt; (how well the model predicts text), &lt;strong&gt;exact evaluation&lt;/strong&gt; (checks with an unambiguous answer), &lt;strong&gt;AI as a judge&lt;/strong&gt; (another model scores the output) and &lt;strong&gt;comparative evaluation&lt;/strong&gt; (rank models by which output people or judges prefer).&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Evaluating AI Systems: Criteria, Benchmarks and the Evaluation Pipeline</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Evaluating an AI &lt;strong&gt;system&lt;/strong&gt; means checking whether the whole application — prompts, retrieval, model, tools and guardrails — does its job well enough, safely enough and cheaply enough. It turns the methods in &lt;a href=&#34;https://samirsahoo.github.io/enterprise-ai/foundations/evaluation-methodology/&#34;&gt;evaluation methodology&lt;/a&gt; into a repeatable &lt;strong&gt;pipeline&lt;/strong&gt; that runs before every change and continuously in production.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Designing for User Feedback and the Data Flywheel</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/user-feedback/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/user-feedback/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;User feedback&lt;/strong&gt; is every signal users give — deliberately or not — about whether the application helped them. It is the one data source competitors cannot copy. Collected well, it drives &lt;strong&gt;evaluation&lt;/strong&gt; (are we getting better?), &lt;strong&gt;development&lt;/strong&gt; (what should we train or fix next?) and &lt;strong&gt;personalisation&lt;/strong&gt; (what does this user prefer?).&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>

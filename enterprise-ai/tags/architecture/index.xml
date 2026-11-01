@@ -21,6 +21,13 @@
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;strong&gt;enterprise AI stack&lt;/strong&gt; is the set of shared layers an organisation builds so that many teams can ship AI features safely and cheaply: access to models, a gateway to control that access, pipelines that turn company data into retrievable knowledge, frameworks for chains and agents, and the operations, security and governance around all of it.&lt;/p&gt;</description>
 			</item>
 			<item>
+				<title>AI Engineering Architecture: Building It Up Step by Step</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-architecture/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-architecture/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Most AI applications converge on the same architecture, but no team should build it all on day one. This article grows it &lt;strong&gt;one component at a time&lt;/strong&gt;, each added only when a concrete need appears: context, guardrails, routing, caching, actions — and the observability that makes all of it operable.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>On-Premise and Hybrid GenAI Deployment</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

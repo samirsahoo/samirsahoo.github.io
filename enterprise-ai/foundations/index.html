@@ -5,20 +5,20 @@
 <meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
 <meta name="author" content="Samir Kumar Sahoo">
 <title>LLM Foundations &amp; Enterprise AI Stack · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
-<meta name="description" content="How LLMs work, inference and cost, prompting, fine-tuning, model selection, the enterprise AI reference stack, on-premise and hybrid deployment, LLMOps, GenAI adoption strategy and hybrid AI in financial services.">
+<meta name="description" content="AI engineering fundamentals, how LLMs are trained and work, inference and its optimisation, prompting, fine-tuning in depth, dataset engineering, evaluation methodology and pipelines, model selection, a progressive application architecture, user feedback, the enterprise AI reference stack, on-premise and hybrid deployment, LLMOps, GenAI adoption strategy and hybrid AI in financial services.">
 <link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
 <meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
 <meta property="og:title" content="LLM Foundations &amp; Enterprise AI Stack">
-<meta property="og:description" content="How LLMs work, inference and cost, prompting, fine-tuning, model selection, the enterprise AI reference stack, on-premise and hybrid deployment, LLMOps, GenAI adoption strategy and hybrid AI in financial services.">
+<meta property="og:description" content="AI engineering fundamentals, how LLMs are trained and work, inference and its optimisation, prompting, fine-tuning in depth, dataset engineering, evaluation methodology and pipelines, model selection, a progressive application architecture, user feedback, the enterprise AI reference stack, on-premise and hybrid deployment, LLMOps, GenAI adoption strategy and hybrid AI in financial services.">
 <meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LLM Foundations &amp; Enterprise AI Stack">
-<meta name="twitter:description" content="How LLMs work, inference and cost, prompting, fine-tuning, model selection, the enterprise AI reference stack, on-premise and hybrid deployment, LLMOps, GenAI adoption strategy and hybrid AI in financial services.">
+<meta name="twitter:description" content="AI engineering fundamentals, how LLMs are trained and work, inference and its optimisation, prompting, fine-tuning in depth, dataset engineering, evaluation methodology and pipelines, model selection, a progressive application architecture, user feedback, the enterprise AI reference stack, on-premise and hybrid deployment, LLMOps, GenAI adoption strategy and hybrid AI in financial services.">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2}]}
 </script>
@@ -79,12 +79,21 @@
       <a href="/enterprise-ai/foundations/" aria-current="page">1 · LLM Foundations</a>
     </summary>
     <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
@@ -117,7 +126,9 @@
     </summary>
     <ul>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
@@ -128,6 +139,7 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
     </ul>
   </details>
@@ -192,7 +204,7 @@
 </nav>
 
     <header class="article__header">
-      <h1>LLM Foundations &amp; Enterprise AI Stack</h1><p class="article__lede">How LLMs work, inference and cost, prompting, fine-tuning, model selection, the enterprise AI reference stack, on-premise and hybrid deployment, LLMOps, GenAI adoption strategy and hybrid AI in financial services.</p>
+      <h1>LLM Foundations &amp; Enterprise AI Stack</h1><p class="article__lede">AI engineering fundamentals, how LLMs are trained and work, inference and its optimisation, prompting, fine-tuning in depth, dataset engineering, evaluation methodology and pipelines, model selection, a progressive application architecture, user feedback, the enterprise AI reference stack, on-premise and hybrid deployment, LLMOps, GenAI adoption strategy and hybrid AI in financial services.</p>
     </header>
     <div class="prose"><p>Every AI architecture decision rests on a handful of facts about large language models: they predict tokens, they have a fixed context window, they cost money per token, and they are non-deterministic. This module turns those facts into architecture.</p>
 <aside class="callout callout--key" role="note">
@@ -202,15 +214,33 @@
     <section class="listing" aria-labelledby="articles-heading">
       <h2 id="articles-heading">Articles</h2><ul class="card-list">
   <li class="card">
+    <a class="card__link" href="/enterprise-ai/foundations/ai-engineering-fundamentals/">
+      <span class="card__title">AI engineering fundamentals</span><span class="card__desc">What AI engineering is and how it differs from ML engineering and full-stack engineering, the three layers of the AI engineering stack, foundation-model use cases, and how to plan an AI application: use-case evaluation, the role of AI and humans, defensibility, usefulness thresholds, milestones and the last-mile problem.</span>
+      <span class="card__meta">Beginner · 8 min read</span>
+    </a>
+  </li>
+  <li class="card">
     <a class="card__link" href="/enterprise-ai/foundations/how-llms-work/">
       <span class="card__title">How LLMs work</span><span class="card__desc">Tokens, embeddings, the transformer, attention, context windows, sampling and the training stages that turn a next-token predictor into an assistant — explained simply, with diagrams and review questions.</span>
       <span class="card__meta">Beginner · 10 min read</span>
     </a>
   </li>
   <li class="card">
+    <a class="card__link" href="/enterprise-ai/foundations/training-and-sampling/">
+      <span class="card__title">Training, scaling &amp; sampling</span><span class="card__desc">How foundation models are made and why they behave as they do: training data and its biases, model size, parameters, tokens and FLOPs, scaling laws and compute-optimal training, supervised fine-tuning, preference fine-tuning (RLHF, DPO), sampling strategies, test-time compute, structured outputs, and the probabilistic roots of inconsistency and hallucination.</span>
+      <span class="card__meta">Intermediate · 8 min read</span>
+    </a>
+  </li>
+  <li class="card">
     <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
       <span class="card__title">Inference, latency &amp; cost</span><span class="card__desc">What happens when you call an LLM: prefill and decode, the KV cache, time to first token, throughput, batching, streaming, quantization, prompt caching, rate limits and how to estimate cost.</span>
       <span class="card__meta">Intermediate · 8 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/foundations/inference-optimization/">
+      <span class="card__title">Inference optimisation</span><span class="card__desc">A deeper look at LLM inference: compute-bound vs memory-bandwidth-bound workloads, TTFT, TPOT, goodput, MFU and MBU, accelerators, model-level optimisations (quantisation, distillation, speculative decoding, inference with reference, parallel decoding, attention and KV-cache optimisation, kernels) and service-level optimisations (continuous batching, prefill/decode disaggregation, prompt caching, tensor and pipeline parallelism).</span>
+      <span class="card__meta">Advanced · 8 min read</span>
     </a>
   </li>
   <li class="card">
@@ -222,7 +252,31 @@
   <li class="card">
     <a class="card__link" href="/enterprise-ai/foundations/customizing-models/">
       <span class="card__title">Prompting vs RAG vs fine-tuning</span><span class="card__desc">The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.</span>
-      <span class="card__meta">Intermediate · 5 min read</span>
+      <span class="card__meta">Intermediate · 6 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/foundations/finetuning-in-depth/">
+      <span class="card__title">Fine-tuning in depth</span><span class="card__desc">When to fine-tune and when not to, how fine-tuning relates to RAG, the memory math of inference and training, numerical formats and quantisation, parameter-efficient fine-tuning (adapters, LoRA, QLoRA), serving many LoRA adapters, model merging and multi-task fine-tuning, and the hyperparameters that matter.</span>
+      <span class="card__meta">Advanced · 8 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/foundations/dataset-engineering/">
+      <span class="card__title">Dataset engineering</span><span class="card__desc">A data-centric view of AI: what data you need for fine-tuning and evaluation, data quality, coverage and quantity, acquisition and annotation, rule-based, simulated and AI-powered data synthesis, data verification and the limits of synthetic data, model distillation, and processing — inspection, deduplication, cleaning, filtering and formatting.</span>
+      <span class="card__meta">Intermediate · 7 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/foundations/evaluation-methodology/">
+      <span class="card__title">Evaluation methodology</span><span class="card__desc">Why open-ended AI is hard to evaluate, language-modelling metrics (entropy, cross-entropy, perplexity, bits-per-byte), exact evaluation (functional correctness, pass@k, exact match, lexical and semantic similarity), AI as a judge — how to use it, its biases and limits — and comparative evaluation with pairwise preferences and Elo-style rankings.</span>
+      <span class="card__meta">Intermediate · 8 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/foundations/evaluating-ai-systems/">
+      <span class="card__title">Evaluating AI systems</span><span class="card__desc">Evaluation-driven development, the criteria that matter (domain capability, generation quality, factual consistency, safety, instruction following, roleplay, cost and latency), navigating public benchmarks and data contamination, and a step-by-step evaluation pipeline: components, rubrics, business metrics, methods, annotated data, slicing, sample size and evaluating the evaluator.</span>
+      <span class="card__meta">Intermediate · 8 min read</span>
     </a>
   </li>
   <li class="card">
@@ -238,6 +292,18 @@
     </a>
   </li>
   <li class="card">
+    <a class="card__link" href="/enterprise-ai/foundations/ai-engineering-architecture/">
+      <span class="card__title">AI engineering architecture</span><span class="card__desc">A progressive reference architecture for AI applications: start with a single model call, then add context, input and output guardrails, a model router and gateway, exact and semantic caching, agent patterns and write actions — with monitoring, observability, drift detection and pipeline orchestration around it.</span>
+      <span class="card__meta">Intermediate · 8 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/foundations/user-feedback/">
+      <span class="card__title">User feedback</span><span class="card__desc">Why user feedback is proprietary data, explicit vs implicit feedback, conversational signals (early termination, error correction, complaints, sentiment, regeneration, conversation length and diversity), when and how to collect feedback without annoying users, feedback biases and degenerate feedback loops, and how feedback becomes a data flywheel.</span>
+      <span class="card__meta">Intermediate · 6 min read</span>
+    </a>
+  </li>
+  <li class="card">
     <a class="card__link" href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">
       <span class="card__title">On-prem &amp; hybrid deployment</span><span class="card__desc">Where GenAI should run — public API, cloud-managed, sovereign cloud, on-premise or air-gapped — and how to design a hybrid platform: data-classification routing, security, data privacy, GPU capacity and TCO, governance, and integration with existing enterprise systems.</span>
       <span class="card__meta">Advanced · 15 min read</span>
@@ -246,7 +312,7 @@
   <li class="card">
     <a class="card__link" href="/enterprise-ai/foundations/llmops/">
       <span class="card__title">LLMOps &amp; observability</span><span class="card__desc">How to operate LLM applications: tracing with OpenTelemetry, offline and online evaluation, prompt and model versioning, guardrails, cost control, resilience patterns, deployment strategies and incident handling.</span>
-      <span class="card__meta">Intermediate · 5 min read</span>
+      <span class="card__meta">Intermediate · 6 min read</span>
     </a>
   </li>
   <li class="card">

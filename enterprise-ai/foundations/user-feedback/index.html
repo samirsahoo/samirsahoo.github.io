@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Designing for User Feedback and the Data Flywheel · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Why user feedback is proprietary data, explicit vs implicit feedback, conversational signals (early termination, error correction, complaints, sentiment, regeneration, conversation length and diversity), when and how to collect feedback without annoying users, feedback biases and degenerate feedback loops, and how feedback becomes a data flywheel.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/user-feedback/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Designing for User Feedback and the Data Flywheel">
+<meta property="og:description" content="Why user feedback is proprietary data, explicit vs implicit feedback, conversational signals (early termination, error correction, complaints, sentiment, regeneration, conversation length and diversity), when and how to collect feedback without annoying users, feedback biases and degenerate feedback loops, and how feedback becomes a data flywheel.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/user-feedback/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Designing for User Feedback and the Data Flywheel">
+<meta name="twitter:description" content="Why user feedback is proprietary data, explicit vs implicit feedback, conversational signals (early termination, error correction, complaints, sentiment, regeneration, conversation length and diversity), when and how to collect feedback without annoying users, feedback biases and degenerate feedback loops, and how feedback becomes a data flywheel.">
+<meta name="keywords" content="evaluation, product, llmops, data">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Why user feedback is proprietary data, explicit vs implicit feedback, conversational signals (early termination, error correction, complaints, sentiment, regeneration, conversation length and diversity), when and how to collect feedback without annoying users, feedback biases and degenerate feedback loops, and how feedback becomes a data flywheel.","headline":"Designing for User Feedback and the Data Flywheel","inLanguage":"en","isAccessibleForFree":true,"keywords":"evaluation, product, llmops, data","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/user-feedback/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/user-feedback/","name":"User feedback","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/" aria-current="page">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">User feedback</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Designing for User Feedback and the Data Flywheel</h1><p class="article__lede" itemprop="description">Why user feedback is proprietary data, explicit vs implicit feedback, conversational signals (early termination, error correction, complaints, sentiment, regeneration, conversation length and diversity), when and how to collect feedback without annoying users, feedback biases and degenerate feedback loops, and how feedback becomes a data flywheel.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/evaluation/">#Evaluation</a><a class="tag" href="/enterprise-ai/tags/product/">#Product</a><a class="tag" href="/enterprise-ai/tags/llmops/">#Llmops</a><a class="tag" href="/enterprise-ai/tags/data/">#Data</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#explicit-and-implicit-feedback">Explicit and implicit feedback</a></li>
+    <li><a href="#signals-hidden-in-conversations">Signals hidden in conversations</a>
+      <ul>
+        <li><a href="#natural-language-feedback">Natural-language feedback</a></li>
+        <li><a href="#other-conversational-signals">Other conversational signals</a></li>
+      </ul>
+    </li>
+    <li><a href="#feedback-design">Feedback design</a>
+      <ul>
+        <li><a href="#when-to-collect-feedback">When to collect feedback</a></li>
+        <li><a href="#how-to-collect-feedback">How to collect feedback</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-data-flywheel">The data flywheel</a></li>
+    <li><a href="#feedback-limitations">Feedback limitations</a>
+      <ul>
+        <li><a href="#biases">Biases</a></li>
+        <li><a href="#degenerate-feedback-loops">Degenerate feedback loops</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>User feedback</strong> is every signal users give — deliberately or not — about whether the application helped them. It is the one data source competitors cannot copy. Collected well, it drives <strong>evaluation</strong> (are we getting better?), <strong>development</strong> (what should we train or fix next?) and <strong>personalisation</strong> (what does this user prefer?).</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The one idea to keep</span></p>
+  <div class="callout__body"><p>Design feedback collection into the product from the first release. Every conversation is a free evaluation sample — if you capture it.</p></div>
+</aside><h2 id="explicit-and-implicit-feedback">Explicit and implicit feedback<a class="heading-anchor" href="#explicit-and-implicit-feedback" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Examples</th>
+      <th>Strength</th>
+      <th>Weakness</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Explicit</strong></td>
+      <td>Thumbs up/down, star ratings, &ldquo;was this helpful?&rdquo;, choosing between two answers, written comments</td>
+      <td>Clear meaning</td>
+      <td>Sparse — most users never click; skewed towards strong opinions</td>
+    </tr>
+    <tr>
+      <td><strong>Implicit</strong></td>
+      <td>Copying the answer, accepting a code suggestion, editing the output, abandoning the session, asking again</td>
+      <td>Plentiful, honest</td>
+      <td>Noisy; its meaning depends on context</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Conversational interfaces make implicit feedback especially rich, because users express satisfaction and frustration in natural language.</p>
+<h2 id="signals-hidden-in-conversations">Signals hidden in conversations<a class="heading-anchor" href="#signals-hidden-in-conversations" aria-label="Link to this section">#</a></h2>
+<h3 id="natural-language-feedback">Natural-language feedback<a class="heading-anchor" href="#natural-language-feedback" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Signal</th>
+      <th>What it looks like</th>
+      <th>Likely meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Early termination</strong></td>
+      <td>User stops generation, closes the app, or interrupts mid-answer</td>
+      <td>The answer was going wrong, too slow or too long</td>
+    </tr>
+    <tr>
+      <td><strong>Error correction</strong></td>
+      <td>&ldquo;No, I meant…&rdquo;, &ldquo;That&rsquo;s wrong, the deadline is Friday&rdquo;, rephrasing the same request</td>
+      <td>The model misunderstood or erred — the follow-up shows the right answer, a valuable training pair</td>
+    </tr>
+    <tr>
+      <td><strong>Complaints</strong></td>
+      <td>&ldquo;That&rsquo;s not what I asked&rdquo;, &ldquo;too long&rdquo;, &ldquo;you keep repeating yourself&rdquo;</td>
+      <td>Specific failure categories you can count</td>
+    </tr>
+    <tr>
+      <td><strong>Sentiment</strong></td>
+      <td>Frustration, thanks, sarcasm</td>
+      <td>Overall satisfaction trend</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>User <strong>edits</strong> to a generated draft are a particularly strong signal: the edited version is a preferred response, and (original, edited) is a ready-made preference pair.</p>
+<h3 id="other-conversational-signals">Other conversational signals<a class="heading-anchor" href="#other-conversational-signals" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Signal</th>
+      <th>Interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Regeneration</strong></td>
+      <td>The first answer was unsatisfactory — or the user wanted options; compare which answer they keep</td>
+    </tr>
+    <tr>
+      <td><strong>Conversation organisation</strong></td>
+      <td>Renaming, sharing, bookmarking or deleting a conversation shows its value</td>
+    </tr>
+    <tr>
+      <td><strong>Conversation length</strong></td>
+      <td>Ambiguous: long can mean engaged (a companion app) or stuck (a support bot) — interpret per product</td>
+    </tr>
+    <tr>
+      <td><strong>Dialogue diversity</strong></td>
+      <td>Many distinct turns suggest progress; repeated similar turns suggest the user is looping on a failure</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Define what &ldquo;good&rdquo; means per product</span></p>
+  <div class="callout__body"><p>A long conversation is success for a tutoring app and failure for a password-reset bot. Decide which signals indicate success <em>for your use case</em> before building dashboards.</p></div>
+</aside><h2 id="feedback-design">Feedback design<a class="heading-anchor" href="#feedback-design" aria-label="Link to this section">#</a></h2>
+<h3 id="when-to-collect-feedback">When to collect feedback<a class="heading-anchor" href="#when-to-collect-feedback" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Moment</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>In the beginning</strong></td>
+      <td>Ask a few preference questions at onboarding to personalise; make them optional</td>
+    </tr>
+    <tr>
+      <td><strong>When something goes wrong</strong></td>
+      <td>After an error or a complaint: let users flag, correct, or hand off to a human</td>
+    </tr>
+    <tr>
+      <td><strong>When the model has low confidence</strong></td>
+      <td>Show two candidate answers and ask which is better; ask a clarifying question instead of guessing</td>
+    </tr>
+    <tr>
+      <td><strong>After a meaningful outcome</strong></td>
+      <td>Task completed, ticket resolved — ask briefly</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Never interrupt the user&rsquo;s flow for feedback that does not change anything. Feedback requests should be <strong>rare, quick and optional</strong>.</p>
+<h3 id="how-to-collect-feedback">How to collect feedback<a class="heading-anchor" href="#how-to-collect-feedback" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>Integrate it into the workflow.</strong> The best feedback is a by-product of normal use — accepting a suggestion, choosing an option, editing a draft.</li>
+<li><strong>Make it effortless.</strong> One click beats a form. Offer an optional comment box after a thumbs-down.</li>
+<li><strong>Make the meaning unambiguous.</strong> &ldquo;Thumbs down&rdquo; can mean wrong, unhelpful, rude or slow; offer short reason chips.</li>
+<li><strong>Show the effect.</strong> Users give more feedback when they see it change something.</li>
+<li><strong>Respect privacy.</strong> Tell users what is collected and how it is used; let them opt out; keep it out of training sets unless they agree. See <a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a>.</li>
+</ul>
+<figure class="diagram" aria-label="Feedback in the product loop"><figcaption class="diagram__title">Feedback in the product loop</figcaption>
+  <pre class="mermaid">flowchart LR
+    U[&#34;User&#34;] --&gt; A[&#34;AI response&#34;]
+    A --&gt; S[&#34;Signals&lt;br/&gt;explicit ratings,&lt;br/&gt;edits, regenerations,&lt;br/&gt;early stops, complaints&#34;]
+    S --&gt; L[&#34;Logged with trace&lt;br/&gt;prompt version, model,&lt;br/&gt;context, output&#34;]
+    L --&gt; E[&#34;Evaluation&lt;br/&gt;dashboards, slices,&lt;br/&gt;regression sets&#34;]
+    L --&gt; D[&#34;Training data&lt;br/&gt;preference pairs,&lt;br/&gt;corrections&#34;]
+    L --&gt; P[&#34;Personalisation&lt;br/&gt;per-user preferences&#34;]
+    E --&gt; I[&#34;Improve prompts,&lt;br/&gt;retrieval, models&#34;]
+    D --&gt; I
+    I --&gt; A</pre>
+</figure>
+<h2 id="the-data-flywheel">The data flywheel<a class="heading-anchor" href="#the-data-flywheel" aria-label="Link to this section">#</a></h2>
+<p>More users → more feedback → better data → better product → more users. Feedback-derived data improves prompts, retrieval, routing and <a href="/enterprise-ai/foundations/finetuning-in-depth/">fine-tuning</a>, and becomes the private evaluation set that keeps you honest. This is the most durable form of <a href="/enterprise-ai/foundations/ai-engineering-fundamentals/#3-is-it-defensible">AI product defensibility</a>.</p>
+<p>To make the flywheel turn, store feedback <strong>joined to the full trace</strong> of the request — without the prompt, context and model version, a thumbs-down cannot be acted on.</p>
+<h2 id="feedback-limitations">Feedback limitations<a class="heading-anchor" href="#feedback-limitations" aria-label="Link to this section">#</a></h2>
+<h3 id="biases">Biases<a class="heading-anchor" href="#biases" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Bias</th>
+      <th>Effect</th>
+      <th>Mitigation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Leniency bias</strong></td>
+      <td>Users rate higher than they feel, to be polite or avoid friction</td>
+      <td>Use comparative choices and implicit signals, not only ratings</td>
+    </tr>
+    <tr>
+      <td><strong>Randomness</strong></td>
+      <td>Users click without reading, especially when asked often</td>
+      <td>Ask rarely; weight by engagement</td>
+    </tr>
+    <tr>
+      <td><strong>Position bias</strong></td>
+      <td>Users favour the first option shown</td>
+      <td>Randomise order in comparisons</td>
+    </tr>
+    <tr>
+      <td><strong>Preference bias</strong></td>
+      <td>Users favour longer, more confident or more flattering answers — not necessarily more correct</td>
+      <td>Combine with correctness checks; do not optimise on preference alone</td>
+    </tr>
+    <tr>
+      <td><strong>Selection bias</strong></td>
+      <td>Only very happy or very unhappy users give explicit feedback</td>
+      <td>Correct with implicit signals and sampling</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="degenerate-feedback-loops">Degenerate feedback loops<a class="heading-anchor" href="#degenerate-feedback-loops" aria-label="Link to this section">#</a></h3>
+<p>When predictions influence the feedback that trains future predictions, the system can amplify its own biases:</p>
+<ul>
+<li>Content that is shown more gets more clicks, so it is shown even more (popularity bias).</li>
+<li>Optimising for user approval can teach the model to <strong>flatter</strong> and agree rather than be correct — <strong>sycophancy</strong>.</li>
+</ul>
+<p>Counter it by mixing exploration into what you show, tracking correctness and business outcomes alongside satisfaction, and reviewing what the feedback is actually rewarding.</p>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Feedback is not ground truth</span></p>
+  <div class="callout__body"><p>Users can be wrong, biased or adversarial. Treat feedback as a signal to investigate and to weight — and verify before using it to train.</p></div>
+</aside><h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Only a thumbs-up button</span></p>
+  <div class="callout__body"><p>Explicit ratings are sparse and biased. Without implicit signals, you are blind to most of your users.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Feedback without context</span></p>
+  <div class="callout__body"><p>Storing &ldquo;thumbs down on conversation 123&rdquo; without the prompt version, retrieved context and model. You cannot learn from it.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Optimising for approval</span></p>
+  <div class="callout__body"><p>Training directly on what users like, producing a model that is pleasant and wrong. Balance preference with correctness.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What is the difference between explicit and implicit feedback?</strong>
+Explicit feedback is a deliberate rating or comment; implicit feedback is inferred from behaviour such as edits, copies, regenerations, early stops and abandonment. Explicit is clear but sparse and biased; implicit is plentiful but noisy.</p>
+<p><strong>Name conversational signals that indicate a poor answer.</strong>
+Early termination, error corrections and rephrasing, complaints, negative sentiment, regenerations and repetitive, low-diversity turns.</p>
+<p><strong>When should an application ask for feedback?</strong>
+Rarely and at meaningful moments: optionally at onboarding, when something goes wrong, when the model is unsure (offer alternatives), and after a completed outcome.</p>
+<p><strong>What is a degenerate feedback loop?</strong>
+When the system&rsquo;s outputs shape the feedback that trains it, amplifying its own biases — such as popularity bias or sycophancy from optimising for approval.</p>
+<p><strong>How does feedback create a competitive advantage?</strong>
+It produces proprietary evaluation and training data that improve the product, attracting more users who generate more feedback — a data flywheel competitors cannot copy.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Feedback is proprietary data for evaluation, development and personalisation.</li>
+<li>Combine explicit ratings with implicit and conversational signals; interpret signals per product.</li>
+<li>Ask rarely, at the right moment, with effortless and unambiguous controls; respect privacy.</li>
+<li>Store feedback joined to full traces so it can be acted on — that is the data flywheel.</li>
+<li>Watch for biases and degenerate loops; feedback is a signal, not ground truth.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chip Huyen, <em>AI Engineering</em>, O&rsquo;Reilly, 2025 — chapter 10.</li>
+<li>Google PAIR, <a href="https://pair.withgoogle.com/chapter/feedback-controls/" rel="noopener">People + AI Guidebook: Feedback and control</a>.</li>
+<li>Sharma et al., <a href="https://arxiv.org/abs/2310.13548" rel="noopener">Towards Understanding Sycophancy in Language Models</a>, 2023.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/ai-engineering-architecture/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">AI engineering architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/evaluating-ai-systems/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Evaluating AI systems</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/dataset-engineering/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Dataset engineering</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Planning &amp; failure modes</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/evaluation-methodology/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Evaluation methodology</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/ai-engineering-architecture/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">AI engineering architecture</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">On-prem &amp; hybrid deployment</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#explicit-and-implicit-feedback">Explicit and implicit feedback</a></li>
+    <li><a href="#signals-hidden-in-conversations">Signals hidden in conversations</a>
+      <ul>
+        <li><a href="#natural-language-feedback">Natural-language feedback</a></li>
+        <li><a href="#other-conversational-signals">Other conversational signals</a></li>
+      </ul>
+    </li>
+    <li><a href="#feedback-design">Feedback design</a>
+      <ul>
+        <li><a href="#when-to-collect-feedback">When to collect feedback</a></li>
+        <li><a href="#how-to-collect-feedback">How to collect feedback</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-data-flywheel">The data flywheel</a></li>
+    <li><a href="#feedback-limitations">Feedback limitations</a>
+      <ul>
+        <li><a href="#biases">Biases</a></li>
+        <li><a href="#degenerate-feedback-loops">Degenerate feedback loops</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

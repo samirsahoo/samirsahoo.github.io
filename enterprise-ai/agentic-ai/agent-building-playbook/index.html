@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>A Practical Playbook for Building AI Agents: Opportunity Scoring and the A.G.E.N.T. Framework · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How to find, prioritise and build successful AI agents: the sweet spot of impact, feasibility and effort, scoring impact and feasibility, the prioritisation matrix, thinking in tasks not roles, the A.G.E.N.T. framework (identity, gear and brain, execution and workflow, navigation and rules, testing and trust), a multi-agent example, implementation principles and the three horizons of agentic business models.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-building-playbook/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="A Practical Playbook for Building AI Agents: Opportunity Scoring and the A.G.E.N.T. Framework">
+<meta property="og:description" content="How to find, prioritise and build successful AI agents: the sweet spot of impact, feasibility and effort, scoring impact and feasibility, the prioritisation matrix, thinking in tasks not roles, the A.G.E.N.T. framework (identity, gear and brain, execution and workflow, navigation and rules, testing and trust), a multi-agent example, implementation principles and the three horizons of agentic business models.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-building-playbook/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A Practical Playbook for Building AI Agents: Opportunity Scoring and the A.G.E.N.T. Framework">
+<meta name="twitter:description" content="How to find, prioritise and build successful AI agents: the sweet spot of impact, feasibility and effort, scoring impact and feasibility, the prioritisation matrix, thinking in tasks not roles, the A.G.E.N.T. framework (identity, gear and brain, execution and workflow, navigation and rules, testing and trust), a multi-agent example, implementation principles and the three horizons of agentic business models.">
+<meta name="keywords" content="agents, agentic-ai, strategy">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"How to find, prioritise and build successful AI agents: the sweet spot of impact, feasibility and effort, scoring impact and feasibility, the prioritisation matrix, thinking in tasks not roles, the A.G.E.N.T. framework (identity, gear and brain, execution and workflow, navigation and rules, testing and trust), a multi-agent example, implementation principles and the three horizons of agentic business models.","headline":"A Practical Playbook for Building AI Agents: Opportunity Scoring and the A.G.E.N.T. Framework","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, agentic-ai, strategy","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-building-playbook/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-building-playbook/","name":"Agent building playbook","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/" aria-current="page">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Agent building playbook</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">A Practical Playbook for Building AI Agents: Opportunity Scoring and the A.G.E.N.T. Framework</h1><p class="article__lede" itemprop="description">How to find, prioritise and build successful AI agents: the sweet spot of impact, feasibility and effort, scoring impact and feasibility, the prioritisation matrix, thinking in tasks not roles, the A.G.E.N.T. framework (identity, gear and brain, execution and workflow, navigation and rules, testing and trust), a multi-agent example, implementation principles and the three horizons of agentic business models.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a><a class="tag" href="/enterprise-ai/tags/strategy/">#Strategy</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#step-1--find-the-sweet-spot">Step 1 — Find the sweet spot</a>
+      <ul>
+        <li><a href="#score-impact">Score impact</a></li>
+        <li><a href="#score-feasibility">Score feasibility</a></li>
+        <li><a href="#prioritise">Prioritise</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-2--design-with-the-agent-framework">Step 2 — Design with the A.G.E.N.T. framework</a>
+      <ul>
+        <li><a href="#example-a-newsletter-team-of-agents">Example: a newsletter team of agents</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-3--implementation-principles">Step 3 — Implementation principles</a>
+      <ul>
+        <li><a href="#defining-the-agent">Defining the agent</a></li>
+        <li><a href="#designing-for-success">Designing for success</a></li>
+        <li><a href="#implementing-and-operating">Implementing and operating</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-4--business-models-three-horizons">Step 4 — Business models: three horizons</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>This playbook covers the practical path from &ldquo;we should use agents&rdquo; to an agent that works in production: <strong>find</strong> the right opportunity, <strong>score and prioritise</strong> it, <strong>design</strong> the agent with a structured framework, and <strong>implement</strong> it with principles that avoid the most common failures.</p>
+<p>It complements <a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">agentic AI strategy</a>, which covers the portfolio and operating model.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The one idea to keep</span></p>
+  <div class="callout__body"><p>Agents automate <strong>tasks</strong>, not <strong>roles</strong>. A person may own five processes; you may need five small, well-defined agents — and a human — to cover the same work.</p></div>
+</aside><h2 id="step-1--find-the-sweet-spot">Step 1 — Find the sweet spot<a class="heading-anchor" href="#step-1--find-the-sweet-spot" aria-label="Link to this section">#</a></h2>
+<p>Good agent opportunities sit where three things overlap:</p>
+<figure class="diagram" aria-label="The sweet spot for agentic opportunities"><figcaption class="diagram__title">The sweet spot for agentic opportunities</figcaption>
+  <pre class="mermaid">flowchart TB
+    I[&#34;High business impact&#34;] --&gt; SS((&#34;Sweet spot&#34;))
+    F[&#34;Feasible with current&lt;br/&gt;technology and data&#34;] --&gt; SS
+    E[&#34;Reasonable&lt;br/&gt;implementation effort&#34;] --&gt; SS
+    SS --&gt; C[&#34;Candidate for an agent&#34;]</pre>
+</figure>
+<p>And they are processes that agents are actually good at. Keep with people the work that depends on genuine creativity, strategic judgement, empathy or accountability that cannot be delegated.</p>
+<h3 id="score-impact">Score impact<a class="heading-anchor" href="#score-impact" aria-label="Link to this section">#</a></h3>
+<p>Rate each criterion from 1 to 5:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion</th>
+      <th>1</th>
+      <th>3</th>
+      <th>5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Time investment</strong></td>
+      <td>Under an hour per week</td>
+      <td>Several hours per week</td>
+      <td>Hours every day</td>
+    </tr>
+    <tr>
+      <td><strong>Strategic value of freed time</strong></td>
+      <td>Little better use for it</td>
+      <td>Moderate</td>
+      <td>Unblocks high-value strategic work</td>
+    </tr>
+    <tr>
+      <td><strong>Error-reduction potential</strong></td>
+      <td>Errors are rare</td>
+      <td>Occasional significant errors</td>
+      <td>Frequent or costly errors</td>
+    </tr>
+    <tr>
+      <td><strong>Scalability</strong></td>
+      <td>One-off task</td>
+      <td>Moderately repeatable</td>
+      <td>Repeats across the organisation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="score-feasibility">Score feasibility<a class="heading-anchor" href="#score-feasibility" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion</th>
+      <th>1</th>
+      <th>3</th>
+      <th>5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Process standardisation</strong></td>
+      <td>Ad hoc, no standard approach</td>
+      <td>Some documentation; relies on experience</td>
+      <td>Fully documented steps, decision rules and exceptions</td>
+    </tr>
+    <tr>
+      <td><strong>Data and system access</strong></td>
+      <td>Data locked in legacy systems or paper</td>
+      <td>Available but needs significant preparation</td>
+      <td>Structured data, modern APIs</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="prioritise">Prioritise<a class="heading-anchor" href="#prioritise" aria-label="Link to this section">#</a></h3>
+<p>Plot each candidate by impact and feasibility.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th><strong>Low feasibility</strong></th>
+      <th><strong>High feasibility</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>High impact</strong></td>
+      <td><strong>Strategic projects</strong> — fix the process or data first, then automate</td>
+      <td><strong>Quick wins → start here</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Low impact</strong></td>
+      <td><strong>Avoid</strong></td>
+      <td><strong>Opportunistic</strong> — do if cheap; good for learning</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Then choose the right level of automation: deterministic, standardised, zero-error-tolerance work suits <strong>intelligent automation</strong>; variable, unstructured, judgement-heavy work suits an <strong>agentic workflow</strong>. See <a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/#level-2-or-level-3-choosing-the-right-automation">level 2 or level 3?</a></p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Prove it manually first</span></p>
+  <div class="callout__body"><p>Never automate a process that has not been done successfully by hand. Existing process documentation — steps, tools, decision trees, worked examples — is the best raw material for an agent&rsquo;s instructions and evaluation set.</p></div>
+</aside><h2 id="step-2--design-with-the-agent-framework">Step 2 — Design with the A.G.E.N.T. framework<a class="heading-anchor" href="#step-2--design-with-the-agent-framework" aria-label="Link to this section">#</a></h2>
+<p>A.G.E.N.T. is a checklist of five design areas. Each answers one question.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Key question</th>
+      <th>Elements</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>A — Agent identity</strong></td>
+      <td><em>Who</em> is the agent?</td>
+      <td>Purpose, role, scope</td>
+      <td>Write a one-sentence mission; state boundaries and responsibilities; align with the intended use</td>
+    </tr>
+    <tr>
+      <td><strong>G — Gear and brain</strong></td>
+      <td><em>What powers</em> it?</td>
+      <td>Model, tools, knowledge sources</td>
+      <td>Choose the model for quality and cost; implement the needed tools and APIs; curate high-quality knowledge</td>
+    </tr>
+    <tr>
+      <td><strong>E — Execution and workflow</strong></td>
+      <td><em>How</em> does it work?</td>
+      <td>Inputs and outputs, workflow, triggers</td>
+      <td>Standardise input/output formats; define the workflow; set triggers (schedule, event, request)</td>
+    </tr>
+    <tr>
+      <td><strong>N — Navigation and rules</strong></td>
+      <td><em>How</em> does it decide?</td>
+      <td>Processing rules, safety mechanisms, transparency</td>
+      <td>Filtering and prioritisation rules; rate limits, circuit breakers, human escalation; decision logs</td>
+    </tr>
+    <tr>
+      <td><strong>T — Testing and trust</strong></td>
+      <td><em>How</em> do we improve and scale it?</td>
+      <td>Real-world testing, feedback, monitoring, scalability</td>
+      <td>Simulate real cases and edge cases; collect feedback; monitor logs; plan for scale</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>How it maps to the rest of this handbook:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>A.G.E.N.T.</th>
+      <th>Read more</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Agent identity</td>
+      <td><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a>, <a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity and access</a></td>
+    </tr>
+    <tr>
+      <td>Gear and brain</td>
+      <td><a href="/enterprise-ai/foundations/model-selection/">Model selection</a>, <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>, <a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a>, <a href="/enterprise-ai/rag/rag-fundamentals/">RAG</a></td>
+    </tr>
+    <tr>
+      <td>Execution and workflow</td>
+      <td><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow patterns</a>, <a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning</a></td>
+    </tr>
+    <tr>
+      <td>Navigation and rules</td>
+      <td><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability and guardrails</a>, <a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></td>
+    </tr>
+    <tr>
+      <td>Testing and trust</td>
+      <td><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/#evaluating-agents">Agent evaluation</a>, <a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="example-a-newsletter-team-of-agents">Example: a newsletter team of agents<a class="heading-anchor" href="#example-a-newsletter-team-of-agents" aria-label="Link to this section">#</a></h3>
+<p>A daily industry newsletter is a classic first multi-agent project: clear steps, low risk, measurable output.</p>
+<figure class="diagram" aria-label="A team of specialised agents for a daily newsletter"><figcaption class="diagram__title">A team of specialised agents for a daily newsletter</figcaption>
+  <pre class="mermaid">flowchart LR
+    M[&#34;Manager agent&lt;br/&gt;coordinates and delivers&#34;] --&gt; S[&#34;Search agent&lt;br/&gt;finds relevant articles&#34;]
+    S --&gt; SU[&#34;Summarisation agent&lt;br/&gt;key points per article&#34;]
+    SU --&gt; E[&#34;Email agent&lt;br/&gt;daily digest to editor&#34;]
+    E --&gt; H{&#34;Editor selects&lt;br/&gt;articles&#34;}
+    H --&gt; C[&#34;Compiler agent&lt;br/&gt;organises selected content&#34;]
+    C --&gt; F[&#34;Formatting agent&lt;br/&gt;prepares the newsletter&#34;]
+    F --&gt; M</pre>
+</figure>
+<p>Each agent has one job and few tools; the human editor stays in the loop at the point of judgement. See <a href="/enterprise-ai/agentic-ai/multi-agent-systems/">multi-agent systems</a>.</p>
+<h2 id="step-3--implementation-principles">Step 3 — Implementation principles<a class="heading-anchor" href="#step-3--implementation-principles" aria-label="Link to this section">#</a></h2>
+<p>Grouped by phase, these are the lessons that most often separate working agents from abandoned pilots.</p>
+<h3 id="defining-the-agent">Defining the agent<a class="heading-anchor" href="#defining-the-agent" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>Precise instructions win.</strong> Invest in the purpose, role and scope. Examples teach more than descriptions; put the most important instructions where the model weighs them most (often at the end).</li>
+<li><strong>The simpler, the better.</strong> Every extra agent, tool or task adds cost and maintenance. Start minimal and grow.</li>
+<li><strong>Few tools per agent.</strong> A narrowly scoped agent with one or two tools is more reliable than a multi-purpose one.</li>
+<li><strong>Divide and conquer.</strong> Build one component at a time instead of the whole system at once.</li>
+</ul>
+<h3 id="designing-for-success">Designing for success<a class="heading-anchor" href="#designing-for-success" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>Design for collaboration with people.</strong> Augment rather than replace; keep humans in the loop for quality and strategic decisions.</li>
+<li><strong>Integrate where users already work</strong> — the chat tool, CRM or ticketing system they use. An inconvenient agent is unused.</li>
+<li><strong>Let agents check their own results</strong> — give them tools to verify that an action succeeded.</li>
+<li><strong>Standardise inputs and outputs</strong> with strict schemas to avoid errors from mismatched data.</li>
+<li><strong>Separate knowledge from actions.</strong> Keep what the agent knows apart from what it can do — better for security and maintenance.</li>
+</ul>
+<h3 id="implementing-and-operating">Implementing and operating<a class="heading-anchor" href="#implementing-and-operating" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>Speed over perfection</strong> in platform choice: start with something workable and iterate.</li>
+<li><strong>Design for failure</strong>: error handling, circuit breakers, graceful degradation and human escalation. Agents will fail; recovery is what matters.</li>
+<li><strong>Build decision trails</strong>: log the reasoning and evidence behind every decision for accountability and improvement.</li>
+<li><strong>Collect continuous feedback</strong> from users and system metrics.</li>
+<li><strong>Use progressive trust</strong>: start with heavy oversight and reduce it as the agent proves reliable — see <a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/#rolling-out-an-agent-safely">rolling out safely</a>.</li>
+<li><strong>Test with real-world scenarios</strong>, including edge cases and unexpected inputs.</li>
+<li><strong>Expect iteration</strong>: plan several refinement cycles.</li>
+<li><strong>Deployment is harder than building</strong>: integration, security review and change management often exceed development effort — budget at least as much for them.</li>
+<li><strong>Start small, then scale</strong>: deliver value with the smallest useful component, then expand.</li>
+</ul>
+<h2 id="step-4--business-models-three-horizons">Step 4 — Business models: three horizons<a class="heading-anchor" href="#step-4--business-models-three-horizons" aria-label="Link to this section">#</a></h2>
+<p>Beyond internal efficiency, agents create new ways to earn money. A three-horizon view helps sequence ambition:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Horizon</th>
+      <th>Focus</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1 — Optimise</strong></td>
+      <td>Use agents to make current operations cheaper and faster</td>
+      <td>Support automation, document processing, internal assistants</td>
+    </tr>
+    <tr>
+      <td><strong>2 — Extend</strong></td>
+      <td>Offer agent-powered services alongside existing products</td>
+      <td>Agent-driven advisory, outcome-based services, agents sold to customers</td>
+    </tr>
+    <tr>
+      <td><strong>3 — Transform</strong></td>
+      <td>New business models built around agents</td>
+      <td>Agent marketplaces, agent-to-agent commerce, fully agent-operated services priced per outcome</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Most organisations should fund horizon 1 for returns and learning, run a few horizon-2 experiments, and watch horizon 3. Pricing shifts too — from per seat to <strong>per task or per outcome</strong> — which changes how you measure value. See <a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/#measuring-value-and-cost">measuring value and cost</a>.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Automating a role</span></p>
+  <div class="callout__body"><p>Scoping an agent as &ldquo;a virtual analyst&rdquo;. Break the role into tasks; automate the tasks that score well; keep the rest with people.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Automating a broken process</span></p>
+  <div class="callout__body"><p>Agents amplify whatever process they run. Standardise and document it first — low feasibility scores usually mean process work, not AI work.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Under-budgeting deployment</span></p>
+  <div class="callout__body"><p>Treating a working prototype as nearly done. Integration, security, approvals and adoption are most of the effort.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How do you identify a good agent opportunity?</strong>
+Look for the overlap of high business impact, feasibility with current technology and data, and reasonable effort. Score impact (time spent, value of freed time, error reduction, scalability) and feasibility (process standardisation, data and system access), then prioritise high-impact, high-feasibility quick wins.</p>
+<p><strong>What does &ldquo;think tasks, not roles&rdquo; mean?</strong>
+Agents are reliable on specific, well-defined tasks, not on whole jobs. Decompose roles into tasks and automate those that fit, often with several small agents and a human.</p>
+<p><strong>Explain the A.G.E.N.T. framework.</strong>
+Agent identity (purpose, role, scope), Gear and brain (model, tools, knowledge), Execution and workflow (inputs/outputs, workflow, triggers), Navigation and rules (decision rules, safety mechanisms, transparency) and Testing and trust (real-world testing, feedback, monitoring, scalability).</p>
+<p><strong>What is a progressive trust model?</strong>
+Starting an agent with strong human oversight and reducing it in stages as monitored performance proves reliability — for example, from approve-every-action to approve-above-threshold to sampled review.</p>
+<p><strong>Why is deployment often harder than building an agent?</strong>
+Integration with existing systems, identity and permissions, security review, monitoring, change management and user adoption take more time and resources than the agent logic itself.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Review tip</span><span class="callout__heading">Show the scoring</span></p>
+  <div class="callout__body"><p>When asked which process you would automate first, score two or three candidates on impact and feasibility out loud and pick the quick win. It demonstrates structured, value-led thinking.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Target the sweet spot of impact, feasibility and effort; score and plot candidates.</li>
+<li>Automate tasks, not roles; prove processes manually before automating them.</li>
+<li>Design with A.G.E.N.T.: identity, gear and brain, execution and workflow, navigation and rules, testing and trust.</li>
+<li>Keep agents simple, integrated, verifiable and logged; design for failure and grow trust progressively.</li>
+<li>Sequence business ambition across three horizons: optimise, extend, transform.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Pascal Bornet, Jochen Wirtz, Thomas H. Davenport et al., <em>Agentic Artificial Intelligence: Harnessing AI Agents to Reinvent Business, Work, and Life</em>, 2025 — chapters 8–9 (framework figures published under CC BY 4.0).</li>
+<li>Anthropic, <a href="https://www.anthropic.com/research/building-effective-agents" rel="noopener">Building effective agents</a>, 2024.</li>
+<li>OpenAI, <a href="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" rel="noopener">A practical guide to building agents</a>, 2025.</li>
+<li>McKinsey, <a href="https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/enduring-ideas-the-three-horizons-of-growth" rel="noopener">Enduring Ideas: The three horizons of growth</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agentic AI strategy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/genai-adoption-strategy/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">GenAI adoption strategy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Levels, SPAR &amp; keystones</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent identity &amp; access</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/agentic-ai-strategy/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Agentic AI strategy</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/case-study-support-agent/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Case study: support agent</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#step-1--find-the-sweet-spot">Step 1 — Find the sweet spot</a>
+      <ul>
+        <li><a href="#score-impact">Score impact</a></li>
+        <li><a href="#score-feasibility">Score feasibility</a></li>
+        <li><a href="#prioritise">Prioritise</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-2--design-with-the-agent-framework">Step 2 — Design with the A.G.E.N.T. framework</a>
+      <ul>
+        <li><a href="#example-a-newsletter-team-of-agents">Example: a newsletter team of agents</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-3--implementation-principles">Step 3 — Implementation principles</a>
+      <ul>
+        <li><a href="#defining-the-agent">Defining the agent</a></li>
+        <li><a href="#designing-for-success">Designing for success</a></li>
+        <li><a href="#implementing-and-operating">Implementing and operating</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-4--business-models-three-horizons">Step 4 — Business models: three horizons</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

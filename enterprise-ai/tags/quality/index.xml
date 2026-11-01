@@ -20,5 +20,19 @@
 				<guid>https://samirsahoo.github.io/enterprise-ai/rag/rag-evaluation/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Evaluation&lt;/strong&gt; is measuring how well your AI system does its job, on a fixed set of test cases, with repeatable scores. For RAG you measure two things separately: did we &lt;strong&gt;find&lt;/strong&gt; the right information (retrieval), and did we &lt;strong&gt;use&lt;/strong&gt; it correctly (generation)?&lt;/p&gt;</description>
 			</item>
+			<item>
+				<title>Evaluation Methodology: How to Measure Foundation Models</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/evaluation-methodology/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/evaluation-methodology/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Evaluation methodology&lt;/strong&gt; is the toolbox of ways to score a model&amp;rsquo;s output. There are four families: &lt;strong&gt;language-modelling metrics&lt;/strong&gt; (how well the model predicts text), &lt;strong&gt;exact evaluation&lt;/strong&gt; (checks with an unambiguous answer), &lt;strong&gt;AI as a judge&lt;/strong&gt; (another model scores the output) and &lt;strong&gt;comparative evaluation&lt;/strong&gt; (rank models by which output people or judges prefer).&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Evaluating AI Systems: Criteria, Benchmarks and the Evaluation Pipeline</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Evaluating an AI &lt;strong&gt;system&lt;/strong&gt; means checking whether the whole application — prompts, retrieval, model, tools and guardrails — does its job well enough, safely enough and cheaply enough. It turns the methods in &lt;a href=&#34;https://samirsahoo.github.io/enterprise-ai/foundations/evaluation-methodology/&#34;&gt;evaluation methodology&lt;/a&gt; into a repeatable &lt;strong&gt;pipeline&lt;/strong&gt; that runs before every change and continuously in production.&lt;/p&gt;</description>
+			</item>
 	</channel>
 </rss>

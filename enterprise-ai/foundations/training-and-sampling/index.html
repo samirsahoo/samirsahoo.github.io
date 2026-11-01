@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Foundation Models: Training Data, Scaling, Post-Training and Sampling · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How foundation models are made and why they behave as they do: training data and its biases, model size, parameters, tokens and FLOPs, scaling laws and compute-optimal training, supervised fine-tuning, preference fine-tuning (RLHF, DPO), sampling strategies, test-time compute, structured outputs, and the probabilistic roots of inconsistency and hallucination.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/training-and-sampling/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Foundation Models: Training Data, Scaling, Post-Training and Sampling">
+<meta property="og:description" content="How foundation models are made and why they behave as they do: training data and its biases, model size, parameters, tokens and FLOPs, scaling laws and compute-optimal training, supervised fine-tuning, preference fine-tuning (RLHF, DPO), sampling strategies, test-time compute, structured outputs, and the probabilistic roots of inconsistency and hallucination.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/training-and-sampling/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Foundation Models: Training Data, Scaling, Post-Training and Sampling">
+<meta name="twitter:description" content="How foundation models are made and why they behave as they do: training data and its biases, model size, parameters, tokens and FLOPs, scaling laws and compute-optimal training, supervised fine-tuning, preference fine-tuning (RLHF, DPO), sampling strategies, test-time compute, structured outputs, and the probabilistic roots of inconsistency and hallucination.">
+<meta name="keywords" content="llm, foundations, training">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"How foundation models are made and why they behave as they do: training data and its biases, model size, parameters, tokens and FLOPs, scaling laws and compute-optimal training, supervised fine-tuning, preference fine-tuning (RLHF, DPO), sampling strategies, test-time compute, structured outputs, and the probabilistic roots of inconsistency and hallucination.","headline":"Foundation Models: Training Data, Scaling, Post-Training and Sampling","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, training","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/training-and-sampling/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/training-and-sampling/","name":"Training, scaling \u0026 sampling","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/" aria-current="page">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">Training, scaling &amp; sampling</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Foundation Models: Training Data, Scaling, Post-Training and Sampling</h1><p class="article__lede" itemprop="description">How foundation models are made and why they behave as they do: training data and its biases, model size, parameters, tokens and FLOPs, scaling laws and compute-optimal training, supervised fine-tuning, preference fine-tuning (RLHF, DPO), sampling strategies, test-time compute, structured outputs, and the probabilistic roots of inconsistency and hallucination.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/llm/">#Llm</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/training/">#Training</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#training-data-the-model-is-what-it-ate">Training data: the model is what it ate</a></li>
+    <li><a href="#model-size-compute-and-scaling">Model size, compute and scaling</a>
+      <ul>
+        <li><a href="#scaling-laws-and-compute-optimal-training">Scaling laws and compute-optimal training</a></li>
+        <li><a href="#scaling-bottlenecks">Scaling bottlenecks</a></li>
+      </ul>
+    </li>
+    <li><a href="#post-training-from-text-predictor-to-assistant">Post-training: from text predictor to assistant</a>
+      <ul>
+        <li><a href="#supervised-fine-tuning-sft">Supervised fine-tuning (SFT)</a></li>
+        <li><a href="#preference-fine-tuning">Preference fine-tuning</a></li>
+      </ul>
+    </li>
+    <li><a href="#sampling-how-an-output-is-chosen">Sampling: how an output is chosen</a>
+      <ul>
+        <li><a href="#test-time-compute">Test-time compute</a></li>
+        <li><a href="#structured-outputs">Structured outputs</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-probabilistic-nature-of-ai">The probabilistic nature of AI</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A foundation model is the product of three choices: <strong>what data it learned from</strong>, <strong>how big it is and how long it was trained</strong>, and <strong>how it was post-trained</strong> to behave like an assistant. A fourth choice — <strong>how you sample from it</strong> — is yours, at inference time.</p>
+<p>Each choice leaves fingerprints that architects must design around: language gaps, knowledge cutoffs, cost, sycophancy, inconsistency and hallucination.</p>
+<figure class="diagram" aria-label="From raw data to the answer your user sees"><figcaption class="diagram__title">From raw data to the answer your user sees</figcaption>
+  <pre class="mermaid">flowchart LR
+    D[&#34;Training data&lt;br/&gt;web, code, books,&lt;br/&gt;domain corpora&#34;] --&gt; PT[&#34;Pre-training&lt;br/&gt;self-supervised&lt;br/&gt;next-token prediction&#34;]
+    PT --&gt; SFT[&#34;Supervised fine-tuning&lt;br/&gt;demonstrations of&lt;br/&gt;good responses&#34;]
+    SFT --&gt; PF[&#34;Preference fine-tuning&lt;br/&gt;RLHF / DPO /&lt;br/&gt;RL on verifiable tasks&#34;]
+    PF --&gt; M[&#34;Released model&#34;]
+    M --&gt; S[&#34;Sampling&lt;br/&gt;temperature, top-p,&lt;br/&gt;test-time compute,&lt;br/&gt;structured output&#34;]
+    S --&gt; O[&#34;Output&#34;]</pre>
+</figure>
+<h2 id="training-data-the-model-is-what-it-ate">Training data: the model is what it ate<a class="heading-anchor" href="#training-data-the-model-is-what-it-ate" aria-label="Link to this section">#</a></h2>
+<p>A model can only be good at what is well represented in its training data.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Data property</th>
+      <th>Consequence you will see</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Web-heavy</strong> (Common Crawl and similar)</td>
+      <td>Strong on general English; inherits web biases, misinformation and low-quality text unless filtered</td>
+    </tr>
+    <tr>
+      <td><strong>English-dominant</strong></td>
+      <td>Lower quality, higher cost and higher latency in under-represented languages — the same sentence can need several times more tokens</td>
+    </tr>
+    <tr>
+      <td><strong>Little domain-specific data</strong></td>
+      <td>Weak on specialised fields (law, medicine, your internal jargon) whose data is not public</td>
+    </tr>
+    <tr>
+      <td><strong>Fixed snapshot</strong></td>
+      <td>A knowledge cutoff; nothing after it exists for the model</td>
+    </tr>
+    <tr>
+      <td><strong>Unknown composition</strong></td>
+      <td>You often cannot prove what is in it — a <a href="/enterprise-ai/spring-ai-governance/ai-governance/">governance</a> and copyright question</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Check the tokenizer for your language</span></p>
+  <div class="callout__body"><p>Token counts per sentence vary widely across languages. Measure it on your own text before estimating cost or latency for a multilingual product.</p></div>
+</aside><p><strong>Domain-specific models</strong> exist because general data does not cover some domains — biomedicine, finance, code, chemistry. Today a strong general model plus retrieval often beats a smaller domain model, but evaluate both on your task.</p>
+<h2 id="model-size-compute-and-scaling">Model size, compute and scaling<a class="heading-anchor" href="#model-size-compute-and-scaling" aria-label="Link to this section">#</a></h2>
+<p>Three numbers describe a model&rsquo;s scale:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Meaning</th>
+      <th>Rough intuition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Parameters</strong></td>
+      <td>Learnable weights</td>
+      <td>Capacity to store patterns; drives memory and serving cost</td>
+    </tr>
+    <tr>
+      <td><strong>Training tokens</strong></td>
+      <td>How much text it learned from</td>
+      <td>How much it has seen</td>
+    </tr>
+    <tr>
+      <td><strong>Training FLOPs</strong></td>
+      <td>Total compute spent</td>
+      <td>Roughly 6 × parameters × tokens for a dense transformer</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Sparse models</strong> complicate the picture. A <strong>mixture-of-experts (MoE)</strong> model has many parameters but activates only a few &ldquo;experts&rdquo; per token, so it can be large in knowledge but cheap per token. For serving, the <em>active</em> parameter count drives compute while the <em>total</em> drives memory.</p>
+<h3 id="scaling-laws-and-compute-optimal-training">Scaling laws and compute-optimal training<a class="heading-anchor" href="#scaling-laws-and-compute-optimal-training" aria-label="Link to this section">#</a></h3>
+<p>Scaling laws describe how loss falls predictably as you add parameters, data and compute. The DeepMind <strong>Chinchilla</strong> study (2022) found that, for a fixed compute budget, a model should be trained on roughly <strong>20 tokens per parameter</strong> to be compute-optimal — many earlier models were too big for the data they saw.</p>
+<p>Production models deliberately break this rule: they are trained on far more tokens than &ldquo;optimal&rdquo; because a smaller model trained longer is <strong>cheaper to serve</strong>, and serving cost dominates over the model&rsquo;s lifetime.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">What scaling means for architects</span></p>
+  <div class="callout__body"><p>Capability rises with scale, but so do cost and latency. The right question is not &ldquo;which model is biggest?&rdquo; but &ldquo;which is the smallest model that clears my usefulness threshold?&rdquo; See <a href="/enterprise-ai/foundations/model-selection/">model selection</a>.</p></div>
+</aside><h3 id="scaling-bottlenecks">Scaling bottlenecks<a class="heading-anchor" href="#scaling-bottlenecks" aria-label="Link to this section">#</a></h3>
+<p>Two limits are visible on the horizon:</p>
+<ul>
+<li><strong>Data</strong> — high-quality public text is finite, and more of the web is now AI-generated, which risks training models on their own outputs.</li>
+<li><strong>Electricity and compute</strong> — data centre capacity grows more slowly than demand.</li>
+</ul>
+<p>Both push the industry towards <strong>synthetic data</strong>, better data curation, and spending more compute at inference time instead of training time (see <a href="#test-time-compute">test-time compute</a>).</p>
+<h2 id="post-training-from-text-predictor-to-assistant">Post-training: from text predictor to assistant<a class="heading-anchor" href="#post-training-from-text-predictor-to-assistant" aria-label="Link to this section">#</a></h2>
+<p>A pre-trained model completes text; it does not follow instructions. Post-training turns it into an assistant in two broad steps.</p>
+<h3 id="supervised-fine-tuning-sft">Supervised fine-tuning (SFT)<a class="heading-anchor" href="#supervised-fine-tuning-sft" aria-label="Link to this section">#</a></h3>
+<p>The model is trained on <strong>demonstration data</strong>: prompts paired with high-quality responses written or curated by people. It learns the <em>format</em> of helpful conversation — answer the question, follow the instruction, refuse harmful requests. Demonstration data is expensive because good responses take skilled people time.</p>
+<h3 id="preference-fine-tuning">Preference fine-tuning<a class="heading-anchor" href="#preference-fine-tuning" aria-label="Link to this section">#</a></h3>
+<p>People find it easier to <strong>compare</strong> two responses than to write a perfect one. Preference fine-tuning exploits that.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>How it works</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>RLHF</strong></td>
+      <td>Train a <strong>reward model</strong> on human comparisons (&ldquo;A is better than B&rdquo;), then optimise the model with reinforcement learning to score highly</td>
+      <td>Powerful, complex, can be unstable</td>
+    </tr>
+    <tr>
+      <td><strong>DPO</strong></td>
+      <td>Optimise directly on preference pairs without a separate reward model</td>
+      <td>Simpler and cheaper; widely used for open models</td>
+    </tr>
+    <tr>
+      <td><strong>RL on verifiable rewards</strong></td>
+      <td>Reward the model when an answer can be checked (math, code that passes tests)</td>
+      <td>The basis of modern <strong>reasoning models</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Post-training explains several behaviours you will meet:</p>
+<ul>
+<li><strong>Sycophancy</strong> — models trained to please raters can agree too easily.</li>
+<li><strong>Over-refusal</strong> — safety tuning can make models refuse benign requests.</li>
+<li><strong>Verbosity</strong> — raters often prefer longer answers, so models learn to be long.</li>
+</ul>
+<h2 id="sampling-how-an-output-is-chosen">Sampling: how an output is chosen<a class="heading-anchor" href="#sampling-how-an-output-is-chosen" aria-label="Link to this section">#</a></h2>
+<p>The model produces a probability for every possible next token; <strong>sampling</strong> picks one. (The mechanics are introduced in <a href="/enterprise-ai/foundations/how-llms-work/#4-sampling-turning-scores-into-text">how LLMs work</a>.)</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Control</th>
+      <th>Effect</th>
+      <th>Typical use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Temperature</strong></td>
+      <td>Scales the distribution: low → focused and repeatable; high → diverse and creative</td>
+      <td>0–0.3 for extraction and classification; 0.7–1.0 for drafting</td>
+    </tr>
+    <tr>
+      <td><strong>Top-k</strong></td>
+      <td>Sample only from the <em>k</em> most likely tokens</td>
+      <td>Cuts off unlikely tokens</td>
+    </tr>
+    <tr>
+      <td><strong>Top-p (nucleus)</strong></td>
+      <td>Sample from the smallest set whose probability sums to <em>p</em></td>
+      <td>Adapts the candidate set to the model&rsquo;s confidence</td>
+    </tr>
+    <tr>
+      <td><strong>Stopping conditions</strong></td>
+      <td>Max tokens, stop sequences</td>
+      <td>Bounds cost and latency</td>
+    </tr>
+    <tr>
+      <td><strong>Log probabilities</strong></td>
+      <td>The probability of each generated token</td>
+      <td>Confidence signals, classification scores, evaluation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="test-time-compute">Test-time compute<a class="heading-anchor" href="#test-time-compute" aria-label="Link to this section">#</a></h3>
+<p>Instead of taking the first sample, spend more compute at inference to get a better answer:</p>
+<ul>
+<li><strong>Best-of-N</strong> — generate several candidates and pick the best with a scorer, verifier or <a href="/enterprise-ai/foundations/evaluation-methodology/#ai-as-a-judge">AI judge</a>.</li>
+<li><strong>Self-consistency / majority vote</strong> — generate several answers and take the most common one.</li>
+<li><strong>Reasoning (&ldquo;thinking&rdquo;) tokens</strong> — the model writes intermediate steps before answering; trained with RL to reason longer on harder problems.</li>
+</ul>
+<p>Research shows that, for some tasks, spending more compute at inference can rival a much larger model — at the price of latency and tokens. Use it where accuracy is worth more than speed.</p>
+<h3 id="structured-outputs">Structured outputs<a class="heading-anchor" href="#structured-outputs" aria-label="Link to this section">#</a></h3>
+<p>Production systems often need JSON, SQL or a fixed label set. Options, from weakest to strongest guarantee:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>Guarantee</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ask for the format in the prompt, with examples</td>
+      <td>None; works most of the time</td>
+    </tr>
+    <tr>
+      <td><strong>Post-process</strong> — parse, repair common errors, retry</td>
+      <td>Practical; adds a retry loop</td>
+    </tr>
+    <tr>
+      <td><strong>Constrained decoding</strong> — only allow tokens that fit a grammar or JSON Schema</td>
+      <td>Valid syntax guaranteed (content can still be wrong)</td>
+    </tr>
+    <tr>
+      <td>Fine-tune on the format</td>
+      <td>Higher reliability for a narrow, high-volume format</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Most providers now offer schema-constrained output natively. See <a href="/enterprise-ai/foundations/prompt-engineering/#structured-output">prompt engineering: structured output</a>.</p>
+<h2 id="the-probabilistic-nature-of-ai">The probabilistic nature of AI<a class="heading-anchor" href="#the-probabilistic-nature-of-ai" aria-label="Link to this section">#</a></h2>
+<p>Because outputs are sampled, two behaviours are built in:</p>
+<p><strong>Inconsistency.</strong> The same input can give different outputs, and slightly different inputs can give very different outputs. Mitigations: low temperature, fixed seeds where supported, caching identical requests, consistent prompts, and evaluation that measures variance — not one lucky run.</p>
+<p><strong>Hallucination.</strong> The model produces fluent, plausible content that is not grounded in fact. Two complementary explanations:</p>
+<ul>
+<li>The model cannot distinguish what it <em>knows</em> from what it <em>generates</em>; once it writes a wrong token, it continues plausibly from there (self-delusion / snowballing).</li>
+<li>Fine-tuning can teach a model to produce answers that go beyond its actual knowledge, so it learns to &ldquo;sound like it knows&rdquo;.</li>
+</ul>
+<p>Mitigations are architectural: <a href="/enterprise-ai/rag/rag-fundamentals/">retrieval grounding</a>, citations, asking the model to say &ldquo;I don&rsquo;t know&rdquo;, <a href="/enterprise-ai/foundations/evaluating-ai-systems/#factual-consistency">factual-consistency checks</a> and human review for high-stakes outputs.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Treating temperature 0 as deterministic</span></p>
+  <div class="callout__body"><p>Even at temperature 0, outputs can vary across runs because of batching and floating-point effects in the serving stack. Design for variation; do not assume it away.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ignoring language cost</span></p>
+  <div class="callout__body"><p>Estimating cost and latency on English text, then launching in a language that needs several times more tokens per sentence.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Paying for reasoning everywhere</span></p>
+  <div class="callout__body"><p>Using a reasoning model or best-of-N for simple extraction or routing. Reserve test-time compute for tasks where it measurably improves accuracy.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What do scaling laws tell us, and why do production models break the Chinchilla ratio?</strong>
+Loss falls predictably with more parameters, data and compute; Chinchilla found about 20 training tokens per parameter is compute-optimal for training. Production models are trained on far more tokens so that a smaller model reaches the same quality — it is cheaper to serve over its lifetime.</p>
+<p><strong>What is the difference between SFT and preference fine-tuning?</strong>
+SFT trains on demonstrations of good responses; preference fine-tuning trains on comparisons between responses, through a reward model and RL (RLHF) or directly (DPO). SFT teaches the format; preferences refine quality and safety.</p>
+<p><strong>What is test-time compute?</strong>
+Spending more inference compute per request to improve the answer — best-of-N with a verifier, majority voting, or reasoning tokens — trading latency and cost for accuracy.</p>
+<p><strong>Why do models hallucinate, and how do you reduce it?</strong>
+They generate plausible tokens without a reliable sense of what they know, and errors snowball once generated. Reduce it by grounding in retrieved sources, requiring citations, allowing &ldquo;I don&rsquo;t know&rdquo;, checking factual consistency and keeping humans on high-stakes outputs.</p>
+<p><strong>When would you use constrained decoding?</strong>
+When downstream code must parse the output — JSON, SQL, enumerations. It guarantees syntactic validity; you still validate the content.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Training data sets the model&rsquo;s strengths, gaps, biases and cutoff; language coverage affects quality and cost.</li>
+<li>Scale (parameters, tokens, compute) drives capability and cost; serve the smallest model that is good enough.</li>
+<li>Post-training (SFT, RLHF, DPO, RL on verifiable rewards) creates assistant behaviour — and sycophancy, verbosity and refusals.</li>
+<li>Sampling, test-time compute and structured output are inference-time levers you control.</li>
+<li>Inconsistency and hallucination are inherent; handle them in the architecture.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chip Huyen, <em>AI Engineering</em>, O&rsquo;Reilly, 2025 — chapter 2.</li>
+<li>Hoffmann et al., <a href="https://arxiv.org/abs/2203.15556" rel="noopener">Training Compute-Optimal Large Language Models (Chinchilla)</a>, 2022.</li>
+<li>Ouyang et al., <a href="https://arxiv.org/abs/2203.02155" rel="noopener">Training language models to follow instructions with human feedback</a>, 2022.</li>
+<li>Rafailov et al., <a href="https://arxiv.org/abs/2305.18290" rel="noopener">Direct Preference Optimization</a>, 2023.</li>
+<li>Snell et al., <a href="https://arxiv.org/abs/2408.03314" rel="noopener">Scaling LLM Test-Time Compute Optimally</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/customizing-models/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompting vs RAG vs fine-tuning</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/finetuning-in-depth/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Fine-tuning in depth</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/model-selection/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Model selection</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/how-llms-work/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">How LLMs work</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Inference, latency &amp; cost</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/how-llms-work/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">How LLMs work</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/inference-and-serving/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Inference, latency &amp; cost</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#training-data-the-model-is-what-it-ate">Training data: the model is what it ate</a></li>
+    <li><a href="#model-size-compute-and-scaling">Model size, compute and scaling</a>
+      <ul>
+        <li><a href="#scaling-laws-and-compute-optimal-training">Scaling laws and compute-optimal training</a></li>
+        <li><a href="#scaling-bottlenecks">Scaling bottlenecks</a></li>
+      </ul>
+    </li>
+    <li><a href="#post-training-from-text-predictor-to-assistant">Post-training: from text predictor to assistant</a>
+      <ul>
+        <li><a href="#supervised-fine-tuning-sft">Supervised fine-tuning (SFT)</a></li>
+        <li><a href="#preference-fine-tuning">Preference fine-tuning</a></li>
+      </ul>
+    </li>
+    <li><a href="#sampling-how-an-output-is-chosen">Sampling: how an output is chosen</a>
+      <ul>
+        <li><a href="#test-time-compute">Test-time compute</a></li>
+        <li><a href="#structured-outputs">Structured outputs</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-probabilistic-nature-of-ai">The probabilistic nature of AI</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

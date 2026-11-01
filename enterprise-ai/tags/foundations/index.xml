@@ -14,11 +14,25 @@
 		
 			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/foundations/index.xml" rel="self" type="application/rss+xml" />
 			<item>
+				<title>AI Engineering Fundamentals: From Models to Products</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-fundamentals/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-fundamentals/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;AI engineering&lt;/strong&gt; is the discipline of building applications &lt;em&gt;on top of&lt;/em&gt; foundation models that someone else has usually trained. Instead of collecting data and training a model first, you start from a model that already works, then adapt it — with prompts, context, tools, fine-tuning — and wrap it in the product, evaluation and operations it needs.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>How Large Language Models Work</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/foundations/how-llms-work/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/how-llms-work/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;large language model (LLM)&lt;/strong&gt; is a neural network trained to predict the next piece of text. Given &amp;ldquo;The capital of France is&amp;rdquo;, it assigns a probability to every possible next token and &amp;ldquo;Paris&amp;rdquo; scores highest. Repeating that prediction one token at a time produces sentences, code, plans and answers.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Foundation Models: Training Data, Scaling, Post-Training and Sampling</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/training-and-sampling/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/training-and-sampling/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A foundation model is the product of three choices: &lt;strong&gt;what data it learned from&lt;/strong&gt;, &lt;strong&gt;how big it is and how long it was trained&lt;/strong&gt;, and &lt;strong&gt;how it was post-trained&lt;/strong&gt; to behave like an assistant. A fourth choice — &lt;strong&gt;how you sample from it&lt;/strong&gt; — is yours, at inference time.&lt;/p&gt;</description>
 			</item>
 			<item>
 				<title>LLM Inference, Latency and Cost</title>
@@ -40,6 +54,20 @@
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;There are three main ways to make a general-purpose LLM useful for your business:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Prompting&lt;/strong&gt; — change the &lt;em&gt;instructions&lt;/em&gt; the model receives.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;RAG (retrieval-augmented generation)&lt;/strong&gt; — change the &lt;em&gt;knowledge&lt;/em&gt; the model receives, by retrieving relevant documents into the prompt.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Fine-tuning&lt;/strong&gt; — change the &lt;em&gt;model&amp;rsquo;s weights&lt;/em&gt; by training it further on your examples.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;A useful slogan: &lt;strong&gt;RAG for knowledge, fine-tuning for behaviour, prompting for everything first.&lt;/strong&gt;&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Fine-Tuning in Depth: Memory, PEFT, LoRA and Model Merging</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/finetuning-in-depth/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/finetuning-in-depth/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Fine-tuning&lt;/strong&gt; continues training a pre-trained model on your own examples so that it changes its &lt;strong&gt;behaviour&lt;/strong&gt; — format, style, task skill, domain vocabulary. It is the most powerful adaptation technique and the most expensive one to run and maintain.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Evaluation Methodology: How to Measure Foundation Models</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/evaluation-methodology/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/evaluation-methodology/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Evaluation methodology&lt;/strong&gt; is the toolbox of ways to score a model&amp;rsquo;s output. There are four families: &lt;strong&gt;language-modelling metrics&lt;/strong&gt; (how well the model predicts text), &lt;strong&gt;exact evaluation&lt;/strong&gt; (checks with an unambiguous answer), &lt;strong&gt;AI as a judge&lt;/strong&gt; (another model scores the output) and &lt;strong&gt;comparative evaluation&lt;/strong&gt; (rank models by which output people or judges prefer).&lt;/p&gt;</description>
 			</item>
 			<item>
 				<title>Model Selection for the Enterprise</title>

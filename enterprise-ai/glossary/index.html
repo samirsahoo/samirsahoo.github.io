@@ -82,12 +82,21 @@
       <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
     </summary>
     <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
@@ -120,7 +129,9 @@
     </summary>
     <ul>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
@@ -131,6 +142,7 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
     </ul>
   </details>
@@ -197,7 +209,7 @@
     <header class="article__header">
       <h1 itemprop="headline">Glossary</h1><p class="article__lede" itemprop="description">Short definitions of the enterprise AI and agentic AI terms used across the handbook, with links to the articles that explain them.</p>
 <ul class="article-meta" aria-label="Article details">
-  <li>6 min read</li>
+  <li>10 min read</li>
   <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
   <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a>
   </li>
@@ -237,6 +249,12 @@
 <dd>Operating agents like production services: SLOs, monitoring, incidents, cost and continuous evaluation. See <a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/#operating-model-agentops">Agentic AI strategy</a>.</dd>
 <dt><strong>Air-gapped deployment</strong></dt>
 <dd>Running models with no network path to the outside; updates imported offline. See <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/#the-deployment-spectrum">On-prem &amp; hybrid</a>.</dd>
+<dt><strong>A.G.E.N.T. framework</strong></dt>
+<dd>A five-part agent design checklist: agent identity, gear and brain, execution and workflow, navigation and rules, testing and trust. See <a href="/enterprise-ai/agentic-ai/agent-building-playbook/#step-2--design-with-the-agent-framework">Agent building playbook</a>.</dd>
+<dt><strong>AI engineering</strong></dt>
+<dd>Building applications on top of foundation models — adapting and evaluating an existing model rather than training one. See <a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a>.</dd>
+<dt><strong>Agentic AI progression</strong></dt>
+<dd>Six levels from manual work (0) through rule-based and intelligent automation to agentic workflows (3), semi-autonomous (4) and fully autonomous agents (5). See <a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a>.</dd>
 </dl>
 <h3 id="bc">B–C<a class="heading-anchor" href="#bc" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -256,6 +274,10 @@
 <dd>A model that scores a query and a document together for precise relevance. See <a href="/enterprise-ai/rag/advanced-retrieval/#reranking">Advanced retrieval</a>.</dd>
 <dt><strong>Data-classification routing</strong></dt>
 <dd>An AI gateway choosing the allowed model deployment by the highest data class in the assembled prompt. See <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/#data-classification-routing">On-prem &amp; hybrid</a>.</dd>
+<dt><strong>Comparative evaluation</strong></dt>
+<dd>Ranking models from pairwise &ldquo;which is better?&rdquo; judgements aggregated with Elo or Bradley–Terry. See <a href="/enterprise-ai/foundations/evaluation-methodology/#comparative-evaluation">Evaluation methodology</a>.</dd>
+<dt><strong>Continuous batching</strong></dt>
+<dd>A serving scheduler that adds and removes requests from the running batch at every decode step. See <a href="/enterprise-ai/foundations/inference-optimization/#batching">Inference optimisation</a>.</dd>
 </dl>
 <h3 id="de">D–E<a class="heading-anchor" href="#de" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -271,6 +293,20 @@
 <dd>A JVM agent framework on Spring AI that plans typed actions toward goals with GOAP. See <a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/#embabel-goal-oriented-action-planning">JVM frameworks</a>.</dd>
 <dt><strong>Excessive agency</strong></dt>
 <dd>An LLM system with more tools, permissions or autonomy than it needs. See <a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a>.</dd>
+<dt><strong>Data contamination</strong></dt>
+<dd>Benchmark or evaluation examples leaking into training data, inflating scores. See <a href="/enterprise-ai/foundations/evaluating-ai-systems/#public-benchmarks-useful-not-sufficient">Evaluating AI systems</a>.</dd>
+<dt><strong>Data flywheel</strong></dt>
+<dd>More users produce more feedback and data, which improve the product and attract more users. See <a href="/enterprise-ai/foundations/user-feedback/#the-data-flywheel">User feedback</a>.</dd>
+<dt><strong>Dataset engineering</strong></dt>
+<dd>Curating, synthesising, deduplicating and formatting the data used to fine-tune and evaluate models. See <a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a>.</dd>
+<dt><strong>Degenerate feedback loop</strong></dt>
+<dd>When a system&rsquo;s outputs shape the feedback that trains it, amplifying its own biases (popularity bias, sycophancy). See <a href="/enterprise-ai/foundations/user-feedback/#degenerate-feedback-loops">User feedback</a>.</dd>
+<dt><strong>DPO (direct preference optimisation)</strong></dt>
+<dd>Preference fine-tuning directly on (preferred, rejected) response pairs, without a separate reward model. See <a href="/enterprise-ai/foundations/training-and-sampling/#preference-fine-tuning">Training, scaling &amp; sampling</a>.</dd>
+<dt><strong>Evaluation-driven development</strong></dt>
+<dd>Defining evaluation criteria and data before building, like tests before code. See <a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a>.</dd>
+<dt><strong>Functional correctness / pass@k</strong></dt>
+<dd>Scoring outputs by whether they work — tests pass, SQL returns the right rows; pass@k is the chance at least one of <em>k</em> samples passes. See <a href="/enterprise-ai/foundations/evaluation-methodology/#functional-correctness">Evaluation methodology</a>.</dd>
 </dl>
 <h3 id="fh">F–H<a class="heading-anchor" href="#fh" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -300,6 +336,8 @@
 <dd>Combining vector and keyword search, usually fused with RRF. See <a href="/enterprise-ai/rag/advanced-retrieval/#hybrid-search">Advanced retrieval</a>.</dd>
 <dt><strong>HyDE</strong></dt>
 <dd>Searching with the embedding of an LLM-generated hypothetical answer. See <a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a>.</dd>
+<dt><strong>Goodput</strong></dt>
+<dd>Requests per second that meet latency SLOs — the capacity you can actually offer. See <a href="/enterprise-ai/foundations/inference-optimization/#metrics-that-matter">Inference optimisation</a>.</dd>
 </dl>
 <h3 id="kl">K–L<a class="heading-anchor" href="#kl" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -315,6 +353,8 @@
 <dd>Practices for operating LLM applications. See <a href="/enterprise-ai/foundations/llmops/">LLMOps</a>.</dd>
 <dt><strong>LoRA</strong></dt>
 <dd>Parameter-efficient fine-tuning with small low-rank adapters. See <a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a>.</dd>
+<dt><strong>Large reasoning model (LRM)</strong></dt>
+<dd>A model trained to reason step by step before answering, stronger at math, code and planning but slower and costlier. See <a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/#reasoning-llms-vs-large-reasoning-models">Levels, SPAR &amp; keystones</a>.</dd>
 </dl>
 <h3 id="mn">M–N<a class="heading-anchor" href="#mn" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -334,6 +374,12 @@
 <dd>Who holds a model&rsquo;s weights, deciding whether you can pin, move and keep it. See <a href="/enterprise-ai/foundations/financial-services-hybrid-ai/#model-weight-ownership">Hybrid AI in financial services</a>.</dd>
 <dt><strong>NIST AI RMF</strong></dt>
 <dd>A risk-management framework with Govern, Map, Measure and Manage functions. See <a href="/enterprise-ai/spring-ai-governance/ai-governance/#nist-ai-risk-management-framework">AI governance</a>.</dd>
+<dt><strong>MFU / MBU</strong></dt>
+<dd>Model FLOPs utilisation and model bandwidth utilisation — how close a workload gets to the hardware&rsquo;s peak compute and memory bandwidth. See <a href="/enterprise-ai/foundations/inference-optimization/#metrics-that-matter">Inference optimisation</a>.</dd>
+<dt><strong>Model collapse</strong></dt>
+<dd>Loss of diversity and rare cases when models are trained repeatedly on model-generated data. See <a href="/enterprise-ai/foundations/dataset-engineering/#limits-of-synthetic-data">Dataset engineering</a>.</dd>
+<dt><strong>Model merging</strong></dt>
+<dd>Combining fine-tuned models by averaging, interpolating or pruning their weights, without retraining. See <a href="/enterprise-ai/foundations/finetuning-in-depth/#model-merging-and-multi-task-fine-tuning">Fine-tuning in depth</a>.</dd>
 </dl>
 <h3 id="or">O–R<a class="heading-anchor" href="#or" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -355,6 +401,16 @@
 <dd>A model trained to think step by step before answering. See <a href="/enterprise-ai/foundations/how-llms-work/#reasoning-thinking-models">How LLMs work</a>.</dd>
 <dt><strong>RRF (reciprocal rank fusion)</strong></dt>
 <dd>Merging ranked lists by summing 1/(k + rank). See <a href="/enterprise-ai/rag/advanced-retrieval/#hybrid-search">Advanced retrieval</a>.</dd>
+<dt><strong>PEFT (parameter-efficient fine-tuning)</strong></dt>
+<dd>Training a small set of new or selected parameters (adapters, LoRA, soft prompts) while freezing the model. See <a href="/enterprise-ai/foundations/finetuning-in-depth/#parameter-efficient-fine-tuning-peft">Fine-tuning in depth</a>.</dd>
+<dt><strong>Perplexity</strong></dt>
+<dd>The exponential of cross-entropy: how uncertain a model is when predicting text. See <a href="/enterprise-ai/foundations/evaluation-methodology/#language-modelling-metrics">Evaluation methodology</a>.</dd>
+<dt><strong>Prefill and decode</strong></dt>
+<dd>The two phases of generation: processing the prompt in parallel (compute-bound) and producing tokens one at a time (memory-bandwidth-bound). See <a href="/enterprise-ai/foundations/inference-optimization/#two-kinds-of-bottleneck">Inference optimisation</a>.</dd>
+<dt><strong>QLoRA</strong></dt>
+<dd>LoRA adapters trained on top of a base model quantised to 4 bits. See <a href="/enterprise-ai/foundations/finetuning-in-depth/#qlora">Fine-tuning in depth</a>.</dd>
+<dt><strong>RLHF</strong></dt>
+<dd>Reinforcement learning from human feedback: train a reward model on human comparisons, then optimise the model against it. See <a href="/enterprise-ai/foundations/training-and-sampling/#preference-fine-tuning">Training, scaling &amp; sampling</a>.</dd>
 </dl>
 <h3 id="sz">S–Z<a class="heading-anchor" href="#sz" aria-label="Link to this section">#</a></h3>
 <dl>
@@ -378,6 +434,24 @@
 <dd>A store optimised for nearest-neighbour search over embeddings with filters. See <a href="/enterprise-ai/rag/vector-databases/">Vector databases</a>.</dd>
 <dt><strong>Zero data retention (ZDR)</strong></dt>
 <dd>Provider terms under which prompts and outputs are not stored after processing. See <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/#data-privacy">On-prem &amp; hybrid</a>.</dd>
+<dt><strong>Scaling law</strong></dt>
+<dd>The predictable fall in loss as parameters, data and compute grow; Chinchilla suggests about 20 tokens per parameter for compute-optimal training. See <a href="/enterprise-ai/foundations/training-and-sampling/#scaling-laws-and-compute-optimal-training">Training, scaling &amp; sampling</a>.</dd>
+<dt><strong>Semantic caching</strong></dt>
+<dd>Returning a stored answer for a query whose embedding is similar to a previous one. See <a href="/enterprise-ai/foundations/ai-engineering-architecture/#step-4--reduce-latency-and-cost-with-caching">AI engineering architecture</a>.</dd>
+<dt><strong>SPAR</strong></dt>
+<dd>Sense, plan, act, reflect — the operating cycle of an agent. See <a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/#the-spar-loop-how-an-agent-takes-action">Levels, SPAR &amp; keystones</a>.</dd>
+<dt><strong>Speculative decoding</strong></dt>
+<dd>A small draft model proposes tokens that the large model verifies in one pass, cutting latency without changing outputs. See <a href="/enterprise-ai/foundations/inference-optimization/#getting-past-one-token-at-a-time">Inference optimisation</a>.</dd>
+<dt><strong>Synthetic data</strong></dt>
+<dd>Training or evaluation data generated by rules, simulation or models — useful for coverage, risky without verification. See <a href="/enterprise-ai/foundations/dataset-engineering/#data-augmentation-and-synthesis">Dataset engineering</a>.</dd>
+<dt><strong>Test-time compute</strong></dt>
+<dd>Spending more inference compute per request — best-of-N, voting, reasoning tokens — to improve answers. See <a href="/enterprise-ai/foundations/training-and-sampling/#test-time-compute">Training, scaling &amp; sampling</a>.</dd>
+<dt><strong>Tool resilience (control × impact)</strong></dt>
+<dd>Assessing agent tools by how much you control them and how critical they are; critical, low-control tools need fallbacks. See <a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/#action-plans-and-tool-resilience">Levels, SPAR &amp; keystones</a>.</dd>
+<dt><strong>TTFT / TPOT</strong></dt>
+<dd>Time to first token and time per output token — the two latency numbers users feel. See <a href="/enterprise-ai/foundations/inference-optimization/#metrics-that-matter">Inference optimisation</a>.</dd>
+<dt><strong>Usefulness threshold</strong></dt>
+<dd>The minimum quality, latency and cost at which an AI application is worth shipping. See <a href="/enterprise-ai/foundations/ai-engineering-fundamentals/#4-what-does-success-look-like">AI engineering fundamentals</a>.</dd>
 </dl>
 
     </div>

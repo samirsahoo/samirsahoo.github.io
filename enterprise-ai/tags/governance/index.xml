@@ -28,18 +28,18 @@
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;AI governance&lt;/strong&gt; is the set of policies, roles, processes and technical controls that make sure an organisation&amp;rsquo;s AI is &lt;strong&gt;lawful, safe, fair, secure, transparent and accountable&lt;/strong&gt; — and that someone is answerable for each system. &lt;strong&gt;Responsible AI&lt;/strong&gt; names the principles; governance is how you put them into practice.&lt;/p&gt;</description>
 			</item>
 			<item>
-				<title>GenAI Adoption Strategy for the Enterprise</title>
-				<link>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</link>
-				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</guid>
-				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;GenAI adoption strategy&lt;/strong&gt; decides where generative AI should create value, which capabilities the organisation buys or builds, which models and deployments it standardises on, how risk is governed, and how people and processes change — so that AI moves from scattered experiments to a measured, repeatable capability.&lt;/p&gt;</description>
-			</item>
-			<item>
 				<title>Agentic AI Strategy and Operating Model</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;agentic AI strategy&lt;/strong&gt; decides where agents should do work in the organisation, how much autonomy they get, what platform they run on, how value and risk are measured, and how people and processes change around them. It turns isolated pilots into a governed, scalable capability.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>GenAI Adoption Strategy for the Enterprise</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;GenAI adoption strategy&lt;/strong&gt; decides where generative AI should create value, which capabilities the organisation buys or builds, which models and deployments it standardises on, how risk is governed, and how people and processes change — so that AI moves from scattered experiments to a measured, repeatable capability.&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>

@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Dataset Engineering: Curating, Synthesising and Processing Data · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="A data-centric view of AI: what data you need for fine-tuning and evaluation, data quality, coverage and quantity, acquisition and annotation, rule-based, simulated and AI-powered data synthesis, data verification and the limits of synthetic data, model distillation, and processing — inspection, deduplication, cleaning, filtering and formatting.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Dataset Engineering: Curating, Synthesising and Processing Data">
+<meta property="og:description" content="A data-centric view of AI: what data you need for fine-tuning and evaluation, data quality, coverage and quantity, acquisition and annotation, rule-based, simulated and AI-powered data synthesis, data verification and the limits of synthetic data, model distillation, and processing — inspection, deduplication, cleaning, filtering and formatting.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dataset Engineering: Curating, Synthesising and Processing Data">
+<meta name="twitter:description" content="A data-centric view of AI: what data you need for fine-tuning and evaluation, data quality, coverage and quantity, acquisition and annotation, rule-based, simulated and AI-powered data synthesis, data verification and the limits of synthetic data, model distillation, and processing — inspection, deduplication, cleaning, filtering and formatting.">
+<meta name="keywords" content="data, fine-tuning, evaluation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"A data-centric view of AI: what data you need for fine-tuning and evaluation, data quality, coverage and quantity, acquisition and annotation, rule-based, simulated and AI-powered data synthesis, data verification and the limits of synthetic data, model distillation, and processing — inspection, deduplication, cleaning, filtering and formatting.","headline":"Dataset Engineering: Curating, Synthesising and Processing Data","inLanguage":"en","isAccessibleForFree":true,"keywords":"data, fine-tuning, evaluation","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/","name":"Dataset engineering","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/" aria-current="page">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">Dataset engineering</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Dataset Engineering: Curating, Synthesising and Processing Data</h1><p class="article__lede" itemprop="description">A data-centric view of AI: what data you need for fine-tuning and evaluation, data quality, coverage and quantity, acquisition and annotation, rule-based, simulated and AI-powered data synthesis, data verification and the limits of synthetic data, model distillation, and processing — inspection, deduplication, cleaning, filtering and formatting.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/data/">#Data</a><a class="tag" href="/enterprise-ai/tags/fine-tuning/">#Fine-Tuning</a><a class="tag" href="/enterprise-ai/tags/evaluation/">#Evaluation</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#what-data-are-we-talking-about">What data are we talking about?</a></li>
+    <li><a href="#data-curation-quality-coverage-quantity">Data curation: quality, coverage, quantity</a>
+      <ul>
+        <li><a href="#quality">Quality</a></li>
+        <li><a href="#coverage">Coverage</a></li>
+        <li><a href="#quantity">Quantity</a></li>
+      </ul>
+    </li>
+    <li><a href="#acquisition-and-annotation">Acquisition and annotation</a></li>
+    <li><a href="#data-augmentation-and-synthesis">Data augmentation and synthesis</a>
+      <ul>
+        <li><a href="#traditional-techniques">Traditional techniques</a></li>
+        <li><a href="#ai-powered-synthesis">AI-powered synthesis</a></li>
+        <li><a href="#verifying-synthetic-data">Verifying synthetic data</a></li>
+        <li><a href="#limits-of-synthetic-data">Limits of synthetic data</a></li>
+      </ul>
+    </li>
+    <li><a href="#model-distillation">Model distillation</a></li>
+    <li><a href="#data-processing">Data processing</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Dataset engineering</strong> is the work of producing the data a model is trained or evaluated on: deciding what data you need, getting it, generating it when you cannot get it, and cleaning it into a usable format.</p>
+<p>As models become commodities, data becomes the differentiator. Two teams using the same base model are separated mostly by the quality of their <strong>instructions, examples, preferences and evaluation sets</strong>.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The one idea to keep</span></p>
+  <div class="callout__body"><p>A small amount of <strong>high-quality, well-covered</strong> data beats a large amount of noisy data. Fine-tuning has been shown to work with only a few thousand carefully chosen examples.</p></div>
+</aside><h2 id="what-data-are-we-talking-about">What data are we talking about?<a class="heading-anchor" href="#what-data-are-we-talking-about" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Purpose</th>
+      <th>Shape of the data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Supervised fine-tuning</strong></td>
+      <td>(instruction, response) pairs; multi-turn conversations</td>
+    </tr>
+    <tr>
+      <td><strong>Preference fine-tuning</strong></td>
+      <td>(prompt, preferred response, rejected response)</td>
+    </tr>
+    <tr>
+      <td><strong>Reasoning</strong></td>
+      <td>Problems with step-by-step solutions (chain-of-thought)</td>
+    </tr>
+    <tr>
+      <td><strong>Tool use</strong></td>
+      <td>Conversations including tool calls, arguments and results — often hard to collect from humans, because people use tools differently from agents</td>
+    </tr>
+    <tr>
+      <td><strong>Evaluation</strong></td>
+      <td>Inputs with expected outputs, rubrics or reference answers — see <a href="/enterprise-ai/foundations/evaluating-ai-systems/">evaluating AI systems</a></td>
+    </tr>
+    <tr>
+      <td><strong>Retrieval</strong></td>
+      <td>Queries with relevant documents, for embedding and reranker tuning</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Single-turn data teaches answering; multi-turn data teaches clarification, follow-up and correction. Most real applications need both.</p>
+<h2 id="data-curation-quality-coverage-quantity">Data curation: quality, coverage, quantity<a class="heading-anchor" href="#data-curation-quality-coverage-quantity" aria-label="Link to this section">#</a></h2>
+<h3 id="quality">Quality<a class="heading-anchor" href="#quality" aria-label="Link to this section">#</a></h3>
+<p>High-quality examples are:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Relevant</strong></td>
+      <td>Match the task and domain you will serve</td>
+    </tr>
+    <tr>
+      <td><strong>Aligned with task requirements</strong></td>
+      <td>Follow the format, policy and style the product needs — a correct but off-format answer is a bad example</td>
+    </tr>
+    <tr>
+      <td><strong>Consistent</strong></td>
+      <td>Annotators agree; the same input gets the same label</td>
+    </tr>
+    <tr>
+      <td><strong>Correctly formatted</strong></td>
+      <td>No stray HTML, broken encodings, truncated responses</td>
+    </tr>
+    <tr>
+      <td><strong>Sufficiently unique</strong></td>
+      <td>Few duplicates, which distort training and contaminate evaluation</td>
+    </tr>
+    <tr>
+      <td><strong>Compliant</strong></td>
+      <td>Licensed for use, free of personal data you cannot keep</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="coverage">Coverage<a class="heading-anchor" href="#coverage" aria-label="Link to this section">#</a></h3>
+<p>Data must span the <strong>range of inputs</strong> the product will see: topics, lengths, languages, user expertise, phrasing styles, edge cases and adversarial inputs. Missing a slice in training shows up as a failure for that slice in production.</p>
+<p>Mix matters too. If 80% of your traffic is billing questions, training on 80% technical questions skews behaviour. Experiment with mixes and measure per-slice quality.</p>
+<h3 id="quantity">Quantity<a class="heading-anchor" href="#quantity" aria-label="Link to this section">#</a></h3>
+<p>How much you need depends on:</p>
+<ul>
+<li><strong>Technique</strong> — full fine-tuning needs more data than <a href="/enterprise-ai/foundations/finetuning-in-depth/#lora">LoRA</a>; a strong base model needs less.</li>
+<li><strong>Task complexity</strong> — classification needs less than open-ended generation or reasoning.</li>
+<li><strong>Base-model fit</strong> — the closer the base model already is, the less you need.</li>
+</ul>
+<p>Run a <strong>data scaling experiment</strong>: train on 25%, 50% and 100% of your data and plot quality. If the curve is still rising, more data will help; if it has flattened, invest elsewhere.</p>
+<h2 id="acquisition-and-annotation">Acquisition and annotation<a class="heading-anchor" href="#acquisition-and-annotation" aria-label="Link to this section">#</a></h2>
+<p>The best source is usually <strong>your own application</strong> — real user queries, corrections and feedback (see <a href="/enterprise-ai/foundations/user-feedback/">user feedback</a>). Other sources: public datasets (check licences), purchased data, and annotation by experts or vendors.</p>
+<p>Annotation is mostly a <strong>guidelines</strong> problem. Write clear rubrics with examples of good and bad responses; the same guidelines later become your evaluation rubric. Measure inter-annotator agreement and resolve disagreements before scaling up.</p>
+<h2 id="data-augmentation-and-synthesis">Data augmentation and synthesis<a class="heading-anchor" href="#data-augmentation-and-synthesis" aria-label="Link to this section">#</a></h2>
+<p>Synthetic data is used to increase <strong>quantity</strong>, increase <strong>coverage</strong> (rare cases, adversarial inputs), improve <strong>quality</strong> (better than average human writing for some tasks), <strong>protect privacy</strong> (realistic data without real customers) and <strong>distil</strong> models.</p>
+<h3 id="traditional-techniques">Traditional techniques<a class="heading-anchor" href="#traditional-techniques" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Rule-based / templates</strong></td>
+      <td>Generate transactions, forms or invoices from templates and value lists</td>
+    </tr>
+    <tr>
+      <td><strong>Perturbation</strong></td>
+      <td>Paraphrase, swap entities, add typos and noise to make models robust</td>
+    </tr>
+    <tr>
+      <td><strong>Simulation</strong></td>
+      <td>Simulate environments — robotics, game play, tool use — and record trajectories</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="ai-powered-synthesis">AI-powered synthesis<a class="heading-anchor" href="#ai-powered-synthesis" aria-label="Link to this section">#</a></h3>
+<p>Models can generate inputs, outputs, or both:</p>
+<ul>
+<li><strong>Instruction synthesis</strong> — generate diverse instructions from seed topics, then responses to them.</li>
+<li><strong>Reverse instruction</strong> — start with high-quality human content (an article, code) and ask a model to write the instruction it answers; the response stays human-quality.</li>
+<li><strong>Self-play and role-play</strong> — models simulate users, customers or opponents to create multi-turn data.</li>
+<li><strong>Long-context data</strong> — split long documents and generate questions that require the whole document.</li>
+</ul>
+<figure class="diagram" aria-label="An AI-powered synthetic data pipeline"><figcaption class="diagram__title">An AI-powered synthetic data pipeline</figcaption>
+  <pre class="mermaid">flowchart LR
+    S[&#34;Seed topics,&lt;br/&gt;real examples,&lt;br/&gt;documents&#34;] --&gt; G[&#34;Generate&lt;br/&gt;instructions + responses&lt;br/&gt;with a strong model&#34;]
+    G --&gt; V{&#34;Verify&#34;}
+    V --&gt;|&#34;functional checks&lt;br/&gt;(code runs, math checks)&#34;| K[&#34;Keep&#34;]
+    V --&gt;|&#34;AI judge scores&lt;br/&gt;above threshold&#34;| K
+    V --&gt;|&#34;fails / duplicate /&lt;br/&gt;off-policy&#34;| X[&#34;Discard&#34;]
+    K --&gt; D[&#34;Deduplicate&lt;br/&gt;and balance&#34;]
+    D --&gt; H[&#34;Human spot-check&lt;br/&gt;sample&#34;]
+    H --&gt; T[&#34;Training set&#34;]</pre>
+</figure>
+<h3 id="verifying-synthetic-data">Verifying synthetic data<a class="heading-anchor" href="#verifying-synthetic-data" aria-label="Link to this section">#</a></h3>
+<p>Generated data is only as useful as its verification:</p>
+<ul>
+<li><strong>Functional correctness</strong> — run code, check math, validate JSON against a schema.</li>
+<li><strong>AI judges</strong> — score quality, faithfulness and policy compliance; keep the top slice.</li>
+<li><strong>Heuristics</strong> — remove repetitive examples, instructions that are too long or short, identical instructions with conflicting responses, outputs that just repeat the input.</li>
+<li><strong>Human review</strong> of a sample — always.</li>
+</ul>
+<h3 id="limits-of-synthetic-data">Limits of synthetic data<a class="heading-anchor" href="#limits-of-synthetic-data" aria-label="Link to this section">#</a></h3>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Synthetic data has real failure modes</span></p>
+  <div class="callout__body"><ul>
+<li><strong>Quality control</strong> — errors in generated data become errors in the model.</li>
+<li><strong>Superficial imitation</strong> — a student can copy a teacher&rsquo;s <em>style</em> without its <em>capability</em>, and learn to hallucinate confidently.</li>
+<li><strong>Model collapse</strong> — training repeatedly on model-generated data can lose rare cases and diversity over generations. Mix in real data.</li>
+<li><strong>Obscure lineage</strong> — you may not know what the generating model was trained on, which complicates copyright, contamination and licence compliance. Check the generating model&rsquo;s terms of use.</li>
+</ul></div>
+</aside><h2 id="model-distillation">Model distillation<a class="heading-anchor" href="#model-distillation" aria-label="Link to this section">#</a></h2>
+<p><strong>Distillation</strong> trains a smaller <strong>student</strong> model to imitate a larger <strong>teacher</strong>. In practice for LLMs this usually means: use the teacher to generate (or label) training data, then fine-tune the student on it.</p>
+<p>It is the standard route to a cheap, fast model for a narrow task: the teacher sets the quality bar, the student meets it at a fraction of the serving cost. Evaluate the student against the teacher on your evaluation set, especially on hard cases, where students tend to fall short.</p>
+<h2 id="data-processing">Data processing<a class="heading-anchor" href="#data-processing" aria-label="Link to this section">#</a></h2>
+<p>Processing is unglamorous and decisive. Do it in this order:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>What to do</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1. Inspect</strong></td>
+      <td>Read samples. Plot distributions of lengths, topics, languages, sources and annotators. Look for outliers and surprises — most data problems are visible within an hour of reading</td>
+    </tr>
+    <tr>
+      <td><strong>2. Deduplicate</strong></td>
+      <td>Remove exact and near duplicates within the training set and <strong>between training and evaluation sets</strong> (contamination). Methods: pairwise similarity for small sets, hashing (MinHash, locality-sensitive hashing), embedding similarity</td>
+    </tr>
+    <tr>
+      <td><strong>3. Clean and filter</strong></td>
+      <td>Strip formatting artefacts; remove personal data, toxic content, low-quality and non-compliant examples; filter by quality scores or heuristics</td>
+    </tr>
+    <tr>
+      <td><strong>4. Format</strong></td>
+      <td>Convert to the exact chat template and tokenizer format the base model expects; a wrong template silently degrades fine-tuning</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Keep each step <strong>scripted and versioned</strong>, so a dataset can be rebuilt and audited — part of <a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a>.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Scaling data before fixing quality</span></p>
+  <div class="callout__body"><p>Collecting tens of thousands of noisy examples instead of curating a few thousand good ones. Fix guidelines and quality first.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Evaluation data leaking into training</span></p>
+  <div class="callout__body"><p>Near-duplicates of evaluation examples in the training set make results look better than they are. Deduplicate across splits.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Trusting generated data unverified</span></p>
+  <div class="callout__body"><p>Fine-tuning on synthetic data no one checked. Verify functionally, with judges and with human samples.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What makes training data high quality?</strong>
+It is relevant to the task, aligned with the required format and policy, consistent across annotators, correctly formatted, sufficiently unique and legally usable.</p>
+<p><strong>How do you decide how much data you need?</strong>
+Run a data scaling experiment — train on increasing subsets and watch the quality curve. Needs fall with stronger base models, simpler tasks and parameter-efficient methods.</p>
+<p><strong>Why use synthetic data, and what are its risks?</strong>
+It adds quantity and coverage, can improve quality, protects privacy and enables distillation. Risks are uncaught errors, superficial imitation, model collapse from recursive training and unclear lineage.</p>
+<p><strong>What is model distillation?</strong>
+Training a smaller student model on outputs from a larger teacher, so the student approaches the teacher&rsquo;s quality on a task at much lower serving cost.</p>
+<p><strong>Why deduplicate between training and evaluation sets?</strong>
+Duplicates contaminate the evaluation: the model is tested on what it was trained on, so scores overstate real-world quality.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Data is the differentiator when models are commodities; quality and coverage beat volume.</li>
+<li>Know the data shape you need: instructions, preferences, reasoning, tool use, evaluation.</li>
+<li>Synthesise to fill gaps — but verify functionally, with judges and with humans.</li>
+<li>Distil large models into small ones for narrow tasks.</li>
+<li>Inspect, deduplicate, clean, filter and format — scripted and versioned.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chip Huyen, <em>AI Engineering</em>, O&rsquo;Reilly, 2025 — chapter 8.</li>
+<li>Zhou et al., <a href="https://arxiv.org/abs/2305.11206" rel="noopener">LIMA: Less Is More for Alignment</a>, 2023.</li>
+<li>Shumailov et al., <a href="https://arxiv.org/abs/2305.17493" rel="noopener">The Curse of Recursion: Training on Generated Data Makes Models Forget</a>, 2023.</li>
+<li>Gudibande et al., <a href="https://arxiv.org/abs/2305.15717" rel="noopener">The False Promise of Imitating Proprietary LLMs</a>, 2023.</li>
+<li>Li et al., <a href="https://arxiv.org/abs/2308.06259" rel="noopener">Self-Alignment with Instruction Backtranslation</a>, 2023.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/finetuning-in-depth/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Fine-tuning in depth</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/evaluating-ai-systems/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Evaluating AI systems</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/user-feedback/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">User feedback</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Planning &amp; failure modes</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/finetuning-in-depth/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Fine-tuning in depth</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/evaluation-methodology/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Evaluation methodology</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#what-data-are-we-talking-about">What data are we talking about?</a></li>
+    <li><a href="#data-curation-quality-coverage-quantity">Data curation: quality, coverage, quantity</a>
+      <ul>
+        <li><a href="#quality">Quality</a></li>
+        <li><a href="#coverage">Coverage</a></li>
+        <li><a href="#quantity">Quantity</a></li>
+      </ul>
+    </li>
+    <li><a href="#acquisition-and-annotation">Acquisition and annotation</a></li>
+    <li><a href="#data-augmentation-and-synthesis">Data augmentation and synthesis</a>
+      <ul>
+        <li><a href="#traditional-techniques">Traditional techniques</a></li>
+        <li><a href="#ai-powered-synthesis">AI-powered synthesis</a></li>
+        <li><a href="#verifying-synthetic-data">Verifying synthetic data</a></li>
+        <li><a href="#limits-of-synthetic-data">Limits of synthetic data</a></li>
+      </ul>
+    </li>
+    <li><a href="#model-distillation">Model distillation</a></li>
+    <li><a href="#data-processing">Data processing</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

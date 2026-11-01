@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Agent Planning, Tool Selection and Failure Modes · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How agents plan: the three kinds of tools (knowledge augmentation, capability extension, write actions), plan generation and validation, decoupling planning from execution, planning granularity, control flow in plans (sequential, parallel, if, loops), reflection and error correction, choosing a tool inventory — and how to evaluate the failure modes unique to agents: planning failures, tool failures and inefficiency.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Agent Planning, Tool Selection and Failure Modes">
+<meta property="og:description" content="How agents plan: the three kinds of tools (knowledge augmentation, capability extension, write actions), plan generation and validation, decoupling planning from execution, planning granularity, control flow in plans (sequential, parallel, if, loops), reflection and error correction, choosing a tool inventory — and how to evaluate the failure modes unique to agents: planning failures, tool failures and inefficiency.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Agent Planning, Tool Selection and Failure Modes">
+<meta name="twitter:description" content="How agents plan: the three kinds of tools (knowledge augmentation, capability extension, write actions), plan generation and validation, decoupling planning from execution, planning granularity, control flow in plans (sequential, parallel, if, loops), reflection and error correction, choosing a tool inventory — and how to evaluate the failure modes unique to agents: planning failures, tool failures and inefficiency.">
+<meta name="keywords" content="agents, agentic-ai, evaluation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"How agents plan: the three kinds of tools (knowledge augmentation, capability extension, write actions), plan generation and validation, decoupling planning from execution, planning granularity, control flow in plans (sequential, parallel, if, loops), reflection and error correction, choosing a tool inventory — and how to evaluate the failure modes unique to agents: planning failures, tool failures and inefficiency.","headline":"Agent Planning, Tool Selection and Failure Modes","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, agentic-ai, evaluation","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/","name":"Planning \u0026 failure modes","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/" aria-current="page">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Planning &amp; failure modes</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Agent Planning, Tool Selection and Failure Modes</h1><p class="article__lede" itemprop="description">How agents plan: the three kinds of tools (knowledge augmentation, capability extension, write actions), plan generation and validation, decoupling planning from execution, planning granularity, control flow in plans (sequential, parallel, if, loops), reflection and error correction, choosing a tool inventory — and how to evaluate the failure modes unique to agents: planning failures, tool failures and inefficiency.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a><a class="tag" href="/enterprise-ai/tags/evaluation/">#Evaluation</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a>, <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#tools-what-an-agent-can-do">Tools: what an agent can do</a></li>
+    <li><a href="#planning">Planning</a>
+      <ul>
+        <li><a href="#generate-validate-execute">Generate, validate, execute</a></li>
+        <li><a href="#how-models-plan">How models plan</a></li>
+        <li><a href="#planning-granularity">Planning granularity</a></li>
+        <li><a href="#control-flow-in-plans">Control flow in plans</a></li>
+      </ul>
+    </li>
+    <li><a href="#reflection-and-error-correction">Reflection and error correction</a></li>
+    <li><a href="#tool-selection-what-goes-in-the-inventory">Tool selection: what goes in the inventory</a></li>
+    <li><a href="#agent-failure-modes">Agent failure modes</a>
+      <ul>
+        <li><a href="#planning-failures">Planning failures</a></li>
+        <li><a href="#tool-failures">Tool failures</a></li>
+        <li><a href="#efficiency-failures">Efficiency failures</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>An agent is defined by two things: the <strong>environment</strong> it operates in and the <strong>tools</strong> it can use. <strong>Planning</strong> is how it turns a goal into a sequence of tool calls; <strong>reflection</strong> is how it notices mistakes and corrects them.</p>
+<p>Because an agent takes many steps, it has many more ways to fail than a single model call. Good agent design means knowing those failure modes and measuring each one.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Errors compound</span></p>
+  <div class="callout__body"><p>If each step is 95% reliable, a ten-step task succeeds only about 60% of the time. More steps, more tools and more autonomy all multiply risk — so keep plans short and verify as you go.</p></div>
+</aside><h2 id="tools-what-an-agent-can-do">Tools: what an agent can do<a class="heading-anchor" href="#tools-what-an-agent-can-do" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Purpose</th>
+      <th>Examples</th>
+      <th>Risk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Knowledge augmentation</strong></td>
+      <td>Fetch information the model lacks</td>
+      <td>Retrievers, SQL queries, internal APIs, web search, email and calendar readers</td>
+      <td>Low (read-only), but watch data access and <a href="/enterprise-ai/spring-ai-governance/ai-security/#prompt-injection-in-depth">indirect prompt injection</a></td>
+    </tr>
+    <tr>
+      <td><strong>Capability extension</strong></td>
+      <td>Compensate for model weaknesses</td>
+      <td>Calculator, code interpreter, unit converter, translator, date/time, OCR</td>
+      <td>Low to medium (code execution needs a sandbox)</td>
+    </tr>
+    <tr>
+      <td><strong>Write actions</strong></td>
+      <td>Change the world</td>
+      <td>Send email, update CRM, create ticket, transfer funds, deploy code</td>
+      <td><strong>High</strong> — side effects may be irreversible</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Tools also make a model <strong>multimodal</strong>: a text-only model with an image-captioning or transcription tool can work with images and audio.</p>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Write actions need guardrails first</span></p>
+  <div class="callout__body"><p>Before granting a write tool, define who the agent acts as, what limits apply, which actions need approval, and how to undo them. See <a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">agent identity and access</a>.</p></div>
+</aside><h2 id="planning">Planning<a class="heading-anchor" href="#planning" aria-label="Link to this section">#</a></h2>
+<h3 id="generate-validate-execute">Generate, validate, execute<a class="heading-anchor" href="#generate-validate-execute" aria-label="Link to this section">#</a></h3>
+<figure class="diagram" aria-label="Decouple planning from execution"><figcaption class="diagram__title">Decouple planning from execution</figcaption>
+  <pre class="mermaid">flowchart LR
+    T[&#34;Task&#34;] --&gt; PG[&#34;Plan generator&lt;br/&gt;LLM proposes steps&#34;]
+    PG --&gt; V{&#34;Validator&lt;br/&gt;tools exist? params valid?&lt;br/&gt;within budget and policy?&#34;}
+    V --&gt;|&#34;invalid&#34;| PG
+    V --&gt;|&#34;valid&#34;| H{&#34;Needs human&lt;br/&gt;approval?&#34;}
+    H --&gt;|&#34;yes&#34;| A[&#34;Approve / edit&#34;]
+    H --&gt;|&#34;no&#34;| X[&#34;Executor&lt;br/&gt;runs tool calls&#34;]
+    A --&gt; X
+    X --&gt; R{&#34;Reflect&lt;br/&gt;goal met?&#34;}
+    R --&gt;|&#34;no&#34;| PG
+    R --&gt;|&#34;yes&#34;| D[&#34;Done&#34;]</pre>
+</figure>
+<p>Separating planning from execution lets you <strong>check a plan before running it</strong>: reject plans that call tools that do not exist, exceed a step budget, or include forbidden actions. Validators can be heuristics (a whitelist of tools, a maximum length) or an AI judge. Several plans can be generated in parallel and the best one chosen.</p>
+<p><strong>Intent classification</strong> helps planning too: knowing the request is a billing question narrows the tools to consider; knowing it is out of scope stops planning early.</p>
+<h3 id="how-models-plan">How models plan<a class="heading-anchor" href="#how-models-plan" aria-label="Link to this section">#</a></h3>
+<p>Foundation models plan by being prompted with the <strong>task</strong>, the <strong>tool inventory</strong> (names, descriptions, parameters) and <strong>examples</strong> of good plans. Native <a href="/enterprise-ai/agentic-ai/tool-calling/">function calling</a> makes the output structured: the model returns tool names and arguments that your code executes.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Settings that help planning</span></p>
+  <div class="callout__body"><p>Use low temperature for tool selection, give each tool a clear description with parameter types and examples, and tell the model what to do when no tool fits.</p></div>
+</aside><h3 id="planning-granularity">Planning granularity<a class="heading-anchor" href="#planning-granularity" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Granularity</th>
+      <th>Example step</th>
+      <th>Trade-off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>High level</strong></td>
+      <td>&ldquo;Get last quarter&rsquo;s top products&rdquo;</td>
+      <td>Easy to plan, needs translation into executable calls</td>
+    </tr>
+    <tr>
+      <td><strong>Low level / exact</strong></td>
+      <td><code>get_sales(start=&quot;2026-07-01&quot;, end=&quot;2026-09-30&quot;, sort=&quot;revenue&quot;, limit=5)</code></td>
+      <td>Directly executable, harder to plan and brittle when tools change</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>A common approach is hierarchical: plan in natural language at a high level, then translate each step into exact tool calls — keeping the plan readable for humans and robust to tool changes.</p>
+<h3 id="control-flow-in-plans">Control flow in plans<a class="heading-anchor" href="#control-flow-in-plans" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Flow</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Sequential</strong></td>
+      <td>Get the order, then get the shipment</td>
+    </tr>
+    <tr>
+      <td><strong>Parallel</strong></td>
+      <td>Fetch prices from three suppliers at once</td>
+    </tr>
+    <tr>
+      <td><strong>If statement</strong></td>
+      <td>If the refund exceeds €50, ask for approval; else issue it</td>
+    </tr>
+    <tr>
+      <td><strong>For loop</strong></td>
+      <td>For each invoice in the batch, validate and post</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Parallel steps cut latency. Conditionals and loops need care: bound every loop, and make the executor — not the model — enforce the limits.</p>
+<h2 id="reflection-and-error-correction">Reflection and error correction<a class="heading-anchor" href="#reflection-and-error-correction" aria-label="Link to this section">#</a></h2>
+<p>An agent should check its work <strong>after receiving the task</strong> (is it feasible?), <strong>after generating a plan</strong> (is it sensible?), <strong>after each step</strong> (did that work?) and <strong>at the end</strong> (is the goal met?).</p>
+<p>Patterns:</p>
+<ul>
+<li><strong>ReAct</strong> — interleave reasoning, action and observation so each result informs the next step. See <a href="/enterprise-ai/agentic-ai/what-is-an-agent/#react-reason--act">ReAct</a>.</li>
+<li><strong>Reflexion</strong> — after a failed attempt, an evaluator scores the outcome and a self-reflection step writes down <em>what went wrong</em>; the next attempt uses that lesson.</li>
+<li><strong>External verification</strong> — the strongest form: tests, validators, database checks or a separate judge model. Self-assessment alone is unreliable.</li>
+</ul>
+<p>Reflection costs tokens and latency; apply it where errors are costly. See <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/#7-reflection">reflection</a> and <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/#5-evaluatoroptimizer">evaluator–optimizer</a>.</p>
+<h2 id="tool-selection-what-goes-in-the-inventory">Tool selection: what goes in the inventory<a class="heading-anchor" href="#tool-selection-what-goes-in-the-inventory" aria-label="Link to this section">#</a></h2>
+<p>More tools give an agent more capabilities — and make it harder to choose correctly.</p>
+<ol>
+<li><strong>Start small</strong> and add tools only for observed gaps.</li>
+<li><strong>Run ablations</strong>: remove a tool and measure the effect. If performance does not drop, the tool is not earning its place.</li>
+<li><strong>Track usage</strong>: which tools are called, how often, and which fail most. Distributions differ by model.</li>
+<li><strong>Study tool transitions</strong>: which tool usually follows which. Frequent pairs can be merged into one composite tool.</li>
+<li><strong>Hard tools</strong>: improve their descriptions and examples, simplify their parameters, fine-tune, or replace them.</li>
+<li><strong>Large inventories</strong>: group tools, load them on demand, or split work across <a href="/enterprise-ai/agentic-ai/multi-agent-systems/">specialised agents</a>.</li>
+</ol>
+<p>Some agents learn to <strong>create tools</strong> — writing and saving code as reusable skills. See <a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">agent harnesses and skills</a>.</p>
+<h2 id="agent-failure-modes">Agent failure modes<a class="heading-anchor" href="#agent-failure-modes" aria-label="Link to this section">#</a></h2>
+<p>To evaluate an agent, list its failure modes and measure how often each occurs.</p>
+<figure class="diagram" aria-label="A taxonomy of agent failures"><figcaption class="diagram__title">A taxonomy of agent failures</figcaption>
+  <pre class="mermaid">flowchart TB
+    F[&#34;Agent failure&#34;] --&gt; P[&#34;Planning failures&#34;]
+    F --&gt; T[&#34;Tool failures&#34;]
+    F --&gt; E[&#34;Efficiency failures&#34;]
+    P --&gt; P1[&#34;Invalid tool&lt;br/&gt;(not in inventory)&#34;]
+    P --&gt; P2[&#34;Valid tool,&lt;br/&gt;invalid parameters&#34;]
+    P --&gt; P3[&#34;Valid tool,&lt;br/&gt;wrong parameter values&#34;]
+    P --&gt; P4[&#34;Goal failure&lt;br/&gt;wrong goal or&lt;br/&gt;constraints violated&#34;]
+    P --&gt; P5[&#34;Reflection error&lt;br/&gt;claims success&lt;br/&gt;when it failed&#34;]
+    T --&gt; T1[&#34;Tool returns&lt;br/&gt;wrong output&#34;]
+    T --&gt; T2[&#34;Translation error&lt;br/&gt;plan → command&#34;]
+    T --&gt; T3[&#34;Missing tool&lt;br/&gt;for the task&#34;]
+    E --&gt; E1[&#34;Too many steps&#34;]
+    E --&gt; E2[&#34;Too costly&#34;]
+    E --&gt; E3[&#34;Too slow /&lt;br/&gt;missed deadline&#34;]</pre>
+</figure>
+<h3 id="planning-failures">Planning failures<a class="heading-anchor" href="#planning-failures" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Failure</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Invalid tool</strong></td>
+      <td>Calls <code>web_search</code>, which is not in its inventory</td>
+    </tr>
+    <tr>
+      <td><strong>Invalid parameters</strong></td>
+      <td>Calls <code>convert_currency</code> with two arguments when it needs three</td>
+    </tr>
+    <tr>
+      <td><strong>Incorrect parameter values</strong></td>
+      <td>Right tool and shape, wrong value — converts 100 when the order was 120</td>
+    </tr>
+    <tr>
+      <td><strong>Goal failure</strong></td>
+      <td>Solves a different task, or ignores a constraint (books a trip over budget, or to the wrong city)</td>
+    </tr>
+    <tr>
+      <td><strong>Time-constraint failure</strong></td>
+      <td>Completes the work after it stopped being useful</td>
+    </tr>
+    <tr>
+      <td><strong>Reflection error</strong></td>
+      <td>Insists the task is complete when it is not — assigns 40 of 50 people to rooms and reports success</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Measure with a <strong>planning dataset</strong> of (task, tool inventory) pairs. For each task, generate several plans and compute:</p>
+<ul>
+<li>the share of plans that are valid, and how many attempts it takes on average to get one;</li>
+<li>the share of tool calls that are valid;</li>
+<li>how often invalid tools, invalid parameters and incorrect values occur;</li>
+<li>which task types and which tools fail most — and why.</li>
+</ul>
+<h3 id="tool-failures">Tool failures<a class="heading-anchor" href="#tool-failures" aria-label="Link to this section">#</a></h3>
+<p>The plan was right but the tool&rsquo;s output was wrong: an OCR tool misreads an invoice, a text-to-SQL step writes a wrong query, a translator garbles a plan step into the wrong command — or the agent simply lacks a tool the task needs. Test <strong>every tool independently</strong>, log every tool call with its input and output, and ask domain experts which tools they would use for tasks where the agent fails often.</p>
+<h3 id="efficiency-failures">Efficiency failures<a class="heading-anchor" href="#efficiency-failures" aria-label="Link to this section">#</a></h3>
+<p>A valid plan can still be wasteful. Track, on average per task: <strong>steps</strong>, <strong>cost</strong>, <strong>time per action</strong>, and which actions are unusually slow or expensive. Compare against a baseline — another agent, or a human doing the task — remembering that efficiency differs: reading 100 web pages is slow for a person and trivial in parallel for an agent.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Build failure-mode dashboards</span></p>
+  <div class="callout__body"><p>Report agent quality as a breakdown — invalid-tool rate, parameter-error rate, goal-failure rate, tool-error rate, cost and steps per task — not a single success rate. Each failure mode has a different fix. See <a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/#evaluating-agents">evaluating agents</a>.</p></div>
+</aside><h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Trusting the agent&rsquo;s own success report</span></p>
+  <div class="callout__body"><p>Agents can claim completion when they have not finished. Verify outcomes with an independent check against the system of record.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Growing the tool list without ablations</span></p>
+  <div class="callout__body"><p>Adding tools &ldquo;just in case&rdquo;. Each extra tool makes selection harder; keep only those that measurably help.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Unvalidated plans with write actions</span></p>
+  <div class="callout__body"><p>Executing generated plans directly. Validate the plan, enforce budgets in the executor, and require approval for high-impact actions.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What are the three categories of agent tools?</strong>
+Knowledge augmentation (retrieve information), capability extension (calculators, code interpreters, converters) and write actions (change external systems). Write actions carry the most risk.</p>
+<p><strong>Why decouple planning from execution?</strong>
+So a plan can be validated — tools exist, parameters are valid, budgets and policies are respected, approvals obtained — before any side effects occur, and so several plans can be compared.</p>
+<p><strong>What is planning granularity and how do you choose it?</strong>
+The level of detail in plan steps. High-level plans are easier to generate and robust to tool changes but need translation; exact plans are directly executable but brittle. A hierarchical approach combines both.</p>
+<p><strong>List the planning failure modes of an agent.</strong>
+Invalid tool, valid tool with invalid parameters, valid tool with incorrect values, goal failure (wrong goal or violated constraints), time-constraint failure and reflection errors where it falsely claims success.</p>
+<p><strong>How would you decide which tools to give an agent?</strong>
+Start small; add tools for observed gaps; run ablations to confirm each tool helps; monitor usage, failures and transitions; simplify or replace hard tools; split large inventories across specialised agents or load tools on demand.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Tools are knowledge augmentation, capability extension or write actions; write actions need guardrails first.</li>
+<li>Generate, validate, then execute plans; choose granularity deliberately; bound loops in the executor.</li>
+<li>Reflect after the task, the plan, each step and the end — with external verification where possible.</li>
+<li>Curate the tool inventory with ablations and usage data.</li>
+<li>Measure planning failures, tool failures and efficiency separately; each has a different fix.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chip Huyen, <em>AI Engineering</em>, O&rsquo;Reilly, 2025 — chapter 6.</li>
+<li>Chip Huyen, <a href="https://huyenchip.com/2025/01/07/agents.html" rel="noopener">Agents</a>, 2025.</li>
+<li>Shinn et al., <a href="https://arxiv.org/abs/2303.11366" rel="noopener">Reflexion: Language Agents with Verbal Reinforcement Learning</a>, 2023.</li>
+<li>Patil et al., <a href="https://gorilla.cs.berkeley.edu/leaderboard.html" rel="noopener">Berkeley Function Calling Leaderboard</a>.</li>
+<li>Xie et al., <a href="https://arxiv.org/abs/2402.01622" rel="noopener">TravelPlanner: A Benchmark for Real-World Planning with Language Agents</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Workflow &amp; agent patterns</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Reliability &amp; evaluation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Levels, SPAR &amp; keystones</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-building-playbook/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent building playbook</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Harnesses &amp; skills</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/tool-calling/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Tool calling</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/model-context-protocol/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">MCP</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#tools-what-an-agent-can-do">Tools: what an agent can do</a></li>
+    <li><a href="#planning">Planning</a>
+      <ul>
+        <li><a href="#generate-validate-execute">Generate, validate, execute</a></li>
+        <li><a href="#how-models-plan">How models plan</a></li>
+        <li><a href="#planning-granularity">Planning granularity</a></li>
+        <li><a href="#control-flow-in-plans">Control flow in plans</a></li>
+      </ul>
+    </li>
+    <li><a href="#reflection-and-error-correction">Reflection and error correction</a></li>
+    <li><a href="#tool-selection-what-goes-in-the-inventory">Tool selection: what goes in the inventory</a></li>
+    <li><a href="#agent-failure-modes">Agent failure modes</a>
+      <ul>
+        <li><a href="#planning-failures">Planning failures</a></li>
+        <li><a href="#tool-failures">Tool failures</a></li>
+        <li><a href="#efficiency-failures">Efficiency failures</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

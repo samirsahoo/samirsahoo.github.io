@@ -21,7 +21,7 @@
 <meta name="twitter:description" content="The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.">
 <meta name="keywords" content="llm, foundations, fine-tuning, rag">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-10-31","description":"The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.","headline":"Prompting vs RAG vs Fine-Tuning","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, fine-tuning, rag","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/"}
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.","headline":"Prompting vs RAG vs Fine-Tuning","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, foundations, fine-tuning, rag","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/","name":"Prompting vs RAG vs fine-tuning","position":3}]}
@@ -82,12 +82,21 @@
       <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
     </summary>
     <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/" aria-current="page">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
@@ -120,7 +129,9 @@
     </summary>
     <ul>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
@@ -131,6 +142,7 @@
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
       <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
     </ul>
   </details>
@@ -199,8 +211,8 @@
       <h1 itemprop="headline">Prompting vs RAG vs Fine-Tuning</h1><p class="article__lede" itemprop="description">The three ways to adapt an LLM to your enterprise — what each changes, what each costs, when to use which, and how LoRA, PEFT and distillation fit in. With a decision tree.</p>
 <ul class="article-meta" aria-label="Article details">
   <li><span class="badge badge--intermediate">Intermediate</span></li>
-  <li>5 min read</li>
-  <li>Reviewed <time datetime="2026-10-31">October 31, 2026</time></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
   <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/llm/">#Llm</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/fine-tuning/">#Fine-Tuning</a><a class="tag" href="/enterprise-ai/tags/rag/">#Rag</a>
   </li>
 </ul>
@@ -340,6 +352,7 @@
 </figure>
 <p>They combine well. A common mature architecture is a <strong>fine-tuned smaller model + RAG</strong>: fine-tuning teaches the format and domain language, RAG supplies current facts.</p>
 <h2 id="fine-tuning-options-explained">Fine-tuning options explained<a class="heading-anchor" href="#fine-tuning-options-explained" aria-label="Link to this section">#</a></h2>
+<p>For memory math, numerical formats, LoRA and QLoRA internals, multi-adapter serving and model merging, see <a href="/enterprise-ai/foundations/finetuning-in-depth/">fine-tuning in depth</a>; for preparing the training data, see <a href="/enterprise-ai/foundations/dataset-engineering/">dataset engineering</a>.</p>
 <div class="table-wrap" tabindex="0" role="region" aria-label="Table">
 <table>
   <thead>
@@ -461,21 +474,21 @@ Training a small model to reproduce a large model&rsquo;s outputs on a specific 
       </a>
     </li>
     <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/finetuning-in-depth/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Fine-tuning in depth</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/training-and-sampling/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Training, scaling &amp; sampling</span>
+      </a>
+    </li>
+    <li class="card">
       <a class="card__link" href="/enterprise-ai/foundations/how-llms-work/">
         <span class="card__eyebrow">1 · LLM Foundations</span>
         <span class="card__title">How LLMs work</span>
-      </a>
-    </li>
-    <li class="card">
-      <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
-        <span class="card__eyebrow">1 · LLM Foundations</span>
-        <span class="card__title">Inference, latency &amp; cost</span>
-      </a>
-    </li>
-    <li class="card">
-      <a class="card__link" href="/enterprise-ai/foundations/prompt-engineering/">
-        <span class="card__eyebrow">1 · LLM Foundations</span>
-        <span class="card__title">Prompt &amp; context engineering</span>
       </a>
     </li>
   </ul>
@@ -487,9 +500,9 @@ Training a small model to reproduce a large model&rsquo;s outputs on a specific 
     <span class="prev-next__label">← Previous</span>
     <span class="prev-next__title">Prompt &amp; context engineering</span>
   </a>
-  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/model-selection/" rel="next">
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/finetuning-in-depth/" rel="next">
     <span class="prev-next__label">Next →</span>
-    <span class="prev-next__title">Model selection</span>
+    <span class="prev-next__title">Fine-tuning in depth</span>
   </a>
 </nav>
 

@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>From Generative to Agentic AI: Five Levels, SPAR and the Three Keystones · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How agentic AI differs from generative AI, the six-step progression from manual work to fully autonomous agents (levels 0–5), the SPAR loop — sense, plan, act, reflect — the three keystones of action, reasoning and memory, LLMs vs large reasoning models, tool resilience by control and impact, and choosing between intelligent automation and agentic workflows.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-progression-and-spar/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="From Generative to Agentic AI: Five Levels, SPAR and the Three Keystones">
+<meta property="og:description" content="How agentic AI differs from generative AI, the six-step progression from manual work to fully autonomous agents (levels 0–5), the SPAR loop — sense, plan, act, reflect — the three keystones of action, reasoning and memory, LLMs vs large reasoning models, tool resilience by control and impact, and choosing between intelligent automation and agentic workflows.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-progression-and-spar/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="From Generative to Agentic AI: Five Levels, SPAR and the Three Keystones">
+<meta name="twitter:description" content="How agentic AI differs from generative AI, the six-step progression from manual work to fully autonomous agents (levels 0–5), the SPAR loop — sense, plan, act, reflect — the three keystones of action, reasoning and memory, LLMs vs large reasoning models, tool resilience by control and impact, and choosing between intelligent automation and agentic workflows.">
+<meta name="keywords" content="agents, agentic-ai, strategy">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"How agentic AI differs from generative AI, the six-step progression from manual work to fully autonomous agents (levels 0–5), the SPAR loop — sense, plan, act, reflect — the three keystones of action, reasoning and memory, LLMs vs large reasoning models, tool resilience by control and impact, and choosing between intelligent automation and agentic workflows.","headline":"From Generative to Agentic AI: Five Levels, SPAR and the Three Keystones","inLanguage":"en","isAccessibleForFree":true,"keywords":"agents, agentic-ai, strategy","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-progression-and-spar/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/","name":"3 · Agentic AI \u0026 MCP","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-progression-and-spar/","name":"Levels, SPAR \u0026 keystones","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-agentic-ai">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/" aria-current="page">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a></li>
+    <li><span aria-current="page">Levels, SPAR &amp; keystones</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">From Generative to Agentic AI: Five Levels, SPAR and the Three Keystones</h1><p class="article__lede" itemprop="description">How agentic AI differs from generative AI, the six-step progression from manual work to fully autonomous agents (levels 0–5), the SPAR loop — sense, plan, act, reflect — the three keystones of action, reasoning and memory, LLMs vs large reasoning models, tool resilience by control and impact, and choosing between intelligent automation and agentic workflows.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>9 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/agentic-ai/">#Agentic-Ai</a><a class="tag" href="/enterprise-ai/tags/strategy/">#Strategy</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#generative-ai-vs-agentic-ai">Generative AI vs agentic AI</a></li>
+    <li><a href="#the-progression-six-levels-from-manual-to-autonomous">The progression: six levels from manual to autonomous</a></li>
+    <li><a href="#the-spar-loop-how-an-agent-takes-action">The SPAR loop: how an agent takes action</a></li>
+    <li><a href="#the-three-keystones-action-reasoning-memory">The three keystones: action, reasoning, memory</a>
+      <ul>
+        <li><a href="#action-plans-and-tool-resilience">Action: plans and tool resilience</a></li>
+        <li><a href="#reasoning-llms-vs-large-reasoning-models">Reasoning: LLMs vs large reasoning models</a></li>
+        <li><a href="#memory-three-layers">Memory: three layers</a></li>
+      </ul>
+    </li>
+    <li><a href="#level-2-or-level-3-choosing-the-right-automation">Level 2 or level 3? Choosing the right automation</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Generative AI</strong> produces content when asked. <strong>Agentic AI</strong> pursues a goal: it plans, uses tools, takes actions across systems, remembers, and improves from results — with as little human prompting as the task allows.</p>
+<p>Agentic capability is not on or off. It is a <strong>progression</strong>, from rule-based automation to fully autonomous agents, and each step needs stronger <em>sensing</em>, <em>planning</em>, <em>acting</em> and <em>reflecting</em>.</p>
+<h2 id="generative-ai-vs-agentic-ai">Generative AI vs agentic AI<a class="heading-anchor" href="#generative-ai-vs-agentic-ai" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Generative AI</th>
+      <th>Agentic AI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Core capability</td>
+      <td>Generate text, images, code from a prompt</td>
+      <td>Plan, decide and execute multi-step work</td>
+    </tr>
+    <tr>
+      <td>Memory</td>
+      <td>The current context only</td>
+      <td>Persistent memory across sessions; plans adapt to it</td>
+    </tr>
+    <tr>
+      <td>Autonomy</td>
+      <td>Waits for a human prompt each time</td>
+      <td>Runs workflows with minimal human input</td>
+    </tr>
+    <tr>
+      <td>Integration</td>
+      <td>Mostly standalone; occasional API use</td>
+      <td>Deep integration with APIs, databases, business systems, sometimes physical systems</td>
+    </tr>
+    <tr>
+      <td>Learning</td>
+      <td>Changes only when retrained</td>
+      <td>Improves from interactions and feedback</td>
+    </tr>
+    <tr>
+      <td>Typical use</td>
+      <td>Drafting, summarising, coding help, brainstorming</td>
+      <td>Workflow automation, operations, assistants that complete tasks</td>
+    </tr>
+    <tr>
+      <td>Business effect</td>
+      <td>Faster, better individual work</td>
+      <td>Automated processes, reduced workload, scalable operations</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The one idea to keep</span></p>
+  <div class="callout__body"><p>Generative AI makes people faster at tasks; agentic AI takes over <strong>parts of processes</strong>. That shift moves the design questions from content quality to <strong>control, integration, accountability and failure recovery</strong>.</p></div>
+</aside><h2 id="the-progression-six-levels-from-manual-to-autonomous">The progression: six levels from manual to autonomous<a class="heading-anchor" href="#the-progression-six-levels-from-manual-to-autonomous" aria-label="Link to this section">#</a></h2>
+<p>A useful mental model borrows from self-driving cars: autonomy grows in levels, and most real systems today sit in the middle.</p>
+<figure class="diagram" aria-label="The agentic AI progression"><figcaption class="diagram__title">The agentic AI progression</figcaption>
+  <pre class="mermaid">flowchart LR
+    L0[&#34;Level 0&lt;br/&gt;Manual operations&lt;br/&gt;humans do everything&#34;] --&gt; L1[&#34;Level 1&lt;br/&gt;Rule-based automation&lt;br/&gt;RPA, scripts&#34;]
+    L1 --&gt; L2[&#34;Level 2&lt;br/&gt;Intelligent process automation&lt;br/&gt;ML, NLP, OCR + RPA&#34;]
+    L2 --&gt; L3[&#34;Level 3&lt;br/&gt;Agentic workflows&lt;br/&gt;LLMs plan and adapt&lt;br/&gt;in a defined domain&#34;]
+    L3 --&gt; L4[&#34;Level 4&lt;br/&gt;Semi-autonomous agents&lt;br/&gt;adapt strategies,&lt;br/&gt;learn across sessions&#34;]
+    L4 --&gt; L5[&#34;Level 5&lt;br/&gt;Fully autonomous agents&lt;br/&gt;any task, any domain&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Car analogy</th>
+      <th>What the system does</th>
+      <th>Typical technology</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>0 — Manual</strong></td>
+      <td>No assistance</td>
+      <td>People perform every step with basic digital tools</td>
+      <td>Spreadsheets, email</td>
+    </tr>
+    <tr>
+      <td><strong>1 — Rule-based automation</strong></td>
+      <td>Cruise control</td>
+      <td>Follows fixed rules on structured inputs; logs errors, does not learn</td>
+      <td>RPA, scripts, rule engines</td>
+    </tr>
+    <tr>
+      <td><strong>2 — Intelligent process automation</strong></td>
+      <td>Lane keeping and adaptive speed, supervised</td>
+      <td>Adds perception — reads documents, classifies, extracts — within a fixed process</td>
+      <td>ML, NLP, computer vision, orchestration + RPA</td>
+    </tr>
+    <tr>
+      <td><strong>3 — Agentic workflows</strong></td>
+      <td>Highway autopilot; human takes over in complex situations</td>
+      <td>Generates content, reasons, plans and chains tools within a defined domain; limited memory</td>
+      <td>LLMs, tool calling, memory stores</td>
+    </tr>
+    <tr>
+      <td><strong>4 — Semi-autonomous agents</strong></td>
+      <td>Self-driving in specific conditions</td>
+      <td>Sets its own sub-goals, recovers from errors, remembers across sessions and learns from experience</td>
+      <td>Advanced reasoning models, long-term memory, real-time adaptation</td>
+    </tr>
+    <tr>
+      <td><strong>5 — Fully autonomous agents</strong></td>
+      <td>Self-driving anywhere</td>
+      <td>Handles any task, learns across domains, formulates goals with no human involvement</td>
+      <td>Not yet achieved</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Most production enterprise agents in 2026 sit at <strong>level 3</strong>, with selected level-4 behaviour in narrow domains (coding, IT operations, research). Level 5 remains an aspiration.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Two different &ldquo;levels&rdquo; scales</span></p>
+  <div class="callout__body"><p>This progression describes the <strong>capability</strong> of a system. The <a href="/enterprise-ai/agentic-ai/what-is-an-agent/#levels-of-autonomy">levels of autonomy</a> in <em>What is an agent?</em> describe how much <strong>authority</strong> you grant it per action. A level-4-capable agent can — and in regulated work usually should — run with approval gates.</p></div>
+</aside><h2 id="the-spar-loop-how-an-agent-takes-action">The SPAR loop: how an agent takes action<a class="heading-anchor" href="#the-spar-loop-how-an-agent-takes-action" aria-label="Link to this section">#</a></h2>
+<p>People act by perceiving a situation, deciding what to do, doing it and learning from the result. Agents follow the same cycle, called <strong>SPAR</strong>:</p>
+<figure class="diagram" aria-label="SPAR: sense, plan, act, reflect"><figcaption class="diagram__title">SPAR: sense, plan, act, reflect</figcaption>
+  <pre class="mermaid">flowchart LR
+    S[&#34;SENSE&lt;br/&gt;gather inputs:&lt;br/&gt;requests, events,&lt;br/&gt;data, documents&#34;] --&gt; P[&#34;PLAN&lt;br/&gt;reason about the goal,&lt;br/&gt;break it into steps,&lt;br/&gt;choose tools&#34;]
+    P --&gt; A[&#34;ACT&lt;br/&gt;call tools and APIs,&lt;br/&gt;change systems,&lt;br/&gt;communicate&#34;]
+    A --&gt; R[&#34;REFLECT&lt;br/&gt;check results,&lt;br/&gt;learn, update memory,&lt;br/&gt;adjust the plan&#34;]
+    R --&gt; S</pre>
+</figure>
+<p>How each capability grows across the levels:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Capability</th>
+      <th>Level 1–2</th>
+      <th>Level 3</th>
+      <th>Level 4–5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Sense</strong></td>
+      <td>Predefined triggers, structured or semi-structured data</td>
+      <td>Natural-language understanding, context awareness</td>
+      <td>Multimodal perception; at level 5, full environmental awareness and goal formulation</td>
+    </tr>
+    <tr>
+      <td><strong>Plan</strong></td>
+      <td>If-then rules, decision trees, basic ML decisions</td>
+      <td>Reasoning with foundation models; orchestrating multi-step workflows</td>
+      <td>Dynamic strategies, goal decomposition, original problem-solving</td>
+    </tr>
+    <tr>
+      <td><strong>Act</strong></td>
+      <td>Deterministic actions, error handling</td>
+      <td>Chaining tools, multi-step tasks</td>
+      <td>Autonomous tool selection, error recovery</td>
+    </tr>
+    <tr>
+      <td><strong>Reflect</strong></td>
+      <td>Logging, monitoring, no adaptation</td>
+      <td>Short-term feedback, limited long-term memory</td>
+      <td>Context across sessions, learning from experience, continuous self-improvement</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>SPAR is the business-friendly name for the <a href="/enterprise-ai/agentic-ai/what-is-an-agent/#the-agent-loop">agent loop</a> (think → act → observe) with an explicit <strong>reflection and learning</strong> step.</p>
+<h2 id="the-three-keystones-action-reasoning-memory">The three keystones: action, reasoning, memory<a class="heading-anchor" href="#the-three-keystones-action-reasoning-memory" aria-label="Link to this section">#</a></h2>
+<p>Agentic capability rests on three keystones. A weakness in any one limits the whole agent.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Keystone</th>
+      <th>Question it answers</th>
+      <th>Read more</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Action</strong></td>
+      <td>Can it <em>do</em> things — use tools reliably, and cope when they fail?</td>
+      <td><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>, <a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Agent planning and failure modes</a></td>
+    </tr>
+    <tr>
+      <td><strong>Reasoning</strong></td>
+      <td>Can it <em>think</em> — plan, decompose, judge, recover?</td>
+      <td><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow patterns</a></td>
+    </tr>
+    <tr>
+      <td><strong>Memory</strong></td>
+      <td>Can it <em>learn</em> — remember context, facts, experience and feedback?</td>
+      <td><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory and state</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="action-plans-and-tool-resilience">Action: plans and tool resilience<a class="heading-anchor" href="#action-plans-and-tool-resilience" aria-label="Link to this section">#</a></h3>
+<p>Ask a capable model to plan a task — &ldquo;summarise a 30-page report and share it with the team, tracking who read it&rdquo; — and it will produce a sensible sequence of tools with dependencies. Change a constraint (&ldquo;cloud storage is unavailable&rdquo;) and it re-plans around it. The planning is the easy part; the <strong>tools</strong> are where it breaks.</p>
+<p>Assess each tool on two axes:</p>
+<ul>
+<li><strong>Control</strong> — how much the agent (or your team) controls the tool&rsquo;s availability and behaviour. An in-process function is high-control; a third-party SaaS API is low-control.</li>
+<li><strong>Impact</strong> — how critical the tool is to achieving the goal.</li>
+</ul>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th><strong>Low impact</strong></th>
+      <th><strong>High impact</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>High control</strong></td>
+      <td>Nice-to-have helpers (format converters). Little risk</td>
+      <td>Core capabilities you own (summarisation, internal calculations). Invest in quality</td>
+    </tr>
+    <tr>
+      <td><strong>Low control</strong></td>
+      <td>Peripheral external services. Fail gracefully</td>
+      <td><strong>Critical external dependencies</strong> (cloud storage, chat platforms, partner APIs). Need fallbacks, retries, circuit breakers, alternative tools and human escalation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Design for the bottom-right quadrant</span></p>
+  <div class="callout__body"><p>The tools that are both critical and outside your control are where agents fail in production. Give each one a fallback path and test the failure explicitly — see <a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/#designing-for-recovery">designing for recovery</a>.</p></div>
+</aside><h3 id="reasoning-llms-vs-large-reasoning-models">Reasoning: LLMs vs large reasoning models<a class="heading-anchor" href="#reasoning-llms-vs-large-reasoning-models" aria-label="Link to this section">#</a></h3>
+<p><strong>Large reasoning models (LRMs)</strong> are LLMs trained (often with reinforcement learning on verifiable problems) to reason step by step before answering, spending more compute at inference time — see <a href="/enterprise-ai/foundations/training-and-sampling/#test-time-compute">test-time compute</a>.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Standard LLM</th>
+      <th>Large reasoning model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Strength</td>
+      <td>Language tasks: translation, summarisation, dialogue, drafting</td>
+      <td>Math, code, logic, multi-step planning and decisions</td>
+    </tr>
+    <tr>
+      <td>Reasoning</td>
+      <td>Fast, pattern-based</td>
+      <td>Slower, deliberate, more systematic</td>
+    </tr>
+    <tr>
+      <td>Cost and latency</td>
+      <td>Lower</td>
+      <td>Higher — many reasoning tokens</td>
+    </tr>
+    <tr>
+      <td>Best agent role</td>
+      <td>Routing, extraction, conversation, simple tool steps</td>
+      <td>Planning, complex decisions, verification, debugging</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>A constraint-heavy puzzle (a crossword, a schedule with many rules) shows the difference clearly: a fast model produces fluent but inconsistent answers; a reasoning model checks constraints and gets most of them right. In agents, use the fast model for the many simple steps and the reasoning model for planning and hard decisions — a <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/#2-routing">routing</a> decision.</p>
+<h3 id="memory-three-layers">Memory: three layers<a class="heading-anchor" href="#memory-three-layers" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>What it holds</th>
+      <th>Implementation</th>
+      <th>Common pitfall</th>
+      <th>Mitigation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1 · Short-term memory</strong></td>
+      <td>The current task and conversation</td>
+      <td>The context window; attention over recent tokens</td>
+      <td>Context overflow — losing critical details</td>
+      <td>Summarise, trim, pin key facts</td>
+    </tr>
+    <tr>
+      <td><strong>2 · Long-term memory</strong></td>
+      <td><strong>Episodic</strong> (events and past interactions), <strong>semantic</strong> (facts and preferences), <strong>procedural</strong> (how-to knowledge, playbooks)</td>
+      <td>Relational and document databases, vector stores, knowledge graphs</td>
+      <td>Mis-categorised memories that cannot be retrieved</td>
+      <td>Tagging, metadata, automated categorisation</td>
+    </tr>
+    <tr>
+      <td><strong>3 · Feedback loop</strong></td>
+      <td>Outcomes and user feedback that change future behaviour</td>
+      <td>Feedback logs in analytical stores; evaluation and tuning pipelines</td>
+      <td>Ignoring or misreading feedback</td>
+      <td>Clear success metrics; controlled updates to prompts, memory and models</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>The third layer is what lets an agent <em>improve</em>, and it is the one most often missing. See <a href="/enterprise-ai/foundations/user-feedback/">user feedback</a> and <a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">memory and state</a>.</p>
+<h2 id="level-2-or-level-3-choosing-the-right-automation">Level 2 or level 3? Choosing the right automation<a class="heading-anchor" href="#level-2-or-level-3-choosing-the-right-automation" aria-label="Link to this section">#</a></h2>
+<p>Not every process needs an LLM agent. Intelligent process automation (level 2) is often the better answer.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Criterion</th>
+      <th>Level 2 — intelligent automation</th>
+      <th>Level 3 — agentic workflow</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Task predictability</strong></td>
+      <td>Deterministic process with clear rules</td>
+      <td>Needs context understanding and adaptive responses</td>
+    </tr>
+    <tr>
+      <td><strong>Error sensitivity</strong></td>
+      <td>Must be 100% accurate and repeatable</td>
+      <td>Tolerates some variability; probabilistic decisions acceptable with review</td>
+    </tr>
+    <tr>
+      <td><strong>Input variability</strong></td>
+      <td>Standardised inputs</td>
+      <td>Variable, unstructured inputs (emails, documents, conversations)</td>
+    </tr>
+    <tr>
+      <td><strong>Best for</strong></td>
+      <td>High-volume, repetitive, fixed workflows</td>
+      <td>Reasoning, judgement, natural language</td>
+    </tr>
+    <tr>
+      <td><strong>Examples</strong></td>
+      <td>Data extraction to fixed fields, financial calculations, compliance checks, structured reporting</td>
+      <td>Report writing, customer support, fraud investigation, trend analysis</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Hybrid designs are common and often best: an agent handles the unstructured, judgement-heavy front of a process, then hands structured, validated data to deterministic automation for the regulated back end.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Jumping to level 4</span></p>
+  <div class="callout__body"><p>Designing for self-directed, self-learning agents when the process is not even documented. Most value today comes from well-bounded level-3 workflows.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ignoring tool resilience</span></p>
+  <div class="callout__body"><p>Testing only the happy path, then failing in production when a low-control, high-impact external tool times out. Map tools by control and impact and design fallbacks.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No reflection layer</span></p>
+  <div class="callout__body"><p>Building agents that act but never learn from outcomes. Without the feedback layer, the same mistakes repeat forever.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How does agentic AI differ from generative AI?</strong>
+Generative AI produces content in response to prompts; agentic AI pursues goals by planning, acting through tools and systems, remembering across sessions and improving from feedback, with minimal human prompting.</p>
+<p><strong>Describe the levels of the agentic AI progression.</strong>
+Level 0 manual; level 1 rule-based automation (RPA); level 2 intelligent process automation (ML and NLP in fixed processes); level 3 agentic workflows (LLMs plan and chain tools in a domain); level 4 semi-autonomous agents (adapt strategies, learn across sessions); level 5 fully autonomous agents (not yet achieved).</p>
+<p><strong>What is the SPAR framework?</strong>
+Sense, plan, act, reflect — the cycle an agent follows: gather inputs, reason and plan, execute through tools, then evaluate results and learn before the next cycle.</p>
+<p><strong>What are the three keystones of agentic AI?</strong>
+Action (reliable tool use and resilience), reasoning (planning, decomposition, judgement) and memory (short-term context, long-term episodic/semantic/procedural memory, and a feedback loop).</p>
+<p><strong>How do you assess tool risk for an agent?</strong>
+By control and impact. Tools that are high-impact but low-control — critical external services — need fallbacks, retries, circuit breakers, alternatives and escalation paths.</p>
+<p><strong>When would you choose intelligent automation over an agentic workflow?</strong>
+When the process is deterministic, inputs are standardised, and outputs must be exactly right every time. Use agents for variable, unstructured inputs and judgement-heavy steps.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Review tip</span><span class="callout__heading">Place the system on the scale</span></p>
+  <div class="callout__body"><p>State which level your design targets and why — and which actions still need human approval. It shows you separate capability from authority.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Agentic AI pursues goals through planning, action, memory and learning; generative AI produces content on request.</li>
+<li>Autonomy grows through six levels; most enterprise agents are level 3 today.</li>
+<li>SPAR — sense, plan, act, reflect — is the agent&rsquo;s operating cycle.</li>
+<li>Action, reasoning and memory are the keystones; map tools by control and impact; use reasoning models where planning is hard.</li>
+<li>Memory has three layers: short-term, long-term (episodic, semantic, procedural) and the feedback loop.</li>
+<li>Choose level 2 automation for deterministic work, level 3 agents for judgement and unstructured inputs.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Pascal Bornet, Jochen Wirtz, Thomas H. Davenport et al., <em>Agentic Artificial Intelligence: Harnessing AI Agents to Reinvent Business, Work, and Life</em>, 2025 — chapters 1–7 (framework figures published under CC BY 4.0).</li>
+<li>SAE International, <a href="https://www.sae.org/blog/sae-j3016-update" rel="noopener">J3016 Levels of Driving Automation</a>.</li>
+<li>OpenAI, <a href="https://openai.com/index/learning-to-reason-with-llms/" rel="noopener">Learning to reason with LLMs</a>, 2024.</li>
+<li>Chip Huyen, <em>AI Engineering</em>, O&rsquo;Reilly, 2025 — chapter 6 (agents and memory).</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-building-playbook/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent building playbook</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-memory-and-state/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Memory &amp; state</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agentic AI strategy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Harnesses &amp; skills</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent identity &amp; access</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/agentic-ai/what-is-an-agent/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">What is an agent?</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/agentic-ai/tool-calling/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Tool calling</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#generative-ai-vs-agentic-ai">Generative AI vs agentic AI</a></li>
+    <li><a href="#the-progression-six-levels-from-manual-to-autonomous">The progression: six levels from manual to autonomous</a></li>
+    <li><a href="#the-spar-loop-how-an-agent-takes-action">The SPAR loop: how an agent takes action</a></li>
+    <li><a href="#the-three-keystones-action-reasoning-memory">The three keystones: action, reasoning, memory</a>
+      <ul>
+        <li><a href="#action-plans-and-tool-resilience">Action: plans and tool resilience</a></li>
+        <li><a href="#reasoning-llms-vs-large-reasoning-models">Reasoning: LLMs vs large reasoning models</a></li>
+        <li><a href="#memory-three-layers">Memory: three layers</a></li>
+      </ul>
+    </li>
+    <li><a href="#level-2-or-level-3-choosing-the-right-automation">Level 2 or level 3? Choosing the right automation</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

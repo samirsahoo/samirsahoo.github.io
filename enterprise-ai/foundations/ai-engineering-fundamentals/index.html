@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>AI Engineering Fundamentals: From Models to Products · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="What AI engineering is and how it differs from ML engineering and full-stack engineering, the three layers of the AI engineering stack, foundation-model use cases, and how to plan an AI application: use-case evaluation, the role of AI and humans, defensibility, usefulness thresholds, milestones and the last-mile problem.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-fundamentals/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="AI Engineering Fundamentals: From Models to Products">
+<meta property="og:description" content="What AI engineering is and how it differs from ML engineering and full-stack engineering, the three layers of the AI engineering stack, foundation-model use cases, and how to plan an AI application: use-case evaluation, the role of AI and humans, defensibility, usefulness thresholds, milestones and the last-mile problem.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-fundamentals/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI Engineering Fundamentals: From Models to Products">
+<meta name="twitter:description" content="What AI engineering is and how it differs from ML engineering and full-stack engineering, the three layers of the AI engineering stack, foundation-model use cases, and how to plan an AI application: use-case evaluation, the role of AI and humans, defensibility, usefulness thresholds, milestones and the last-mile problem.">
+<meta name="keywords" content="foundations, ai-engineering, strategy">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"What AI engineering is and how it differs from ML engineering and full-stack engineering, the three layers of the AI engineering stack, foundation-model use cases, and how to plan an AI application: use-case evaluation, the role of AI and humans, defensibility, usefulness thresholds, milestones and the last-mile problem.","headline":"AI Engineering Fundamentals: From Models to Products","inLanguage":"en","isAccessibleForFree":true,"keywords":"foundations, ai-engineering, strategy","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-fundamentals/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-fundamentals/","name":"AI engineering fundamentals","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/" aria-current="page">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">AI engineering fundamentals</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">AI Engineering Fundamentals: From Models to Products</h1><p class="article__lede" itemprop="description">What AI engineering is and how it differs from ML engineering and full-stack engineering, the three layers of the AI engineering stack, foundation-model use cases, and how to plan an AI application: use-case evaluation, the role of AI and humans, defensibility, usefulness thresholds, milestones and the last-mile problem.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/ai-engineering/">#Ai-Engineering</a><a class="tag" href="/enterprise-ai/tags/strategy/">#Strategy</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-this-is-a-distinct-discipline">Why this is a distinct discipline</a></li>
+    <li><a href="#ai-engineering-vs-ml-engineering">AI engineering vs ML engineering</a></li>
+    <li><a href="#the-three-layers-of-the-ai-engineering-stack">The three layers of the AI engineering stack</a></li>
+    <li><a href="#what-foundation-models-are-used-for">What foundation models are used for</a></li>
+    <li><a href="#planning-an-ai-application">Planning an AI application</a>
+      <ul>
+        <li><a href="#1-why-build-it-at-all">1. Why build it at all?</a></li>
+        <li><a href="#2-what-role-does-ai-play">2. What role does AI play?</a></li>
+        <li><a href="#3-is-it-defensible">3. Is it defensible?</a></li>
+        <li><a href="#4-what-does-success-look-like">4. What does success look like?</a></li>
+        <li><a href="#5-plan-milestones-around-the-last-mile">5. Plan milestones around the last mile</a></li>
+        <li><a href="#6-plan-for-maintenance">6. Plan for maintenance</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>AI engineering</strong> is the discipline of building applications <em>on top of</em> foundation models that someone else has usually trained. Instead of collecting data and training a model first, you start from a model that already works, then adapt it — with prompts, context, tools, fine-tuning — and wrap it in the product, evaluation and operations it needs.</p>
+<p>The shift is from <em>&ldquo;can we build a model?&rdquo;</em> to <em>&ldquo;can we build a reliable product with this model?&rdquo;</em></p>
+<h2 id="why-this-is-a-distinct-discipline">Why this is a distinct discipline<a class="heading-anchor" href="#why-this-is-a-distinct-discipline" aria-label="Link to this section">#</a></h2>
+<p>Three things made AI engineering grow out of machine-learning engineering:</p>
+<ol>
+<li><strong>Models became general-purpose.</strong> One model can summarise, classify, extract, translate, write code and plan. A team no longer needs a model per task.</li>
+<li><strong>Models became a service.</strong> Strong models are available behind an API, so a small product team can ship AI features without an ML research group.</li>
+<li><strong>The bottleneck moved.</strong> When anyone can call the same model, the advantage lies in <em>evaluation, context, data, user experience and operations</em> — the engineering around the model.</li>
+</ol>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The one idea to keep</span></p>
+  <div class="callout__body"><p>In AI engineering the model is a component you <strong>adapt and evaluate</strong>, not an artefact you build. Most of the work — and most of the competitive advantage — sits in the system around it.</p></div>
+</aside><h2 id="ai-engineering-vs-ml-engineering">AI engineering vs ML engineering<a class="heading-anchor" href="#ai-engineering-vs-ml-engineering" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Traditional ML engineering</th>
+      <th>AI engineering with foundation models</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Starting point</td>
+      <td>Your data, then train a model</td>
+      <td>An existing model, then adapt it</td>
+    </tr>
+    <tr>
+      <td>Model adaptation</td>
+      <td>Feature engineering, training</td>
+      <td>Prompting, retrieval, tools; fine-tuning when needed</td>
+    </tr>
+    <tr>
+      <td>Model size</td>
+      <td>Often small, cheap to serve</td>
+      <td>Large; inference cost and latency dominate</td>
+    </tr>
+    <tr>
+      <td>Outputs</td>
+      <td>Closed (a label, a score)</td>
+      <td>Open-ended (text, code, actions) — much harder to evaluate</td>
+    </tr>
+    <tr>
+      <td>Evaluation</td>
+      <td>Accuracy against a labelled test set</td>
+      <td>Rubrics, AI judges, human review, online feedback</td>
+    </tr>
+    <tr>
+      <td>Data work</td>
+      <td>Labelling and features</td>
+      <td>Curating instructions, examples, preferences; synthetic data</td>
+    </tr>
+    <tr>
+      <td>Interface</td>
+      <td>Usually invisible (a score in a pipeline)</td>
+      <td>Often conversational; the UX <em>is</em> the product</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>The two converge in practice: a production AI team still needs ML skills for fine-tuning, dataset engineering and inference optimisation.</p>
+<p><strong>AI engineering vs full-stack engineering.</strong> Because so much work is now product and interface work, AI engineering has moved closer to full-stack engineering. The common workflow has inverted: <em>build the product first, then invest in data and models once the product shows promise</em> — the opposite of the classic ML order.</p>
+<h2 id="the-three-layers-of-the-ai-engineering-stack">The three layers of the AI engineering stack<a class="heading-anchor" href="#the-three-layers-of-the-ai-engineering-stack" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="The AI engineering stack"><figcaption class="diagram__title">The AI engineering stack</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph APP[&#34;Application development&#34;]
+        A1[&#34;Prompt and context engineering&#34;]
+        A2[&#34;Evaluation&#34;]
+        A3[&#34;AI interface and UX&#34;]
+    end
+    subgraph MOD[&#34;Model development&#34;]
+        M1[&#34;Fine-tuning and post-training&#34;]
+        M2[&#34;Dataset engineering&#34;]
+        M3[&#34;Inference optimisation&#34;]
+    end
+    subgraph INF[&#34;Infrastructure&#34;]
+        I1[&#34;Model serving&#34;]
+        I2[&#34;Data and compute management&#34;]
+        I3[&#34;Monitoring&#34;]
+    end
+    APP --&gt; MOD --&gt; INF</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>What happens here</th>
+      <th>Read more</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Application development</strong></td>
+      <td>Prompts, context construction, evaluation, the user interface</td>
+      <td><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt engineering</a>, <a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></td>
+    </tr>
+    <tr>
+      <td><strong>Model development</strong></td>
+      <td>Fine-tuning, dataset engineering, inference optimisation</td>
+      <td><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a>, <a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a>, <a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></td>
+    </tr>
+    <tr>
+      <td><strong>Infrastructure</strong></td>
+      <td>Serving, compute, data, monitoring</td>
+      <td><a href="/enterprise-ai/foundations/inference-and-serving/">Inference and serving</a>, <a href="/enterprise-ai/foundations/llmops/">LLMOps</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Most enterprise teams spend the majority of their time in the top layer. The lower layers become relevant as scale, cost or customisation grows.</p>
+<h2 id="what-foundation-models-are-used-for">What foundation models are used for<a class="heading-anchor" href="#what-foundation-models-are-used-for" aria-label="Link to this section">#</a></h2>
+<p>Use cases cluster into a handful of archetypes. Knowing the archetype tells you how hard evaluation will be and how much risk is involved.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Archetype</th>
+      <th>Examples</th>
+      <th>Typical difficulty</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Coding</strong></td>
+      <td>Code completion, test generation, migration, code review</td>
+      <td>Output is checkable (does it compile, do tests pass?)</td>
+    </tr>
+    <tr>
+      <td><strong>Image and video production</strong></td>
+      <td>Marketing assets, product images</td>
+      <td>Subjective quality; brand and IP risk</td>
+    </tr>
+    <tr>
+      <td><strong>Writing</strong></td>
+      <td>Drafting emails, reports, product descriptions</td>
+      <td>Subjective; tone and factuality</td>
+    </tr>
+    <tr>
+      <td><strong>Education</strong></td>
+      <td>Tutoring, quiz generation, explanation</td>
+      <td>Correctness and pedagogy</td>
+    </tr>
+    <tr>
+      <td><strong>Conversational bots</strong></td>
+      <td>Customer support, internal help desks, companions</td>
+      <td>Open-ended; safety and escalation</td>
+    </tr>
+    <tr>
+      <td><strong>Information aggregation</strong></td>
+      <td>Summarising documents, meetings, research</td>
+      <td>Faithfulness to sources</td>
+    </tr>
+    <tr>
+      <td><strong>Data organisation</strong></td>
+      <td>Extraction from documents, classification, tagging</td>
+      <td>Structured; measurable against labels</td>
+    </tr>
+    <tr>
+      <td><strong>Workflow automation</strong></td>
+      <td>Agents that complete multi-step tasks</td>
+      <td>Highest risk; actions have side effects</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Enterprises usually start with <strong>internal, lower-risk</strong> use cases (knowledge search, drafting, extraction) before external ones, because mistakes are cheaper and the data is under their control.</p>
+<h2 id="planning-an-ai-application">Planning an AI application<a class="heading-anchor" href="#planning-an-ai-application" aria-label="Link to this section">#</a></h2>
+<h3 id="1-why-build-it-at-all">1. Why build it at all?<a class="heading-anchor" href="#1-why-build-it-at-all" aria-label="Link to this section">#</a></h3>
+<p>Rank the motivation by how much risk it addresses:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Motivation</th>
+      <th>What it implies</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Existential</strong> — competitors using AI could make you obsolete</td>
+      <td>Highest priority; consider building core capability in-house</td>
+    </tr>
+    <tr>
+      <td><strong>Opportunity</strong> — higher productivity, lower costs, more revenue</td>
+      <td>Normal business case; buying is often cheaper and faster</td>
+    </tr>
+    <tr>
+      <td><strong>Exploration</strong> — you do not know where AI fits yet</td>
+      <td>Small, time-boxed R&amp;D; learn before committing</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Then ask whether you must build it yourself. If an off-the-shelf product already does it well, building is a cost, not an advantage. See <a href="/enterprise-ai/foundations/genai-adoption-strategy/#build-buy-or-embed">build, buy or embed</a>.</p>
+<h3 id="2-what-role-does-ai-play">2. What role does AI play?<a class="heading-anchor" href="#2-what-role-does-ai-play" aria-label="Link to this section">#</a></h3>
+<p>Three questions shape requirements more than any model choice:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Options</th>
+      <th>Consequence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Is AI <strong>critical or complementary</strong>?</td>
+      <td>Product fails without it vs works without it</td>
+      <td>Critical AI needs higher accuracy and fallbacks; complementary AI can tolerate more errors</td>
+    </tr>
+    <tr>
+      <td>Is AI <strong>reactive or proactive</strong>?</td>
+      <td>Responds to a request vs offers help unprompted</td>
+      <td>Reactive needs low latency; proactive can run in batch but must clear a higher quality bar, or it becomes noise</td>
+    </tr>
+    <tr>
+      <td>Is AI <strong>dynamic or static</strong>?</td>
+      <td>Updates continuously with user feedback vs updated with releases</td>
+      <td>Dynamic needs per-user data, privacy controls and feedback loops</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>And the <strong>role of humans</strong>: does AI generate a draft a human approves, handle easy cases and escalate hard ones, or act alone? The answer drives the <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/#8-human-in-the-loop-hitl">human-in-the-loop</a> design and the risk controls.</p>
+<h3 id="3-is-it-defensible">3. Is it defensible?<a class="heading-anchor" href="#3-is-it-defensible" aria-label="Link to this section">#</a></h3>
+<p>When you build a thin layer on top of a general model, two threats appear:</p>
+<ul>
+<li><strong>Competitors can copy it</strong> — the entry barrier is low for them too.</li>
+<li><strong>The model can absorb it</strong> — a feature that exists because the model is weak at something disappears when the next model is not.</li>
+</ul>
+<p>Durable advantages come from <strong>proprietary data and feedback</strong> (a <a href="/enterprise-ai/foundations/user-feedback/#the-data-flywheel">data flywheel</a>), <strong>distribution</strong> (being where users already work), <strong>workflow integration</strong> and <strong>domain-specific evaluation</strong> that competitors do not have.</p>
+<h3 id="4-what-does-success-look-like">4. What does success look like?<a class="heading-anchor" href="#4-what-does-success-look-like" aria-label="Link to this section">#</a></h3>
+<p>Set expectations in business terms first, then translate them into a <strong>usefulness threshold</strong> — how good the system must be before it is worth shipping.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Metric group</th>
+      <th>Example for a support assistant</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Business</td>
+      <td>Share of tickets resolved without a human; handling time; CSAT</td>
+    </tr>
+    <tr>
+      <td>Quality</td>
+      <td>Correct, grounded and policy-compliant answers on the evaluation set</td>
+    </tr>
+    <tr>
+      <td>Latency</td>
+      <td>Time to first token, time per output token, total time</td>
+    </tr>
+    <tr>
+      <td>Cost</td>
+      <td>Cost per conversation, per resolved ticket</td>
+    </tr>
+    <tr>
+      <td>Other</td>
+      <td>Fairness, explainability, auditability</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="5-plan-milestones-around-the-last-mile">5. Plan milestones around the last mile<a class="heading-anchor" href="#5-plan-milestones-around-the-last-mile" aria-label="Link to this section">#</a></h3>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">The last mile is most of the work</span></p>
+  <div class="callout__body"><p>A convincing demo can take days; a dependable product can take months. Teams routinely reach &ldquo;80% good&rdquo; quickly and then find each further percentage point slower and more expensive than the last — mostly spent on edge cases, hallucinations and integration.</p></div>
+</aside><p>Practical consequences:</p>
+<ul>
+<li><strong>Measure the baseline first.</strong> Evaluate off-the-shelf models on your task before committing to a plan. If a model already solves 30% of cases, the plan is different from one that solves none.</li>
+<li><strong>Re-plan after evaluation.</strong> It is normal to discover that reaching the threshold costs more than the use case returns — and to stop.</li>
+<li><strong>Budget time for the tail.</strong> Plan explicit milestones for 80% → 90% → 95%, not one &ldquo;ship&rdquo; date.</li>
+</ul>
+<h3 id="6-plan-for-maintenance">6. Plan for maintenance<a class="heading-anchor" href="#6-plan-for-maintenance" aria-label="Link to this section">#</a></h3>
+<p>The field moves fast. Models get cheaper and better, APIs converge, and providers change prices or disappear. A decision that is optimal today may be wrong in six months.</p>
+<ul>
+<li>Keep models <strong>swappable</strong> behind a <a href="/enterprise-ai/foundations/enterprise-ai-stack/#ai-gateway">gateway</a>.</li>
+<li>Keep <strong>evaluation automated</strong> so a model change is a test run, not a project.</li>
+<li>Re-run the <strong>build vs buy</strong> analysis periodically.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Starting with the model, not the problem</span></p>
+  <div class="callout__body"><p>Choosing a model or a fine-tuning project before defining the use case, the usefulness threshold and the evaluation set. Start from the outcome and work backwards.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Mistaking the demo for the product</span></p>
+  <div class="callout__body"><p>Committing to a launch date on the strength of a weekend prototype. Plan for the last mile explicitly.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Building what the next model will give away</span></p>
+  <div class="callout__body"><p>Investing in a workaround for a current model weakness that the next release is likely to fix. Invest in data, evaluation and integration instead.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How does AI engineering differ from ML engineering?</strong>
+AI engineering adapts existing foundation models (prompting, retrieval, fine-tuning) instead of training models from scratch, deals with open-ended outputs that are harder to evaluate, faces larger inference costs, and puts much more weight on the interface and product. The workflow often starts with the product and adds data and model work later.</p>
+<p><strong>What are the three layers of the AI engineering stack?</strong>
+Application development (prompts, context, evaluation, interface), model development (fine-tuning, dataset engineering, inference optimisation) and infrastructure (serving, compute, data and monitoring).</p>
+<p><strong>What is a usefulness threshold and why set one?</strong>
+The minimum quality, latency and cost at which the application is worth putting in front of users. It prevents shipping too early and gives evaluation a concrete target.</p>
+<p><strong>Why do AI projects underestimate effort?</strong>
+Foundation models make early progress fast, so demos look nearly finished. The remaining gap — edge cases, hallucinations, integration and reliability — takes most of the time, and each improvement gets harder.</p>
+<p><strong>How do you make an AI product defensible?</strong>
+Through proprietary data and user feedback, distribution, deep workflow integration and domain-specific evaluation — not through a thin wrapper that competitors or the next model can replicate.</p>
+<aside class="callout callout--interview" role="note">
+  <p class="callout__title"><span class="callout__label">Review tip</span><span class="callout__heading">Talk in thresholds</span></p>
+  <div class="callout__body"><p>When asked how you would plan an AI feature, state the business metric, the usefulness threshold and the baseline you would measure first. It shows you plan around evidence, not optimism.</p></div>
+</aside><h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>AI engineering builds products on foundation models; the system around the model is the work.</li>
+<li>The stack has three layers: application development, model development, infrastructure.</li>
+<li>Plan by asking why, what role AI and humans play, how it stays defensible, and what threshold makes it useful.</li>
+<li>Measure a baseline early, plan for the last mile, and keep models swappable for maintenance.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chip Huyen, <em>AI Engineering: Building Applications with Foundation Models</em>, O&rsquo;Reilly, 2025 — chapter 1.</li>
+<li>Eloundou et al., <a href="https://arxiv.org/abs/2303.10130" rel="noopener">GPTs are GPTs: An Early Look at the Labor Market Impact Potential of LLMs</a>, 2023.</li>
+<li>Apple, <a href="https://developer.apple.com/design/human-interface-guidelines/machine-learning" rel="noopener">Human Interface Guidelines: Machine learning</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/how-llms-work/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">How LLMs work</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/genai-adoption-strategy/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">GenAI adoption strategy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/evaluating-ai-systems/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Evaluating AI systems</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/ai-engineering-architecture/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">AI engineering architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-building-playbook/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent building playbook</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/how-llms-work/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">How LLMs work</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-this-is-a-distinct-discipline">Why this is a distinct discipline</a></li>
+    <li><a href="#ai-engineering-vs-ml-engineering">AI engineering vs ML engineering</a></li>
+    <li><a href="#the-three-layers-of-the-ai-engineering-stack">The three layers of the AI engineering stack</a></li>
+    <li><a href="#what-foundation-models-are-used-for">What foundation models are used for</a></li>
+    <li><a href="#planning-an-ai-application">Planning an AI application</a>
+      <ul>
+        <li><a href="#1-why-build-it-at-all">1. Why build it at all?</a></li>
+        <li><a href="#2-what-role-does-ai-play">2. What role does AI play?</a></li>
+        <li><a href="#3-is-it-defensible">3. Is it defensible?</a></li>
+        <li><a href="#4-what-does-success-look-like">4. What does success look like?</a></li>
+        <li><a href="#5-plan-milestones-around-the-last-mile">5. Plan milestones around the last mile</a></li>
+        <li><a href="#6-plan-for-maintenance">6. Plan for maintenance</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

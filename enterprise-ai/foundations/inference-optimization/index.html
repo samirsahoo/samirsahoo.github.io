@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Inference Optimisation: Making Models Faster and Cheaper · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="A deeper look at LLM inference: compute-bound vs memory-bandwidth-bound workloads, TTFT, TPOT, goodput, MFU and MBU, accelerators, model-level optimisations (quantisation, distillation, speculative decoding, inference with reference, parallel decoding, attention and KV-cache optimisation, kernels) and service-level optimisations (continuous batching, prefill/decode disaggregation, prompt caching, tensor and pipeline parallelism).">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/inference-optimization/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Inference Optimisation: Making Models Faster and Cheaper">
+<meta property="og:description" content="A deeper look at LLM inference: compute-bound vs memory-bandwidth-bound workloads, TTFT, TPOT, goodput, MFU and MBU, accelerators, model-level optimisations (quantisation, distillation, speculative decoding, inference with reference, parallel decoding, attention and KV-cache optimisation, kernels) and service-level optimisations (continuous batching, prefill/decode disaggregation, prompt caching, tensor and pipeline parallelism).">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/inference-optimization/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Inference Optimisation: Making Models Faster and Cheaper">
+<meta name="twitter:description" content="A deeper look at LLM inference: compute-bound vs memory-bandwidth-bound workloads, TTFT, TPOT, goodput, MFU and MBU, accelerators, model-level optimisations (quantisation, distillation, speculative decoding, inference with reference, parallel decoding, attention and KV-cache optimisation, kernels) and service-level optimisations (continuous batching, prefill/decode disaggregation, prompt caching, tensor and pipeline parallelism).">
+<meta name="keywords" content="inference, performance, cost, llmops">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"A deeper look at LLM inference: compute-bound vs memory-bandwidth-bound workloads, TTFT, TPOT, goodput, MFU and MBU, accelerators, model-level optimisations (quantisation, distillation, speculative decoding, inference with reference, parallel decoding, attention and KV-cache optimisation, kernels) and service-level optimisations (continuous batching, prefill/decode disaggregation, prompt caching, tensor and pipeline parallelism).","headline":"Inference Optimisation: Making Models Faster and Cheaper","inLanguage":"en","isAccessibleForFree":true,"keywords":"inference, performance, cost, llmops","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/inference-optimization/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/inference-optimization/","name":"Inference optimisation","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/" aria-current="page">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">Inference optimisation</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Inference Optimisation: Making Models Faster and Cheaper</h1><p class="article__lede" itemprop="description">A deeper look at LLM inference: compute-bound vs memory-bandwidth-bound workloads, TTFT, TPOT, goodput, MFU and MBU, accelerators, model-level optimisations (quantisation, distillation, speculative decoding, inference with reference, parallel decoding, attention and KV-cache optimisation, kernels) and service-level optimisations (continuous batching, prefill/decode disaggregation, prompt caching, tensor and pipeline parallelism).</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/inference/">#Inference</a><a class="tag" href="/enterprise-ai/tags/performance/">#Performance</a><a class="tag" href="/enterprise-ai/tags/cost/">#Cost</a><a class="tag" href="/enterprise-ai/tags/llmops/">#Llmops</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#two-kinds-of-bottleneck">Two kinds of bottleneck</a></li>
+    <li><a href="#metrics-that-matter">Metrics that matter</a></li>
+    <li><a href="#accelerators-in-brief">Accelerators in brief</a></li>
+    <li><a href="#model-level-optimisation">Model-level optimisation</a>
+      <ul>
+        <li><a href="#model-compression">Model compression</a></li>
+        <li><a href="#getting-past-one-token-at-a-time">Getting past one-token-at-a-time</a></li>
+        <li><a href="#attention-and-the-kv-cache">Attention and the KV cache</a></li>
+        <li><a href="#kernels-and-compilers">Kernels and compilers</a></li>
+      </ul>
+    </li>
+    <li><a href="#service-level-optimisation">Service-level optimisation</a>
+      <ul>
+        <li><a href="#batching">Batching</a></li>
+        <li><a href="#decoupling-prefill-and-decode">Decoupling prefill and decode</a></li>
+        <li><a href="#prompt-caching">Prompt caching</a></li>
+        <li><a href="#parallelism">Parallelism</a></li>
+      </ul>
+    </li>
+    <li><a href="#a-practical-order-of-work">A practical order of work</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Inference optimisation</strong> is making a model produce the same (or nearly the same) output <strong>faster, cheaper or for more users at once</strong>. It happens at three levels: the <strong>model</strong> (make it smaller or decode smarter), the <strong>hardware</strong> (use the accelerator well) and the <strong>service</strong> (schedule requests well).</p>
+<p>You care about it most when you self-host models, but it also explains API pricing, latency and rate limits. Start with <a href="/enterprise-ai/foundations/inference-and-serving/">inference and serving</a> for the basics.</p>
+<h2 id="two-kinds-of-bottleneck">Two kinds of bottleneck<a class="heading-anchor" href="#two-kinds-of-bottleneck" aria-label="Link to this section">#</a></h2>
+<p>Every workload is limited by one of two things:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Bottleneck</th>
+      <th>What limits speed</th>
+      <th>LLM phase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Compute-bound</strong></td>
+      <td>How many arithmetic operations per second the chip can do</td>
+      <td><strong>Prefill</strong> — processing the whole prompt in parallel</td>
+    </tr>
+    <tr>
+      <td><strong>Memory-bandwidth-bound</strong></td>
+      <td>How fast weights and the KV cache can be moved from memory to the compute units</td>
+      <td><strong>Decode</strong> — generating one token at a time</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="diagram" aria-label="Prefill is compute-bound, decode is bandwidth-bound"><figcaption class="diagram__title">Prefill is compute-bound, decode is bandwidth-bound</figcaption>
+  <pre class="mermaid">flowchart LR
+    P[&#34;Prompt tokens&#34;] --&gt; PF[&#34;PREFILL&lt;br/&gt;all prompt tokens at once&lt;br/&gt;compute-bound&#34;]
+    PF --&gt; KV[(&#34;KV cache&#34;)]
+    KV --&gt; DC[&#34;DECODE&lt;br/&gt;one token per step&lt;br/&gt;reads all weights each step&lt;br/&gt;bandwidth-bound&#34;]
+    DC --&gt;|&#34;next token&#34;| DC
+    DC --&gt; OUT[&#34;Output tokens&#34;]</pre>
+</figure>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Why decode is slow</span></p>
+  <div class="callout__body"><p>Generating each token requires reading every model weight from memory. For a 70B model in 16-bit, that is about 140 GB moved <em>per token</em> for a single request. Almost every decode optimisation — batching, quantisation, speculative decoding — is a way to do more useful work per byte moved.</p></div>
+</aside><p>This is also why <strong>online</strong> (interactive) APIs and <strong>batch</strong> APIs are priced differently: batch jobs can be scheduled to keep hardware fully busy, so providers often discount them heavily.</p>
+<h2 id="metrics-that-matter">Metrics that matter<a class="heading-anchor" href="#metrics-that-matter" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Meaning</th>
+      <th>Users feel it as</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>TTFT</strong> — time to first token</td>
+      <td>Queueing + prefill</td>
+      <td>&ldquo;Is it responding?&rdquo;</td>
+    </tr>
+    <tr>
+      <td><strong>TPOT</strong> — time per output token</td>
+      <td>Decode speed per stream</td>
+      <td>Reading speed of the stream</td>
+    </tr>
+    <tr>
+      <td><strong>Total latency</strong></td>
+      <td>TTFT + TPOT × output tokens</td>
+      <td>Waiting for the whole answer</td>
+    </tr>
+    <tr>
+      <td><strong>Throughput</strong></td>
+      <td>Tokens (or requests) per second across all users</td>
+      <td>Cost per token</td>
+    </tr>
+    <tr>
+      <td><strong>Goodput</strong></td>
+      <td>Requests per second that <em>meet your latency targets</em></td>
+      <td>Capacity you can actually sell</td>
+    </tr>
+    <tr>
+      <td><strong>MFU</strong> — model FLOPs utilisation</td>
+      <td>Achieved FLOP/s ÷ peak FLOP/s</td>
+      <td>Compute efficiency (prefill, training)</td>
+    </tr>
+    <tr>
+      <td><strong>MBU</strong> — model bandwidth utilisation</td>
+      <td>Achieved bytes/s ÷ peak bandwidth</td>
+      <td>Memory efficiency (decode)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Optimise goodput, not throughput</span></p>
+  <div class="callout__body"><p>A server can post a high throughput while breaking every latency SLO. Define your SLOs (for example, TTFT under 500 ms and TPOT under 50 ms for 95% of requests) and measure how many requests per second meet them.</p></div>
+</aside><p>Report latency as <strong>percentiles</strong> (p50, p90, p99), not averages; a few long prompts skew the mean.</p>
+<h2 id="accelerators-in-brief">Accelerators in brief<a class="heading-anchor" href="#accelerators-in-brief" aria-label="Link to this section">#</a></h2>
+<p>When choosing hardware, three properties matter more than the brand:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>FLOP/s</strong> at your precision (FP16, FP8, INT8, INT4)</td>
+      <td>Prefill speed and training</td>
+    </tr>
+    <tr>
+      <td><strong>Memory size</strong> (HBM)</td>
+      <td>Whether the model and KV cache fit on one device</td>
+    </tr>
+    <tr>
+      <td><strong>Memory bandwidth</strong></td>
+      <td>Decode speed</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Also count <strong>power</strong> and <strong>cooling</strong> — often the real constraint in an on-premise data centre. See <a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">on-premise and hybrid deployment</a>.</p>
+<h2 id="model-level-optimisation">Model-level optimisation<a class="heading-anchor" href="#model-level-optimisation" aria-label="Link to this section">#</a></h2>
+<h3 id="model-compression">Model compression<a class="heading-anchor" href="#model-compression" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>Idea</th>
+      <th>Trade-off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Quantisation</strong></td>
+      <td>Store weights (and sometimes activations, KV cache) in fewer bits: FP16 → FP8/INT8 → INT4</td>
+      <td>Big memory and speed gains; small quality loss, larger at 4 bits and below</td>
+    </tr>
+    <tr>
+      <td><strong>Distillation</strong></td>
+      <td>Train a smaller student to imitate a larger teacher</td>
+      <td>Needs training data and effort; the student is cheaper to serve</td>
+    </tr>
+    <tr>
+      <td><strong>Pruning</strong></td>
+      <td>Remove weights or structures that contribute little</td>
+      <td>Less common in practice for LLMs; hardware support varies</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Quantisation is the most widely used. See <a href="/enterprise-ai/foundations/finetuning-in-depth/#numerical-formats-and-quantisation">fine-tuning in depth: numerical formats</a>.</p>
+<h3 id="getting-past-one-token-at-a-time">Getting past one-token-at-a-time<a class="heading-anchor" href="#getting-past-one-token-at-a-time" aria-label="Link to this section">#</a></h3>
+<p>Decoding is sequential: token <em>n+1</em> depends on token <em>n</em>. Several techniques generate more than one token per expensive step.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>How it works</th>
+      <th>Best for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Speculative decoding</strong></td>
+      <td>A small, fast <strong>draft model</strong> proposes several tokens; the large model <strong>verifies</strong> them in one parallel pass and keeps the accepted prefix</td>
+      <td>General chat and code; output distribution unchanged</td>
+    </tr>
+    <tr>
+      <td><strong>Inference with reference</strong></td>
+      <td>Copy spans straight from the input (the &ldquo;reference&rdquo;) instead of generating them</td>
+      <td>Code editing, document revision, RAG answers that quote sources</td>
+    </tr>
+    <tr>
+      <td><strong>Parallel decoding</strong></td>
+      <td>Extra prediction heads (for example Medusa) or lookahead methods guess several future tokens at once, then verify</td>
+      <td>Reducing latency without a separate draft model</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Speculative decoding works because verifying <em>k</em> tokens costs about the same as generating one — decode is bandwidth-bound, so the extra compute is nearly free.</p>
+<h3 id="attention-and-the-kv-cache">Attention and the KV cache<a class="heading-anchor" href="#attention-and-the-kv-cache" aria-label="Link to this section">#</a></h3>
+<p>The KV cache stores keys and values for every token in every layer so they are not recomputed. Its size is roughly:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">KV cache bytes ≈ 2 × batch × sequence_length × layers × model_dim × bytes_per_value
+</span></span></code></pre></div><p>For a 13B-class model (40 layers, dimension 5120) serving a batch of 32 with 2,048-token sequences in 16-bit, that is about <strong>54 GB — more than the model weights</strong>. Long context and high concurrency make the KV cache the main memory consumer.</p>
+<p>Ways to shrink or manage it:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Share keys and values across heads</strong></td>
+      <td>Multi-query attention (MQA), grouped-query attention (GQA)</td>
+    </tr>
+    <tr>
+      <td><strong>Limit what is attended to</strong></td>
+      <td>Sliding-window or local attention, layer sharing</td>
+    </tr>
+    <tr>
+      <td><strong>Manage memory like an OS</strong></td>
+      <td>PagedAttention (vLLM): allocate KV cache in pages, avoid fragmentation</td>
+    </tr>
+    <tr>
+      <td><strong>Quantise the cache</strong></td>
+      <td>Store KV in 8 or 4 bits</td>
+    </tr>
+    <tr>
+      <td><strong>Faster attention kernels</strong></td>
+      <td>FlashAttention: compute attention in on-chip SRAM, avoiding slow memory round trips</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="kernels-and-compilers">Kernels and compilers<a class="heading-anchor" href="#kernels-and-compilers" aria-label="Link to this section">#</a></h3>
+<p>Much of the remaining speed comes from software that maps the model efficiently to the chip: <strong>operator fusion</strong> (merge several operations into one kernel), <strong>vectorisation</strong>, <strong>parallelisation</strong> and <strong>loop tiling</strong>. Compilers such as <code>torch.compile</code>, TensorRT and XLA do this automatically; serving engines such as vLLM, SGLang and TensorRT-LLM bundle the best kernels. In practice, choosing a good serving engine is the largest single optimisation most teams make.</p>
+<h2 id="service-level-optimisation">Service-level optimisation<a class="heading-anchor" href="#service-level-optimisation" aria-label="Link to this section">#</a></h2>
+<h3 id="batching">Batching<a class="heading-anchor" href="#batching" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Strategy</th>
+      <th>Behaviour</th>
+      <th>Drawback</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Static batching</strong></td>
+      <td>Wait for a full batch, process together</td>
+      <td>Early requests wait; short answers wait for long ones</td>
+    </tr>
+    <tr>
+      <td><strong>Dynamic batching</strong></td>
+      <td>Process when the batch is full <em>or</em> a time window expires</td>
+      <td>Better latency; still waits for the longest sequence</td>
+    </tr>
+    <tr>
+      <td><strong>Continuous (in-flight) batching</strong></td>
+      <td>Requests join and leave the batch at each decode step</td>
+      <td>Best utilisation; standard in modern servers</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="decoupling-prefill-and-decode">Decoupling prefill and decode<a class="heading-anchor" href="#decoupling-prefill-and-decode" aria-label="Link to this section">#</a></h3>
+<p>Prefill (compute-bound) and decode (bandwidth-bound) compete when they share a GPU: a long prompt arriving stalls everyone&rsquo;s token stream. <strong>Disaggregated serving</strong> runs them on separate instances and transfers the KV cache between them, so each pool can be sized and tuned independently.</p>
+<h3 id="prompt-caching">Prompt caching<a class="heading-anchor" href="#prompt-caching" aria-label="Link to this section">#</a></h3>
+<p>Reuse the computed KV cache for repeated prefixes — a long system prompt, tool definitions, a shared document. It cuts TTFT and cost for every request that shares the prefix. Design prompts with the <strong>stable part first</strong> and the variable part last. See <a href="/enterprise-ai/foundations/inference-and-serving/#prompt-caching">prompt caching</a>.</p>
+<h3 id="parallelism">Parallelism<a class="heading-anchor" href="#parallelism" aria-label="Link to this section">#</a></h3>
+<p>When a model does not fit on one device, or one device is too slow:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>What is split</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Replica (data) parallelism</strong></td>
+      <td>Nothing — run full copies</td>
+      <td>Scale throughput when the model fits on one node</td>
+    </tr>
+    <tr>
+      <td><strong>Tensor parallelism</strong></td>
+      <td>Each layer&rsquo;s matrices across devices</td>
+      <td>Fit large models and cut latency; needs fast interconnect</td>
+    </tr>
+    <tr>
+      <td><strong>Pipeline parallelism</strong></td>
+      <td>Consecutive layers across devices</td>
+      <td>Fit very large models; adds pipeline bubbles, better for throughput than latency</td>
+    </tr>
+    <tr>
+      <td><strong>Context / sequence parallelism</strong></td>
+      <td>The input sequence across devices</td>
+      <td>Very long contexts</td>
+    </tr>
+    <tr>
+      <td><strong>Expert parallelism</strong></td>
+      <td>MoE experts across devices</td>
+      <td>Serving mixture-of-experts models</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="a-practical-order-of-work">A practical order of work<a class="heading-anchor" href="#a-practical-order-of-work" aria-label="Link to this section">#</a></h2>
+<ol>
+<li><strong>Measure</strong> TTFT, TPOT, goodput and cost per request against SLOs, by percentile.</li>
+<li><strong>Use a modern serving engine</strong> with continuous batching, paged KV cache and fast attention kernels.</li>
+<li><strong>Enable prompt caching</strong> and restructure prompts so stable content comes first.</li>
+<li><strong>Quantise</strong> (FP8 or INT8 first; INT4 after evaluation).</li>
+<li><strong>Try speculative decoding</strong> for latency-sensitive workloads.</li>
+<li><strong>Right-size the model</strong> — distil or route easy requests to a smaller model (<a href="/enterprise-ai/foundations/model-selection/#model-routing-and-cascades">routing</a>).</li>
+<li><strong>Scale out</strong> with the parallelism strategy that matches your bottleneck.</li>
+</ol>
+<p>Re-run your <a href="/enterprise-ai/foundations/evaluating-ai-systems/">evaluation suite</a> after every step: optimisations that change numerics can change answers.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Sizing GPUs for weights only</span></p>
+  <div class="callout__body"><p>Forgetting the KV cache. At long context and high concurrency it can exceed the weights, causing out-of-memory errors or forcing tiny batches.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Benchmarking with unrealistic traffic</span></p>
+  <div class="callout__body"><p>Testing with short, uniform prompts. Use your real distribution of prompt and output lengths, and measure percentiles.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Quantising without evaluating</span></p>
+  <div class="callout__body"><p>Assuming a 4-bit model is &ldquo;the same&rdquo;. Quality loss is task-dependent; check it on your own evaluation set.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>Why is decode memory-bandwidth-bound?</strong>
+Each generated token needs every weight (and the KV cache) read from memory, but performs relatively little computation on it, so the speed of moving bytes — not arithmetic — sets the pace.</p>
+<p><strong>How does speculative decoding speed things up without changing quality?</strong>
+A small draft model proposes several tokens; the large model verifies them in one parallel pass, accepting the longest correct prefix. Because verification is nearly as cheap as generating one token, accepted tokens come almost for free, and the acceptance rule preserves the large model&rsquo;s output distribution.</p>
+<p><strong>What is continuous batching?</strong>
+A scheduler that adds new requests to, and removes finished requests from, the running batch at every decode step, keeping the accelerator busy and avoiding waits for the longest sequence.</p>
+<p><strong>What is goodput and why is it better than throughput?</strong>
+The rate of requests that meet latency SLOs. Throughput can be raised by starving latency; goodput measures the capacity you can actually offer users.</p>
+<p><strong>How would you serve a model that does not fit on one GPU?</strong>
+Quantise it if quality allows; otherwise use tensor parallelism within a node (fast interconnect) and pipeline parallelism across nodes, sizing for both weights and KV cache.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Prefill is compute-bound; decode is bandwidth-bound — most optimisations target decode.</li>
+<li>Measure TTFT, TPOT, goodput, MFU and MBU, by percentile, against SLOs.</li>
+<li>Model-level: quantise, distil, speculative or parallel decoding, shrink the KV cache, use fast kernels.</li>
+<li>Service-level: continuous batching, prefill/decode disaggregation, prompt caching, the right parallelism.</li>
+<li>Re-evaluate quality after every optimisation.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chip Huyen, <em>AI Engineering</em>, O&rsquo;Reilly, 2025 — chapter 9.</li>
+<li>Leviathan et al., <a href="https://arxiv.org/abs/2211.17192" rel="noopener">Fast Inference from Transformers via Speculative Decoding</a>, 2023.</li>
+<li>Kwon et al., <a href="https://arxiv.org/abs/2309.06180" rel="noopener">Efficient Memory Management for LLM Serving with PagedAttention</a>, 2023.</li>
+<li>Dao et al., <a href="https://arxiv.org/abs/2205.14135" rel="noopener">FlashAttention</a>, 2022.</li>
+<li>Zhong et al., <a href="https://arxiv.org/abs/2401.09670" rel="noopener">DistServe: Disaggregating Prefill and Decoding</a>, 2024.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/finetuning-in-depth/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Fine-tuning in depth</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">On-prem &amp; hybrid deployment</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Inference, latency &amp; cost</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/ai-engineering-architecture/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">AI engineering architecture</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/inference-and-serving/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Inference, latency &amp; cost</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/prompt-engineering/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Prompt &amp; context engineering</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#two-kinds-of-bottleneck">Two kinds of bottleneck</a></li>
+    <li><a href="#metrics-that-matter">Metrics that matter</a></li>
+    <li><a href="#accelerators-in-brief">Accelerators in brief</a></li>
+    <li><a href="#model-level-optimisation">Model-level optimisation</a>
+      <ul>
+        <li><a href="#model-compression">Model compression</a></li>
+        <li><a href="#getting-past-one-token-at-a-time">Getting past one-token-at-a-time</a></li>
+        <li><a href="#attention-and-the-kv-cache">Attention and the KV cache</a></li>
+        <li><a href="#kernels-and-compilers">Kernels and compilers</a></li>
+      </ul>
+    </li>
+    <li><a href="#service-level-optimisation">Service-level optimisation</a>
+      <ul>
+        <li><a href="#batching">Batching</a></li>
+        <li><a href="#decoupling-prefill-and-decode">Decoupling prefill and decode</a></li>
+        <li><a href="#prompt-caching">Prompt caching</a></li>
+        <li><a href="#parallelism">Parallelism</a></li>
+      </ul>
+    </li>
+    <li><a href="#a-practical-order-of-work">A practical order of work</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

@@ -6,15 +6,15 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-fundamentals/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/review/architecture-review-framework/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/how-llms-work/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -38,7 +38,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/inference-and-serving/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/how-llms-work/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-progression-and-spar/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -54,19 +58,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/tool-calling/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/jvm-agent-frameworks/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/model-context-protocol/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/prompt-engineering/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -78,6 +70,14 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/tool-calling/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/training-and-sampling/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/rag/vector-databases/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -86,19 +86,19 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/inference-and-serving/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/managed-agent-platforms/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-production/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -110,11 +110,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/model-selection/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/inference-optimization/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/multi-agent-systems/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/model-context-protocol/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -122,11 +122,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/enterprise-ai-stack/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-memory-and-state/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/prompt-engineering/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -134,11 +130,31 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/rag/case-study-knowledge-assistant/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/multi-agent-systems/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/customizing-models/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/finetuning-in-depth/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-memory-and-state/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -146,7 +162,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/llmops/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -154,11 +170,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/evaluation-methodology/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -166,11 +182,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/financial-services-hybrid-ai/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/</loc>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/model-selection/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -178,7 +194,39 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/enterprise-ai-stack/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-ai-strategy/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/ai-engineering-architecture/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-building-playbook/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/user-feedback/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/llmops/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/foundations/financial-services-hybrid-ai/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -215,6 +263,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/agents/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/ai-engineering/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -262,6 +314,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/enterprise/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -302,6 +358,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/inference/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/java/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -311,6 +371,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/llm/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/llmops/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -343,6 +407,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/platform/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/product/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -407,6 +475,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/tools/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/training/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>

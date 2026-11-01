@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Fine-Tuning in Depth: Memory, PEFT, LoRA and Model Merging · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="When to fine-tune and when not to, how fine-tuning relates to RAG, the memory math of inference and training, numerical formats and quantisation, parameter-efficient fine-tuning (adapters, LoRA, QLoRA), serving many LoRA adapters, model merging and multi-task fine-tuning, and the hyperparameters that matter.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/foundations/finetuning-in-depth/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Fine-Tuning in Depth: Memory, PEFT, LoRA and Model Merging">
+<meta property="og:description" content="When to fine-tune and when not to, how fine-tuning relates to RAG, the memory math of inference and training, numerical formats and quantisation, parameter-efficient fine-tuning (adapters, LoRA, QLoRA), serving many LoRA adapters, model merging and multi-task fine-tuning, and the hyperparameters that matter.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/foundations/finetuning-in-depth/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fine-Tuning in Depth: Memory, PEFT, LoRA and Model Merging">
+<meta name="twitter:description" content="When to fine-tune and when not to, how fine-tuning relates to RAG, the memory math of inference and training, numerical formats and quantisation, parameter-efficient fine-tuning (adapters, LoRA, QLoRA), serving many LoRA adapters, model merging and multi-task fine-tuning, and the hyperparameters that matter.">
+<meta name="keywords" content="fine-tuning, foundations, training">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"When to fine-tune and when not to, how fine-tuning relates to RAG, the memory math of inference and training, numerical formats and quantisation, parameter-efficient fine-tuning (adapters, LoRA, QLoRA), serving many LoRA adapters, model merging and multi-task fine-tuning, and the hyperparameters that matter.","headline":"Fine-Tuning in Depth: Memory, PEFT, LoRA and Model Merging","inLanguage":"en","isAccessibleForFree":true,"keywords":"fine-tuning, foundations, training","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/foundations/finetuning-in-depth/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/","name":"1 · LLM Foundations","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/foundations/finetuning-in-depth/","name":"Fine-tuning in depth","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-foundations">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/" aria-current="page">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/foundations/">1 · LLM Foundations</a></li>
+    <li><span aria-current="page">Fine-tuning in depth</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Fine-Tuning in Depth: Memory, PEFT, LoRA and Model Merging</h1><p class="article__lede" itemprop="description">When to fine-tune and when not to, how fine-tuning relates to RAG, the memory math of inference and training, numerical formats and quantisation, parameter-efficient fine-tuning (adapters, LoRA, QLoRA), serving many LoRA adapters, model merging and multi-task fine-tuning, and the hyperparameters that matter.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/fine-tuning/">#Fine-Tuning</a><a class="tag" href="/enterprise-ai/tags/foundations/">#Foundations</a><a class="tag" href="/enterprise-ai/tags/training/">#Training</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#when-to-fine-tune--and-when-not-to">When to fine-tune — and when not to</a></li>
+    <li><a href="#memory-math">Memory math</a>
+      <ul>
+        <li><a href="#inference">Inference</a></li>
+        <li><a href="#training">Training</a></li>
+      </ul>
+    </li>
+    <li><a href="#numerical-formats-and-quantisation">Numerical formats and quantisation</a></li>
+    <li><a href="#parameter-efficient-fine-tuning-peft">Parameter-efficient fine-tuning (PEFT)</a>
+      <ul>
+        <li><a href="#lora">LoRA</a></li>
+        <li><a href="#qlora">QLoRA</a></li>
+        <li><a href="#serving-many-adapters">Serving many adapters</a></li>
+      </ul>
+    </li>
+    <li><a href="#model-merging-and-multi-task-fine-tuning">Model merging and multi-task fine-tuning</a></li>
+    <li><a href="#fine-tuning-tactics">Fine-tuning tactics</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Fine-tuning</strong> continues training a pre-trained model on your own examples so that it changes its <strong>behaviour</strong> — format, style, task skill, domain vocabulary. It is the most powerful adaptation technique and the most expensive one to run and maintain.</p>
+<p><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a> covers the decision. This article covers what happens underneath: memory, efficiency techniques and the knobs that matter.</p>
+<h2 id="when-to-fine-tune--and-when-not-to">When to fine-tune — and when not to<a class="heading-anchor" href="#when-to-fine-tune--and-when-not-to" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Good reasons</th>
+      <th>Poor reasons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A consistent <strong>output format</strong> or structure prompting cannot hold</td>
+      <td>Adding <strong>facts</strong> that change — use <a href="/enterprise-ai/rag/rag-fundamentals/">RAG</a></td>
+    </tr>
+    <tr>
+      <td>A <strong>style or tone</strong> that is hard to describe but easy to show</td>
+      <td>You have not yet tried a strong prompt with examples</td>
+    </tr>
+    <tr>
+      <td>A <strong>narrow, high-volume task</strong> where a small tuned model beats a large general one on cost and latency</td>
+      <td>You have no evaluation set to show it helped</td>
+    </tr>
+    <tr>
+      <td><strong>Distilling</strong> a large model&rsquo;s behaviour into a smaller one</td>
+      <td>You cannot maintain it when the base model is updated</td>
+    </tr>
+    <tr>
+      <td>Domain-specific <strong>reasoning patterns</strong> or jargon</td>
+      <td>The team has no ML capacity to run training and serving</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Form vs facts</span></p>
+  <div class="callout__body"><p>Fine-tuning is for <strong>form</strong> — how the model answers. RAG is for <strong>facts</strong> — what it answers with. Most production systems that fine-tune also use RAG.</p></div>
+</aside><p>Risks to weigh: fine-tuning for one task can <strong>degrade others</strong> (catastrophic forgetting); you take on <strong>training and serving</strong> infrastructure; and when a better base model appears, you must decide whether to <strong>re-tune</strong> on it.</p>
+<p>A sensible progression: prompt → prompt with examples → RAG → fine-tune a small model (often with LoRA) → full fine-tuning only if justified.</p>
+<h2 id="memory-math">Memory math<a class="heading-anchor" href="#memory-math" aria-label="Link to this section">#</a></h2>
+<p>Memory, not compute, is usually what stops a fine-tuning or serving plan. These rules of thumb make it estimable.</p>
+<h3 id="inference">Inference<a class="heading-anchor" href="#inference" aria-label="Link to this section">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">memory ≈ parameters × bytes_per_parameter × 1.2
+</span></span></code></pre></div><p>The 1.2 factor is a rough allowance for activations and KV cache at modest context and batch size. A 13B model in 16-bit needs about 13B × 2 bytes = 26 GB for weights and roughly 31 GB in total. A 70B model needs about 140 GB for weights alone. Long contexts and large batches need much more — see <a href="/enterprise-ai/foundations/inference-optimization/#attention-and-the-kv-cache">KV cache sizing</a>.</p>
+<h3 id="training">Training<a class="heading-anchor" href="#training" aria-label="Link to this section">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">training memory = weights + activations + gradients + optimizer states
+</span></span></code></pre></div><p>Gradients and optimizer states scale with the number of <strong>trainable</strong> parameters:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Optimizer</th>
+      <th>Extra values per trainable parameter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SGD</td>
+      <td>1 (gradient)</td>
+    </tr>
+    <tr>
+      <td>SGD with momentum</td>
+      <td>2 (gradient + momentum)</td>
+    </tr>
+    <tr>
+      <td><strong>Adam / AdamW</strong></td>
+      <td>3 (gradient + two moment estimates)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Full fine-tuning of a 13B model with Adam at 2 bytes per value needs about 13B × 3 × 2 = <strong>78 GB</strong> just for gradients and optimizer state — on top of weights and activations. If only 1B parameters are trainable, that drops to about 6 GB. This is the whole case for parameter-efficient fine-tuning.</p>
+<p><strong>Activations</strong> can dwarf the weights for long sequences. <strong>Gradient checkpointing</strong> (activation recomputation) stores fewer activations and recomputes them during the backward pass — less memory, more time.</p>
+<h2 id="numerical-formats-and-quantisation">Numerical formats and quantisation<a class="heading-anchor" href="#numerical-formats-and-quantisation" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Format</th>
+      <th>Bits</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FP32</td>
+      <td>32</td>
+      <td>Full precision; rarely used for LLM inference</td>
+    </tr>
+    <tr>
+      <td><strong>BF16</strong></td>
+      <td>16</td>
+      <td>Same range as FP32 with less precision; the default for training</td>
+    </tr>
+    <tr>
+      <td>FP16</td>
+      <td>16</td>
+      <td>More precision, smaller range; overflow risk in training</td>
+    </tr>
+    <tr>
+      <td><strong>FP8</strong></td>
+      <td>8</td>
+      <td>Supported by recent accelerators for training and inference</td>
+    </tr>
+    <tr>
+      <td><strong>INT8</strong></td>
+      <td>8</td>
+      <td>Common for inference</td>
+    </tr>
+    <tr>
+      <td><strong>INT4 / 4-bit formats</strong></td>
+      <td>4</td>
+      <td>Large savings; quality loss is task-dependent</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Two things to keep separate:</p>
+<ul>
+<li><strong>Range vs precision.</strong> Fewer exponent bits shrink the range (risk of overflow); fewer mantissa bits reduce precision.</li>
+<li><strong>Quantisation vs reduced precision.</strong> Reduced precision uses a smaller <em>floating-point</em> format; quantisation maps values to integers with a scale factor. Both reduce memory.</li>
+</ul>
+<p>What to quantise: <strong>weights</strong> most often, <strong>activations</strong> sometimes, the <strong>KV cache</strong> increasingly. When: <strong>post-training quantisation</strong> (after training, cheap) or <strong>quantisation-aware training</strong> (simulate low precision during training, better quality at very low bits). <strong>Mixed precision</strong> training keeps a high-precision master copy of the weights while computing in lower precision.</p>
+<h2 id="parameter-efficient-fine-tuning-peft">Parameter-efficient fine-tuning (PEFT)<a class="heading-anchor" href="#parameter-efficient-fine-tuning-peft" aria-label="Link to this section">#</a></h2>
+<p>PEFT trains a <strong>small number of new or selected parameters</strong> and freezes the rest, getting close to full fine-tuning quality with a fraction of the memory and data.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Family</th>
+      <th>Idea</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Adapter-based</strong></td>
+      <td>Add small trainable modules to the frozen model</td>
+      <td>Bottleneck adapters, <strong>LoRA</strong>, QLoRA</td>
+    </tr>
+    <tr>
+      <td><strong>Soft-prompt-based</strong></td>
+      <td>Train continuous &ldquo;virtual tokens&rdquo; prepended to the input</td>
+      <td>Prefix tuning, prompt tuning</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="lora">LoRA<a class="heading-anchor" href="#lora" aria-label="Link to this section">#</a></h3>
+<p><strong>Low-Rank Adaptation</strong> freezes a weight matrix <em>W</em> and learns its update as the product of two small matrices, <em>A</em> and <em>B</em>, with a small rank <em>r</em>:</p>
+<figure class="diagram" aria-label="LoRA: learn a low-rank update next to a frozen weight"><figcaption class="diagram__title">LoRA: learn a low-rank update next to a frozen weight</figcaption>
+  <pre class="mermaid">flowchart LR
+    X[&#34;Input x&#34;] --&gt; W[&#34;Frozen weight W&lt;br/&gt;d × k&#34;]
+    X --&gt; A[&#34;A&lt;br/&gt;d × r (trainable)&#34;]
+    A --&gt; B[&#34;B&lt;br/&gt;r × k (trainable)&#34;]
+    W --&gt; S((&#34;+&#34;))
+    B --&gt; S
+    S --&gt; Y[&#34;Output = Wx + BAx&#34;]</pre>
+</figure>
+<p>Why it works well:</p>
+<ul>
+<li><strong>Few trainable parameters.</strong> With <em>r</em> = 8 or 16, the update has a tiny fraction of the original parameters.</li>
+<li><strong>No inference latency</strong> if you merge <em>BA</em> into <em>W</em> before serving.</li>
+<li><strong>Modular.</strong> Each task becomes a small adapter file you can swap.</li>
+</ul>
+<p>Practical configuration: apply LoRA to the <strong>attention projections</strong> (query, key, value, output) and, for more capacity, the MLP layers; ranks between 4 and 64 are typical; higher rank is not always better.</p>
+<h3 id="qlora">QLoRA<a class="heading-anchor" href="#qlora" aria-label="Link to this section">#</a></h3>
+<p>QLoRA keeps the frozen base model in <strong>4-bit</strong> and trains LoRA adapters in higher precision. It makes fine-tuning a large model possible on a single GPU, at the cost of slower training from de-quantising on the fly.</p>
+<h3 id="serving-many-adapters">Serving many adapters<a class="heading-anchor" href="#serving-many-adapters" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Strategy</th>
+      <th>Pros</th>
+      <th>Cons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Merge</strong> each adapter into a full model copy</td>
+      <td>No extra latency</td>
+      <td>One full model per task — memory-heavy</td>
+    </tr>
+    <tr>
+      <td><strong>Keep adapters separate</strong> and apply at request time</td>
+      <td>One base model, many tiny adapters; swap per request</td>
+      <td>Small added latency</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Multi-LoRA serving engines batch requests for different adapters on the same base model — ideal for per-customer or per-task specialisation.</p>
+<h2 id="model-merging-and-multi-task-fine-tuning">Model merging and multi-task fine-tuning<a class="heading-anchor" href="#model-merging-and-multi-task-fine-tuning" aria-label="Link to this section">#</a></h2>
+<p>When you need one model to do several tasks, you can fine-tune on all of them together (<strong>simultaneous</strong>), one after another (<strong>sequential</strong>, risking forgetting), or fine-tune separately and <strong>merge</strong>.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Merging method</th>
+      <th>Idea</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Summing / linear combination</strong></td>
+      <td>Weighted average of models or of their <em>task vectors</em> (fine-tuned minus base)</td>
+    </tr>
+    <tr>
+      <td><strong>SLERP</strong></td>
+      <td>Interpolate along a sphere between two models&rsquo; weights</td>
+    </tr>
+    <tr>
+      <td><strong>Pruning redundant parameters</strong></td>
+      <td>Drop small or conflicting task-vector values before merging (TIES, DARE)</td>
+    </tr>
+    <tr>
+      <td><strong>Layer stacking</strong></td>
+      <td>Combine layers from different models into a bigger one (&ldquo;frankenmerging&rdquo;)</td>
+    </tr>
+    <tr>
+      <td><strong>Concatenation</strong></td>
+      <td>Combine LoRA adapters by concatenating their matrices</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Merging is cheap — no training data or GPUs required — and useful for combining capabilities, on-device deployment and federated scenarios. Results are empirical: always evaluate the merged model.</p>
+<h2 id="fine-tuning-tactics">Fine-tuning tactics<a class="heading-anchor" href="#fine-tuning-tactics" aria-label="Link to this section">#</a></h2>
+<p><strong>Choose the base model</strong> by your path:</p>
+<ul>
+<li><em>Progression path:</em> prove the task with the strongest model you can, then fine-tune progressively smaller models until quality drops below the threshold.</li>
+<li><em>Distillation path:</em> use a strong model to generate training data, then fine-tune a small model on it. See <a href="/enterprise-ai/foundations/dataset-engineering/#model-distillation">dataset engineering</a>.</li>
+</ul>
+<p><strong>Hyperparameters that matter most:</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Hyperparameter</th>
+      <th>Guidance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Learning rate</strong></td>
+      <td>Too high → loss unstable or forgetting; too low → slow. Watch the loss curve; use warm-up and decay</td>
+    </tr>
+    <tr>
+      <td><strong>Batch size</strong></td>
+      <td>Larger is more stable but needs memory; use <strong>gradient accumulation</strong> to simulate larger batches</td>
+    </tr>
+    <tr>
+      <td><strong>Epochs</strong></td>
+      <td>Fewer for large datasets (1–2), more for small ones; stop when validation loss rises</td>
+    </tr>
+    <tr>
+      <td><strong>Prompt loss weight</strong></td>
+      <td>How much the prompt tokens contribute to the loss; usually low, so the model learns responses, not prompts</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Track <strong>training and validation loss</strong> together. Rising validation loss while training loss falls means overfitting.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Fine-tuning to add knowledge</span></p>
+  <div class="callout__body"><p>Training on documents so the model &ldquo;knows&rdquo; policies. It memorises unreliably, cannot cite and goes stale. Use RAG for facts.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Planning GPU capacity for weights only</span></p>
+  <div class="callout__body"><p>Forgetting gradients, optimizer state and activations. Use the memory formula, or plan for LoRA/QLoRA from the start.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No regression suite</span></p>
+  <div class="callout__body"><p>Fine-tuning improves the target task and silently degrades others. Evaluate the general capabilities you rely on, not only the new task.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>Why does full fine-tuning need so much more memory than inference?</strong>
+Training also stores gradients and optimizer states for every trainable parameter (three extra values each with Adam) plus activations for the backward pass, so memory can be several times the size of the weights.</p>
+<p><strong>How does LoRA work?</strong>
+It freezes the original weights and learns a low-rank update as the product of two small matrices added alongside selected layers. Few parameters are trained, adapters are small and swappable, and they can be merged into the weights for latency-free serving.</p>
+<p><strong>What is QLoRA?</strong>
+LoRA on top of a base model quantised to 4 bits, cutting memory enough to fine-tune large models on a single GPU.</p>
+<p><strong>When would you merge models instead of training a multi-task model?</strong>
+When you already have task-specific fine-tunes, lack the data or compute to retrain jointly, or need to combine capabilities quickly — accepting that merges must be evaluated empirically.</p>
+<p><strong>What tells you a fine-tuning run is overfitting?</strong>
+Validation loss rising while training loss keeps falling; quality on held-out evaluation examples dropping.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Fine-tune for form, style, narrow tasks and distillation; use RAG for facts.</li>
+<li>Memory = weights + activations + gradients + optimizer state; Adam adds three values per trainable parameter.</li>
+<li>Lower-precision formats and quantisation cut memory; evaluate the quality impact.</li>
+<li>PEFT (LoRA, QLoRA) trains a tiny fraction of parameters; multi-LoRA serving shares one base model.</li>
+<li>Model merging combines fine-tunes cheaply; learning rate, batch size, epochs and prompt loss weight are the key knobs.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chip Huyen, <em>AI Engineering</em>, O&rsquo;Reilly, 2025 — chapter 7.</li>
+<li>Hu et al., <a href="https://arxiv.org/abs/2106.09685" rel="noopener">LoRA: Low-Rank Adaptation of Large Language Models</a>, 2021.</li>
+<li>Dettmers et al., <a href="https://arxiv.org/abs/2305.14314" rel="noopener">QLoRA: Efficient Finetuning of Quantized LLMs</a>, 2023.</li>
+<li>Yadav et al., <a href="https://arxiv.org/abs/2306.01708" rel="noopener">TIES-Merging</a>, 2023.</li>
+<li>Korthikanti et al., <a href="https://arxiv.org/abs/2205.05198" rel="noopener">Reducing Activation Recomputation in Large Transformer Models</a>, 2022.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/dataset-engineering/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Dataset engineering</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/inference-optimization/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Inference optimisation</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/training-and-sampling/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Training, scaling &amp; sampling</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/customizing-models/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompting vs RAG vs fine-tuning</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Inference, latency &amp; cost</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/foundations/customizing-models/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Prompting vs RAG vs fine-tuning</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/foundations/dataset-engineering/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Dataset engineering</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#when-to-fine-tune--and-when-not-to">When to fine-tune — and when not to</a></li>
+    <li><a href="#memory-math">Memory math</a>
+      <ul>
+        <li><a href="#inference">Inference</a></li>
+        <li><a href="#training">Training</a></li>
+      </ul>
+    </li>
+    <li><a href="#numerical-formats-and-quantisation">Numerical formats and quantisation</a></li>
+    <li><a href="#parameter-efficient-fine-tuning-peft">Parameter-efficient fine-tuning (PEFT)</a>
+      <ul>
+        <li><a href="#lora">LoRA</a></li>
+        <li><a href="#qlora">QLoRA</a></li>
+        <li><a href="#serving-many-adapters">Serving many adapters</a></li>
+      </ul>
+    </li>
+    <li><a href="#model-merging-and-multi-task-fine-tuning">Model merging and multi-task fine-tuning</a></li>
+    <li><a href="#fine-tuning-tactics">Fine-tuning tactics</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>
