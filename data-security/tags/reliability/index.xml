@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Reliability on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/data-security/tags/reliability/</link>
+		<description>Recent content in Reliability on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/data-security/tags/reliability/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Kafka Producers, Consumers and Delivery Guarantees</title>
+				<link>https://samirsahoo.github.io/data-security/streaming/kafka-producers-and-consumers/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/streaming/kafka-producers-and-consumers/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;producer&lt;/strong&gt; writes records to topic partitions. A &lt;strong&gt;consumer&lt;/strong&gt; reads them and records its progress as &lt;strong&gt;offsets&lt;/strong&gt;. &lt;strong&gt;Delivery guarantees&lt;/strong&gt; describe what happens to a record when something fails in between: it can be lost, duplicated or processed exactly once.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Transactional Outbox, CDC and Idempotent Consumers</title>
+				<link>https://samirsahoo.github.io/data-security/distributed/outbox-cdc-idempotency/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/distributed/outbox-cdc-idempotency/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Transactional outbox:&lt;/strong&gt; write the business change &lt;strong&gt;and&lt;/strong&gt; the event to the &lt;strong&gt;same database in one transaction&lt;/strong&gt;, then publish the event from the database to the broker.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Change data capture (CDC):&lt;/strong&gt; read a database&amp;rsquo;s transaction log and stream every change as events.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Idempotent consumer:&lt;/strong&gt; a consumer that gives the same result whether a message arrives once or several times.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Together they give &lt;strong&gt;effectively-once&lt;/strong&gt; processing without distributed transactions.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Review Checklist · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="A repeatable checklist for reviewing event-driven, data and security designs: ten review areas with questions and red flags, a 0–3 scoring rubric and a one-page review template.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/self-review/design-review-checklist/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Design Review Checklist">
+<meta property="og:description" content="A repeatable checklist for reviewing event-driven, data and security designs: ten review areas with questions and red flags, a 0–3 scoring rubric and a one-page review template.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/self-review/design-review-checklist/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Design Review Checklist">
+<meta name="twitter:description" content="A repeatable checklist for reviewing event-driven, data and security designs: ten review areas with questions and red flags, a 0–3 scoring rubric and a one-page review template.">
+<meta name="keywords" content="self-review, system-design">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"A repeatable checklist for reviewing event-driven, data and security designs: ten review areas with questions and red flags, a 0–3 scoring rubric and a one-page review template.","headline":"Design Review Checklist","inLanguage":"en","isAccessibleForFree":true,"keywords":"self-review, system-design","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/self-review/design-review-checklist/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/self-review/","name":"Self Review","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/self-review/design-review-checklist/","name":"Design review checklist","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-self-review">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/" aria-current="page">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/self-review/">Self Review</a></li>
+    <li><span aria-current="page">Design review checklist</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Design Review Checklist</h1><p class="article__lede" itemprop="description">A repeatable checklist for reviewing event-driven, data and security designs: ten review areas with questions and red flags, a 0–3 scoring rubric and a one-page review template.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/self-review/">#Self-Review</a><a class="tag" href="/data-security/tags/system-design/">#System-Design</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#how-to-use-it">How to use it</a></li>
+    <li><a href="#1-goals-and-non-functional-requirements">1. Goals and non-functional requirements</a></li>
+    <li><a href="#2-boundaries-and-data-ownership">2. Boundaries and data ownership</a></li>
+    <li><a href="#3-events-and-contracts">3. Events and contracts</a></li>
+    <li><a href="#4-consistency">4. Consistency</a></li>
+    <li><a href="#5-failure-handling">5. Failure handling</a></li>
+    <li><a href="#6-data-platform-and-governance">6. Data platform and governance</a></li>
+    <li><a href="#7-data-security-and-privacy">7. Data security and privacy</a></li>
+    <li><a href="#8-threats-and-security-architecture">8. Threats and security architecture</a></li>
+    <li><a href="#9-ai-risk">9. AI risk</a></li>
+    <li><a href="#10-compliance-and-operations">10. Compliance and operations</a></li>
+    <li><a href="#scoring-rubric">Scoring rubric</a></li>
+    <li><a href="#one-page-review-template">One-page review template</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="how-to-use-it">How to use it<a class="heading-anchor" href="#how-to-use-it" aria-label="Link to this section">#</a></h2>
+<p>Use this checklist to review your own design before building, or a team&rsquo;s design at an architecture board. Score each area 0–3 and record the evidence.</p>
+<figure class="diagram" aria-label="Ten review areas"><figcaption class="diagram__title">Ten review areas</figcaption>
+  <pre class="mermaid">flowchart LR
+    A1[&#34;1 · Goals &amp; NFRs&#34;] --&gt; A2[&#34;2 · Boundaries &amp; data ownership&#34;] --&gt; A3[&#34;3 · Events &amp; contracts&#34;] --&gt; A4[&#34;4 · Consistency&#34;] --&gt; A5[&#34;5 · Failure handling&#34;]
+    A5 --&gt; A6[&#34;6 · Data platform &amp; governance&#34;] --&gt; A7[&#34;7 · Data security &amp; privacy&#34;] --&gt; A8[&#34;8 · Threats &amp; security&#34;] --&gt; A9[&#34;9 · AI risk&#34;] --&gt; A10[&#34;10 · Compliance &amp; operations&#34;]</pre>
+</figure>
+<h2 id="1-goals-and-non-functional-requirements">1. Goals and non-functional requirements<a class="heading-anchor" href="#1-goals-and-non-functional-requirements" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Throughput (average and peak), latency budgets, availability, RPO and RTO stated per flow?</li>
+<li>Which flows are synchronous (the user waits) and which are asynchronous?</li>
+<li><strong>Red flags:</strong> &ldquo;real-time&rdquo; undefined; no peak numbers; one SLO for everything.</li>
+</ul>
+<h2 id="2-boundaries-and-data-ownership">2. Boundaries and data ownership<a class="heading-anchor" href="#2-boundaries-and-data-ownership" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Each piece of data has <strong>one owning service</strong>? No shared databases between services?</li>
+<li>Do data that must change together live together?</li>
+<li><strong>Red flags:</strong> services reading each other&rsquo;s tables; every change spans services.</li>
+</ul>
+<h2 id="3-events-and-contracts">3. Events and contracts<a class="heading-anchor" href="#3-events-and-contracts" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Events named as past-tense facts; integration events separated from internal ones?</li>
+<li>Keys chosen for ordering; partition count sized for growth?</li>
+<li>Schemas registered, compatibility mode chosen (transitive if replayed), CI checks in place?</li>
+<li>No secrets or unnecessary PII in events; trace context propagated?</li>
+<li><strong>Red flags:</strong> schemaless JSON; compatibility NONE; low-cardinality keys; PAN in events.</li>
+</ul>
+<h2 id="4-consistency">4. Consistency<a class="heading-anchor" href="#4-consistency" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Consistency model stated per operation (strong where invariants live, eventual elsewhere)?</li>
+<li>Invariants protected inside one ACID or consensus boundary?</li>
+<li>Read-your-writes handled where users need it?</li>
+<li><strong>Red flags:</strong> decisions made on async replicas or read models; &ldquo;eventually consistent&rdquo; used as an excuse.</li>
+</ul>
+<h2 id="5-failure-handling">5. Failure handling<a class="heading-anchor" href="#5-failure-handling" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Outbox (or equivalent) for state plus event; idempotent consumers; idempotency keys on APIs?</li>
+<li>Sagas with explicit compensations, timeouts and manual-review paths?</li>
+<li>Retries with backoff, DLTs, poison-message handling; the timeout (unknown) outcome designed?</li>
+<li>Reconciliation jobs for money and critical data?</li>
+<li><strong>Red flags:</strong> <code>@Transactional</code> around remote calls; infinite retries; no compensation design.</li>
+</ul>
+<h2 id="6-data-platform-and-governance">6. Data platform and governance<a class="heading-anchor" href="#6-data-platform-and-governance" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Open table formats and one catalog; medallion or product layers defined?</li>
+<li>Owners, contracts and quality gates per data product; lineage captured automatically?</li>
+<li>Regulatory reports traceable to source (BCBS 239)?</li>
+<li><strong>Red flags:</strong> copies per tool; no owners; quality checks only on final reports.</li>
+</ul>
+<h2 id="7-data-security-and-privacy">7. Data security and privacy<a class="heading-anchor" href="#7-data-security-and-privacy" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Data classified; sensitive identifiers tokenised early; masking by default?</li>
+<li>Encryption in transit and at rest with managed keys (HSM/KMS); key separation of duties?</li>
+<li>ABAC or row and column security; JIT access to restricted data; access recertification?</li>
+<li>Residency, retention and erasure (including immutable stores) designed?</li>
+<li><strong>Red flags:</strong> production data in test; PII in logs and prompts; &ldquo;we encrypt the disk&rdquo; as the only control.</li>
+</ul>
+<h2 id="8-threats-and-security-architecture">8. Threats and security architecture<a class="heading-anchor" href="#8-threats-and-security-architecture" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Current threat model (DFD, trust boundaries, STRIDE, LINDDUN for personal data)?</li>
+<li>Zero trust: strong user and workload identity, mTLS, per-object authorisation?</li>
+<li>Supply chain: SBOM, signing, provenance, admission policy; secrets dynamic and short-lived?</li>
+<li>Crypto inventory and crypto-agility for PQC?</li>
+<li><strong>Red flags:</strong> trusted internal network; authorisation only at the gateway; long-lived static credentials.</li>
+</ul>
+<h2 id="9-ai-risk">9. AI risk<a class="heading-anchor" href="#9-ai-risk" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>AI use cases inventoried and classified (EU AI Act tier)?</li>
+<li>Least agency, user-scoped tools, human approval for consequential actions?</li>
+<li>Permission-aware RAG; output validation; token and cost limits?</li>
+<li>Red-teamed and continuously evaluated; traces kept?</li>
+<li><strong>Red flags:</strong> agents with service-account superpowers; security rules only in the system prompt.</li>
+</ul>
+<h2 id="10-compliance-and-operations">10. Compliance and operations<a class="heading-anchor" href="#10-compliance-and-operations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Applicable regulations listed (PCI DSS, DORA, PSD2/3, GDPR/DPDP, RBI, CERT-In, SEBI, AI Act); controls mapped once to many?</li>
+<li>Incident detection, classification and reporting clocks (4/6/24/72 h) automated and rehearsed?</li>
+<li>Resilience testing, restore tests, third-party register and exit plans?</li>
+<li>Monitoring: lag, DLTs, saga states, quality, access anomalies, cost?</li>
+<li><strong>Red flags:</strong> compliance as an annual project; paper-only incident plans; unknown ICT dependencies.</li>
+</ul>
+<h2 id="scoring-rubric">Scoring rubric<a class="heading-anchor" href="#scoring-rubric" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Score</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Not considered</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Considered, but not designed</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Designed, but not yet verified</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Designed and verified (tests, evidence, drills)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>A design is <strong>ready to build</strong> at an average of at least 2 with no zeros in areas 4, 5, 7 or 8. It is <strong>ready for production</strong> at 3 in all applicable areas.</p>
+<h2 id="one-page-review-template">One-page review template<a class="heading-anchor" href="#one-page-review-template" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">System:                       Reviewer:              Date:
+</span></span><span class="line"><span class="cl">Scope / flows reviewed:
+</span></span><span class="line"><span class="cl">Scores:  1 Goals [ ]  2 Boundaries [ ]  3 Events [ ]  4 Consistency [ ]  5 Failure [ ]
+</span></span><span class="line"><span class="cl">         6 Data/gov [ ]  7 Data sec [ ]  8 Security [ ]  9 AI [ ]  10 Compliance/ops [ ]
+</span></span><span class="line"><span class="cl">Top 3 risks (with owner and due date):
+</span></span><span class="line"><span class="cl">1.
+</span></span><span class="line"><span class="cl">2.
+</span></span><span class="line"><span class="cl">3.
+</span></span><span class="line"><span class="cl">Accepted risks (owner, review date):
+</span></span><span class="line"><span class="cl">Decision:  [ ] approve   [ ] approve with conditions   [ ] redesign
+</span></span></code></pre></div><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>Which four areas must not score zero before building?</strong>
+Consistency, failure handling, data security and privacy, and threats and security.</p>
+<p><strong>What does a score of 3 require?</strong>
+The area is designed <strong>and</strong> verified with evidence: tests, drills or audits.</p>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/case-study-real-time-payments/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Case study: real-time payments</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/case-study-order-saga/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Case study: order saga</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/data-platforms/case-study-regulated-data-platform/">
+        <span class="card__eyebrow">3 · Data Platforms</span>
+        <span class="card__title">Case study: regulated data platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/case-study-secure-payments-platform/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">Case study: secure payments platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/self-review/quick-reference/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Quick reference</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/self-review/quick-check/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Quick check</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/self-review/quick-reference/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Quick reference</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#how-to-use-it">How to use it</a></li>
+    <li><a href="#1-goals-and-non-functional-requirements">1. Goals and non-functional requirements</a></li>
+    <li><a href="#2-boundaries-and-data-ownership">2. Boundaries and data ownership</a></li>
+    <li><a href="#3-events-and-contracts">3. Events and contracts</a></li>
+    <li><a href="#4-consistency">4. Consistency</a></li>
+    <li><a href="#5-failure-handling">5. Failure handling</a></li>
+    <li><a href="#6-data-platform-and-governance">6. Data platform and governance</a></li>
+    <li><a href="#7-data-security-and-privacy">7. Data security and privacy</a></li>
+    <li><a href="#8-threats-and-security-architecture">8. Threats and security architecture</a></li>
+    <li><a href="#9-ai-risk">9. AI risk</a></li>
+    <li><a href="#10-compliance-and-operations">10. Compliance and operations</a></li>
+    <li><a href="#scoring-rubric">Scoring rubric</a></li>
+    <li><a href="#one-page-review-template">One-page review template</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

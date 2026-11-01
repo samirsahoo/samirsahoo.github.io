@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Lakehouse on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/data-security/tags/lakehouse/</link>
+		<description>Recent content in Lakehouse on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/data-security/tags/lakehouse/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Modern Data Platform Architecture</title>
+				<link>https://samirsahoo.github.io/data-security/data-platforms/data-platform-architecture/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/data-platforms/data-platform-architecture/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;data platform&lt;/strong&gt; collects data from operational systems, stores it reliably and cheaply, and turns it into &lt;strong&gt;trusted data products&lt;/strong&gt; for reporting, analytics, machine learning and AI. The modern default is a &lt;strong&gt;lakehouse&lt;/strong&gt;: open table formats on object storage, queried by many engines under one governance catalog.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

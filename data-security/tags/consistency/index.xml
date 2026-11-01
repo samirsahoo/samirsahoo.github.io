@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Consistency on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/data-security/tags/consistency/</link>
+		<description>Recent content in Consistency on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/data-security/tags/consistency/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Consistency Models, CAP, PACELC and Consensus</title>
+				<link>https://samirsahoo.github.io/data-security/distributed/consistency-and-consensus/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/distributed/consistency-and-consensus/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;consistency model&lt;/strong&gt; is a promise about &lt;strong&gt;what a read can return&lt;/strong&gt; after writes, when data is copied across machines. Strong models behave like a single copy. Weaker models allow stale or reordered reads in exchange for &lt;strong&gt;latency and availability&lt;/strong&gt;.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

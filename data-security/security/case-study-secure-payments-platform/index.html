@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Design: A Secure, Compliant Payments Platform · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="An end-to-end security architecture for a cloud-native payments platform: threat model, PCI scope reduction with tokenisation and HSMs, zero trust and FAPI APIs, Kafka and data security, fraud and an AI assistant with guardrails, detection and DORA/RBI incident reporting, resilience testing, third-party risk, and the compliance map.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/security/case-study-secure-payments-platform/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="System Design: A Secure, Compliant Payments Platform">
+<meta property="og:description" content="An end-to-end security architecture for a cloud-native payments platform: threat model, PCI scope reduction with tokenisation and HSMs, zero trust and FAPI APIs, Kafka and data security, fraud and an AI assistant with guardrails, detection and DORA/RBI incident reporting, resilience testing, third-party risk, and the compliance map.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/security/case-study-secure-payments-platform/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="System Design: A Secure, Compliant Payments Platform">
+<meta name="twitter:description" content="An end-to-end security architecture for a cloud-native payments platform: threat model, PCI scope reduction with tokenisation and HSMs, zero trust and FAPI APIs, Kafka and data security, fraud and an AI assistant with guardrails, detection and DORA/RBI incident reporting, resilience testing, third-party risk, and the compliance map.">
+<meta name="keywords" content="case-study, system-design, security, payments, compliance">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"An end-to-end security architecture for a cloud-native payments platform: threat model, PCI scope reduction with tokenisation and HSMs, zero trust and FAPI APIs, Kafka and data security, fraud and an AI assistant with guardrails, detection and DORA/RBI incident reporting, resilience testing, third-party risk, and the compliance map.","headline":"System Design: A Secure, Compliant Payments Platform","inLanguage":"en","isAccessibleForFree":true,"keywords":"case-study, system-design, security, payments, compliance","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/security/case-study-secure-payments-platform/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/security/","name":"4 · Security \u0026 Regulation","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/security/case-study-secure-payments-platform/","name":"Case study: secure payments platform","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-security">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/" aria-current="page">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/security/">4 · Security &amp; Regulation</a></li>
+    <li><span aria-current="page">Case study: secure payments platform</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">System Design: A Secure, Compliant Payments Platform</h1><p class="article__lede" itemprop="description">An end-to-end security architecture for a cloud-native payments platform: threat model, PCI scope reduction with tokenisation and HSMs, zero trust and FAPI APIs, Kafka and data security, fraud and an AI assistant with guardrails, detection and DORA/RBI incident reporting, resilience testing, third-party risk, and the compliance map.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/case-study/">#Case-Study</a><a class="tag" href="/data-security/tags/system-design/">#System-Design</a><a class="tag" href="/data-security/tags/security/">#Security</a><a class="tag" href="/data-security/tags/payments/">#Payments</a><a class="tag" href="/data-security/tags/compliance/">#Compliance</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/security/threat-modelling/">Threat modelling</a>, <a href="/data-security/security/security-architecture/">Security architecture</a>, <a href="/data-security/security/fintech-regulations/">FinTech regulations</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-architecture-overview">1. Architecture overview</a></li>
+    <li><a href="#2-threat-model-highlights-stride-on-the-key-flows">2. Threat model highlights (STRIDE on the key flows)</a></li>
+    <li><a href="#3-shrinking-pci-scope">3. Shrinking PCI scope</a></li>
+    <li><a href="#4-identity-and-zero-trust">4. Identity and zero trust</a></li>
+    <li><a href="#5-data-protection">5. Data protection</a></li>
+    <li><a href="#6-the-ai-assistant-safely">6. The AI assistant, safely</a></li>
+    <li><a href="#7-detection-response-and-reporting">7. Detection, response and reporting</a></li>
+    <li><a href="#8-resilience-and-third-parties">8. Resilience and third parties</a></li>
+    <li><a href="#9-compliance-map-excerpt">9. Compliance map (excerpt)</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="the-design-brief">The design brief<a class="heading-anchor" href="#the-design-brief" aria-label="Link to this section">#</a></h2>
+<blockquote><p><em>&ldquo;A digital bank operating in the EU and India is launching card and account-to-account payments, an open-banking API for partners, and a GenAI assistant that answers customer questions and can initiate small transfers. Design the security architecture so that it is PCI DSS, DORA, PSD2/PSD3, GDPR/DPDP and RBI compliant, and can withstand a determined attacker.&rdquo;</em></p>
+</blockquote><h2 id="1-architecture-overview">1. Architecture overview<a class="heading-anchor" href="#1-architecture-overview" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/data-security/diagrams/payments-platform.html" title="Secure, regulated real-time payments platform" loading="lazy" style="height: 700px"></iframe>
+  <figcaption>
+    <span>Secure, regulated real-time payments platform · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/data-security/diagrams/payments-platform.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h2 id="2-threat-model-highlights-stride-on-the-key-flows">2. Threat model highlights (STRIDE on the key flows)<a class="heading-anchor" href="#2-threat-model-highlights-stride-on-the-key-flows" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Flow / element</th>
+      <th>Top threats</th>
+      <th>Key mitigations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Customer → edge</td>
+      <td>Account takeover (S), bots and DDoS (D)</td>
+      <td>Passkeys / FIDO2 + SCA, device binding, bot management, WAF, rate limits</td>
+    </tr>
+    <tr>
+      <td>Partner → open-banking API</td>
+      <td>Stolen tokens (S), BOLA (I)</td>
+      <td><strong>FAPI 2.0</strong> (PAR, sender-constrained tokens via mTLS or DPoP), consent checks per object</td>
+    </tr>
+    <tr>
+      <td>Payment service</td>
+      <td>Tampered amount or payee (T), double spend (T)</td>
+      <td>Signed requests, dynamic linking (SCA), idempotency keys, ledger invariants</td>
+    </tr>
+    <tr>
+      <td>Card data</td>
+      <td>PAN theft (I)</td>
+      <td>Tokenise at the edge with hosted fields; vault and HSM in a minimal CDE</td>
+    </tr>
+    <tr>
+      <td>Kafka events</td>
+      <td>Eavesdropping or injection (I, T), rogue producer (S)</td>
+      <td>mTLS, ACLs per principal, schema validation, no PAN or PII in events</td>
+    </tr>
+    <tr>
+      <td>AI assistant</td>
+      <td>Prompt injection leading to unauthorised transfer (E), data leakage (I)</td>
+      <td>Least agency, user-scoped tools, step-up SCA for any payment, permission-aware RAG</td>
+    </tr>
+    <tr>
+      <td>Admin and ops access</td>
+      <td>Insider misuse (E, R)</td>
+      <td>JIT privileged access, session recording, four-eyes approval, PAM</td>
+    </tr>
+    <tr>
+      <td>Supply chain</td>
+      <td>Malicious dependency or image (T)</td>
+      <td>SBOM, SLSA provenance, cosign signatures, admission policies</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="3-shrinking-pci-scope">3. Shrinking PCI scope<a class="heading-anchor" href="#3-shrinking-pci-scope" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Card data never touches most systems"><figcaption class="diagram__title">Card data never touches most systems</figcaption>
+  <pre class="mermaid">flowchart LR
+    APP[&#34;Mobile / web&lt;br/&gt;hosted card fields (iframe/SDK)&#34;] --&gt;|&#34;PAN over TLS&#34;| TOK[&#34;Tokenisation service&lt;br/&gt;+ HSM (CDE)&#34;]
+    TOK --&gt;|&#34;token&#34;| APP
+    APP --&gt;|&#34;token only&#34;| PAY[&#34;Payment service&lt;br/&gt;(out of CDE scope)&#34;]
+    PAY --&gt;|&#34;token&#34;| TOK
+    TOK --&gt;|&#34;PAN (detokenised)&#34;| NET[&#34;Card network / acquirer&#34;]</pre>
+</figure>
+<ul>
+<li>The <strong>CDE</strong> contains only the tokenisation service, the HSM and the network connector, in a separate account or VPC with its own keys, its own admins and strict egress.</li>
+<li>Everything else (payment service, Kafka, lakehouse, analytics, AI) sees <strong>tokens</strong>. That moves them out of scope or reduces their scope, and limits breach impact.</li>
+<li>Payment page scripts are inventoried and integrity-monitored (PCI 6.4.3 and 11.6.1). MFA covers all CDE access (8.4.2).</li>
+</ul>
+<h2 id="4-identity-and-zero-trust">4. Identity and zero trust<a class="heading-anchor" href="#4-identity-and-zero-trust" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Customers:</strong> passkeys with risk-based step-up. SCA with dynamic linking for payments (PSD2). Device binding for UPI-style flows (NPCI/RBI).</li>
+<li><strong>Staff:</strong> SSO with phishing-resistant MFA, ZTNA instead of VPN, and <strong>JIT privileged access</strong> with approval and recording.</li>
+<li><strong>Workloads:</strong> SPIFFE/SPIRE or cloud workload identity, mesh mTLS, and authorisation policies per service. No static secrets; Vault issues dynamic database credentials.</li>
+<li><strong>Partners:</strong> FAPI 2.0 and an mTLS certificate per partner, with consent records checked on every call.</li>
+</ul>
+<h2 id="5-data-protection">5. Data protection<a class="heading-anchor" href="#5-data-protection" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Envelope encryption with <strong>customer-managed keys in an HSM</strong>, separate per region and zone, and key-usage logs sent to the SIEM.</li>
+<li>Kafka: TLS, OAUTHBEARER, ACLs, field-level encryption for sensitive fields, and a 30-day retention cap on events containing personal data.</li>
+<li><strong>Residency:</strong> Indian payment data stays in the India region (RBI). EU personal data stays in the EU, with only aggregates crossing. See the <a href="/data-security/data-platforms/case-study-regulated-data-platform/">regulated data platform</a>.</li>
+<li><strong>Erasure:</strong> crypto-shredding for immutable logs and events. Retention schedules apply per data class.</li>
+</ul>
+<h2 id="6-the-ai-assistant-safely">6. The AI assistant, safely<a class="heading-anchor" href="#6-the-ai-assistant-safely" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Control</th>
+      <th>Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Least agency</td>
+      <td>Tools: <code>getBalance</code>, <code>listTransactions</code>, <code>initiateTransfer(max ₹10,000 / €100)</code>. No admin tools.</td>
+    </tr>
+    <tr>
+      <td>User-scoped access</td>
+      <td>Tools call APIs with the <strong>customer&rsquo;s delegated token</strong>, never a service account</td>
+    </tr>
+    <tr>
+      <td>Step-up for actions</td>
+      <td><code>initiateTransfer</code> creates a <strong>pending</strong> payment that the customer must approve with SCA in the app. The model cannot complete it.</td>
+    </tr>
+    <tr>
+      <td>Permission-aware RAG</td>
+      <td>Only public help content and the customer&rsquo;s own documents are retrievable</td>
+    </tr>
+    <tr>
+      <td>Guardrails</td>
+      <td>AI gateway: injection and PII classifiers, output schema validation, token and cost limits</td>
+    </tr>
+    <tr>
+      <td>Transparency</td>
+      <td>Discloses AI interaction (EU AI Act Article 50); a human handover path</td>
+    </tr>
+    <tr>
+      <td>Evaluation</td>
+      <td>Red-teamed before launch (injection, social engineering, data leakage), regression evaluations on each change</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>See <a href="/data-security/security/ai-security/">AI security</a>.</p>
+<h2 id="7-detection-response-and-reporting">7. Detection, response and reporting<a class="heading-anchor" href="#7-detection-response-and-reporting" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Centralised, tamper-evident logs (retained for at least 1 year, with 180 days in India for CERT-In) feed the <strong>SIEM</strong>, SOAR playbooks and a 24×7 <strong>SOC</strong>. Detections are mapped to MITRE ATT&amp;CK.</li>
+<li><strong>Automated incident classification</strong> against DORA criteria (clients affected, duration, geographic spread, data loss, critical services, economic impact). The SOC has pre-approved notification templates.</li>
+<li><strong>Reporting clocks</strong> are wired into the runbooks:</li>
+</ul>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Regulator</th>
+      <th>Clock</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DORA (EU)</td>
+      <td>Initial notification within 4 h of classification (and 24 h of awareness); intermediate within 72 h; final within 1 month</td>
+    </tr>
+    <tr>
+      <td>RBI</td>
+      <td>Within 6 h, through RBI&rsquo;s reporting platform</td>
+    </tr>
+    <tr>
+      <td>CERT-In</td>
+      <td>Within 6 h</td>
+    </tr>
+    <tr>
+      <td>GDPR / DPDP</td>
+      <td>72 h to the supervisory authority (GDPR); to the Data Protection Board and individuals (DPDP)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="8-resilience-and-third-parties">8. Resilience and third parties<a class="heading-anchor" href="#8-resilience-and-third-parties" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Multi-AZ by default; tested regional failover for tier-0 services. <strong>Restore tests</strong> of the ledger and token vault each quarter.</li>
+<li>An annual <strong>DORA testing programme</strong> (vulnerability scans, scenario tests, chaos experiments) and <strong>TLPT</strong> every three years if designated.</li>
+<li><strong>Register of information</strong> for all ICT providers (cloud, HSM-as-a-service, KYC, model API). Contractual clauses for audit and exit, and <strong>documented exit plans</strong>. The model provider is treated as a critical dependency, with a fallback model.</li>
+</ul>
+<h2 id="9-compliance-map-excerpt">9. Compliance map (excerpt)<a class="heading-anchor" href="#9-compliance-map-excerpt" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>Satisfied by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PCI DSS 3 &amp; 4 (protect PAN)</td>
+      <td>Tokenisation, HSM, TLS 1.3, minimal CDE</td>
+    </tr>
+    <tr>
+      <td>PCI DSS 8.4.2 (MFA into CDE)</td>
+      <td>Phishing-resistant MFA + JIT PAM</td>
+    </tr>
+    <tr>
+      <td>PSD2 SCA + dynamic linking</td>
+      <td>Passkeys + in-app approval bound to amount and payee</td>
+    </tr>
+    <tr>
+      <td>DORA ICT risk + testing</td>
+      <td>Asset inventory, threat models, resilience testing programme, restore tests</td>
+    </tr>
+    <tr>
+      <td>DORA incident reporting</td>
+      <td>Automated classification + runbooks + templates</td>
+    </tr>
+    <tr>
+      <td>DORA third-party risk</td>
+      <td>Register of information + exit plans</td>
+    </tr>
+    <tr>
+      <td>GDPR / DPDP security and rights</td>
+      <td>Encryption, minimisation, consent records, erasure via crypto-shredding</td>
+    </tr>
+    <tr>
+      <td>RBI localisation and cyber directions</td>
+      <td>India data plane; SOC; 6 h reporting; log retention</td>
+    </tr>
+    <tr>
+      <td>EU AI Act transparency</td>
+      <td>AI disclosure, logging, human handover</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Letting the AI assistant execute payments directly</span></p>
+  <div class="callout__body"><p>Any injection becomes a fraud channel. Create pending payments that require customer SCA approval.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">A CDE that grows with every new service</span></p>
+  <div class="callout__body"><p>Without tokenisation at the edge, every service touching PAN expands PCI scope and risk.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Paper incident plans</span></p>
+  <div class="callout__body"><p>Regulatory clocks of 4–6 hours need automated detection, classification and rehearsed playbooks.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>How does the design minimise PCI DSS scope?</strong>
+Hosted card fields send PAN directly to a tokenisation service with an HSM in a minimal, isolated CDE. Every other system handles only tokens.</p>
+<p><strong>Why does the AI assistant create pending transfers instead of executing them?</strong>
+Prompt injection cannot be fully prevented. Requiring customer SCA approval outside the model keeps a manipulated model from moving money.</p>
+<p><strong>Which API security profile protects partner open-banking calls?</strong>
+FAPI 2.0, with PAR and sender-constrained tokens (mTLS or DPoP), plus per-object consent checks.</p>
+<p><strong>What makes 4- and 6-hour reporting achievable?</strong>
+Centralised logging, SIEM detections, automated incident classification against DORA criteria, and pre-approved runbooks and templates.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Threat-model the critical flows; tokenise PAN at the edge to shrink the CDE.</li>
+<li>Zero trust for customers, staff, workloads and partners (passkeys, JIT, SPIFFE, FAPI 2.0).</li>
+<li>Give the AI assistant least agency, user-scoped tools and SCA-gated actions.</li>
+<li>Automate detection and regulatory reporting, test resilience, govern third parties, and map controls to regulations.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>PCI SSC, <a href="https://www.pcisecuritystandards.org/document_library/" rel="noopener">PCI DSS v4.0.1</a>.</li>
+<li>OpenID Foundation, <a href="https://openid.net/specs/fapi-security-profile-2_0-final.html" rel="noopener">FAPI 2.0 Security Profile</a>.</li>
+<li>EU, <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" rel="noopener">DORA</a>.</li>
+<li>OWASP, <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" rel="noopener">Top 10 for Agentic Applications 2026</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/case-study-real-time-payments/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Case study: real-time payments</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/data-platforms/case-study-regulated-data-platform/">
+        <span class="card__eyebrow">3 · Data Platforms</span>
+        <span class="card__title">Case study: regulated data platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/fintech-regulations/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">FinTech regulations</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/case-study-order-saga/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Case study: order saga</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/ai-security/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/security/fintech-regulations/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">FinTech regulations</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-architecture-overview">1. Architecture overview</a></li>
+    <li><a href="#2-threat-model-highlights-stride-on-the-key-flows">2. Threat model highlights (STRIDE on the key flows)</a></li>
+    <li><a href="#3-shrinking-pci-scope">3. Shrinking PCI scope</a></li>
+    <li><a href="#4-identity-and-zero-trust">4. Identity and zero trust</a></li>
+    <li><a href="#5-data-protection">5. Data protection</a></li>
+    <li><a href="#6-the-ai-assistant-safely">6. The AI assistant, safely</a></li>
+    <li><a href="#7-detection-response-and-reporting">7. Detection, response and reporting</a></li>
+    <li><a href="#8-resilience-and-third-parties">8. Resilience and third parties</a></li>
+    <li><a href="#9-compliance-map-excerpt">9. Compliance map (excerpt)</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

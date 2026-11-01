@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Security: Securing LLM Applications and Agents · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="Securing generative AI and agentic systems: the threat landscape (OWASP Top 10 for LLM Applications 2025, Top 10 for Agentic Applications 2026, MITRE ATLAS), prompt injection and why it is hard, defence-in-depth architecture, RAG and data leakage, tool and MCP security, agent identity, red teaming and evaluation, monitoring, and AI governance frameworks (NIST AI RMF, ISO/IEC 42001).">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/security/ai-security/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="AI Security: Securing LLM Applications and Agents">
+<meta property="og:description" content="Securing generative AI and agentic systems: the threat landscape (OWASP Top 10 for LLM Applications 2025, Top 10 for Agentic Applications 2026, MITRE ATLAS), prompt injection and why it is hard, defence-in-depth architecture, RAG and data leakage, tool and MCP security, agent identity, red teaming and evaluation, monitoring, and AI governance frameworks (NIST AI RMF, ISO/IEC 42001).">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/security/ai-security/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI Security: Securing LLM Applications and Agents">
+<meta name="twitter:description" content="Securing generative AI and agentic systems: the threat landscape (OWASP Top 10 for LLM Applications 2025, Top 10 for Agentic Applications 2026, MITRE ATLAS), prompt injection and why it is hard, defence-in-depth architecture, RAG and data leakage, tool and MCP security, agent identity, red teaming and evaluation, monitoring, and AI governance frameworks (NIST AI RMF, ISO/IEC 42001).">
+<meta name="keywords" content="security, ai-security, genai">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Securing generative AI and agentic systems: the threat landscape (OWASP Top 10 for LLM Applications 2025, Top 10 for Agentic Applications 2026, MITRE ATLAS), prompt injection and why it is hard, defence-in-depth architecture, RAG and data leakage, tool and MCP security, agent identity, red teaming and evaluation, monitoring, and AI governance frameworks (NIST AI RMF, ISO/IEC 42001).","headline":"AI Security: Securing LLM Applications and Agents","inLanguage":"en","isAccessibleForFree":true,"keywords":"security, ai-security, genai","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/security/ai-security/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/security/","name":"4 · Security \u0026 Regulation","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/security/ai-security/","name":"AI security","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-security">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/" aria-current="page">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/security/">4 · Security &amp; Regulation</a></li>
+    <li><span aria-current="page">AI security</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">AI Security: Securing LLM Applications and Agents</h1><p class="article__lede" itemprop="description">Securing generative AI and agentic systems: the threat landscape (OWASP Top 10 for LLM Applications 2025, Top 10 for Agentic Applications 2026, MITRE ATLAS), prompt injection and why it is hard, defence-in-depth architecture, RAG and data leakage, tool and MCP security, agent identity, red teaming and evaluation, monitoring, and AI governance frameworks (NIST AI RMF, ISO/IEC 42001).</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/security/">#Security</a><a class="tag" href="/data-security/tags/ai-security/">#Ai-Security</a><a class="tag" href="/data-security/tags/genai/">#Genai</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/security/threat-modelling/">Threat modelling</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#threat-landscape">Threat landscape</a>
+      <ul>
+        <li><a href="#owasp-top-10-for-llm-applications-2025">OWASP Top 10 for LLM Applications (2025)</a></li>
+        <li><a href="#owasp-top-10-for-agentic-applications-2026">OWASP Top 10 for Agentic Applications (2026)</a></li>
+      </ul>
+    </li>
+    <li><a href="#prompt-injection-why-it-is-hard">Prompt injection: why it is hard</a></li>
+    <li><a href="#reference-architecture-defence-in-depth">Reference architecture: defence in depth</a></li>
+    <li><a href="#rag-and-data-leakage">RAG and data leakage</a></li>
+    <li><a href="#tool-mcp-and-agent-security">Tool, MCP and agent security</a></li>
+    <li><a href="#supply-chain-and-model-integrity">Supply chain and model integrity</a></li>
+    <li><a href="#red-teaming-and-evaluation">Red teaming and evaluation</a></li>
+    <li><a href="#governance-frameworks">Governance frameworks</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>AI security</strong> protects systems built on machine learning, especially <strong>large language models (LLMs) and AI agents</strong>, from manipulation, data leakage, misuse and failure. It also protects people and organisations from harm caused by those systems.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>LLMs mix <strong>instructions and data in the same channel</strong> (text). Any text the model reads, whether a user prompt, an email, a web page, a PDF or a tool result, can try to change its behaviour. When the model can also <strong>act</strong> by calling tools, moving money, sending emails or running code, a manipulated model becomes a manipulated employee with system access.</p>
+<h2 id="threat-landscape">Threat landscape<a class="heading-anchor" href="#threat-landscape" aria-label="Link to this section">#</a></h2>
+<h3 id="owasp-top-10-for-llm-applications-2025">OWASP Top 10 for LLM Applications (2025)<a class="heading-anchor" href="#owasp-top-10-for-llm-applications-2025" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Risk</th>
+      <th>One-line example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>LLM01</td>
+      <td><strong>Prompt Injection</strong></td>
+      <td>A hidden instruction in an uploaded document makes the assistant leak data</td>
+    </tr>
+    <tr>
+      <td>LLM02</td>
+      <td><strong>Sensitive Information Disclosure</strong></td>
+      <td>The model reveals other customers&rsquo; data or secrets</td>
+    </tr>
+    <tr>
+      <td>LLM03</td>
+      <td><strong>Supply Chain</strong></td>
+      <td>A poisoned model, dataset, plugin or package</td>
+    </tr>
+    <tr>
+      <td>LLM04</td>
+      <td><strong>Data and Model Poisoning</strong></td>
+      <td>Manipulated training or fine-tuning data plants a backdoor</td>
+    </tr>
+    <tr>
+      <td>LLM05</td>
+      <td><strong>Improper Output Handling</strong></td>
+      <td>Model output rendered as HTML or executed as SQL causes XSS or injection</td>
+    </tr>
+    <tr>
+      <td>LLM06</td>
+      <td><strong>Excessive Agency</strong></td>
+      <td>The agent has more tools, permissions or autonomy than needed</td>
+    </tr>
+    <tr>
+      <td>LLM07</td>
+      <td><strong>System Prompt Leakage</strong></td>
+      <td>Secrets or logic in system prompts get exposed</td>
+    </tr>
+    <tr>
+      <td>LLM08</td>
+      <td><strong>Vector and Embedding Weaknesses</strong></td>
+      <td>RAG returns documents the user may not see; embedding inversion</td>
+    </tr>
+    <tr>
+      <td>LLM09</td>
+      <td><strong>Misinformation</strong></td>
+      <td>Confident hallucinations drive wrong decisions</td>
+    </tr>
+    <tr>
+      <td>LLM10</td>
+      <td><strong>Unbounded Consumption</strong></td>
+      <td>Token floods, runaway agent loops, denial of wallet</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="owasp-top-10-for-agentic-applications-2026">OWASP Top 10 for Agentic Applications (2026)<a class="heading-anchor" href="#owasp-top-10-for-agentic-applications-2026" aria-label="Link to this section">#</a></h3>
+<p>Published in December 2025 for agents that plan, use tools and act:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Risk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ASI01</td>
+      <td><strong>Agent Goal Hijack</strong>: content the agent reads redirects its objective</td>
+    </tr>
+    <tr>
+      <td>ASI02</td>
+      <td><strong>Tool Misuse and Exploitation</strong></td>
+    </tr>
+    <tr>
+      <td>ASI03</td>
+      <td><strong>Identity and Privilege Abuse</strong>: agents inheriting or escalating credentials</td>
+    </tr>
+    <tr>
+      <td>ASI04</td>
+      <td><strong>Agentic Supply Chain Vulnerabilities</strong>: tools, MCP servers, agent registries</td>
+    </tr>
+    <tr>
+      <td>ASI05</td>
+      <td><strong>Unexpected Code Execution</strong></td>
+    </tr>
+    <tr>
+      <td>ASI06</td>
+      <td><strong>Memory and Context Poisoning</strong></td>
+    </tr>
+    <tr>
+      <td>ASI07</td>
+      <td><strong>Insecure Inter-Agent Communication</strong></td>
+    </tr>
+    <tr>
+      <td>ASI08</td>
+      <td><strong>Cascading Failures</strong></td>
+    </tr>
+    <tr>
+      <td>ASI09</td>
+      <td><strong>Human–Agent Trust Exploitation</strong>: users over-trusting or being manipulated</td>
+    </tr>
+    <tr>
+      <td>ASI10</td>
+      <td><strong>Rogue Agents</strong>: needs behavioural monitoring and kill switches</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>MITRE ATLAS</strong> catalogues real adversarial tactics and techniques against AI systems, in ATT&amp;CK style, for red teaming and detection.</p>
+<h2 id="prompt-injection-why-it-is-hard">Prompt injection: why it is hard<a class="heading-anchor" href="#prompt-injection-why-it-is-hard" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Direct injection:</strong> the user types &ldquo;ignore previous instructions…&rdquo;.</li>
+<li><strong>Indirect injection:</strong> the attack is <strong>in content the model processes</strong>, such as an email, web page, PDF, code comment, calendar invite or tool output. The user may be the victim, not the attacker.</li>
+<li>There is <strong>no complete fix</strong> today. Models cannot reliably separate instructions from data. Classifiers and &ldquo;guardrail&rdquo; models reduce the risk but can be bypassed.</li>
+</ul>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Design as if injection will succeed</span></p>
+  <div class="callout__body"><p>Assume the model <strong>can</strong> be manipulated. Then limit what a manipulated model can <strong>reach</strong> (data) and <strong>do</strong> (tools). The security boundary must be <strong>outside</strong> the model: in authorisation, tool design, approvals and sandboxing.</p></div>
+</aside><p><strong>Design patterns that limit the blast radius:</strong></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Idea</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Least agency</strong></td>
+      <td>Expose only the tools and permissions the task needs; read-only by default</td>
+    </tr>
+    <tr>
+      <td><strong>Human-in-the-loop</strong></td>
+      <td>Require approval for consequential actions (payments, emails, deletions)</td>
+    </tr>
+    <tr>
+      <td><strong>User-scoped credentials</strong></td>
+      <td>Tools act <strong>as the user</strong> (delegated OAuth), never with a god-mode service account</td>
+    </tr>
+    <tr>
+      <td><strong>Plan-then-execute / dual LLM</strong></td>
+      <td>A privileged planner never reads untrusted content; a quarantined model processes untrusted data and returns structured, validated values</td>
+    </tr>
+    <tr>
+      <td><strong>Action-selector</strong></td>
+      <td>The model picks from a fixed set of safe actions instead of generating free-form calls</td>
+    </tr>
+    <tr>
+      <td><strong>Taint tracking (CaMeL-style)</strong></td>
+      <td>Track which values came from untrusted sources and block them from flowing into sensitive tool parameters</td>
+    </tr>
+    <tr>
+      <td><strong>Output encoding and validation</strong></td>
+      <td>Treat model output as untrusted input: escape it, validate it against schemas, and never execute it directly</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="reference-architecture-defence-in-depth">Reference architecture: defence in depth<a class="heading-anchor" href="#reference-architecture-defence-in-depth" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/data-security/diagrams/secure-llm-app.html" title="Defence in depth for an LLM application or agent" loading="lazy" style="height: 700px"></iframe>
+  <figcaption>
+    <span>Defence in depth for an LLM application or agent · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/data-security/diagrams/secure-llm-app.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Controls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>AI gateway</strong></td>
+      <td>Authentication, rate and token limits, input and output guardrails (injection and jailbreak classifiers, PII detection and redaction, topic filters), model routing, cost quotas</td>
+    </tr>
+    <tr>
+      <td><strong>Application / agent</strong></td>
+      <td>Hardened system prompts (no secrets in them), structured outputs, tool allow-lists, step and budget limits, loop detection</td>
+    </tr>
+    <tr>
+      <td><strong>Retrieval (RAG)</strong></td>
+      <td><strong>Permission-aware retrieval</strong> (filter by the user&rsquo;s ACLs at query time), document classification, source attribution, content sanitisation</td>
+    </tr>
+    <tr>
+      <td><strong>Tools / MCP</strong></td>
+      <td>Least privilege, user-delegated OAuth, input validation, sandboxed execution, approval for risky actions, idempotency</td>
+    </tr>
+    <tr>
+      <td><strong>Authorisation</strong></td>
+      <td>A policy engine (OPA, Cedar) decides each tool call from user, agent, action, resource and context</td>
+    </tr>
+    <tr>
+      <td><strong>Model</strong></td>
+      <td>Vetted provider or model with a contract (no training on your data, data residency); or self-hosted with signed weights</td>
+    </tr>
+    <tr>
+      <td><strong>Observability</strong></td>
+      <td>Full traces of prompts, retrieved documents, tool calls and decisions (with PII handling); anomaly detection; evaluation results</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="rag-and-data-leakage">RAG and data leakage<a class="heading-anchor" href="#rag-and-data-leakage" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Never</strong> put all documents in one shared index and rely on the prompt to &ldquo;only answer from allowed docs&rdquo;. Filter <strong>in the retriever</strong> using the requesting user&rsquo;s entitlements, and propagate document ACLs into vector metadata.</li>
+<li>Classify documents and exclude restricted classes from general assistants.</li>
+<li>Watch for <strong>embedding inversion</strong> and membership inference. Treat embeddings as sensitive as their sources.</li>
+<li>Sanitise retrieved content (strip hidden text and active content) and mark it as <strong>untrusted data</strong> in the prompt.</li>
+</ul>
+<h2 id="tool-mcp-and-agent-security">Tool, MCP and agent security<a class="heading-anchor" href="#tool-mcp-and-agent-security" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>MCP (Model Context Protocol)</strong> servers are code with access. Vet them like dependencies:
+<ul>
+<li>pin versions and verify publishers</li>
+<li>run them in sandboxes</li>
+<li>restrict network egress</li>
+<li>use the protocol&rsquo;s <strong>OAuth-based authorisation</strong> for remote servers</li>
+<li>beware <strong>tool poisoning</strong> (malicious tool descriptions) and <strong>rug pulls</strong> (tools changing after approval).</li>
+</ul>
+</li>
+<li><strong>Agent identity:</strong> give each agent its own identity (workload identity, SPIFFE), scoped credentials and an audit trail. Distinguish &ldquo;agent acting on behalf of user X&rdquo; from &ldquo;agent acting autonomously&rdquo;.</li>
+<li><strong>Inter-agent communication</strong> (A2A and similar protocols): authenticate agents, sign messages, validate inputs, and do not let one agent&rsquo;s output become another&rsquo;s instructions without checks.</li>
+<li><strong>Kill switches</strong> and budget limits for autonomous agents; behavioural monitoring for rogue behaviour.</li>
+</ul>
+<h2 id="supply-chain-and-model-integrity">Supply chain and model integrity<a class="heading-anchor" href="#supply-chain-and-model-integrity" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Use models and datasets from trusted sources; verify hashes and signatures (model signing with Sigstore-based tooling, OpenSSF model signing); scan model files (pickle deserialisation risks); prefer safetensors.</li>
+<li>Keep an <strong>AI-BOM</strong>: models, versions, datasets, prompts, tools.</li>
+<li>Control fine-tuning data provenance to prevent <strong>poisoning</strong>.</li>
+</ul>
+<h2 id="red-teaming-and-evaluation">Red teaming and evaluation<a class="heading-anchor" href="#red-teaming-and-evaluation" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Before release:</strong> automated adversarial testing (open-source tools such as garak, PyRIT and promptfoo), plus human red teaming focused on your tools and data.</li>
+<li><strong>Evaluate continuously:</strong> injection resistance, data leakage, harmful output, hallucination rate on your domain, tool-use correctness.</li>
+<li><strong>Regression-test</strong> every prompt, model or tool change, the same way as code.</li>
+</ul>
+<h2 id="governance-frameworks">Governance frameworks<a class="heading-anchor" href="#governance-frameworks" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Framework</th>
+      <th>What it gives you</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>NIST AI RMF 1.0</strong> + <strong>Generative AI Profile (NIST AI 600-1)</strong></td>
+      <td>Govern, Map, Measure, Manage functions; GenAI-specific risks and actions</td>
+    </tr>
+    <tr>
+      <td><strong>ISO/IEC 42001:2023</strong></td>
+      <td>Certifiable AI management system</td>
+    </tr>
+    <tr>
+      <td><strong>ISO/IEC 23894</strong></td>
+      <td>AI risk management guidance</td>
+    </tr>
+    <tr>
+      <td><strong>EU AI Act</strong></td>
+      <td>Risk-based legal obligations (see <a href="/data-security/security/fintech-regulations/#eu-ai-act">FinTech regulations</a>)</td>
+    </tr>
+    <tr>
+      <td><strong>OWASP AI Exchange, CSA AI Controls Matrix</strong></td>
+      <td>Control catalogues</td>
+    </tr>
+    <tr>
+      <td><strong>Sector guidance</strong></td>
+      <td>For example RBI&rsquo;s FREE-AI framework (2025) for responsible AI in Indian financial services, and supervisory statements by the ECB, EBA and FCA</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Relying on the system prompt for security</span></p>
+  <div class="callout__body"><p>&ldquo;Never reveal customer data&rdquo; in a prompt is not a control. Enforce access in retrieval and tools.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Agents with service-account superpowers</span></p>
+  <div class="callout__body"><p>One injected instruction then has full access. Use user-delegated, least-privilege credentials and approvals.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Rendering or executing model output</span></p>
+  <div class="callout__body"><p>Treat output as untrusted: encode it, validate it against schemas, and never pass it straight to SQL, shell or HTML.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No limits on tokens, steps or cost</span></p>
+  <div class="callout__body"><p>Loops and floods cause denial of wallet. Set budgets, timeouts and step caps.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is indirect prompt injection?</strong>
+Malicious instructions hidden in content the model processes (documents, web pages, emails, tool outputs), rather than typed by the user.</p>
+<p><strong>Why can&rsquo;t you just filter prompt injection?</strong>
+Models cannot reliably distinguish instructions from data. Classifiers reduce the risk but can be bypassed, so you must limit what a manipulated model can access and do.</p>
+<p><strong>What is excessive agency?</strong>
+Giving an LLM or agent more tools, permissions or autonomy than its task needs, which amplifies the damage from manipulation or errors.</p>
+<p><strong>How should RAG enforce access control?</strong>
+Filter retrieval by the requesting user&rsquo;s entitlements, using ACL metadata on chunks. Never rely on the prompt to restrict answers.</p>
+<p><strong>Name three agentic-specific risks from the OWASP 2026 list.</strong>
+Agent goal hijack, tool misuse, identity and privilege abuse, memory poisoning, insecure inter-agent communication, cascading failures, rogue agents.</p>
+<p><strong>Which frameworks help govern AI risk?</strong>
+The NIST AI RMF with its Generative AI Profile, ISO/IEC 42001, the EU AI Act and sector guidance such as RBI FREE-AI.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Assume prompt injection succeeds; put the security boundary outside the model.</li>
+<li>Use least agency, user-scoped credentials, approvals, permission-aware RAG and validated outputs.</li>
+<li>Secure the supply chain (models, tools, MCP servers) and give agents identities and kill switches.</li>
+<li>Red-team, evaluate continuously, and govern with the NIST AI RMF, ISO 42001 and the EU AI Act.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>OWASP GenAI Security Project, <a href="https://genai.owasp.org/llm-top-10/" rel="noopener">Top 10 for LLM Applications 2025</a> and <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" rel="noopener">Top 10 for Agentic Applications 2026</a>.</li>
+<li>MITRE, <a href="https://atlas.mitre.org/" rel="noopener">ATLAS</a>.</li>
+<li>NIST, <a href="https://www.nist.gov/itl/ai-risk-management-framework" rel="noopener">AI Risk Management Framework</a> and <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" rel="noopener">AI 600-1 Generative AI Profile</a>.</li>
+<li><a href="https://www.iso.org/standard/81230.html" rel="noopener">ISO/IEC 42001:2023</a>.</li>
+<li>Model Context Protocol, <a href="https://modelcontextprotocol.io/specification/latest/basic/security_best_practices" rel="noopener">Security best practices</a>.</li>
+<li>Google DeepMind, <a href="https://arxiv.org/abs/2503.18813" rel="noopener">Defeating Prompt Injections by Design (CaMeL)</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/security/security-architecture/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">Security architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/fintech-regulations/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">FinTech regulations</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/threat-modelling/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">Threat modelling</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/data-platforms/data-security-and-privacy/">
+        <span class="card__eyebrow">3 · Data Platforms</span>
+        <span class="card__title">Data security &amp; privacy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/case-study-secure-payments-platform/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">Case study: secure payments platform</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/security/security-architecture/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Security architecture</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/security/fintech-regulations/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">FinTech regulations</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#threat-landscape">Threat landscape</a>
+      <ul>
+        <li><a href="#owasp-top-10-for-llm-applications-2025">OWASP Top 10 for LLM Applications (2025)</a></li>
+        <li><a href="#owasp-top-10-for-agentic-applications-2026">OWASP Top 10 for Agentic Applications (2026)</a></li>
+      </ul>
+    </li>
+    <li><a href="#prompt-injection-why-it-is-hard">Prompt injection: why it is hard</a></li>
+    <li><a href="#reference-architecture-defence-in-depth">Reference architecture: defence in depth</a></li>
+    <li><a href="#rag-and-data-leakage">RAG and data leakage</a></li>
+    <li><a href="#tool-mcp-and-agent-security">Tool, MCP and agent security</a></li>
+    <li><a href="#supply-chain-and-model-integrity">Supply chain and model integrity</a></li>
+    <li><a href="#red-teaming-and-evaluation">Red teaming and evaluation</a></li>
+    <li><a href="#governance-frameworks">Governance frameworks</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

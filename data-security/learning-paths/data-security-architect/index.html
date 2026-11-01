@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data &amp; Security Architect Learning Path · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="Every article in a deliberate order: Kafka and event-driven design, consistency and sagas, data platforms and governance, then threat modelling, security, AI security and regulation. About three weeks at one to two hours a day.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/learning-paths/data-security-architect/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Data &amp; Security Architect Learning Path">
+<meta property="og:description" content="Every article in a deliberate order: Kafka and event-driven design, consistency and sagas, data platforms and governance, then threat modelling, security, AI security and regulation. About three weeks at one to two hours a day.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/learning-paths/data-security-architect/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Data &amp; Security Architect Learning Path">
+<meta name="twitter:description" content="Every article in a deliberate order: Kafka and event-driven design, consistency and sagas, data platforms and governance, then threat modelling, security, AI security and regulation. About three weeks at one to two hours a day.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"description":"Every article in a deliberate order: Kafka and event-driven design, consistency and sagas, data platforms and governance, then threat modelling, security, AI security and regulation. About three weeks at one to two hours a day.","headline":"Data \u0026 Security Architect Learning Path","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/learning-paths/data-security-architect/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/learning-paths/","name":"Learning Paths","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/learning-paths/data-security-architect/","name":"Data \u0026 Security Architect Learning Path","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-learning-paths">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/" aria-current="page">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid">
+  <article class="article">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/learning-paths/">Learning Paths</a></li>
+    <li><span aria-current="page">Data &amp; Security Architect Learning Path</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1>Data &amp; Security Architect Learning Path</h1><p class="article__lede">Every article in a deliberate order: Kafka and event-driven design, consistency and sagas, data platforms and governance, then threat modelling, security, AI security and regulation. About three weeks at one to two hours a day.</p>
+      <ul class="article-meta"><li>For: Architects, senior engineers, data engineers and security engineers, especially in financial services</li>
+        <li>21 steps · 21 available now</li>
+      </ul>
+    </header><div class="prose"><p>This path takes you from the event log to a secure, regulated, end-to-end platform design. Each step builds on the previous one. The case studies at the end of each module combine what you have learned into a complete design.</p>
+</div>
+    <ol class="path-steps">
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">1</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a>
+          </p><p class="path-step__why">The log, partitions, replication and KRaft underpin everything event-driven.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">2</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers and exactly-once</a>
+          </p><p class="path-step__why">Delivery guarantees decide whether events are lost or duplicated.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">3</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a>
+          </p><p class="path-step__why">How to design events, topics and contracts that teams can rely on.</p>
+          <p class="path-step__also">Also: <a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">4</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/streaming/stream-processing/">Stream processing</a>
+          </p><p class="path-step__why">Event time, windows, state and Flink vs Kafka Streams.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">5</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a>
+          </p><p class="path-step__why">Module 1 combined into one design.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">6</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/distributed/consistency-and-consensus/">Consistency and consensus</a>
+          </p><p class="path-step__why">The vocabulary for every trade-off that follows: CAP, PACELC, quorums, Raft.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">7</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a>
+          </p><p class="path-step__why">Why 2PC rarely fits, and the alternatives.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">8</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC and idempotency</a>
+          </p><p class="path-step__why">The reliability foundation for every event-driven flow.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">9</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a>
+          </p><p class="path-step__why">Business transactions across services, with compensation.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">10</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS and event sourcing</a>
+          </p><p class="path-step__why">Separate read and write models; history as the source of truth.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">11</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a>
+          </p><p class="path-step__why">Module 2 combined into one design.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">12</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a>
+          </p><p class="path-step__why">Lakehouse, Iceberg, catalogs, medallion layers and data mesh.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">13</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/data-platforms/data-governance/">Data governance</a>
+          </p><p class="path-step__why">Catalog, lineage, quality, contracts and BCBS 239.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">14</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security and privacy</a>
+          </p><p class="path-step__why">Classification, tokenisation, ABAC, privacy by design and residency.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">15</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a>
+          </p><p class="path-step__why">Module 3 combined into one design.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">16</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/security/threat-modelling/">Threat modelling</a>
+          </p><p class="path-step__why">Find design flaws before attackers do.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">17</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/security/security-architecture/">Security architecture</a>
+          </p><p class="path-step__why">Zero trust, OWASP 2025, supply chain, secrets and post-quantum readiness.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">18</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/security/ai-security/">AI security</a>
+          </p><p class="path-step__why">Prompt injection, excessive agency, RAG leakage and AI governance.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">19</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a>
+          </p><p class="path-step__why">PCI DSS, DORA, PSD3, GDPR/DPDP, the AI Act, RBI, CERT-In and SEBI as design requirements.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">20</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a>
+          </p><p class="path-step__why">All four modules combined into one secure, compliant design.</p>
+        </div>
+      </li>
+      <li class="path-step">
+        <span class="path-step__num" aria-hidden="true">21</span>
+        <div class="path-step__body">
+          <p class="path-step__title"><a href="/data-security/self-review/quick-check/">Self review</a>
+          </p><p class="path-step__why">Check your understanding and practise reviewing designs.</p>
+          <p class="path-step__also">Also: <a href="/data-security/self-review/design-review-checklist/">Design review checklist</a>, <a href="/data-security/self-review/quick-reference/">Quick reference</a></p>
+        </div>
+      </li>
+    </ol>
+
+  </article>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

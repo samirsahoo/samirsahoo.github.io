@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Architecture: Zero Trust, AppSec, Supply Chain and Cryptography · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="The core of enterprise security architecture: defence in depth and zero trust (NIST SP 800-207), identity for people and workloads, OWASP Top 10:2025 and API security, secure SDLC and software supply chain (SLSA, SBOM, Sigstore), secrets, cryptography and post-quantum readiness, detection and response, NIST CSF 2.0 and security for event and data platforms.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/security/security-architecture/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Security Architecture: Zero Trust, AppSec, Supply Chain and Cryptography">
+<meta property="og:description" content="The core of enterprise security architecture: defence in depth and zero trust (NIST SP 800-207), identity for people and workloads, OWASP Top 10:2025 and API security, secure SDLC and software supply chain (SLSA, SBOM, Sigstore), secrets, cryptography and post-quantum readiness, detection and response, NIST CSF 2.0 and security for event and data platforms.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/security/security-architecture/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Security Architecture: Zero Trust, AppSec, Supply Chain and Cryptography">
+<meta name="twitter:description" content="The core of enterprise security architecture: defence in depth and zero trust (NIST SP 800-207), identity for people and workloads, OWASP Top 10:2025 and API security, secure SDLC and software supply chain (SLSA, SBOM, Sigstore), secrets, cryptography and post-quantum readiness, detection and response, NIST CSF 2.0 and security for event and data platforms.">
+<meta name="keywords" content="security, architecture, zero-trust">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"The core of enterprise security architecture: defence in depth and zero trust (NIST SP 800-207), identity for people and workloads, OWASP Top 10:2025 and API security, secure SDLC and software supply chain (SLSA, SBOM, Sigstore), secrets, cryptography and post-quantum readiness, detection and response, NIST CSF 2.0 and security for event and data platforms.","headline":"Security Architecture: Zero Trust, AppSec, Supply Chain and Cryptography","inLanguage":"en","isAccessibleForFree":true,"keywords":"security, architecture, zero-trust","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/security/security-architecture/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/security/","name":"4 · Security \u0026 Regulation","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/security/security-architecture/","name":"Security architecture","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-security">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/" aria-current="page">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/security/">4 · Security &amp; Regulation</a></li>
+    <li><span aria-current="page">Security architecture</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Security Architecture: Zero Trust, AppSec, Supply Chain and Cryptography</h1><p class="article__lede" itemprop="description">The core of enterprise security architecture: defence in depth and zero trust (NIST SP 800-207), identity for people and workloads, OWASP Top 10:2025 and API security, secure SDLC and software supply chain (SLSA, SBOM, Sigstore), secrets, cryptography and post-quantum readiness, detection and response, NIST CSF 2.0 and security for event and data platforms.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/security/">#Security</a><a class="tag" href="/data-security/tags/architecture/">#Architecture</a><a class="tag" href="/data-security/tags/zero-trust/">#Zero-Trust</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/security/threat-modelling/">Threat modelling</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#core-principles">Core principles</a></li>
+    <li><a href="#zero-trust-architecture">Zero trust architecture</a></li>
+    <li><a href="#application-security-owasp-top-102025">Application security: OWASP Top 10:2025</a></li>
+    <li><a href="#secure-sdlc-and-devsecops">Secure SDLC and DevSecOps</a></li>
+    <li><a href="#software-supply-chain-security">Software supply chain security</a></li>
+    <li><a href="#secrets-management">Secrets management</a></li>
+    <li><a href="#cryptography-and-post-quantum-readiness">Cryptography and post-quantum readiness</a></li>
+    <li><a href="#detection-and-response">Detection and response</a></li>
+    <li><a href="#frameworks-to-anchor-the-programme">Frameworks to anchor the programme</a></li>
+    <li><a href="#securing-event-and-data-platforms">Securing event and data platforms</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Security architecture</strong> is the set of principles, patterns and controls that make a system <strong>resist, detect and recover from attacks</strong> by design. It covers identity, network, application, data, supply chain, cryptography and operations.</p>
+<h2 id="core-principles">Core principles<a class="heading-anchor" href="#core-principles" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Principle</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Defence in depth</strong></td>
+      <td>Multiple independent layers, so one failure is not a breach</td>
+    </tr>
+    <tr>
+      <td><strong>Least privilege</strong></td>
+      <td>Minimum access, for minimum time</td>
+    </tr>
+    <tr>
+      <td><strong>Zero trust</strong></td>
+      <td>Never trust by network location; verify explicitly every time</td>
+    </tr>
+    <tr>
+      <td><strong>Secure by default</strong></td>
+      <td>Safe settings out of the box; insecure options require effort</td>
+    </tr>
+    <tr>
+      <td><strong>Fail securely</strong></td>
+      <td>Errors deny access. This is OWASP A10:2025, &ldquo;Mishandling of Exceptional Conditions&rdquo;.</td>
+    </tr>
+    <tr>
+      <td><strong>Assume breach</strong></td>
+      <td>Limit blast radius; detect and respond fast</td>
+    </tr>
+    <tr>
+      <td><strong>Separation of duties</strong></td>
+      <td>No single person or service can complete a critical action alone</td>
+    </tr>
+    <tr>
+      <td><strong>Economy of mechanism</strong></td>
+      <td>Simple designs are easier to verify</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="zero-trust-architecture">Zero trust architecture<a class="heading-anchor" href="#zero-trust-architecture" aria-label="Link to this section">#</a></h2>
+<p><strong>NIST SP 800-207</strong> defines zero trust as moving defences from static network perimeters to <strong>users, assets and resources</strong>. Every request is authenticated, authorised and encrypted, based on identity and context.</p>
+<figure class="diagram" aria-label="Zero trust: policy decision and enforcement"><figcaption class="diagram__title">Zero trust: policy decision and enforcement</figcaption>
+  <pre class="mermaid">flowchart LR
+    SUBJ[&#34;User / workload&lt;br/&gt;+ device posture&#34;] --&gt; PEP[&#34;Policy enforcement point&lt;br/&gt;(gateway, mesh, ZTNA proxy)&#34;]
+    PEP &lt;--&gt; PDP[&#34;Policy decision point&lt;br/&gt;identity, context, risk&#34;]
+    PDP &lt;-.-&gt; SIG[&#34;Signals: IdP, EDR, threat intel,&lt;br/&gt;SIEM, data classification&#34;]
+    PEP --&gt; RES[&#34;Resource&lt;br/&gt;(app, API, data)&#34;]</pre>
+</figure>
+<p><strong>Building blocks:</strong></p>
+<ul>
+<li><strong>Strong identity:</strong> phishing-resistant MFA (FIDO2 passkeys) for people. <strong>Workload identity</strong> (SPIFFE/SPIRE, cloud workload identity, Kubernetes service accounts with OIDC federation) for services, with no long-lived secrets.</li>
+<li><strong>Device posture</strong> (managed, patched, EDR running).</li>
+<li><strong>Micro-segmentation:</strong> service mesh mTLS with authorisation policies, network policies, private endpoints.</li>
+<li><strong>ZTNA</strong> replaces VPNs for user access to applications.</li>
+<li><strong>Continuous evaluation:</strong> sessions re-evaluated on risk changes.</li>
+<li>The <strong>CISA Zero Trust Maturity Model</strong> (identity, devices, networks, applications and workloads, data) helps plan the journey.</li>
+</ul>
+<h2 id="application-security-owasp-top-102025">Application security: OWASP Top 10:2025<a class="heading-anchor" href="#application-security-owasp-top-102025" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Category (2025)</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A01</td>
+      <td><strong>Broken Access Control</strong></td>
+      <td>Still #1; now <strong>includes SSRF</strong></td>
+    </tr>
+    <tr>
+      <td>A02</td>
+      <td><strong>Security Misconfiguration</strong></td>
+      <td>Cloud and framework defaults, verbose errors</td>
+    </tr>
+    <tr>
+      <td>A03</td>
+      <td><strong>Software Supply Chain Failures</strong></td>
+      <td><strong>New/expanded</strong>: dependencies, build systems, distribution</td>
+    </tr>
+    <tr>
+      <td>A04</td>
+      <td>Cryptographic Failures</td>
+      <td>Weak or missing encryption, bad key handling</td>
+    </tr>
+    <tr>
+      <td>A05</td>
+      <td>Injection</td>
+      <td>SQL, NoSQL, OS command, LDAP, and template injection</td>
+    </tr>
+    <tr>
+      <td>A06</td>
+      <td>Insecure Design</td>
+      <td>Missing threat modelling and secure patterns</td>
+    </tr>
+    <tr>
+      <td>A07</td>
+      <td>Authentication Failures</td>
+      <td>Credential stuffing, weak sessions</td>
+    </tr>
+    <tr>
+      <td>A08</td>
+      <td>Software or Data Integrity Failures</td>
+      <td>Unsigned updates, insecure deserialisation</td>
+    </tr>
+    <tr>
+      <td>A09</td>
+      <td>Security Logging and Alerting Failures</td>
+      <td>Cannot detect or investigate</td>
+    </tr>
+    <tr>
+      <td>A10</td>
+      <td><strong>Mishandling of Exceptional Conditions</strong></td>
+      <td><strong>New</strong>: failing open, leaking errors, unsafe recovery</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Also use the <strong>OWASP API Security Top 10 (2023)</strong>. Its top item, <strong>BOLA</strong> (broken object-level authorisation: changing <code>/accounts/123</code> to <code>/accounts/124</code>), is the most common API breach cause. Check authorisation <strong>per object</strong> on every request.</p>
+<p><strong>API security patterns:</strong> OAuth 2.0 / OIDC with short-lived tokens; <strong>FAPI 2.0</strong> for financial APIs (sender-constrained tokens via mTLS or DPoP, PAR); schema validation at the gateway; rate limiting; no sensitive data in URLs; consistent error handling.</p>
+<h2 id="secure-sdlc-and-devsecops">Secure SDLC and DevSecOps<a class="heading-anchor" href="#secure-sdlc-and-devsecops" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Security in the delivery pipeline"><figcaption class="diagram__title">Security in the delivery pipeline</figcaption>
+  <pre class="mermaid">flowchart LR
+    D[&#34;Design&lt;br/&gt;threat model&#34;] --&gt; C[&#34;Code&lt;br/&gt;IDE checks, secrets scan&#34;] --&gt; B[&#34;Build&lt;br/&gt;SAST, SCA, SBOM&#34;] --&gt; T[&#34;Test&lt;br/&gt;DAST, API fuzzing&#34;] --&gt; R[&#34;Release&lt;br/&gt;sign, provenance, policy gate&#34;] --&gt; O[&#34;Operate&lt;br/&gt;runtime detection, patching&#34;]</pre>
+</figure>
+<ul>
+<li><strong>SAST</strong> (static analysis), <strong>SCA</strong> (dependency vulnerabilities and licences), <strong>secrets scanning</strong>, <strong>IaC scanning</strong>, <strong>container scanning</strong>, <strong>DAST</strong> and API testing.</li>
+<li><strong>Frameworks:</strong> <strong>NIST SSDF (SP 800-218)</strong>, <strong>OWASP SAMM</strong>, <strong>BSIMM</strong>.</li>
+<li>Security champions in each team; findings triaged by <strong>exploitability and reachability</strong>, not raw counts.</li>
+</ul>
+<h2 id="software-supply-chain-security">Software supply chain security<a class="heading-anchor" href="#software-supply-chain-security" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Control</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>SBOM</strong> (CycloneDX, SPDX)</td>
+      <td>Inventory of components for every artifact; feeds vulnerability response</td>
+    </tr>
+    <tr>
+      <td><strong>SLSA</strong> (v1.x)</td>
+      <td>Build integrity levels: provenance, hardened build platforms</td>
+    </tr>
+    <tr>
+      <td><strong>Signing</strong> (Sigstore cosign, keyless with OIDC)</td>
+      <td>Prove who built the artifact; verify at deploy</td>
+    </tr>
+    <tr>
+      <td><strong>Provenance attestations</strong> (in-toto)</td>
+      <td>Prove how and from what source it was built</td>
+    </tr>
+    <tr>
+      <td><strong>Dependency hygiene</strong></td>
+      <td>Pinned versions, private mirrors, typosquatting checks, OpenSSF Scorecard</td>
+    </tr>
+    <tr>
+      <td><strong>Admission policy</strong></td>
+      <td>Only signed, attested, scanned images run (Kyverno, Gatekeeper)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Regulation now pushes this: the <strong>EU Cyber Resilience Act</strong> (vulnerability reporting obligations from September 2026, full application from December 2027) and US federal secure software attestation requirements.</p>
+<h2 id="secrets-management">Secrets management<a class="heading-anchor" href="#secrets-management" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>No secrets in code, images or Git. Use <strong>Vault / OpenBao</strong>, cloud secret managers, or the <strong>External Secrets Operator</strong>.</li>
+<li>Prefer <strong>dynamic, short-lived credentials</strong> (database credentials issued per session) and <strong>workload identity federation</strong> over static keys.</li>
+<li>Rotate automatically; detect leaks with pre-commit hooks and repository scanning.</li>
+</ul>
+<h2 id="cryptography-and-post-quantum-readiness">Cryptography and post-quantum readiness<a class="heading-anchor" href="#cryptography-and-post-quantum-readiness" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Use vetted libraries and modern defaults: TLS 1.3, AES-GCM or ChaCha20-Poly1305, Ed25519 or ECDSA P-256, SHA-256+, Argon2id or bcrypt for passwords.</li>
+<li><strong>Post-quantum cryptography (PQC):</strong> NIST published <strong>FIPS 203 (ML-KEM)</strong>, <strong>FIPS 204 (ML-DSA)</strong> and <strong>FIPS 205 (SLH-DSA)</strong> in August 2024, and selected HQC as a backup KEM in 2025. The threat is <strong>&ldquo;harvest now, decrypt later&rdquo;</strong> for long-lived secrets, which is exactly what financial data is.</li>
+<li><strong>What to do now:</strong>
+<ol>
+<li>Build a <strong>cryptographic inventory</strong> (CBOM).</li>
+<li>Design <strong>crypto-agility</strong> (algorithms configurable, not hard-coded).</li>
+<li>Adopt <strong>hybrid key exchange</strong> (X25519 + ML-KEM) in TLS where supported; major browsers and CDNs already use it.</li>
+<li>Follow regulator timelines. The EU roadmap targets starting the transition by 2026 and protecting critical infrastructure by around 2030. US NSA CNSA 2.0 sets migration milestones from about 2027 to 2033.</li>
+</ol>
+</li>
+</ul>
+<h2 id="detection-and-response">Detection and response<a class="heading-anchor" href="#detection-and-response" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Logging:</strong> centralised, tamper-evident, with useful context (who, what, where, result). Never log secrets or full PANs.</li>
+<li><strong>SIEM + SOAR</strong>, <strong>EDR/XDR</strong>, cloud detection, <strong>UEBA</strong> for insider threats.</li>
+<li>Detection engineering mapped to <strong>MITRE ATT&amp;CK</strong>; purple-team exercises.</li>
+<li><strong>Incident response</strong> plans with regulatory clocks built in: DORA (initial notification within 4 hours of classifying as major, and no later than 24 hours from awareness), CERT-In (6 hours), RBI (6 hours via its reporting platform), GDPR (72 hours to the supervisory authority).</li>
+</ul>
+<h2 id="frameworks-to-anchor-the-programme">Frameworks to anchor the programme<a class="heading-anchor" href="#frameworks-to-anchor-the-programme" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Framework</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>NIST CSF 2.0</strong></td>
+      <td>Govern, Identify, Protect, Detect, Respond, Recover; the 2024 version added <strong>Govern</strong></td>
+    </tr>
+    <tr>
+      <td><strong>ISO/IEC 27001:2022</strong></td>
+      <td>Certifiable information security management system (93 Annex A controls)</td>
+    </tr>
+    <tr>
+      <td><strong>CIS Controls v8.1</strong></td>
+      <td>Prioritised technical safeguards</td>
+    </tr>
+    <tr>
+      <td><strong>NIST SP 800-53</strong></td>
+      <td>Detailed control catalogue</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud Security Alliance CCM</strong></td>
+      <td>Cloud controls mapping</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="securing-event-and-data-platforms">Securing event and data platforms<a class="heading-anchor" href="#securing-event-and-data-platforms" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Kafka:</strong> TLS and mTLS, SASL/OAUTHBEARER with short-lived tokens, <strong>ACLs per principal and topic</strong> (producers can write only their topics), encryption at rest, quotas, audit logs. Consider client-side field encryption for sensitive payloads, and no PII in keys or headers.</li>
+<li><strong>Databases:</strong> private networking, IAM authentication, least-privilege roles, encryption with customer-managed keys, activity monitoring.</li>
+<li><strong>Lakehouse:</strong> catalog-enforced ABAC, masking, row filters, audited access. See <a href="/data-security/data-platforms/data-security-and-privacy/">data security</a>.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Trusting the internal network</span></p>
+  <div class="callout__body"><p>Lateral movement after one compromise is how most breaches grow. Authenticate and authorise every hop.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Checking authorisation only at the UI or gateway</span></p>
+  <div class="callout__body"><p>APIs called directly bypass it, which leads to BOLA. Check object-level authorisation in the service.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Unsigned artifacts and unpinned dependencies</span></p>
+  <div class="callout__body"><p>Supply chain attacks bypass every runtime control. Sign, attest, pin and verify at admission.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Hard-coded crypto</span></p>
+  <div class="callout__body"><p>PQC migration will be painful. Inventory crypto and make algorithms configurable now.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is zero trust in one sentence?</strong>
+Never grant access based on network location. Verify identity, device and context explicitly for every request, with least privilege.</p>
+<p><strong>What changed in OWASP Top 10:2025?</strong>
+Software Supply Chain Failures (A03) and Mishandling of Exceptional Conditions (A10) are new, and SSRF was folded into Broken Access Control.</p>
+<p><strong>What is BOLA?</strong>
+Broken object-level authorisation: an API does not check that the caller may access the specific object ID requested.</p>
+<p><strong>What do SBOM, SLSA and Sigstore each provide?</strong>
+An SBOM is a component inventory. SLSA defines build integrity levels and provenance. Sigstore provides artifact signing and verification.</p>
+<p><strong>Why start post-quantum migration now?</strong>
+Harvest-now-decrypt-later: data with long confidentiality needs can be captured today and decrypted later. Migration takes years, so start with an inventory, crypto-agility and hybrid TLS.</p>
+<p><strong>What function did NIST CSF 2.0 add?</strong>
+Govern.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Layer defences, use least privilege, assume breach, and verify every request (zero trust).</li>
+<li>Design against the OWASP Top 10:2025 and API Top 10, and check authorisation per object.</li>
+<li>Secure the supply chain with SBOMs, SLSA provenance, signing and admission policy.</li>
+<li>Manage secrets dynamically, inventory crypto for the PQC transition, and build detection with regulatory clocks.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>NIST, <a href="https://csrc.nist.gov/pubs/sp/800/207/final" rel="noopener">SP 800-207 Zero Trust Architecture</a> and <a href="https://www.nist.gov/cyberframework" rel="noopener">Cybersecurity Framework 2.0</a>.</li>
+<li>OWASP, <a href="https://owasp.org/Top10/2025/" rel="noopener">Top 10:2025</a> and <a href="https://owasp.org/API-Security/" rel="noopener">API Security Top 10</a>.</li>
+<li><a href="https://slsa.dev/" rel="noopener">SLSA</a>, <a href="https://www.sigstore.dev/" rel="noopener">Sigstore</a>, <a href="https://cyclonedx.org/" rel="noopener">CycloneDX</a>.</li>
+<li>NIST, <a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">Post-quantum cryptography standards (FIPS 203/204/205)</a>.</li>
+<li>CISA, <a href="https://www.cisa.gov/zero-trust-maturity-model" rel="noopener">Zero Trust Maturity Model</a>.</li>
+<li>OpenID Foundation, <a href="https://openid.net/specs/fapi-security-profile-2_0-final.html" rel="noopener">FAPI 2.0</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/security/ai-security/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/data-platforms/data-security-and-privacy/">
+        <span class="card__eyebrow">3 · Data Platforms</span>
+        <span class="card__title">Data security &amp; privacy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/kafka-architecture/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Kafka architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/event-driven-architecture/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Event-driven architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/fintech-regulations/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">FinTech regulations</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/security/threat-modelling/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Threat modelling</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/security/ai-security/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">AI security</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#core-principles">Core principles</a></li>
+    <li><a href="#zero-trust-architecture">Zero trust architecture</a></li>
+    <li><a href="#application-security-owasp-top-102025">Application security: OWASP Top 10:2025</a></li>
+    <li><a href="#secure-sdlc-and-devsecops">Secure SDLC and DevSecOps</a></li>
+    <li><a href="#software-supply-chain-security">Software supply chain security</a></li>
+    <li><a href="#secrets-management">Secrets management</a></li>
+    <li><a href="#cryptography-and-post-quantum-readiness">Cryptography and post-quantum readiness</a></li>
+    <li><a href="#detection-and-response">Detection and response</a></li>
+    <li><a href="#frameworks-to-anchor-the-programme">Frameworks to anchor the programme</a></li>
+    <li><a href="#securing-event-and-data-platforms">Securing event and data platforms</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

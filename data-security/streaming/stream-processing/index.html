@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stream Processing with Flink and Kafka Streams · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="Processing events continuously: stateless vs stateful operations, event time and watermarks, windows, stream-table joins, state and checkpoints, exactly-once, Apache Flink 2.x vs Kafka Streams, Flink SQL, streaming for AI, and a real-time fraud scoring pipeline.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/streaming/stream-processing/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Stream Processing with Flink and Kafka Streams">
+<meta property="og:description" content="Processing events continuously: stateless vs stateful operations, event time and watermarks, windows, stream-table joins, state and checkpoints, exactly-once, Apache Flink 2.x vs Kafka Streams, Flink SQL, streaming for AI, and a real-time fraud scoring pipeline.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/streaming/stream-processing/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Stream Processing with Flink and Kafka Streams">
+<meta name="twitter:description" content="Processing events continuously: stateless vs stateful operations, event time and watermarks, windows, stream-table joins, state and checkpoints, exactly-once, Apache Flink 2.x vs Kafka Streams, Flink SQL, streaming for AI, and a real-time fraud scoring pipeline.">
+<meta name="keywords" content="streaming, flink, kafka-streams">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Processing events continuously: stateless vs stateful operations, event time and watermarks, windows, stream-table joins, state and checkpoints, exactly-once, Apache Flink 2.x vs Kafka Streams, Flink SQL, streaming for AI, and a real-time fraud scoring pipeline.","headline":"Stream Processing with Flink and Kafka Streams","inLanguage":"en","isAccessibleForFree":true,"keywords":"streaming, flink, kafka-streams","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/streaming/stream-processing/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/streaming/","name":"1 · Kafka \u0026 Streaming","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/streaming/stream-processing/","name":"Stream processing","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-streaming">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/" aria-current="page">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a></li>
+    <li><span aria-current="page">Stream processing</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Stream Processing with Flink and Kafka Streams</h1><p class="article__lede" itemprop="description">Processing events continuously: stateless vs stateful operations, event time and watermarks, windows, stream-table joins, state and checkpoints, exactly-once, Apache Flink 2.x vs Kafka Streams, Flink SQL, streaming for AI, and a real-time fraud scoring pipeline.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/streaming/">#Streaming</a><a class="tag" href="/data-security/tags/flink/">#Flink</a><a class="tag" href="/data-security/tags/kafka-streams/">#Kafka-Streams</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#core-concepts">Core concepts</a></li>
+    <li><a href="#event-time-and-watermarks">Event time and watermarks</a></li>
+    <li><a href="#windows">Windows</a></li>
+    <li><a href="#joins">Joins</a></li>
+    <li><a href="#state-checkpoints-and-exactly-once">State, checkpoints and exactly-once</a></li>
+    <li><a href="#apache-flink-vs-kafka-streams">Apache Flink vs Kafka Streams</a></li>
+    <li><a href="#flink-sql-example-velocity-check">Flink SQL example: velocity check</a></li>
+    <li><a href="#a-real-time-fraud-scoring-pipeline">A real-time fraud scoring pipeline</a></li>
+    <li><a href="#streaming-for-ai">Streaming for AI</a></li>
+    <li><a href="#operating-stream-processors">Operating stream processors</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Stream processing</strong> computes results <strong>continuously</strong> as events arrive: filtering, enriching, aggregating, joining and detecting patterns. Batch processing instead waits for a complete dataset. The result is another stream, a table or an action, available in milliseconds to seconds.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>Fraud must be stopped <strong>before</strong> money leaves. Risk limits, customer notifications and dashboards lose value with every minute of delay. Running batch jobs more often does not scale and cannot handle late or out-of-order events correctly.</p>
+<h2 id="core-concepts">Core concepts<a class="heading-anchor" href="#core-concepts" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Stateless operation</strong></td>
+      <td>Each event is handled alone: map, filter, route, mask</td>
+    </tr>
+    <tr>
+      <td><strong>Stateful operation</strong></td>
+      <td>Needs memory of earlier events: counts, sums, joins, deduplication, pattern detection</td>
+    </tr>
+    <tr>
+      <td><strong>Event time</strong></td>
+      <td>When the event happened (in the payload)</td>
+    </tr>
+    <tr>
+      <td><strong>Processing time</strong></td>
+      <td>When the processor sees it</td>
+    </tr>
+    <tr>
+      <td><strong>Watermark</strong></td>
+      <td>The processor&rsquo;s estimate that &ldquo;no more events older than T will arrive&rdquo;. It lets windows close.</td>
+    </tr>
+    <tr>
+      <td><strong>Window</strong></td>
+      <td>A finite slice of an infinite stream</td>
+    </tr>
+    <tr>
+      <td><strong>State backend</strong></td>
+      <td>Where keyed state lives: memory, RocksDB, or remote / disaggregated storage</td>
+    </tr>
+    <tr>
+      <td><strong>Checkpoint</strong></td>
+      <td>A consistent snapshot of all state and source offsets, used for recovery</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="event-time-and-watermarks">Event time and watermarks<a class="heading-anchor" href="#event-time-and-watermarks" aria-label="Link to this section">#</a></h2>
+<p>Mobile payments may arrive minutes late, and partitions progress at different speeds. Processing by <strong>event time</strong> gives correct results regardless of arrival order. <strong>Watermarks</strong> trade <strong>completeness against latency</strong>:</p>
+<figure class="diagram" aria-label="Watermark with 5 seconds bounded out-of-orderness"><figcaption class="diagram__title">Watermark with 5 seconds bounded out-of-orderness</figcaption>
+  <pre class="mermaid">flowchart LR
+    E1[&#34;event t=10:00:02&#34;] --&gt; W[&#34;watermark = max event time − 5s&#34;]
+    E2[&#34;event t=10:00:09&#34;] --&gt; W
+    E3[&#34;late event t=10:00:01&lt;br/&gt;arrives after window closed&#34;] --&gt; L[&#34;allowed lateness → update&lt;br/&gt;or side output for late data&#34;]
+    W --&gt; C[&#34;window [10:00:00, 10:00:05) closes&lt;br/&gt;when watermark ≥ 10:00:05&#34;]</pre>
+</figure>
+<ul>
+<li>Set the out-of-orderness bound from <strong>measured</strong> lateness (for example p99).</li>
+<li>Use <strong>idleness</strong> detection, so one quiet partition does not stall the watermark.</li>
+<li>Route <strong>late events</strong> to a side output rather than silently dropping them.</li>
+</ul>
+<h2 id="windows">Windows<a class="heading-anchor" href="#windows" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Window</th>
+      <th>Shape</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Tumbling</strong></td>
+      <td>Fixed size, no overlap</td>
+      <td>Payments per merchant per minute</td>
+    </tr>
+    <tr>
+      <td><strong>Hopping / sliding</strong></td>
+      <td>Fixed size, overlapping</td>
+      <td>Spend over the last 1 hour, updated every 5 minutes</td>
+    </tr>
+    <tr>
+      <td><strong>Session</strong></td>
+      <td>Activity separated by a gap</td>
+      <td>A user&rsquo;s banking session</td>
+    </tr>
+    <tr>
+      <td><strong>Global + trigger</strong></td>
+      <td>Custom</td>
+      <td>Every 100 events</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="joins">Joins<a class="heading-anchor" href="#joins" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Stream–stream join</strong> (windowed): match <code>PaymentInitiated</code> with <code>PaymentConfirmed</code> within 10 minutes.</li>
+<li><strong>Stream–table join</strong>: enrich each payment with the latest customer risk profile from a compacted topic or CDC stream (a <em>temporal</em> or <em>lookup</em> join).</li>
+<li><strong>Interval join</strong>: events from two streams within a time bound of each other.</li>
+</ul>
+<h2 id="state-checkpoints-and-exactly-once">State, checkpoints and exactly-once<a class="heading-anchor" href="#state-checkpoints-and-exactly-once" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Flink checkpoint barrier"><figcaption class="diagram__title">Flink checkpoint barrier</figcaption>
+  <pre class="mermaid">flowchart LR
+    SRC[&#34;Kafka source&lt;br/&gt;offsets&#34;] --&gt;|&#34;barrier n&#34;| OP1[&#34;keyBy(account)&lt;br/&gt;window state&#34;] --&gt;|&#34;barrier n&#34;| SINK[&#34;Kafka sink&lt;br/&gt;transaction&#34;]
+    OP1 -.-&gt;|&#34;snapshot state n&#34;| STORE[&#34;Durable checkpoint storage&lt;br/&gt;(S3, HDFS)&#34;]
+    SRC -.-&gt;|&#34;offsets n&#34;| STORE
+    SINK -.-&gt;|&#34;pre-commit txn n&#34;| STORE</pre>
+</figure>
+<p>Flink injects <strong>barriers</strong> into the stream. Every operator snapshots its state when the barrier passes. The Kafka sink pre-commits a transaction and commits it only when the checkpoint completes (two-phase commit), giving <strong>end-to-end exactly-once</strong> from Kafka to Kafka. After a failure, Flink restores the last checkpoint and rewinds the source offsets.</p>
+<h2 id="apache-flink-vs-kafka-streams">Apache Flink vs Kafka Streams<a class="heading-anchor" href="#apache-flink-vs-kafka-streams" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Apache Flink</th>
+      <th>Kafka Streams</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Form</td>
+      <td>Distributed processing engine (cluster, Kubernetes operator)</td>
+      <td>Java library inside your application</td>
+    </tr>
+    <tr>
+      <td>Sources and sinks</td>
+      <td>Kafka, files, CDC, JDBC, Iceberg, Pulsar, Kinesis and many more</td>
+      <td>Kafka in, Kafka out</td>
+    </tr>
+    <tr>
+      <td>State</td>
+      <td>RocksDB or disaggregated state (Flink 2.x ForSt on object storage)</td>
+      <td>RocksDB plus changelog topics</td>
+    </tr>
+    <tr>
+      <td>APIs</td>
+      <td>DataStream, Table API, <strong>Flink SQL</strong>, CEP, PyFlink</td>
+      <td>Streams DSL, Processor API</td>
+    </tr>
+    <tr>
+      <td>Scale</td>
+      <td>Very large, multi-tenant</td>
+      <td>Scales with your app instances and partitions</td>
+    </tr>
+    <tr>
+      <td>Best for</td>
+      <td>Complex pipelines, large state, SQL analytics, many systems</td>
+      <td>Kafka-centric microservices doing joins and aggregations</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>What is new:</strong></p>
+<ul>
+<li><strong>Flink 2.0 (2025)</strong> introduced <strong>disaggregated state management</strong> (state on remote storage with a local cache), a materialised-table model that unifies batch and streaming, and removed old APIs such as DataSet and the Scala API.</li>
+<li><strong>Flink 2.2 (December 2025)</strong> focused on <strong>real-time AI</strong>: <code>ML_PREDICT</code> model inference in Flink SQL and a <strong><code>VECTOR_SEARCH</code></strong> function for streaming similarity search, plus scheduling improvements.</li>
+<li><strong>Kafka Streams</strong> gained server-side rebalancing (KIP-1071, GA with a limited feature set in Kafka 4.2).</li>
+</ul>
+<h2 id="flink-sql-example-velocity-check">Flink SQL example: velocity check<a class="heading-anchor" href="#flink-sql-example-velocity-check" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- Payments per card in 10-minute hopping windows; flag bursts
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">payments</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">payment_id</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">card_token</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">merchant_id</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">amount</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w"> </span><span class="n">event_time</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">WATERMARK</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="n">event_time</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">event_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;5&#39;</span><span class="w"> </span><span class="k">SECOND</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;connector&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;kafka&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;topic&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;payments.authorised.v1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;format&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;avro-confluent&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">fraud_alerts</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">card_token</span><span class="p">,</span><span class="w"> </span><span class="n">window_start</span><span class="p">,</span><span class="w"> </span><span class="n">window_end</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">txn_count</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">country</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">countries</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="k">TABLE</span><span class="p">(</span><span class="n">HOP</span><span class="p">(</span><span class="k">TABLE</span><span class="w"> </span><span class="n">payments</span><span class="p">,</span><span class="w"> </span><span class="k">DESCRIPTOR</span><span class="p">(</span><span class="n">event_time</span><span class="p">),</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;1&#39;</span><span class="w"> </span><span class="k">MINUTE</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;10&#39;</span><span class="w"> </span><span class="k">MINUTE</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">card_token</span><span class="p">,</span><span class="w"> </span><span class="n">window_start</span><span class="p">,</span><span class="w"> </span><span class="n">window_end</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">country</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><h2 id="a-real-time-fraud-scoring-pipeline">A real-time fraud scoring pipeline<a class="heading-anchor" href="#a-real-time-fraud-scoring-pipeline" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/data-security/diagrams/stream-pipeline.html" title="Real-time fraud scoring with Kafka and Flink" loading="lazy" style="height: 660px"></iframe>
+  <figcaption>
+    <span>Real-time fraud scoring with Kafka and Flink · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/data-security/diagrams/stream-pipeline.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ol>
+<li>Payment and device events land on Kafka topics keyed by account or card token.</li>
+<li>A Flink job computes <strong>features</strong> in event-time windows (velocity, spend, new device, geo distance), keeping keyed state with checkpoints.</li>
+<li>Features are written to a low-latency feature cache, which the authorisation service reads synchronously within its latency budget (often under 50 ms).</li>
+<li>High-risk patterns produce <strong>alerts</strong> for case management. All events also land in the lakehouse for model training and audit.</li>
+</ol>
+<h2 id="streaming-for-ai">Streaming for AI<a class="heading-anchor" href="#streaming-for-ai" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Fresh context:</strong> stream changes into vector stores and feature stores so RAG and models see current data.</li>
+<li><strong>Inference in the stream:</strong> score events with models (Flink <code>ML_PREDICT</code>, or a call-out to a model service with async I/O).</li>
+<li><strong>Agent events:</strong> agents can consume and produce events. Treat their outputs as untrusted input, and govern them like any other producer. See <a href="/data-security/security/ai-security/">AI security</a>.</li>
+</ul>
+<h2 id="operating-stream-processors">Operating stream processors<a class="heading-anchor" href="#operating-stream-processors" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Size <strong>parallelism</strong> to the partition count and plan <strong>savepoints</strong> for upgrades. Keep operator UIDs stable so state maps correctly.</li>
+<li>Watch checkpoint duration and size, backpressure, watermark lag, consumer lag and late-event rates.</li>
+<li>Run on Kubernetes with the <strong>Flink Kubernetes Operator</strong>, or use a managed service (Confluent Cloud for Flink, Amazon Managed Service for Apache Flink, Ververica).</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Processing-time windows for business metrics</span></p>
+  <div class="callout__body"><p>Results change with load and replays. Use event time with watermarks.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Unbounded state</span></p>
+  <div class="callout__body"><p>Joins and deduplication without TTL grow forever. Set state TTL and window bounds.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Changing a job without savepoint compatibility</span></p>
+  <div class="callout__body"><p>Changed operator IDs or state schemas can make old state unreadable. Assign UIDs and test upgrades from a savepoint.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Calling slow external services per event synchronously</span></p>
+  <div class="callout__body"><p>It creates backpressure. Use async I/O, caching or pre-joined state.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is a watermark?</strong>
+The processor&rsquo;s assertion that no more events older than time T are expected, which lets event-time windows close. It trades latency for completeness.</p>
+<p><strong>Tumbling vs hopping vs session windows?</strong>
+Tumbling windows are fixed and non-overlapping. Hopping windows are fixed and overlap. Session windows are bounded by inactivity gaps.</p>
+<p><strong>How does Flink achieve exactly-once to Kafka?</strong>
+Checkpoint barriers snapshot state and source offsets consistently. The Kafka sink uses transactions that commit when the checkpoint completes.</p>
+<p><strong>When pick Kafka Streams over Flink?</strong>
+For Kafka-in, Kafka-out processing embedded in a microservice, without running a separate cluster.</p>
+<p><strong>What did Flink 2.x add?</strong>
+Disaggregated state on remote storage (2.0), and AI functions such as <code>ML_PREDICT</code> and <code>VECTOR_SEARCH</code> in SQL (2.2).</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Stream processing turns events into continuous answers. Stateful operations need state, checkpoints and event time.</li>
+<li>Watermarks and windows give correct results with late, out-of-order data.</li>
+<li>Flink suits large, multi-system and SQL-heavy pipelines. Kafka Streams suits Kafka-centric services.</li>
+<li>Streaming increasingly feeds AI: features, embeddings and in-stream inference.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Apache Flink, <a href="https://nightlies.apache.org/flink/flink-docs-stable/" rel="noopener">documentation</a> and <a href="https://flink.apache.org/2025/12/04/apache-flink-2.2.0-advancing-real-time-data--ai-and-empowering-stream-processing-for-the-ai-era/" rel="noopener">Flink 2.2.0 release announcement</a>.</li>
+<li>Apache Kafka, <a href="https://kafka.apache.org/documentation/streams/" rel="noopener">Kafka Streams documentation</a>.</li>
+<li>Tyler Akidau et al., <em>Streaming Systems</em> (O&rsquo;Reilly), the definitive treatment of event time and watermarks.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/case-study-real-time-payments/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Case study: real-time payments</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/data-platforms/data-platform-architecture/">
+        <span class="card__eyebrow">3 · Data Platforms</span>
+        <span class="card__title">Data platform architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/kafka-architecture/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Kafka architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/kafka-producers-and-consumers/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Producers, consumers &amp; exactly-once</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/streaming/schemas-and-event-contracts/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Schemas &amp; event contracts</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/streaming/case-study-real-time-payments/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Case study: real-time payments</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#core-concepts">Core concepts</a></li>
+    <li><a href="#event-time-and-watermarks">Event time and watermarks</a></li>
+    <li><a href="#windows">Windows</a></li>
+    <li><a href="#joins">Joins</a></li>
+    <li><a href="#state-checkpoints-and-exactly-once">State, checkpoints and exactly-once</a></li>
+    <li><a href="#apache-flink-vs-kafka-streams">Apache Flink vs Kafka Streams</a></li>
+    <li><a href="#flink-sql-example-velocity-check">Flink SQL example: velocity check</a></li>
+    <li><a href="#a-real-time-fraud-scoring-pipeline">A real-time fraud scoring pipeline</a></li>
+    <li><a href="#streaming-for-ai">Streaming for AI</a></li>
+    <li><a href="#operating-stream-processors">Operating stream processors</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

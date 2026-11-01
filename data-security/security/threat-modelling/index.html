@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Threat Modelling · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="Finding design flaws before attackers do: the four-question framework, data flow diagrams and trust boundaries, STRIDE per element, PASTA, LINDDUN for privacy, attack trees, MITRE ATT&amp;CK and ATLAS, risk rating with DREAD, CVSS and FAIR, threat modelling AI and agent systems, tools, and fitting it into agile delivery.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/security/threat-modelling/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Threat Modelling">
+<meta property="og:description" content="Finding design flaws before attackers do: the four-question framework, data flow diagrams and trust boundaries, STRIDE per element, PASTA, LINDDUN for privacy, attack trees, MITRE ATT&amp;CK and ATLAS, risk rating with DREAD, CVSS and FAIR, threat modelling AI and agent systems, tools, and fitting it into agile delivery.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/security/threat-modelling/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Threat Modelling">
+<meta name="twitter:description" content="Finding design flaws before attackers do: the four-question framework, data flow diagrams and trust boundaries, STRIDE per element, PASTA, LINDDUN for privacy, attack trees, MITRE ATT&amp;CK and ATLAS, risk rating with DREAD, CVSS and FAIR, threat modelling AI and agent systems, tools, and fitting it into agile delivery.">
+<meta name="keywords" content="security, threat-modelling">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Finding design flaws before attackers do: the four-question framework, data flow diagrams and trust boundaries, STRIDE per element, PASTA, LINDDUN for privacy, attack trees, MITRE ATT\u0026CK and ATLAS, risk rating with DREAD, CVSS and FAIR, threat modelling AI and agent systems, tools, and fitting it into agile delivery.","headline":"Threat Modelling","inLanguage":"en","isAccessibleForFree":true,"keywords":"security, threat-modelling","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/security/threat-modelling/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/security/","name":"4 · Security \u0026 Regulation","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/security/threat-modelling/","name":"Threat modelling","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-security">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/" aria-current="page">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/security/">4 · Security &amp; Regulation</a></li>
+    <li><span aria-current="page">Threat modelling</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Threat Modelling</h1><p class="article__lede" itemprop="description">Finding design flaws before attackers do: the four-question framework, data flow diagrams and trust boundaries, STRIDE per element, PASTA, LINDDUN for privacy, attack trees, MITRE ATT&amp;CK and ATLAS, risk rating with DREAD, CVSS and FAIR, threat modelling AI and agent systems, tools, and fitting it into agile delivery.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/security/">#Security</a><a class="tag" href="/data-security/tags/threat-modelling/">#Threat-Modelling</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#the-four-questions-threat-modeling-manifesto">The four questions (Threat Modeling Manifesto)</a></li>
+    <li><a href="#step-1-the-data-flow-diagram">Step 1: the data flow diagram</a></li>
+    <li><a href="#step-2-stride-per-element">Step 2: STRIDE per element</a></li>
+    <li><a href="#other-methods">Other methods</a></li>
+    <li><a href="#step-3-rate-and-respond">Step 3: rate and respond</a></li>
+    <li><a href="#threat-modelling-ai-and-agent-systems">Threat modelling AI and agent systems</a></li>
+    <li><a href="#fitting-it-into-delivery">Fitting it into delivery</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Threat modelling</strong> is a structured way to answer: <em>what are we building, what can go wrong, what are we going to do about it, and did we do a good job?</em> It finds <strong>design-level</strong> security and privacy problems early, when fixing them is cheap.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>Scanners and pentests find <strong>implementation</strong> bugs late. They do not tell you that the design lets a support agent export every customer&rsquo;s data, or that the AI assistant can be tricked into calling the payments tool. Those are <strong>architecture</strong> flaws, and finding them in production is expensive or catastrophic.</p>
+<h2 id="the-four-questions-threat-modeling-manifesto">The four questions (Threat Modeling Manifesto)<a class="heading-anchor" href="#the-four-questions-threat-modeling-manifesto" aria-label="Link to this section">#</a></h2>
+<ol>
+<li><strong>What are we working on?</strong> Build a model: a data flow diagram (DFD), assets and trust boundaries.</li>
+<li><strong>What can go wrong?</strong> Identify threats with STRIDE, attack trees, ATT&amp;CK and so on.</li>
+<li><strong>What are we going to do about it?</strong> Mitigate, eliminate, transfer or accept.</li>
+<li><strong>Did we do a good enough job?</strong> Validate with tests, reviews and pentests, and keep the model updated.</li>
+</ol>
+<figure class="archify-embed">
+  <iframe src="/data-security/diagrams/threat-modelling.html" title="Threat modelling workflow" loading="lazy" style="height: 660px"></iframe>
+  <figcaption>
+    <span>Threat modelling workflow · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/data-security/diagrams/threat-modelling.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h2 id="step-1-the-data-flow-diagram">Step 1: the data flow diagram<a class="heading-anchor" href="#step-1-the-data-flow-diagram" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th>Symbol</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>External entity</strong></td>
+      <td>Rectangle</td>
+      <td>Customer, partner bank, card network</td>
+    </tr>
+    <tr>
+      <td><strong>Process</strong></td>
+      <td>Circle</td>
+      <td>Payment API, fraud service, AI agent</td>
+    </tr>
+    <tr>
+      <td><strong>Data store</strong></td>
+      <td>Parallel lines</td>
+      <td>Ledger DB, Kafka topic, vector store</td>
+    </tr>
+    <tr>
+      <td><strong>Data flow</strong></td>
+      <td>Arrow</td>
+      <td>HTTPS request, Kafka event, tool call</td>
+    </tr>
+    <tr>
+      <td><strong>Trust boundary</strong></td>
+      <td>Dashed line</td>
+      <td>Internet/DMZ, service mesh, PCI zone, tenant boundary, model provider</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="diagram" aria-label="Simple DFD with trust boundaries"><figcaption class="diagram__title">Simple DFD with trust boundaries</figcaption>
+  <pre class="mermaid">flowchart LR
+    U[&#34;Customer&lt;br/&gt;(external)&#34;] --&gt;|&#34;HTTPS + OAuth&#34;| GW
+    subgraph DMZ[&#34;Trust boundary: edge&#34;]
+        GW[&#34;API gateway&#34;]
+    end
+    subgraph CORE[&#34;Trust boundary: internal services&#34;]
+        PAY((&#34;Payment service&#34;)) --&gt; DB[(&#34;Ledger DB&#34;)]
+        PAY --&gt; K[(&#34;Kafka&#34;)]
+    end
+    GW --&gt;|&#34;mTLS&#34;| PAY
+    PAY --&gt;|&#34;ISO 20022 over mTLS&#34;| SCHEME[&#34;Payment scheme&lt;br/&gt;(external)&#34;]</pre>
+</figure>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Threats live on boundaries</span></p>
+  <div class="callout__body"><p>Most serious threats appear where data <strong>crosses a trust boundary</strong>. Spend your time there.</p></div>
+</aside><h2 id="step-2-stride-per-element">Step 2: STRIDE per element<a class="heading-anchor" href="#step-2-stride-per-element" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Threat</th>
+      <th>Violates</th>
+      <th>Example</th>
+      <th>Typical mitigations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>S</strong>poofing</td>
+      <td>Authentication</td>
+      <td>Stolen token used to call the payment API</td>
+      <td>MFA, OAuth/OIDC, mTLS, workload identity</td>
+    </tr>
+    <tr>
+      <td><strong>T</strong>ampering</td>
+      <td>Integrity</td>
+      <td>Amount modified in transit or in Kafka</td>
+      <td>TLS, signatures, MACs, immutable logs, input validation</td>
+    </tr>
+    <tr>
+      <td><strong>R</strong>epudiation</td>
+      <td>Non-repudiation</td>
+      <td>&ldquo;I never approved that transfer&rdquo;</td>
+      <td>Signed audit logs, SCA evidence, timestamps</td>
+    </tr>
+    <tr>
+      <td><strong>I</strong>nformation disclosure</td>
+      <td>Confidentiality</td>
+      <td>IDOR exposes other customers&rsquo; statements</td>
+      <td>Authorisation checks, encryption, masking, least privilege</td>
+    </tr>
+    <tr>
+      <td><strong>D</strong>enial of service</td>
+      <td>Availability</td>
+      <td>Bot floods the login or the LLM endpoint</td>
+      <td>Rate limits, WAF, autoscaling, quotas, circuit breakers</td>
+    </tr>
+    <tr>
+      <td><strong>E</strong>levation of privilege</td>
+      <td>Authorisation</td>
+      <td>Support role reaches admin functions</td>
+      <td>RBAC/ABAC, least privilege, sandboxing, policy checks</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>STRIDE-per-element:</strong> processes are subject to all six. Data stores to T, R (logs), I and D. Data flows to T, I and D. External entities to S and R.</p>
+<h2 id="other-methods">Other methods<a class="heading-anchor" href="#other-methods" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Focus</th>
+      <th>When to use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PASTA</strong></td>
+      <td>Seven-stage, risk- and business-centric, attacker simulation</td>
+      <td>High-value systems; aligns security with business impact</td>
+    </tr>
+    <tr>
+      <td><strong>LINDDUN</strong></td>
+      <td><strong>Privacy</strong> threats: Linking, Identifying, Non-repudiation, Detecting, Data disclosure, Unawareness, Non-compliance</td>
+      <td>Systems processing personal data (GDPR/DPDP DPIAs)</td>
+    </tr>
+    <tr>
+      <td><strong>Attack trees</strong></td>
+      <td>Goal at the root, ways to achieve it as branches</td>
+      <td>Deep-dive on one critical asset (&ldquo;steal funds&rdquo;)</td>
+    </tr>
+    <tr>
+      <td><strong>MITRE ATT&amp;CK</strong></td>
+      <td>Real adversary tactics and techniques</td>
+      <td>Detection engineering, red teaming, validating controls</td>
+    </tr>
+    <tr>
+      <td><strong>MITRE ATLAS</strong></td>
+      <td>Adversarial tactics against <strong>AI/ML</strong> systems</td>
+      <td>AI and agent threat models</td>
+    </tr>
+    <tr>
+      <td><strong>Kill chain / Unified Kill Chain</strong></td>
+      <td>Attack stages</td>
+      <td>SOC and incident response planning</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="step-3-rate-and-respond">Step 3: rate and respond<a class="heading-anchor" href="#step-3-rate-and-respond" aria-label="Link to this section">#</a></h2>
+<p><strong>Rating options:</strong></p>
+<ul>
+<li><strong>Likelihood × impact</strong> (High/Medium/Low) is simple and usually enough.</li>
+<li><strong>CVSS v4.0</strong> scores technical severity of vulnerabilities (not design risk).</li>
+<li><strong>DREAD</strong> is older and subjective; use it with care.</li>
+<li><strong>FAIR</strong> quantifies risk in financial terms (loss event frequency × loss magnitude), which suits risk committees.</li>
+</ul>
+<p><strong>Responses:</strong> <strong>mitigate</strong> (add a control), <strong>eliminate</strong> (remove the feature or data), <strong>transfer</strong> (insurance, contract) or <strong>accept</strong> (an owner signs off, recorded in the risk register).</p>
+<p>Each mitigation becomes a <strong>backlog item with a test</strong>. Each acceptance gets an <strong>owner and a review date</strong>.</p>
+<h2 id="threat-modelling-ai-and-agent-systems">Threat modelling AI and agent systems<a class="heading-anchor" href="#threat-modelling-ai-and-agent-systems" aria-label="Link to this section">#</a></h2>
+<p>Add these elements and threats to the DFD:</p>
+<ul>
+<li><strong>Model</strong> (external or self-hosted), <strong>prompts</strong> (system and user), <strong>retrieved context</strong> (RAG), <strong>tools</strong> (MCP servers, APIs), <strong>memory</strong>, <strong>other agents</strong>.</li>
+<li>Threats: <strong>prompt injection</strong> (direct and indirect through documents and tool output), <strong>excessive agency</strong>, <strong>tool misuse</strong>, <strong>data leakage through outputs</strong>, <strong>memory poisoning</strong>, <strong>model or supply-chain compromise</strong> and <strong>unbounded consumption</strong>.</li>
+<li>Use the OWASP <strong>Top 10 for LLM Applications (2025)</strong>, the <strong>Top 10 for Agentic Applications (2026)</strong> and <strong>MITRE ATLAS</strong> as threat libraries. See <a href="/data-security/security/ai-security/">AI security</a>.</li>
+</ul>
+<h2 id="fitting-it-into-delivery">Fitting it into delivery<a class="heading-anchor" href="#fitting-it-into-delivery" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>When:</strong> at design (architecture review), for every significant change (a new trust boundary, data class or integration), and periodically for critical systems.</li>
+<li><strong>Who:</strong> the team that builds it, plus a security champion or architect. Threat modelling is a <strong>team sport</strong>, not an outsourced document.</li>
+<li><strong>How long:</strong> 60–90 minutes per feature-level session, iterated. Keep the model <strong>as code</strong> (Threat Dragon JSON, pytm, Threagile YAML) in the repo.</li>
+<li><strong>Tools:</strong> OWASP Threat Dragon, Microsoft Threat Modeling Tool, pytm, Threagile, IriusRisk, ThreatModeler, and <strong>AI-assisted</strong> threat generation (always reviewed by humans).</li>
+<li><strong>Evidence:</strong> regulators (DORA ICT risk management, RBI, PCI DSS 6.2 secure development) expect risk assessments of changes. Threat models provide them.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">A one-off document for the audit</span></p>
+  <div class="callout__body"><p>Models go stale with the first change. Keep them in the repo and update them with design changes.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Boiling the ocean</span></p>
+  <div class="callout__body"><p>Modelling the entire enterprise at once produces nothing actionable. Scope to a feature or system, and focus on trust boundaries.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Listing threats without owners</span></p>
+  <div class="callout__body"><p>Threats without backlog items, tests or accepted-risk owners change nothing.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ignoring privacy threats</span></p>
+  <div class="callout__body"><p>STRIDE misses linkability and identifiability. Add LINDDUN for personal data.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What are the four threat-modelling questions?</strong>
+What are we working on? What can go wrong? What are we going to do about it? Did we do a good enough job?</p>
+<p><strong>What does STRIDE stand for?</strong>
+Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege.</p>
+<p><strong>Where do most serious threats appear on a DFD?</strong>
+Where data flows cross trust boundaries.</p>
+<p><strong>Which method focuses on privacy threats?</strong>
+LINDDUN.</p>
+<p><strong>What threat libraries help with AI and agent systems?</strong>
+The OWASP Top 10 for LLM Applications 2025, the OWASP Top 10 for Agentic Applications 2026 and MITRE ATLAS.</p>
+<p><strong>What are the four responses to a threat?</strong>
+Mitigate, eliminate, transfer or accept (with an owner and a review date).</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Threat modelling answers four questions and finds design flaws early.</li>
+<li>Draw a DFD with trust boundaries, then apply STRIDE per element, plus LINDDUN for privacy and ATLAS for AI.</li>
+<li>Rate the risks, then mitigate with tested backlog items or accept them with an owner.</li>
+<li>Keep models as code, update them with every significant change, and make it a team habit.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="https://www.threatmodelingmanifesto.org/" rel="noopener">Threat Modeling Manifesto</a>.</li>
+<li>Adam Shostack, <em>Threat Modeling: Designing for Security</em> (Wiley).</li>
+<li>OWASP, <a href="https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html" rel="noopener">Threat Modeling Cheat Sheet</a> and <a href="https://owasp.org/www-project-threat-dragon/" rel="noopener">Threat Dragon</a>.</li>
+<li><a href="https://linddun.org/" rel="noopener">LINDDUN privacy threat modeling</a>.</li>
+<li>MITRE, <a href="https://attack.mitre.org/" rel="noopener">ATT&amp;CK</a> and <a href="https://atlas.mitre.org/" rel="noopener">ATLAS</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/security/security-architecture/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">Security architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/ai-security/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/case-study-secure-payments-platform/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">Case study: secure payments platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/data-platforms/data-security-and-privacy/">
+        <span class="card__eyebrow">3 · Data Platforms</span>
+        <span class="card__title">Data security &amp; privacy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/fintech-regulations/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">FinTech regulations</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/security/security-architecture/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Security architecture</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#the-four-questions-threat-modeling-manifesto">The four questions (Threat Modeling Manifesto)</a></li>
+    <li><a href="#step-1-the-data-flow-diagram">Step 1: the data flow diagram</a></li>
+    <li><a href="#step-2-stride-per-element">Step 2: STRIDE per element</a></li>
+    <li><a href="#other-methods">Other methods</a></li>
+    <li><a href="#step-3-rate-and-respond">Step 3: rate and respond</a></li>
+    <li><a href="#threat-modelling-ai-and-agent-systems">Threat modelling AI and agent systems</a></li>
+    <li><a href="#fitting-it-into-delivery">Fitting it into delivery</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

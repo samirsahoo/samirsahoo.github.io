@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distributed Transactions: 2PC, XA and the Alternatives · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="Why ACID across services is hard: how two-phase commit and XA work, why they rarely fit microservices, distributed SQL as an alternative, and the toolkit that replaces them: local transactions, outbox, idempotency, sagas, TCC and reservations.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/distributed/distributed-transactions/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Distributed Transactions: 2PC, XA and the Alternatives">
+<meta property="og:description" content="Why ACID across services is hard: how two-phase commit and XA work, why they rarely fit microservices, distributed SQL as an alternative, and the toolkit that replaces them: local transactions, outbox, idempotency, sagas, TCC and reservations.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/distributed/distributed-transactions/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Distributed Transactions: 2PC, XA and the Alternatives">
+<meta name="twitter:description" content="Why ACID across services is hard: how two-phase commit and XA work, why they rarely fit microservices, distributed SQL as an alternative, and the toolkit that replaces them: local transactions, outbox, idempotency, sagas, TCC and reservations.">
+<meta name="keywords" content="distributed-systems, transactions">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Why ACID across services is hard: how two-phase commit and XA work, why they rarely fit microservices, distributed SQL as an alternative, and the toolkit that replaces them: local transactions, outbox, idempotency, sagas, TCC and reservations.","headline":"Distributed Transactions: 2PC, XA and the Alternatives","inLanguage":"en","isAccessibleForFree":true,"keywords":"distributed-systems, transactions","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/distributed/distributed-transactions/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/distributed/","name":"2 · Consistency \u0026 Sagas","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/distributed/distributed-transactions/","name":"Distributed transactions","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-distributed">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/" aria-current="page">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a></li>
+    <li><span aria-current="page">Distributed transactions</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Distributed Transactions: 2PC, XA and the Alternatives</h1><p class="article__lede" itemprop="description">Why ACID across services is hard: how two-phase commit and XA work, why they rarely fit microservices, distributed SQL as an alternative, and the toolkit that replaces them: local transactions, outbox, idempotency, sagas, TCC and reservations.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/distributed-systems/">#Distributed-Systems</a><a class="tag" href="/data-security/tags/transactions/">#Transactions</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#two-phase-commit-2pc">Two-phase commit (2PC)</a></li>
+    <li><a href="#why-2pc-rarely-fits-microservices">Why 2PC rarely fits microservices</a></li>
+    <li><a href="#option-1-avoid-the-distributed-transaction">Option 1: avoid the distributed transaction</a></li>
+    <li><a href="#option-2-local-transaction--reliable-event-outbox">Option 2: local transaction + reliable event (outbox)</a></li>
+    <li><a href="#option-3-saga">Option 3: saga</a></li>
+    <li><a href="#option-4-tcc-and-reservations">Option 4: TCC and reservations</a></li>
+    <li><a href="#comparison">Comparison</a></li>
+    <li><a href="#designing-for-failure">Designing for failure</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>distributed transaction</strong> is an all-or-nothing update that spans <strong>more than one database or resource</strong>, for example debiting an account in one service and creating a shipment in another.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>Inside one database, ACID transactions are cheap and reliable. Microservices use <strong>database per service</strong>, and integrations add brokers and external APIs. Code like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Transactional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">(</span><span class="n">Order</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">orderRepo</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">o</span><span class="p">);</span><span class="w">                 </span><span class="c1">// DB 1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">paymentClient</span><span class="p">.</span><span class="na">charge</span><span class="p">(</span><span class="n">o</span><span class="p">);</span><span class="w">           </span><span class="c1">// remote service, DB 2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">kafkaTemplate</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="s">&#34;orders&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">o</span><span class="p">);</span><span class="w">   </span><span class="c1">// broker</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>…is <strong>not</strong> atomic. The charge may succeed while the DB commit fails, or the event may be sent for an order that rolls back. This is the <strong>dual-write problem</strong>.</p>
+<h2 id="two-phase-commit-2pc">Two-phase commit (2PC)<a class="heading-anchor" href="#two-phase-commit-2pc" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Two-phase commit"><figcaption class="diagram__title">Two-phase commit</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant TC as Coordinator
+    participant A as Resource A
+    participant B as Resource B
+    TC-&gt;&gt;A: PREPARE
+    TC-&gt;&gt;B: PREPARE
+    A--&gt;&gt;TC: YES (locks held, durable)
+    B--&gt;&gt;TC: YES
+    TC-&gt;&gt;TC: log COMMIT decision
+    TC-&gt;&gt;A: COMMIT
+    TC-&gt;&gt;B: COMMIT</pre>
+</figure>
+<ol>
+<li><strong>Prepare:</strong> each participant does the work, makes it durable, keeps its locks and votes yes or no.</li>
+<li><strong>Commit or abort:</strong> the coordinator logs the decision and tells everyone.</li>
+</ol>
+<p><strong>XA</strong> is the standard API for 2PC across databases and message brokers (JTA in Java).</p>
+<h2 id="why-2pc-rarely-fits-microservices">Why 2PC rarely fits microservices<a class="heading-anchor" href="#why-2pc-rarely-fits-microservices" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Blocking</strong></td>
+      <td>If the coordinator dies after prepare, participants hold locks until it recovers (&ldquo;in doubt&rdquo;)</td>
+    </tr>
+    <tr>
+      <td><strong>Latency</strong></td>
+      <td>Extra round trips and fsyncs on every transaction</td>
+    </tr>
+    <tr>
+      <td><strong>Availability</strong></td>
+      <td>Every participant must be up, so availability multiplies down</td>
+    </tr>
+    <tr>
+      <td><strong>Coupling</strong></td>
+      <td>All services must share a transaction manager and support XA</td>
+    </tr>
+    <tr>
+      <td><strong>Support</strong></td>
+      <td>Many modern stores, cloud services, Kafka (for XA) and every REST API do not participate</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>2PC still has a place <strong>inside</strong> one platform: databases use it internally across shards, and some mainframe and messaging estates use XA. But <strong>do not stretch it across service boundaries</strong>.</p>
+<h2 id="option-1-avoid-the-distributed-transaction">Option 1: avoid the distributed transaction<a class="heading-anchor" href="#option-1-avoid-the-distributed-transaction" aria-label="Link to this section">#</a></h2>
+<p>Often the best design is to <strong>redraw the boundary</strong>:</p>
+<ul>
+<li>If two pieces of data must always change together, they probably belong in <strong>one service, one aggregate and one database</strong>.</li>
+<li>Use a <strong>distributed SQL</strong> database (Google Spanner, CockroachDB, YugabyteDB, TiDB). It gives serializable ACID transactions across shards and regions using consensus plus 2PC internally, managed for you. You pay in write latency across regions.</li>
+</ul>
+<h2 id="option-2-local-transaction--reliable-event-outbox">Option 2: local transaction + reliable event (outbox)<a class="heading-anchor" href="#option-2-local-transaction--reliable-event-outbox" aria-label="Link to this section">#</a></h2>
+<p>Commit the state change <strong>and</strong> the event in one local transaction, and publish the event asynchronously. Consumers react idempotently. See <a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC and idempotency</a>.</p>
+<h2 id="option-3-saga">Option 3: saga<a class="heading-anchor" href="#option-3-saga" aria-label="Link to this section">#</a></h2>
+<p>Split the business transaction into <strong>local transactions</strong>, each with a <strong>compensating action</strong>, coordinated by events (choreography) or by an orchestrator. See <a href="/data-security/distributed/saga-pattern/">Saga pattern</a>.</p>
+<h2 id="option-4-tcc-and-reservations">Option 4: TCC and reservations<a class="heading-anchor" href="#option-4-tcc-and-reservations" aria-label="Link to this section">#</a></h2>
+<p><strong>Try–Confirm–Cancel (TCC)</strong> reserves resources first and then confirms or cancels them:</p>
+<figure class="diagram" aria-label="Try–Confirm–Cancel"><figcaption class="diagram__title">Try–Confirm–Cancel</figcaption>
+  <pre class="mermaid">flowchart LR
+    T[&#34;TRY&lt;br/&gt;reserve funds, hold seat&lt;br/&gt;(with expiry)&#34;] --&gt;|&#34;all tries OK&#34;| C[&#34;CONFIRM&lt;br/&gt;capture, ticket&#34;]
+    T --&gt;|&#34;any try fails or timeout&#34;| X[&#34;CANCEL&lt;br/&gt;release holds&#34;]</pre>
+</figure>
+<ul>
+<li>Card payments already work this way: <strong>authorise</strong> (hold) and later <strong>capture</strong> or <strong>void</strong>.</li>
+<li>Reservations <strong>expire</strong> automatically, so a crashed coordinator does not lock resources forever.</li>
+<li>Confirm and cancel must be <strong>idempotent</strong>, and cancel must handle &ldquo;try never arrived&rdquo; (an empty cancel).</li>
+</ul>
+<h2 id="comparison">Comparison<a class="heading-anchor" href="#comparison" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>Consistency</th>
+      <th>Coupling</th>
+      <th>Availability</th>
+      <th>Complexity</th>
+      <th>Best for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2PC / XA</td>
+      <td>Atomic</td>
+      <td>High</td>
+      <td>Lower</td>
+      <td>Infrastructure</td>
+      <td>Legacy estates, single platform</td>
+    </tr>
+    <tr>
+      <td>Distributed SQL</td>
+      <td>Serializable</td>
+      <td>Shared DB</td>
+      <td>High (consensus)</td>
+      <td>Low for apps</td>
+      <td>Data that truly belongs together</td>
+    </tr>
+    <tr>
+      <td>Outbox + events</td>
+      <td>Eventual</td>
+      <td>Low</td>
+      <td>High</td>
+      <td>Medium</td>
+      <td>Propagating state changes</td>
+    </tr>
+    <tr>
+      <td>Saga</td>
+      <td>Eventual, with compensation</td>
+      <td>Low–medium</td>
+      <td>High</td>
+      <td>Medium–high</td>
+      <td>Multi-step business processes</td>
+    </tr>
+    <tr>
+      <td>TCC</td>
+      <td>Eventual, with reservations</td>
+      <td>Medium</td>
+      <td>High</td>
+      <td>High</td>
+      <td>Inventory, seats, funds holds</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="designing-for-failure">Designing for failure<a class="heading-anchor" href="#designing-for-failure" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Every remote call can <strong>succeed, fail or time out (unknown)</strong>. Design the unknown case: query status, use idempotency keys, and reconcile.</li>
+<li>Make every step <strong>idempotent</strong> and <strong>retriable</strong>.</li>
+<li>Keep an <strong>audit log</strong> of steps and decisions.</li>
+<li>Run <strong>reconciliation</strong> jobs that compare systems and fix or flag drift. In finance this is mandatory, not optional.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">@Transactional around remote calls</span></p>
+  <div class="callout__body"><p>The annotation covers only the local database. Remote calls and broker sends are outside it.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Treating a timeout as failure</span></p>
+  <div class="callout__body"><p>The remote side may have succeeded. Query, then decide; never assume.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Splitting data that changes together</span></p>
+  <div class="callout__body"><p>If every change spans two services, the boundary is wrong. Merge them, or use a distributed SQL store.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is the dual-write problem?</strong>
+Writing to two systems (for example a DB and a broker) without a shared transaction, so one write can succeed while the other fails.</p>
+<p><strong>Why does 2PC block?</strong>
+Participants that voted yes must hold locks until they learn the decision. If the coordinator fails, they wait.</p>
+<p><strong>What is TCC?</strong>
+Try–Confirm–Cancel: reserve resources tentatively (with expiry), then confirm all or cancel all.</p>
+<p><strong>When is distributed SQL a good alternative?</strong>
+When the data truly belongs together and needs serializable transactions, and you can accept cross-region write latency.</p>
+<p><strong>What three outcomes must every remote call handle?</strong>
+Success, failure and unknown (timeout).</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>ACID does not span services. The dual-write problem is the root issue.</li>
+<li>2PC and XA work but block, couple services and reduce availability, so avoid them across services.</li>
+<li>Prefer better boundaries, distributed SQL, the outbox, sagas or TCC reservations.</li>
+<li>Design for the unknown outcome with idempotency, status queries and reconciliation.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chris Richardson, <a href="https://microservices.io/patterns/" rel="noopener">Microservices patterns: Saga, Transactional outbox</a>.</li>
+<li>Pat Helland, <a href="https://queue.acm.org/detail.cfm?id=3025012" rel="noopener">Life beyond Distributed Transactions</a>.</li>
+<li>Google, <a href="https://cloud.google.com/spanner/docs/true-time-external-consistency" rel="noopener">Spanner: TrueTime and external consistency</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/outbox-cdc-idempotency/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Outbox, CDC &amp; idempotency</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/saga-pattern/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Saga pattern</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/cqrs-and-event-sourcing/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">CQRS &amp; event sourcing</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/consistency-and-consensus/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Consistency &amp; consensus</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/distributed/consistency-and-consensus/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Consistency &amp; consensus</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/distributed/outbox-cdc-idempotency/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Outbox, CDC &amp; idempotency</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#two-phase-commit-2pc">Two-phase commit (2PC)</a></li>
+    <li><a href="#why-2pc-rarely-fits-microservices">Why 2PC rarely fits microservices</a></li>
+    <li><a href="#option-1-avoid-the-distributed-transaction">Option 1: avoid the distributed transaction</a></li>
+    <li><a href="#option-2-local-transaction--reliable-event-outbox">Option 2: local transaction + reliable event (outbox)</a></li>
+    <li><a href="#option-3-saga">Option 3: saga</a></li>
+    <li><a href="#option-4-tcc-and-reservations">Option 4: TCC and reservations</a></li>
+    <li><a href="#comparison">Comparison</a></li>
+    <li><a href="#designing-for-failure">Designing for failure</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

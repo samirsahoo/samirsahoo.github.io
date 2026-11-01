@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Payments on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/data-security/tags/payments/</link>
+		<description>Recent content in Payments on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/data-security/tags/payments/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>System Design: A Secure, Compliant Payments Platform</title>
+				<link>https://samirsahoo.github.io/data-security/security/case-study-secure-payments-platform/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/security/case-study-secure-payments-platform/</guid>
+				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;A digital bank operating in the EU and India is launching card and account-to-account payments, an open-banking API for partners, and a GenAI assistant that answers customer questions and can initiate small transfers. Design the security architecture so that it is PCI DSS, DORA, PSD2/PSD3, GDPR/DPDP and RBI compliant, and can withstand a determined attacker.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>System Design: Event-Driven Real-Time Payments</title>
+				<link>https://samirsahoo.github.io/data-security/streaming/case-study-real-time-payments/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/streaming/case-study-real-time-payments/</guid>
+				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;Design the core of a bank&amp;rsquo;s instant payments service. Customers send money from mobile and web; payments must settle in under 10 seconds, end to end, 24×7. Each payment must be fraud-checked, posted to the ledger exactly once, notified to both parties and reconciled with the scheme daily.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+	</channel>
+</rss>

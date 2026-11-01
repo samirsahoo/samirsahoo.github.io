@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Design: A Governed Data Platform for a Bank · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="A complete design for a bank&#39;s data and AI platform: requirements (BCBS 239, GDPR/DPDP, RBI localisation), lakehouse with Iceberg, ingestion via CDC and Kafka, medallion layers and data products, catalog-enforced security with tokenisation and ABAC, lineage and quality, regional data planes, AI and RAG access, and trade-offs.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/data-platforms/case-study-regulated-data-platform/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="System Design: A Governed Data Platform for a Bank">
+<meta property="og:description" content="A complete design for a bank&#39;s data and AI platform: requirements (BCBS 239, GDPR/DPDP, RBI localisation), lakehouse with Iceberg, ingestion via CDC and Kafka, medallion layers and data products, catalog-enforced security with tokenisation and ABAC, lineage and quality, regional data planes, AI and RAG access, and trade-offs.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/data-platforms/case-study-regulated-data-platform/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="System Design: A Governed Data Platform for a Bank">
+<meta name="twitter:description" content="A complete design for a bank&#39;s data and AI platform: requirements (BCBS 239, GDPR/DPDP, RBI localisation), lakehouse with Iceberg, ingestion via CDC and Kafka, medallion layers and data products, catalog-enforced security with tokenisation and ABAC, lineage and quality, regional data planes, AI and RAG access, and trade-offs.">
+<meta name="keywords" content="case-study, system-design, data-platform, governance">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"A complete design for a bank's data and AI platform: requirements (BCBS 239, GDPR/DPDP, RBI localisation), lakehouse with Iceberg, ingestion via CDC and Kafka, medallion layers and data products, catalog-enforced security with tokenisation and ABAC, lineage and quality, regional data planes, AI and RAG access, and trade-offs.","headline":"System Design: A Governed Data Platform for a Bank","inLanguage":"en","isAccessibleForFree":true,"keywords":"case-study, system-design, data-platform, governance","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/data-platforms/case-study-regulated-data-platform/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/data-platforms/","name":"3 · Data Platforms","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/data-platforms/case-study-regulated-data-platform/","name":"Case study: regulated data platform","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-data-platforms">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/" aria-current="page">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/data-platforms/">3 · Data Platforms</a></li>
+    <li><span aria-current="page">Case study: regulated data platform</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">System Design: A Governed Data Platform for a Bank</h1><p class="article__lede" itemprop="description">A complete design for a bank&#39;s data and AI platform: requirements (BCBS 239, GDPR/DPDP, RBI localisation), lakehouse with Iceberg, ingestion via CDC and Kafka, medallion layers and data products, catalog-enforced security with tokenisation and ABAC, lineage and quality, regional data planes, AI and RAG access, and trade-offs.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/case-study/">#Case-Study</a><a class="tag" href="/data-security/tags/system-design/">#System-Design</a><a class="tag" href="/data-security/tags/data-platform/">#Data-Platform</a><a class="tag" href="/data-security/tags/governance/">#Governance</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a>, <a href="/data-security/data-platforms/data-governance/">Data governance</a>, <a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-requirements">1. Requirements</a></li>
+    <li><a href="#2-target-architecture">2. Target architecture</a></li>
+    <li><a href="#3-regional-data-planes-residency">3. Regional data planes (residency)</a></li>
+    <li><a href="#4-security-design">4. Security design</a></li>
+    <li><a href="#5-governance-and-quality">5. Governance and quality</a></li>
+    <li><a href="#6-ai-on-the-platform">6. AI on the platform</a></li>
+    <li><a href="#7-migration-plan">7. Migration plan</a></li>
+    <li><a href="#8-trade-offs">8. Trade-offs</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="the-design-brief">The design brief<a class="heading-anchor" href="#the-design-brief" aria-label="Link to this section">#</a></h2>
+<blockquote><p><em>&ldquo;A bank operating in the EU and India wants one data platform for regulatory reporting, risk, fraud analytics, customer insights and GenAI. Today it has three warehouses, a Hadoop lake and hundreds of spreadsheet reports with conflicting numbers. Regulators have criticised its risk data aggregation.&rdquo;</em></p>
+</blockquote><h2 id="1-requirements">1. Requirements<a class="heading-anchor" href="#1-requirements" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Requirement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Regulatory</td>
+      <td>BCBS 239 lineage and quality for risk reports; GDPR and DPDP rights; RBI payment data localisation; DORA ICT risk; EU AI Act data governance for high-risk models (credit scoring)</td>
+    </tr>
+    <tr>
+      <td>Freshness</td>
+      <td>Fraud features in seconds; risk positions intraday; regulatory reports T+1</td>
+    </tr>
+    <tr>
+      <td>Scale</td>
+      <td>500 source systems, 5 PB, about 2,000 analysts and data scientists, 50 domain teams</td>
+    </tr>
+    <tr>
+      <td>Security</td>
+      <td>Least privilege; no raw PAN or national IDs outside restricted zones; full audit</td>
+    </tr>
+    <tr>
+      <td>AI</td>
+      <td>RAG over policies and customer communications with per-user access; feature store for ML</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="2-target-architecture">2. Target architecture<a class="heading-anchor" href="#2-target-architecture" aria-label="Link to this section">#</a></h2>
+<p>See the <a href="/data-security/data-platforms/data-platform-architecture/#medallion-layers">lakehouse data flow</a>. Key decisions:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Choice</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Storage</td>
+      <td>Object storage per region; <strong>Apache Iceberg</strong> tables</td>
+      <td>Open, multi-engine, time travel for audit</td>
+    </tr>
+    <tr>
+      <td>Catalog</td>
+      <td>One <strong>Iceberg REST catalog</strong> (for example Polaris or Unity Catalog) per region, federated into an enterprise catalog (DataHub or Collibra)</td>
+      <td>One policy plane; business glossary across regions</td>
+    </tr>
+    <tr>
+      <td>Ingestion</td>
+      <td>Debezium CDC + Kafka for core systems; Kafka Connect Iceberg sink; batch for files</td>
+      <td>Low latency, low source load, replayable</td>
+    </tr>
+    <tr>
+      <td>Processing</td>
+      <td>Spark for batch, Flink for streaming, dbt for SQL transformations</td>
+      <td>Right tool per workload</td>
+    </tr>
+    <tr>
+      <td>Serving</td>
+      <td>Trino or warehouse SQL for BI; Pinot or ClickHouse for real-time dashboards; feature store; vector index</td>
+      <td>Fit to access pattern</td>
+    </tr>
+    <tr>
+      <td>Orchestration</td>
+      <td>Airflow 3 or Dagster with OpenLineage</td>
+      <td>Lineage emitted automatically</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="3-regional-data-planes-residency">3. Regional data planes (residency)<a class="heading-anchor" href="#3-regional-data-planes-residency" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Regional data planes with a global metadata plane"><figcaption class="diagram__title">Regional data planes with a global metadata plane</figcaption>
+  <pre class="mermaid">flowchart TB
+    subgraph IN[&#34;India region&#34;]
+        INS[&#34;Indian sources&lt;br/&gt;(UPI, cards, CBS)&#34;] --&gt; INL[&#34;IN lakehouse + catalog&#34;]
+    end
+    subgraph EU[&#34;EU region&#34;]
+        EUS[&#34;EU sources&#34;] --&gt; EUL[&#34;EU lakehouse + catalog&#34;]
+    end
+    INL --&gt;|&#34;metadata, lineage only&#34;| GC[&#34;Global catalog&lt;br/&gt;glossary, lineage, policies&#34;]
+    EUL --&gt;|&#34;metadata, lineage only&#34;| GC
+    INL --&gt;|&#34;aggregated, anonymised&lt;br/&gt;group reporting&#34;| GR[&#34;Group reporting&#34;]
+    EUL --&gt;|&#34;aggregated&#34;| GR</pre>
+</figure>
+<ul>
+<li><strong>Payment data for India stays in India</strong> (RBI localisation). EU personal data stays in the EU unless a transfer mechanism applies.</li>
+<li>Only <strong>metadata</strong>, <strong>lineage</strong> and <strong>aggregated or anonymised</strong> results cross borders.</li>
+<li>The same platform code is deployed to each region through GitOps, with policies as code.</li>
+</ul>
+<h2 id="4-security-design">4. Security design<a class="heading-anchor" href="#4-security-design" aria-label="Link to this section">#</a></h2>
+<ol>
+<li><strong>Tokenise at ingestion:</strong> PAN, Aadhaar/PAN numbers, IBANs and phone numbers are tokenised by a regional token service (HSM-backed) before reaching bronze. Raw values live only in a <strong>restricted zone</strong> with separate accounts and keys.</li>
+<li><strong>Classification tags</strong> are applied automatically (classifiers plus contracts) and inherited through lineage.</li>
+<li><strong>ABAC policies</strong> in the catalog: <code>classification</code>, <code>region</code>, <code>purpose</code> and <code>domain</code> attributes. Column masks for PII; row filters by legal entity.</li>
+<li><strong>Purpose-based access:</strong> requests state a purpose (fraud, risk, marketing) checked against consent and legal basis.</li>
+<li><strong>Just-in-time access</strong> for restricted data, with approval and a time limit; quarterly recertification.</li>
+<li><strong>Audit:</strong> every query logged to the SIEM; anomaly alerts for bulk exports.</li>
+<li><strong>Keys:</strong> customer-managed keys per region and per zone; crypto-shredding for erasure in immutable stores.</li>
+</ol>
+<h2 id="5-governance-and-quality">5. Governance and quality<a class="heading-anchor" href="#5-governance-and-quality" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Data products</strong> per domain (Payments, Lending, Customer, Risk), each with an <strong>ODCS contract</strong>, an owner, SLOs and quality rules.</li>
+<li><strong>Quality gates</strong> between layers. Critical failures block gold publication and alert the owner.</li>
+<li><strong>Column-level lineage</strong> from source to regulatory report (BCBS 239), viewable by auditors.</li>
+<li><strong>Reconciliation</strong> of gold risk data against finance ledgers daily, with breaks tracked to closure.</li>
+</ul>
+<h2 id="6-ai-on-the-platform">6. AI on the platform<a class="heading-anchor" href="#6-ai-on-the-platform" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Feature store</strong> built from gold products, with point-in-time correctness for training.</li>
+<li><strong>RAG</strong>: documents are ingested into the catalog with classification. Embeddings are stored in a vector index <strong>with the source document ACLs</strong>. Retrieval filters by the requesting user&rsquo;s entitlements.</li>
+<li><strong>Model governance</strong>: lineage from datasets to model to decisions. Credit-scoring models are treated as <strong>high-risk AI</strong> under the EU AI Act, with documentation, bias testing and human oversight.</li>
+</ul>
+<h2 id="7-migration-plan">7. Migration plan<a class="heading-anchor" href="#7-migration-plan" aria-label="Link to this section">#</a></h2>
+<ol>
+<li>Stand up the platform and catalog in one region; onboard 3 high-value domains (risk, payments, customer).</li>
+<li>Rebuild the <strong>top 20 regulatory reports</strong> on gold products with lineage; run old and new in parallel and reconcile.</li>
+<li>Decommission the warehouses domain by domain; migrate Hadoop tables to Iceberg (in-place metadata migration where possible).</li>
+<li>Roll out self-serve onboarding (templates, contracts, policies) to the remaining domains.</li>
+</ol>
+<h2 id="8-trade-offs">8. Trade-offs<a class="heading-anchor" href="#8-trade-offs" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Decision</th>
+      <th>Benefit</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Regional data planes</td>
+      <td>Residency compliance</td>
+      <td>Duplicate platform operations; cross-region analytics only on aggregates</td>
+    </tr>
+    <tr>
+      <td>Tokenise at ingestion</td>
+      <td>Most users never see raw PII; smaller audit scope</td>
+      <td>Token service on the critical path; de-tokenisation workflows</td>
+    </tr>
+    <tr>
+      <td>Open formats + one catalog</td>
+      <td>No lock-in, one policy plane</td>
+      <td>Integration effort across engines</td>
+    </tr>
+    <tr>
+      <td>Data products with contracts</td>
+      <td>Accountability, quality upstream</td>
+      <td>Requires domain teams to staff data roles</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>How does the design satisfy RBI data localisation?</strong>
+Indian payment data is ingested and stored in an India-region data plane. Only metadata and aggregated or anonymised results leave the region.</p>
+<p><strong>Where is PII tokenised and why?</strong>
+At ingestion, before bronze, so almost all downstream users and systems work with tokens. That reduces breach impact and audit scope.</p>
+<p><strong>How is BCBS 239 addressed?</strong>
+Governed gold data products with quality gates, column-level lineage from source to report, owners, and daily reconciliation.</p>
+<p><strong>How does RAG respect access rights?</strong>
+Embeddings carry the source documents&rsquo; ACLs and classification, and retrieval filters by the requesting user&rsquo;s entitlements.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Lakehouse on Iceberg with one catalog per region and a global metadata plane.</li>
+<li>Tokenise early, use ABAC and purpose-based access, JIT for restricted data, audit everything.</li>
+<li>Data products with contracts, quality gates and lineage give BCBS 239 evidence.</li>
+<li>The same governance extends to features, embeddings and models.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Basel Committee, <a href="https://www.bis.org/publ/bcbs239.htm" rel="noopener">BCBS 239</a>.</li>
+<li>RBI, <a href="https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=11244" rel="noopener">Storage of Payment System Data (2018)</a>.</li>
+<li>EDM Council, <a href="https://edmcouncil.org/frameworks/cdmc/" rel="noopener">CDMC cloud data management capabilities</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/security/case-study-secure-payments-platform/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">Case study: secure payments platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/self-review/design-review-checklist/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Design review checklist</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/case-study-real-time-payments/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Case study: real-time payments</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/case-study-order-saga/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Case study: order saga</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/data-platforms/data-governance/">
+        <span class="card__eyebrow">3 · Data Platforms</span>
+        <span class="card__title">Data governance</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/data-platforms/data-security-and-privacy/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Data security &amp; privacy</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-requirements">1. Requirements</a></li>
+    <li><a href="#2-target-architecture">2. Target architecture</a></li>
+    <li><a href="#3-regional-data-planes-residency">3. Regional data planes (residency)</a></li>
+    <li><a href="#4-security-design">4. Security design</a></li>
+    <li><a href="#5-governance-and-quality">5. Governance and quality</a></li>
+    <li><a href="#6-ai-on-the-platform">6. AI on the platform</a></li>
+    <li><a href="#7-migration-plan">7. Migration plan</a></li>
+    <li><a href="#8-trade-offs">8. Trade-offs</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

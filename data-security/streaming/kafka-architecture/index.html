@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apache Kafka Architecture · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="How Kafka works inside: topics, partitions and offsets, brokers and replication (leaders, ISR, min.insync.replicas), KRaft controllers, consumer groups and share groups (queues), retention, compaction and tiered storage, and how to size and operate a cluster.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/streaming/kafka-architecture/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Apache Kafka Architecture">
+<meta property="og:description" content="How Kafka works inside: topics, partitions and offsets, brokers and replication (leaders, ISR, min.insync.replicas), KRaft controllers, consumer groups and share groups (queues), retention, compaction and tiered storage, and how to size and operate a cluster.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/streaming/kafka-architecture/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apache Kafka Architecture">
+<meta name="twitter:description" content="How Kafka works inside: topics, partitions and offsets, brokers and replication (leaders, ISR, min.insync.replicas), KRaft controllers, consumer groups and share groups (queues), retention, compaction and tiered storage, and how to size and operate a cluster.">
+<meta name="keywords" content="kafka, streaming, architecture">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"How Kafka works inside: topics, partitions and offsets, brokers and replication (leaders, ISR, min.insync.replicas), KRaft controllers, consumer groups and share groups (queues), retention, compaction and tiered storage, and how to size and operate a cluster.","headline":"Apache Kafka Architecture","inLanguage":"en","isAccessibleForFree":true,"keywords":"kafka, streaming, architecture","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/streaming/kafka-architecture/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/streaming/","name":"1 · Kafka \u0026 Streaming","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/streaming/kafka-architecture/","name":"Kafka architecture","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-streaming">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/" aria-current="page">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a></li>
+    <li><span aria-current="page">Kafka architecture</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Apache Kafka Architecture</h1><p class="article__lede" itemprop="description">How Kafka works inside: topics, partitions and offsets, brokers and replication (leaders, ISR, min.insync.replicas), KRaft controllers, consumer groups and share groups (queues), retention, compaction and tiered storage, and how to size and operate a cluster.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/kafka/">#Kafka</a><a class="tag" href="/data-security/tags/streaming/">#Streaming</a><a class="tag" href="/data-security/tags/architecture/">#Architecture</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-it-solves">The problem it solves</a></li>
+    <li><a href="#core-concepts">Core concepts</a></li>
+    <li><a href="#partitions-keys-and-ordering">Partitions, keys and ordering</a></li>
+    <li><a href="#replication-and-durability">Replication and durability</a></li>
+    <li><a href="#kraft-kafka-without-zookeeper">KRaft: Kafka without ZooKeeper</a></li>
+    <li><a href="#reading-consumer-groups-and-share-groups">Reading: consumer groups and share groups</a></li>
+    <li><a href="#retention-compaction-and-tiered-storage">Retention, compaction and tiered storage</a></li>
+    <li><a href="#kafka-connect-and-the-ecosystem">Kafka Connect and the ecosystem</a></li>
+    <li><a href="#sizing-and-operations">Sizing and operations</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p><strong>Apache Kafka</strong> is a distributed event streaming platform. At its core it is a <strong>replicated, partitioned, append-only log</strong>: producers append records, the cluster stores them durably for a configured time, and any number of consumers read them independently. Each consumer can re-read old records whenever it needs to.</p>
+<h2 id="the-problem-it-solves">The problem it solves<a class="heading-anchor" href="#the-problem-it-solves" aria-label="Link to this section">#</a></h2>
+<p>Point-to-point integration between N systems creates up to N×(N−1) connections, each with its own format, retry logic and failure modes. Traditional message queues delete a message once it is consumed, so a new consumer cannot replay history. Kafka gives every producer and consumer <strong>one durable, ordered, replayable stream</strong> per topic. It scales to millions of events per second.</p>
+<h2 id="core-concepts">Core concepts<a class="heading-anchor" href="#core-concepts" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>What it is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Record (event)</strong></td>
+      <td>Key, value, headers and timestamp. The <strong>key</strong> decides the partition and therefore the ordering.</td>
+    </tr>
+    <tr>
+      <td><strong>Topic</strong></td>
+      <td>A named stream of records, for example <code>payments.authorised.v1</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>Partition</strong></td>
+      <td>An ordered, append-only log. A topic is split into partitions for parallelism. <strong>Ordering is guaranteed only within a partition.</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Offset</strong></td>
+      <td>The position of a record in a partition. Consumers track how far they have read with offsets.</td>
+    </tr>
+    <tr>
+      <td><strong>Broker</strong></td>
+      <td>A server that stores partitions and serves reads and writes.</td>
+    </tr>
+    <tr>
+      <td><strong>Replica / leader / follower</strong></td>
+      <td>Each partition has N replicas on different brokers. One is the <strong>leader</strong>, which handles reads and writes, and the others <strong>follow</strong>.</td>
+    </tr>
+    <tr>
+      <td><strong>ISR</strong></td>
+      <td>The in-sync replicas: followers that are caught up with the leader.</td>
+    </tr>
+    <tr>
+      <td><strong>Controller (KRaft)</strong></td>
+      <td>Manages cluster metadata (topics, partitions, leaders) using a Raft quorum.</td>
+    </tr>
+    <tr>
+      <td><strong>Consumer group</strong></td>
+      <td>Consumers that share the work. Each partition is assigned to exactly one member.</td>
+    </tr>
+    <tr>
+      <td><strong>Share group</strong></td>
+      <td>Queue-style consumption. Many consumers can read from the same partition, and each record is acknowledged on its own.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="archify-embed">
+  <iframe src="/data-security/diagrams/kafka-cluster.html" title="Apache Kafka 4.x cluster architecture" loading="lazy" style="height: 700px"></iframe>
+  <figcaption>
+    <span>Apache Kafka 4.x cluster architecture · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/data-security/diagrams/kafka-cluster.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h2 id="partitions-keys-and-ordering">Partitions, keys and ordering<a class="heading-anchor" href="#partitions-keys-and-ordering" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="The key decides the partition; ordering holds per partition"><figcaption class="diagram__title">The key decides the partition; ordering holds per partition</figcaption>
+  <pre class="mermaid">flowchart LR
+    P[&#34;Producer&#34;] --&gt;|&#34;key = account-42&#34;| H{&#34;hash(key) mod 6&#34;}
+    H --&gt; P0[&#34;partition 0&#34;]
+    H --&gt; P3[&#34;partition 3&lt;br/&gt;all account-42 events, in order&#34;]
+    H --&gt; P5[&#34;partition 5&#34;]</pre>
+</figure>
+<ul>
+<li>Records with the <strong>same key</strong> always go to the same partition, so they stay in order. For example, every event for <code>account-42</code> is processed in sequence.</li>
+<li><strong>Hot keys</strong> create hot partitions. A single huge merchant or tenant can overload one partition, so choose keys with high cardinality and even load.</li>
+<li>The number of partitions caps <strong>consumer parallelism</strong> within a group. You can add partitions later, but that changes the key-to-partition mapping for new records and breaks per-key ordering across the change. Plan for it up front.</li>
+</ul>
+<h2 id="replication-and-durability">Replication and durability<a class="heading-anchor" href="#replication-and-durability" aria-label="Link to this section">#</a></h2>
+<p>Each partition is replicated (<code>replication.factor=3</code> is the production norm) across brokers placed in different <strong>racks or availability zones</strong>.</p>
+<figure class="diagram" aria-label="Write path with acks=all and min.insync.replicas=2"><figcaption class="diagram__title">Write path with acks=all and min.insync.replicas=2</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant Pr as Producer
+    participant L as Leader (broker 1)
+    participant F1 as Follower (broker 2)
+    participant F2 as Follower (broker 3)
+    Pr-&gt;&gt;L: produce(batch), acks=all
+    L-&gt;&gt;L: append to local log
+    F1-&gt;&gt;L: fetch
+    F2-&gt;&gt;L: fetch
+    L--&gt;&gt;Pr: ack once ISR has the batch (ISR size at least 2)</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Meaning</th>
+      <th>Typical production value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>replication.factor</code></td>
+      <td>Copies of each partition</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td><code>min.insync.replicas</code></td>
+      <td>Minimum ISR size for a write with <code>acks=all</code> to succeed</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td><code>acks</code> (producer)</td>
+      <td><code>0</code> none, <code>1</code> leader only, <code>all</code> full ISR</td>
+      <td><code>all</code> (the default since Kafka 3.0)</td>
+    </tr>
+    <tr>
+      <td><code>unclean.leader.election.enable</code></td>
+      <td>Allow an out-of-sync replica to become leader, which can lose data</td>
+      <td><code>false</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>With RF=3 and <code>min.insync.replicas=2</code>, the cluster survives one broker failure <strong>without losing acknowledged writes and without stopping writes</strong>. If two replicas are lost, writes fail rather than risk data loss. That is the right trade-off for financial data.</p>
+<h2 id="kraft-kafka-without-zookeeper">KRaft: Kafka without ZooKeeper<a class="heading-anchor" href="#kraft-kafka-without-zookeeper" aria-label="Link to this section">#</a></h2>
+<p>Older Kafka versions stored metadata in Apache ZooKeeper. <strong>KRaft</strong> (Kafka Raft) moves metadata into Kafka itself: a small quorum of <strong>controller</strong> nodes keeps a replicated metadata log.</p>
+<ul>
+<li><strong>Kafka 4.0 (March 2025) removed ZooKeeper entirely.</strong> Clusters must run in KRaft mode, and you migrate from ZooKeeper while on 3.x.</li>
+<li>It is simpler to operate (one system), fails over faster and supports far more partitions per cluster.</li>
+<li>Run <strong>3 controllers</strong> (or 5 for very large clusters). Use dedicated controller nodes in production; combined broker-and-controller mode is for small or dev clusters.</li>
+<li>Dynamic controller quorums (KIP-853) let you add or remove controllers without downtime.</li>
+</ul>
+<h2 id="reading-consumer-groups-and-share-groups">Reading: consumer groups and share groups<a class="heading-anchor" href="#reading-consumer-groups-and-share-groups" aria-label="Link to this section">#</a></h2>
+<p><strong>Consumer groups</strong> are the classic model. Partitions are split among the group members, each member reads its partitions in order, and the group commits <strong>offsets</strong> to the internal <code>__consumer_offsets</code> topic. That gives ordering and scale. But one slow record blocks its partition, and parallelism is capped at the partition count.</p>
+<ul>
+<li><strong>The next-generation rebalance protocol (KIP-848)</strong>, GA in Kafka 4.0, moves partition assignment to the broker-side group coordinator. Members join and leave incrementally, without stop-the-world rebalances. Enable it with <code>group.protocol=consumer</code>.</li>
+</ul>
+<p><strong>Share groups (Queues for Kafka, KIP-932)</strong> reached GA in <strong>Kafka 4.2 (2026)</strong>. They provide queue semantics on top of topics:</p>
+<ul>
+<li>Many consumers can process records from the <strong>same partition</strong> concurrently, so parallelism is not limited by the partition count.</li>
+<li>Each record is <strong>acquired</strong> with a time-limited lock and individually acknowledged (<code>ACCEPT</code>, <code>RELEASE</code> to retry or <code>REJECT</code>). The broker counts delivery attempts, which enables poison-message handling.</li>
+<li>Kafka 4.2 adds a <code>RENEW</code> acknowledgement to extend a lock for slow processing, plus share-partition lag metrics.</li>
+<li>Use them for <strong>work queues</strong> (jobs, notifications, tasks) where per-key ordering does not matter. Keep consumer groups for <strong>ordered stream processing</strong>.</li>
+</ul>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Consumer group</th>
+      <th>Share group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Unit of assignment</td>
+      <td>Partition</td>
+      <td>Record (acquired batch)</td>
+    </tr>
+    <tr>
+      <td>Ordering</td>
+      <td>Per partition</td>
+      <td>Not guaranteed</td>
+    </tr>
+    <tr>
+      <td>Max parallelism</td>
+      <td>Number of partitions</td>
+      <td>Number of consumers</td>
+    </tr>
+    <tr>
+      <td>Ack model</td>
+      <td>Commit offset (cumulative)</td>
+      <td>Per-record accept / release / reject</td>
+    </tr>
+    <tr>
+      <td>Best for</td>
+      <td>Event streams, CDC, stateful processing</td>
+      <td>Job queues, fan-out work</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="retention-compaction-and-tiered-storage">Retention, compaction and tiered storage<a class="heading-anchor" href="#retention-compaction-and-tiered-storage" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Time or size retention</strong> (<code>retention.ms</code>, <code>retention.bytes</code>) deletes old <strong>segments</strong>, not individual records.</li>
+<li><strong>Log compaction</strong> (<code>cleanup.policy=compact</code>) keeps at least the <strong>latest record per key</strong>. It suits changelog and &ldquo;current state&rdquo; topics such as customer profiles or Kafka Streams state. A record with a null value (a <strong>tombstone</strong>) deletes the key.</li>
+<li><strong>Tiered storage</strong> (KIP-405, production-ready since Kafka 3.9) moves older segments to object storage (S3, GCS, Azure Blob) while keeping recent data on local disk. That makes long retention (months or years) affordable and speeds up broker recovery and rebalancing.</li>
+</ul>
+<h2 id="kafka-connect-and-the-ecosystem">Kafka Connect and the ecosystem<a class="heading-anchor" href="#kafka-connect-and-the-ecosystem" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Kafka Connect</strong> runs source and sink <strong>connectors</strong>: Debezium for CDC from databases, JDBC, S3 and Iceberg sinks, Elasticsearch and more. Integration then becomes configuration rather than code.</li>
+<li><strong>Schema Registry</strong> (Confluent, Apicurio, AWS Glue) stores Avro, Protobuf and JSON Schema versions and enforces compatibility. See <a href="/data-security/streaming/schemas-and-event-contracts/">Schemas and event contracts</a>.</li>
+<li><strong>Stream processing:</strong> Kafka Streams (a library) and Apache Flink (a cluster). See <a href="/data-security/streaming/stream-processing/">Stream processing</a>.</li>
+<li><strong>Diskless and object-storage-native Kafka</strong> is a growing trend. Some services (for example WarpStream, Confluent Freight and AutoMQ) write directly to object storage to cut cross-AZ replication cost, in exchange for higher latency. KIP-1150 proposes &ldquo;diskless topics&rdquo; for Apache Kafka itself.</li>
+</ul>
+<h2 id="sizing-and-operations">Sizing and operations<a class="heading-anchor" href="#sizing-and-operations" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Rule of thumb</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>How many partitions?</td>
+      <td>Max of (target throughput ÷ per-partition producer throughput, target throughput ÷ per-partition consumer throughput). Leave headroom; partitions are cheap in KRaft, but not free.</td>
+    </tr>
+    <tr>
+      <td>How many brokers?</td>
+      <td>Enough for throughput, storage and failure tolerance. Spread across 3 AZs.</td>
+    </tr>
+    <tr>
+      <td>Retention</td>
+      <td>Driven by replay needs and compliance. Use tiered storage for long retention.</td>
+    </tr>
+    <tr>
+      <td>Monitoring</td>
+      <td>Under-replicated partitions, offline partitions, ISR shrinks, request latency, consumer lag, disk usage, controller health.</td>
+    </tr>
+    <tr>
+      <td>Security</td>
+      <td>TLS everywhere, SASL (SCRAM or OAUTHBEARER) or mTLS authentication, ACLs per principal and topic, encryption at rest, audit logs.</td>
+    </tr>
+    <tr>
+      <td>Multi-region</td>
+      <td>MirrorMaker 2, Cluster Linking or stretched clusters. Each trades RPO, latency and complexity differently.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Treating Kafka like a database</span></p>
+  <div class="callout__body"><p>Kafka is a log, not a query engine. Keep current state in a database or a compacted topic plus a materialised view, not by scanning topics.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">acks=1 or unclean leader election for financial data</span></p>
+  <div class="callout__body"><p>Both can lose acknowledged records. Use <code>acks=all</code>, <code>min.insync.replicas=2</code>, RF=3 and no unclean election.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Low-cardinality keys</span></p>
+  <div class="callout__body"><p>Keying by country or status puts most traffic in a few partitions. Key by the entity whose ordering matters, such as account, order or customer.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Too few partitions &ldquo;for now&rdquo;</span></p>
+  <div class="callout__body"><p>Adding partitions later reshuffles keys. Size for 2–3 years of growth.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What does Kafka guarantee about ordering?</strong>
+Order is guaranteed only within a partition. Records with the same key go to the same partition, so they are ordered per key.</p>
+<p><strong>What do RF=3, min.insync.replicas=2 and acks=all give you?</strong>
+Acknowledged writes survive the loss of one broker, and writes keep working with one broker down. With two replicas down, writes fail rather than lose data.</p>
+<p><strong>What changed in Kafka 4.0?</strong>
+ZooKeeper was removed, so KRaft is the only mode. The new consumer rebalance protocol (KIP-848) also became GA.</p>
+<p><strong>When would you use a share group instead of a consumer group?</strong>
+For queue-style work where per-key ordering does not matter and you want more consumers than partitions, with per-record acknowledgement and redelivery.</p>
+<p><strong>What is log compaction for?</strong>
+It keeps the latest record per key, so a topic can represent current state, such as a changelog. Tombstones delete keys.</p>
+<p><strong>Why use tiered storage?</strong>
+It keeps long retention cheap by moving old segments to object storage, and makes broker recovery faster.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kafka is a partitioned, replicated, append-only log. The key determines the partition and the ordering.</li>
+<li>Durability comes from RF=3, <code>min.insync.replicas=2</code>, <code>acks=all</code> and no unclean election.</li>
+<li>Kafka 4.x is KRaft-only and has a broker-side rebalance protocol. Share groups (GA in 4.2) add queues.</li>
+<li>Use compaction for state, tiered storage for long retention, and Connect and Schema Registry for integration.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Apache Kafka, <a href="https://kafka.apache.org/documentation/" rel="noopener">documentation</a> and <a href="https://kafka.apache.org/blog/2026/02/17/apache-kafka-4.2.0-release-announcement/" rel="noopener">4.2.0 release announcement</a>.</li>
+<li><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-932%3A&#43;Queues&#43;for&#43;Kafka" rel="noopener">KIP-932: Queues for Kafka</a>.</li>
+<li><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-848%3A&#43;The&#43;Next&#43;Generation&#43;of&#43;the&#43;Consumer&#43;Rebalance&#43;Protocol" rel="noopener">KIP-848: The Next Generation of the Consumer Rebalance Protocol</a>.</li>
+<li><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-405%3A&#43;Kafka&#43;Tiered&#43;Storage" rel="noopener">KIP-405: Kafka Tiered Storage</a>.</li>
+<li>Confluent, <a href="https://www.confluent.io/blog/apache-kafka-4-2-release/" rel="noopener">What&rsquo;s new in Apache Kafka 4.2</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/kafka-producers-and-consumers/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Producers, consumers &amp; exactly-once</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/event-driven-architecture/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Event-driven architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/stream-processing/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Stream processing</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/data-platforms/data-platform-architecture/">
+        <span class="card__eyebrow">3 · Data Platforms</span>
+        <span class="card__title">Data platform architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/schemas-and-event-contracts/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Schemas &amp; event contracts</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/streaming/kafka-producers-and-consumers/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Producers, consumers &amp; exactly-once</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem-it-solves">The problem it solves</a></li>
+    <li><a href="#core-concepts">Core concepts</a></li>
+    <li><a href="#partitions-keys-and-ordering">Partitions, keys and ordering</a></li>
+    <li><a href="#replication-and-durability">Replication and durability</a></li>
+    <li><a href="#kraft-kafka-without-zookeeper">KRaft: Kafka without ZooKeeper</a></li>
+    <li><a href="#reading-consumer-groups-and-share-groups">Reading: consumer groups and share groups</a></li>
+    <li><a href="#retention-compaction-and-tiered-storage">Retention, compaction and tiered storage</a></li>
+    <li><a href="#kafka-connect-and-the-ecosystem">Kafka Connect and the ecosystem</a></li>
+    <li><a href="#sizing-and-operations">Sizing and operations</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

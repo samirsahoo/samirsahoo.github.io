@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Consistency Models, CAP, PACELC and Consensus · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="What consistency means in distributed systems: the spectrum from linearizability to eventual consistency, session guarantees, CAP and PACELC explained correctly, quorums, Raft consensus, clocks and ordering, isolation levels, and how to choose per use case.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/distributed/consistency-and-consensus/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Consistency Models, CAP, PACELC and Consensus">
+<meta property="og:description" content="What consistency means in distributed systems: the spectrum from linearizability to eventual consistency, session guarantees, CAP and PACELC explained correctly, quorums, Raft consensus, clocks and ordering, isolation levels, and how to choose per use case.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/distributed/consistency-and-consensus/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Consistency Models, CAP, PACELC and Consensus">
+<meta name="twitter:description" content="What consistency means in distributed systems: the spectrum from linearizability to eventual consistency, session guarantees, CAP and PACELC explained correctly, quorums, Raft consensus, clocks and ordering, isolation levels, and how to choose per use case.">
+<meta name="keywords" content="distributed-systems, consistency">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"What consistency means in distributed systems: the spectrum from linearizability to eventual consistency, session guarantees, CAP and PACELC explained correctly, quorums, Raft consensus, clocks and ordering, isolation levels, and how to choose per use case.","headline":"Consistency Models, CAP, PACELC and Consensus","inLanguage":"en","isAccessibleForFree":true,"keywords":"distributed-systems, consistency","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/distributed/consistency-and-consensus/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/distributed/","name":"2 · Consistency \u0026 Sagas","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/distributed/consistency-and-consensus/","name":"Consistency \u0026 consensus","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-distributed">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/" aria-current="page">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a></li>
+    <li><span aria-current="page">Consistency &amp; consensus</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Consistency Models, CAP, PACELC and Consensus</h1><p class="article__lede" itemprop="description">What consistency means in distributed systems: the spectrum from linearizability to eventual consistency, session guarantees, CAP and PACELC explained correctly, quorums, Raft consensus, clocks and ordering, isolation levels, and how to choose per use case.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/distributed-systems/">#Distributed-Systems</a><a class="tag" href="/data-security/tags/consistency/">#Consistency</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#the-consistency-spectrum">The consistency spectrum</a></li>
+    <li><a href="#cap-stated-correctly">CAP, stated correctly</a></li>
+    <li><a href="#pacelc-the-everyday-trade-off">PACELC: the everyday trade-off</a></li>
+    <li><a href="#quorums">Quorums</a></li>
+    <li><a href="#consensus-raft-in-one-picture">Consensus: Raft in one picture</a></li>
+    <li><a href="#time-clocks-and-ordering">Time, clocks and ordering</a></li>
+    <li><a href="#isolation-levels-consistency-inside-a-database">Isolation levels: consistency inside a database</a></li>
+    <li><a href="#conflict-resolution-under-eventual-consistency">Conflict resolution under eventual consistency</a></li>
+    <li><a href="#choosing-a-simple-guide">Choosing: a simple guide</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>consistency model</strong> is a promise about <strong>what a read can return</strong> after writes, when data is copied across machines. Strong models behave like a single copy. Weaker models allow stale or reordered reads in exchange for <strong>latency and availability</strong>.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>Replicas live on different machines and in different regions, and messages between them are delayed or lost. A customer transfers money and immediately sees the <strong>old balance</strong>. Two people book the <strong>same seat</strong>. Two regions accept conflicting updates. The real question is which anomalies your use case can tolerate. &ldquo;Is it consistent?&rdquo; is too vague to answer.</p>
+<h2 id="the-consistency-spectrum">The consistency spectrum<a class="heading-anchor" href="#the-consistency-spectrum" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="From strongest to weakest (simplified)"><figcaption class="diagram__title">From strongest to weakest (simplified)</figcaption>
+  <pre class="mermaid">flowchart LR
+    L[&#34;Linearizable&lt;br/&gt;single-copy, real-time order&#34;] --&gt; S[&#34;Sequential&lt;br/&gt;one global order&#34;] --&gt; C[&#34;Causal&lt;br/&gt;cause before effect&#34;] --&gt; SESS[&#34;Session guarantees&lt;br/&gt;read-your-writes, monotonic&#34;] --&gt; E[&#34;Eventual&lt;br/&gt;replicas converge&#34;]</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Guarantee</th>
+      <th>Example use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Linearizable</strong></td>
+      <td>Every operation appears to happen instantly between its call and return; all clients see the same order</td>
+      <td>Account balance limits, leader election, locks, unique usernames</td>
+    </tr>
+    <tr>
+      <td><strong>Sequential</strong></td>
+      <td>A single total order consistent with each client&rsquo;s program order</td>
+      <td>Some replicated logs</td>
+    </tr>
+    <tr>
+      <td><strong>Causal</strong></td>
+      <td>If A could have caused B, everyone sees A before B</td>
+      <td>Comments and replies, chat, collaborative edits</td>
+    </tr>
+    <tr>
+      <td><strong>Read-your-writes</strong></td>
+      <td>You always see your own updates</td>
+      <td>User profile updates</td>
+    </tr>
+    <tr>
+      <td><strong>Monotonic reads</strong></td>
+      <td>You never see older data after newer data</td>
+      <td>Feeds, dashboards</td>
+    </tr>
+    <tr>
+      <td><strong>Eventual</strong></td>
+      <td>If writes stop, replicas converge</td>
+      <td>Counters, recommendations, caches, read models</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Consistency is per operation, not per system</span></p>
+  <div class="callout__body"><p>A banking app needs <strong>linearizable</strong> checks for &ldquo;is the balance enough?&rdquo;, <strong>read-your-writes</strong> for &ldquo;my profile&rdquo; and <strong>eventual</strong> consistency for &ldquo;spending insights&rdquo;. Pick per use case.</p></div>
+</aside><h2 id="cap-stated-correctly">CAP, stated correctly<a class="heading-anchor" href="#cap-stated-correctly" aria-label="Link to this section">#</a></h2>
+<p><strong>CAP</strong> (Brewer, proven by Gilbert and Lynch): when a <strong>network Partition</strong> happens, a replicated system must choose between <strong>Consistency</strong> (linearizability) and <strong>Availability</strong> (every non-failed node answers).</p>
+<ul>
+<li>It is <strong>not</strong> &ldquo;pick two of three&rdquo;. Partitions are not optional, so the choice is only C or A <strong>during a partition</strong>.</li>
+<li><strong>CP</strong> systems (etcd, ZooKeeper, Spanner, CockroachDB, Kafka with <code>min.insync.replicas</code>) refuse some requests rather than return wrong data.</li>
+<li><strong>AP</strong> systems (Cassandra and DynamoDB in some configurations, DNS, caches) answer with possibly stale data and reconcile later.</li>
+</ul>
+<h2 id="pacelc-the-everyday-trade-off">PACELC: the everyday trade-off<a class="heading-anchor" href="#pacelc-the-everyday-trade-off" aria-label="Link to this section">#</a></h2>
+<p><strong>PACELC</strong> (Abadi): if there is a <strong>P</strong>artition, choose <strong>A</strong> or <strong>C</strong>; <strong>E</strong>lse, in normal operation, choose <strong>L</strong>atency or <strong>C</strong>onsistency.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>System (typical config)</th>
+      <th>P →</th>
+      <th>E →</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Spanner, CockroachDB</td>
+      <td>C</td>
+      <td>C (pays latency for consensus)</td>
+    </tr>
+    <tr>
+      <td>Cassandra, DynamoDB (eventual reads)</td>
+      <td>A</td>
+      <td>L</td>
+    </tr>
+    <tr>
+      <td>MongoDB (majority writes and reads)</td>
+      <td>C</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <td>PostgreSQL + async replicas</td>
+      <td>C on the primary</td>
+      <td>L for replica reads (stale)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>The &ldquo;else&rdquo; part matters more day to day: <strong>strong consistency across regions costs round-trips</strong>.</p>
+<h2 id="quorums">Quorums<a class="heading-anchor" href="#quorums" aria-label="Link to this section">#</a></h2>
+<p>With N replicas, write to W and read from R. If <strong>R + W &gt; N</strong>, every read overlaps the latest write.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>N</th>
+      <th>W</th>
+      <th>R</th>
+      <th>Effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>Strong-ish reads; tolerates 1 failure</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>3</td>
+      <td>1</td>
+      <td>Fast reads, fragile writes</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Fast and available, eventually consistent</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Quorums alone are not full linearizability (concurrent writes, sloppy quorums, clock-based conflict resolution). Consensus protocols close those gaps.</p>
+<h2 id="consensus-raft-in-one-picture">Consensus: Raft in one picture<a class="heading-anchor" href="#consensus-raft-in-one-picture" aria-label="Link to this section">#</a></h2>
+<p><strong>Consensus</strong> lets a group of nodes agree on an ordered log despite failures. <strong>Raft</strong> is the most widely used protocol (etcd, Kafka KRaft, CockroachDB, TiKV, Consul).</p>
+<figure class="diagram" aria-label="Raft: leader replicates a log entry to a majority"><figcaption class="diagram__title">Raft: leader replicates a log entry to a majority</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant C as Client
+    participant L as Leader (term 5)
+    participant F1 as Follower 1
+    participant F2 as Follower 2
+    C-&gt;&gt;L: write x=1
+    L-&gt;&gt;F1: AppendEntries(index 42, x=1)
+    L-&gt;&gt;F2: AppendEntries(index 42, x=1)
+    F1--&gt;&gt;L: ok
+    L-&gt;&gt;L: majority (2 of 3) has it, so commit index 42
+    L--&gt;&gt;C: success
+    L-&gt;&gt;F2: (F2 catches up later)</pre>
+</figure>
+<ul>
+<li><strong>Leader election</strong> uses randomised timeouts and terms. A node needs votes from a majority.</li>
+<li><strong>A majority (quorum)</strong> must store an entry before it is committed. Use <strong>3 or 5</strong> nodes, which tolerate 1 or 2 failures.</li>
+<li>A minority partition cannot commit, which is the CP behaviour.</li>
+</ul>
+<h2 id="time-clocks-and-ordering">Time, clocks and ordering<a class="heading-anchor" href="#time-clocks-and-ordering" aria-label="Link to this section">#</a></h2>
+<p>Wall clocks drift, so &ldquo;last write wins&rdquo; by timestamp can silently lose updates.</p>
+<ul>
+<li><strong>Logical clocks</strong> (Lamport) order events; <strong>vector clocks</strong> detect concurrency.</li>
+<li><strong>Hybrid logical clocks (HLC)</strong> combine physical time with logical counters (used by CockroachDB and YugabyteDB).</li>
+<li><strong>TrueTime</strong> (Spanner) exposes bounded clock uncertainty and waits it out to give external consistency.</li>
+<li>In event-driven systems, prefer <strong>per-entity version numbers</strong> and <strong>partition ordering</strong> over timestamps.</li>
+</ul>
+<h2 id="isolation-levels-consistency-inside-a-database">Isolation levels: consistency inside a database<a class="heading-anchor" href="#isolation-levels-consistency-inside-a-database" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Prevents</th>
+      <th>Still allows</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Read committed</td>
+      <td>Dirty reads</td>
+      <td>Non-repeatable reads, lost updates, write skew</td>
+    </tr>
+    <tr>
+      <td>Repeatable read / snapshot isolation</td>
+      <td>The above plus non-repeatable reads</td>
+      <td><strong>Write skew</strong> (two doctors both go off call)</td>
+    </tr>
+    <tr>
+      <td>Serializable (SSI or 2PL)</td>
+      <td>All of the above</td>
+      <td>Nothing, at a performance cost</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>For money movement, use <strong>serializable</strong>, or explicit locking or constraints (<code>SELECT ... FOR UPDATE</code>, unique keys, check constraints) on the rows that protect invariants.</p>
+<h2 id="conflict-resolution-under-eventual-consistency">Conflict resolution under eventual consistency<a class="heading-anchor" href="#conflict-resolution-under-eventual-consistency" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Last-writer-wins</strong> is simple but lossy.</li>
+<li><strong>CRDTs</strong> (conflict-free replicated data types: counters, sets, maps) merge automatically and deterministically. They suit collaborative and offline-first apps.</li>
+<li><strong>Application merge</strong>: keep both versions and resolve them with business rules or a human.</li>
+</ul>
+<h2 id="choosing-a-simple-guide">Choosing: a simple guide<a class="heading-anchor" href="#choosing-a-simple-guide" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>If you need…</th>
+      <th>Choose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>An invariant that must never be violated (balance ≥ 0, unique IBAN)</td>
+      <td>Linearizable or serializable inside <strong>one</strong> consensus or ACID boundary</td>
+    </tr>
+    <tr>
+      <td>A user to see their own change immediately</td>
+      <td>Read-your-writes (route to the leader, or use session tokens)</td>
+    </tr>
+    <tr>
+      <td>Global low-latency reads of slowly changing data</td>
+      <td>Eventual consistency with caches and replicas</td>
+    </tr>
+    <tr>
+      <td>Multi-region writes to the same entity</td>
+      <td>Consensus-based distributed SQL, or <strong>single home region per entity</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">&ldquo;CA systems&rdquo;</span></p>
+  <div class="callout__body"><p>There is no partition-free network. A system without partition tolerance is a single node.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Reading from async replicas for decisions</span></p>
+  <div class="callout__body"><p>Checking a limit against a stale replica allows overspending. Make decisions on the leader or primary.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Last-write-wins with wall clocks</span></p>
+  <div class="callout__body"><p>Clock skew silently discards updates. Use versions, HLCs or merge logic.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What does CAP actually say?</strong>
+During a network partition, a replicated system must choose between linearizable consistency and availability.</p>
+<p><strong>What does PACELC add?</strong>
+Even without a partition, there is a trade-off between latency and consistency.</p>
+<p><strong>N=3, W=2, R=2: why does a read see the latest write?</strong>
+R + W &gt; N, so every read quorum overlaps every write quorum.</p>
+<p><strong>Why do Raft clusters have 3 or 5 nodes?</strong>
+A majority must agree. Odd sizes maximise tolerated failures (1 of 3, 2 of 5) without adding quorum cost.</p>
+<p><strong>What anomaly does snapshot isolation allow?</strong>
+Write skew: two transactions read overlapping data and write different rows, together violating an invariant.</p>
+<p><strong>When is eventual consistency fine?</strong>
+For read models, caches, analytics and notifications, where brief staleness does not break an invariant.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Consistency is a spectrum. Choose per operation.</li>
+<li>CAP is about partitions; PACELC adds the everyday latency trade-off.</li>
+<li>Quorums and consensus (Raft) provide agreement; clocks need care.</li>
+<li>Protect invariants inside one strongly consistent boundary; use eventual consistency elsewhere.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Martin Kleppmann, <em>Designing Data-Intensive Applications</em> (2nd edition, O&rsquo;Reilly).</li>
+<li>Daniel Abadi, <a href="https://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf" rel="noopener">Consistency Tradeoffs in Modern Distributed Database System Design (PACELC)</a>.</li>
+<li>Diego Ongaro and John Ousterhout, <a href="https://raft.github.io/raft.pdf" rel="noopener">In Search of an Understandable Consensus Algorithm (Raft)</a>.</li>
+<li><a href="https://jepsen.io/consistency" rel="noopener">Jepsen consistency models</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/distributed-transactions/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Distributed transactions</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/cqrs-and-event-sourcing/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">CQRS &amp; event sourcing</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/saga-pattern/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Saga pattern</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/outbox-cdc-idempotency/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Outbox, CDC &amp; idempotency</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/distributed/distributed-transactions/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Distributed transactions</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#the-consistency-spectrum">The consistency spectrum</a></li>
+    <li><a href="#cap-stated-correctly">CAP, stated correctly</a></li>
+    <li><a href="#pacelc-the-everyday-trade-off">PACELC: the everyday trade-off</a></li>
+    <li><a href="#quorums">Quorums</a></li>
+    <li><a href="#consensus-raft-in-one-picture">Consensus: Raft in one picture</a></li>
+    <li><a href="#time-clocks-and-ordering">Time, clocks and ordering</a></li>
+    <li><a href="#isolation-levels-consistency-inside-a-database">Isolation levels: consistency inside a database</a></li>
+    <li><a href="#conflict-resolution-under-eventual-consistency">Conflict resolution under eventual consistency</a></li>
+    <li><a href="#choosing-a-simple-guide">Choosing: a simple guide</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

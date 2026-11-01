@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Design: Order Processing Across Microservices · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="A complete design for e-commerce or banking-product order processing across microservices: service boundaries, the orchestrated saga with Temporal, outbox and CDC, idempotency, CQRS read models for order tracking, failure scenarios, consistency guarantees, observability and trade-offs.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/distributed/case-study-order-saga/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="System Design: Order Processing Across Microservices">
+<meta property="og:description" content="A complete design for e-commerce or banking-product order processing across microservices: service boundaries, the orchestrated saga with Temporal, outbox and CDC, idempotency, CQRS read models for order tracking, failure scenarios, consistency guarantees, observability and trade-offs.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/distributed/case-study-order-saga/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="System Design: Order Processing Across Microservices">
+<meta name="twitter:description" content="A complete design for e-commerce or banking-product order processing across microservices: service boundaries, the orchestrated saga with Temporal, outbox and CDC, idempotency, CQRS read models for order tracking, failure scenarios, consistency guarantees, observability and trade-offs.">
+<meta name="keywords" content="case-study, system-design, saga, cqrs">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"A complete design for e-commerce or banking-product order processing across microservices: service boundaries, the orchestrated saga with Temporal, outbox and CDC, idempotency, CQRS read models for order tracking, failure scenarios, consistency guarantees, observability and trade-offs.","headline":"System Design: Order Processing Across Microservices","inLanguage":"en","isAccessibleForFree":true,"keywords":"case-study, system-design, saga, cqrs","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/distributed/case-study-order-saga/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/distributed/","name":"2 · Consistency \u0026 Sagas","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/distributed/case-study-order-saga/","name":"Case study: order saga","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-distributed">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/" aria-current="page">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a></li>
+    <li><span aria-current="page">Case study: order saga</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">System Design: Order Processing Across Microservices</h1><p class="article__lede" itemprop="description">A complete design for e-commerce or banking-product order processing across microservices: service boundaries, the orchestrated saga with Temporal, outbox and CDC, idempotency, CQRS read models for order tracking, failure scenarios, consistency guarantees, observability and trade-offs.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/case-study/">#Case-Study</a><a class="tag" href="/data-security/tags/system-design/">#System-Design</a><a class="tag" href="/data-security/tags/saga/">#Saga</a><a class="tag" href="/data-security/tags/cqrs/">#Cqrs</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/distributed/saga-pattern/">Saga pattern</a>, <a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-bounded-contexts-and-data-ownership">1. Bounded contexts and data ownership</a></li>
+    <li><a href="#2-the-orchestrated-saga">2. The orchestrated saga</a></li>
+    <li><a href="#3-messaging-and-reliability">3. Messaging and reliability</a></li>
+    <li><a href="#4-cqrs-for-order-tracking">4. CQRS for order tracking</a></li>
+    <li><a href="#5-failure-scenarios">5. Failure scenarios</a></li>
+    <li><a href="#6-consistency-guarantees-state-them-explicitly">6. Consistency guarantees (state them explicitly)</a></li>
+    <li><a href="#7-scale">7. Scale</a></li>
+    <li><a href="#8-observability">8. Observability</a></li>
+    <li><a href="#9-trade-offs">9. Trade-offs</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="the-design-brief">The design brief<a class="heading-anchor" href="#the-design-brief" aria-label="Link to this section">#</a></h2>
+<blockquote><p><em>&ldquo;Customers buy products online. An order must reserve stock, take payment and book delivery. Customers track their order in real time. Peak is 2,000 orders per second during sales. We must never charge for an order we cannot fulfil, and never ship an unpaid order.&rdquo;</em></p>
+</blockquote><h2 id="1-bounded-contexts-and-data-ownership">1. Bounded contexts and data ownership<a class="heading-anchor" href="#1-bounded-contexts-and-data-ownership" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>Owns</th>
+      <th>Database</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Order</td>
+      <td>Order lifecycle</td>
+      <td>PostgreSQL</td>
+    </tr>
+    <tr>
+      <td>Payment</td>
+      <td>Authorisations, captures, refunds</td>
+      <td>PostgreSQL (PCI-scoped)</td>
+    </tr>
+    <tr>
+      <td>Inventory</td>
+      <td>Stock levels, reservations</td>
+      <td>PostgreSQL with row locks per SKU</td>
+    </tr>
+    <tr>
+      <td>Shipping</td>
+      <td>Shipments, carrier bookings</td>
+      <td>PostgreSQL</td>
+    </tr>
+    <tr>
+      <td>Order tracking (read)</td>
+      <td>Denormalised order view</td>
+      <td>OpenSearch + Redis</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Each service owns its data, and no service reads another&rsquo;s database.</p>
+<h2 id="2-the-orchestrated-saga">2. The orchestrated saga<a class="heading-anchor" href="#2-the-orchestrated-saga" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Order Saga</strong> runs on <strong>Temporal</strong>. Steps are ordered so that compensatable steps come first, then the pivot, then retriable steps:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Step</th>
+      <th>Type</th>
+      <th>Compensation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Create order <code>PENDING</code></td>
+      <td>Compensatable</td>
+      <td>Mark <code>REJECTED</code></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Authorise payment (hold)</td>
+      <td>Compensatable</td>
+      <td>Void the authorisation</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Reserve stock (with 15-min expiry)</td>
+      <td>Compensatable</td>
+      <td>Release the reservation</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><strong>Capture payment</strong></td>
+      <td><strong>Pivot</strong></td>
+      <td>(refund only by a separate business process)</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Book shipment</td>
+      <td>Retriable</td>
+      <td>none; retry, with ops escalation</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Confirm order, notify</td>
+      <td>Retriable</td>
+      <td>none</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>See the <a href="/data-security/distributed/saga-pattern/#orchestration">saga sequence and state machine</a>.</p>
+<h2 id="3-messaging-and-reliability">3. Messaging and reliability<a class="heading-anchor" href="#3-messaging-and-reliability" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>The Temporal worker calls each service&rsquo;s API with an <strong>idempotency key</strong> of <code>sagaId + step</code>.</li>
+<li>Services publish domain events (<code>OrderConfirmed</code>, <code>StockReserved</code>) through <strong>outbox + Debezium</strong> to Kafka for read models, analytics and notifications.</li>
+<li>Consumers are idempotent (inbox table) and keyed by <code>orderId</code>.</li>
+<li>Stock reservations <strong>expire</strong> automatically, so a stuck saga cannot hold stock forever.</li>
+</ul>
+<h2 id="4-cqrs-for-order-tracking">4. CQRS for order tracking<a class="heading-anchor" href="#4-cqrs-for-order-tracking" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Order tracking read model"><figcaption class="diagram__title">Order tracking read model</figcaption>
+  <pre class="mermaid">flowchart LR
+    OE[&#34;Order events&#34;] --&gt; PR[&#34;Tracking projector&#34;]
+    PE[&#34;Payment events&#34;] --&gt; PR
+    SE[&#34;Shipping events&#34;] --&gt; PR
+    PR --&gt; OS[&#34;OpenSearch: search orders&#34;]
+    PR --&gt; RD[&#34;Redis: order status by ID&#34;]
+    UI[&#34;Customer app&#34;] --&gt; API[&#34;Tracking API&#34;] --&gt; RD</pre>
+</figure>
+<ul>
+<li>The customer sees status within about 1 second of each step. The API returns the <strong>version</strong> so the UI can wait for read-your-writes after placing an order.</li>
+<li>The projector is rebuildable from Kafka history (30-day retention plus the lakehouse for older events).</li>
+</ul>
+<h2 id="5-failure-scenarios">5. Failure scenarios<a class="heading-anchor" href="#5-failure-scenarios" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Behaviour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Inventory says &ldquo;out of stock&rdquo;</td>
+      <td>Compensate: void the authorisation, reject the order, notify &ldquo;sorry, no charge&rdquo;</td>
+    </tr>
+    <tr>
+      <td>Payment service times out on authorise</td>
+      <td>Temporal retries with the same idempotency key. After N tries, query the status; if unknown, compensate safely (void is idempotent and handles &ldquo;no auth found&rdquo;).</td>
+    </tr>
+    <tr>
+      <td>Orchestrator worker crashes mid-saga</td>
+      <td>Temporal replays the workflow history and resumes at the next step</td>
+    </tr>
+    <tr>
+      <td>Capture succeeds, shipping fails</td>
+      <td>Past the pivot: retry with backoff; after the SLA, escalate to ops (manual booking)</td>
+    </tr>
+    <tr>
+      <td>Duplicate <code>PlaceOrder</code> click</td>
+      <td>API idempotency key returns the original order</td>
+    </tr>
+    <tr>
+      <td>Kafka consumer replays events</td>
+      <td>Inbox de-duplication; versioned updates ignore stale events</td>
+    </tr>
+    <tr>
+      <td>Stock reservation expires before capture</td>
+      <td>Capture step re-validates the reservation; if lost, compensate the earlier steps</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="6-consistency-guarantees-state-them-explicitly">6. Consistency guarantees (state them explicitly)<a class="heading-anchor" href="#6-consistency-guarantees-state-them-explicitly" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Strong</strong> within each service (ACID); stock per SKU uses row locks or conditional updates (<code>available &gt;= qty</code>).</li>
+<li><strong>Eventual</strong> across services. The saga guarantees the business invariants: <strong>no capture without a reservation</strong>, and <strong>no shipment without a capture</strong>.</li>
+<li><strong>Eventual</strong> for tracking views (about 1 s).</li>
+<li><strong>Daily reconciliation</strong>: payments against orders against shipments. Breaks are investigated.</li>
+</ul>
+<h2 id="7-scale">7. Scale<a class="heading-anchor" href="#7-scale" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>2,000 orders/s × about 6 steps gives about 12,000 activity executions per second. Use a Temporal cluster (or Temporal Cloud) sized with sufficient history shards, and partition task queues by service.</li>
+<li>Hot SKUs (flash sales): pre-split stock into buckets or use a reservation token pool to avoid single-row lock contention.</li>
+</ul>
+<h2 id="8-observability">8. Observability<a class="heading-anchor" href="#8-observability" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Saga ID = correlation ID across Temporal, HTTP headers and Kafka headers, with OpenTelemetry traces.</li>
+<li>Dashboards: sagas by state, compensation rate, step latency, stuck sagas older than their SLA, DLT counts.</li>
+<li>Alerts: compensation failures (manual review queue), reconciliation breaks.</li>
+</ul>
+<h2 id="9-trade-offs">9. Trade-offs<a class="heading-anchor" href="#9-trade-offs" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Choice</th>
+      <th>Why</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Orchestration (Temporal)</td>
+      <td>Visible, testable, durable flow</td>
+      <td>Platform to run, or a managed service</td>
+    </tr>
+    <tr>
+      <td>Authorise then capture</td>
+      <td>Avoids refunds for most failures</td>
+      <td>Authorisations expire; capture must happen within days</td>
+    </tr>
+    <tr>
+      <td>Reservation expiry</td>
+      <td>Self-healing</td>
+      <td>Edge cases when the saga is slower than the expiry</td>
+    </tr>
+    <tr>
+      <td>CQRS tracking</td>
+      <td>Fast, scalable reads</td>
+      <td>Eventual consistency, projector to operate</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>Why authorise before reserving stock, and capture only after?</strong>
+Authorisation is compensatable (void), while capture is the pivot. Charging only after stock is secured avoids refunds.</p>
+<p><strong>What prevents stock being held forever by a stuck saga?</strong>
+Reservations carry an expiry. Separately, the saga has timeouts that trigger compensation.</p>
+<p><strong>How does the customer see their order immediately after placing it?</strong>
+The API returns a version, and the UI waits for the read model to reach it (read-your-writes), or shows an optimistic status.</p>
+<p><strong>What invariant does the saga guarantee across services?</strong>
+No capture without a stock reservation, and no shipment without a capture.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Clear data ownership, an orchestrated saga with ordered steps, and expiring reservations.</li>
+<li>Outbox, idempotency and inbox make messaging reliable; CQRS gives real-time tracking.</li>
+<li>State the consistency guarantees explicitly, and back them with reconciliation.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Chris Richardson, <em>Microservices Patterns</em> (Manning), chapters on sagas and CQRS.</li>
+<li>Temporal, <a href="https://docs.temporal.io/encyclopedia/application-design-patterns#saga" rel="noopener">Saga pattern and samples</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/case-study-real-time-payments/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Case study: real-time payments</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/self-review/design-review-checklist/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Design review checklist</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/data-platforms/case-study-regulated-data-platform/">
+        <span class="card__eyebrow">3 · Data Platforms</span>
+        <span class="card__title">Case study: regulated data platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/security/case-study-secure-payments-platform/">
+        <span class="card__eyebrow">4 · Security &amp; Regulation</span>
+        <span class="card__title">Case study: secure payments platform</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/cqrs-and-event-sourcing/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">CQRS &amp; event sourcing</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/distributed/cqrs-and-event-sourcing/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">CQRS &amp; event sourcing</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-design-brief">The design brief</a></li>
+    <li><a href="#1-bounded-contexts-and-data-ownership">1. Bounded contexts and data ownership</a></li>
+    <li><a href="#2-the-orchestrated-saga">2. The orchestrated saga</a></li>
+    <li><a href="#3-messaging-and-reliability">3. Messaging and reliability</a></li>
+    <li><a href="#4-cqrs-for-order-tracking">4. CQRS for order tracking</a></li>
+    <li><a href="#5-failure-scenarios">5. Failure scenarios</a></li>
+    <li><a href="#6-consistency-guarantees-state-them-explicitly">6. Consistency guarantees (state them explicitly)</a></li>
+    <li><a href="#7-scale">7. Scale</a></li>
+    <li><a href="#8-observability">8. Observability</a></li>
+    <li><a href="#9-trade-offs">9. Trade-offs</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

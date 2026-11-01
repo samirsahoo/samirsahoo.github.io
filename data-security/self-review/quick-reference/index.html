@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data, Distributed Systems &amp; Security Quick Reference · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="One page of settings, numbers, comparisons and decision guides: Kafka production defaults, delivery semantics, pattern selection, consistency, table formats, data protection techniques, STRIDE, OWASP lists and regulatory clocks.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/self-review/quick-reference/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Data, Distributed Systems &amp; Security Quick Reference">
+<meta property="og:description" content="One page of settings, numbers, comparisons and decision guides: Kafka production defaults, delivery semantics, pattern selection, consistency, table formats, data protection techniques, STRIDE, OWASP lists and regulatory clocks.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/self-review/quick-reference/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Data, Distributed Systems &amp; Security Quick Reference">
+<meta name="twitter:description" content="One page of settings, numbers, comparisons and decision guides: Kafka production defaults, delivery semantics, pattern selection, consistency, table formats, data protection techniques, STRIDE, OWASP lists and regulatory clocks.">
+<meta name="keywords" content="self-review, reference">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"One page of settings, numbers, comparisons and decision guides: Kafka production defaults, delivery semantics, pattern selection, consistency, table formats, data protection techniques, STRIDE, OWASP lists and regulatory clocks.","headline":"Data, Distributed Systems \u0026 Security Quick Reference","inLanguage":"en","isAccessibleForFree":true,"keywords":"self-review, reference","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/self-review/quick-reference/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/self-review/","name":"Self Review","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/self-review/quick-reference/","name":"Quick reference","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-self-review">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/" aria-current="page">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/self-review/">Self Review</a></li>
+    <li><span aria-current="page">Quick reference</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Data, Distributed Systems &amp; Security Quick Reference</h1><p class="article__lede" itemprop="description">One page of settings, numbers, comparisons and decision guides: Kafka production defaults, delivery semantics, pattern selection, consistency, table formats, data protection techniques, STRIDE, OWASP lists and regulatory clocks.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>4 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/self-review/">#Self-Review</a><a class="tag" href="/data-security/tags/reference/">#Reference</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#kafka-production-defaults">Kafka production defaults</a></li>
+    <li><a href="#delivery-semantics">Delivery semantics</a></li>
+    <li><a href="#which-pattern">Which pattern?</a></li>
+    <li><a href="#consistency-cheat-sheet">Consistency cheat sheet</a></li>
+    <li><a href="#table-formats-and-catalogs">Table formats and catalogs</a></li>
+    <li><a href="#data-protection-techniques">Data protection techniques</a></li>
+    <li><a href="#stride--controls">STRIDE → controls</a></li>
+    <li><a href="#owasp-lists">OWASP lists</a></li>
+    <li><a href="#regulatory-clocks-and-dates">Regulatory clocks and dates</a></li>
+    <li><a href="#decision-guide-sync-or-async">Decision guide: sync or async?</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="kafka-production-defaults">Kafka production defaults<a class="heading-anchor" href="#kafka-production-defaults" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>replication.factor</code></td>
+      <td>3 (across 3 AZs, rack-aware)</td>
+    </tr>
+    <tr>
+      <td><code>min.insync.replicas</code></td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td><code>acks</code></td>
+      <td><code>all</code></td>
+    </tr>
+    <tr>
+      <td><code>enable.idempotence</code></td>
+      <td><code>true</code></td>
+    </tr>
+    <tr>
+      <td><code>unclean.leader.election.enable</code></td>
+      <td><code>false</code></td>
+    </tr>
+    <tr>
+      <td><code>compression.type</code></td>
+      <td><code>zstd</code> or <code>lz4</code></td>
+    </tr>
+    <tr>
+      <td><code>linger.ms</code> / <code>batch.size</code></td>
+      <td>5–20 ms / 64–256 KB</td>
+    </tr>
+    <tr>
+      <td><code>enable.auto.commit</code> (business consumers)</td>
+      <td><code>false</code>; commit after processing</td>
+    </tr>
+    <tr>
+      <td><code>group.protocol</code></td>
+      <td><code>consumer</code> (KIP-848)</td>
+    </tr>
+    <tr>
+      <td><code>isolation.level</code> (downstream of transactions)</td>
+      <td><code>read_committed</code></td>
+    </tr>
+    <tr>
+      <td>Controllers</td>
+      <td>3 dedicated KRaft controllers</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="delivery-semantics">Delivery semantics<a class="heading-anchor" href="#delivery-semantics" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Need</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Loss acceptable</td>
+      <td>At-most-once</td>
+    </tr>
+    <tr>
+      <td>Business events</td>
+      <td><strong>At-least-once + idempotent consumer</strong></td>
+    </tr>
+    <tr>
+      <td>Kafka → process → Kafka</td>
+      <td>Exactly-once (transactions / <code>exactly_once_v2</code>)</td>
+    </tr>
+    <tr>
+      <td>DB state + event</td>
+      <td>Transactional outbox + CDC</td>
+    </tr>
+    <tr>
+      <td>API retries</td>
+      <td>Idempotency-Key</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="which-pattern">Which pattern?<a class="heading-anchor" href="#which-pattern" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Problem</th>
+      <th>Pattern</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>State change must emit an event reliably</td>
+      <td>Outbox + CDC</td>
+    </tr>
+    <tr>
+      <td>Duplicates</td>
+      <td>Idempotent consumer / inbox</td>
+    </tr>
+    <tr>
+      <td>Multi-service business transaction</td>
+      <td>Saga (orchestrated for long flows)</td>
+    </tr>
+    <tr>
+      <td>Reserve then commit</td>
+      <td>TCC / authorise–capture</td>
+    </tr>
+    <tr>
+      <td>Different read and write shapes</td>
+      <td>CQRS</td>
+    </tr>
+    <tr>
+      <td>Full history and audit</td>
+      <td>Event sourcing</td>
+    </tr>
+    <tr>
+      <td>Queue of independent jobs</td>
+      <td>Kafka share group</td>
+    </tr>
+    <tr>
+      <td>Ordered stream per entity</td>
+      <td>Consumer group, keyed by entity</td>
+    </tr>
+    <tr>
+      <td>Real-time aggregates and alerts</td>
+      <td>Flink / Kafka Streams with event time</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="consistency-cheat-sheet">Consistency cheat sheet<a class="heading-anchor" href="#consistency-cheat-sheet" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>One-liner</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Linearizable</td>
+      <td>Behaves like one copy, in real-time order</td>
+    </tr>
+    <tr>
+      <td>Causal</td>
+      <td>Causes are seen before effects</td>
+    </tr>
+    <tr>
+      <td>Read-your-writes</td>
+      <td>You see your own updates</td>
+    </tr>
+    <tr>
+      <td>Eventual</td>
+      <td>Replicas converge when writes stop</td>
+    </tr>
+    <tr>
+      <td>CAP</td>
+      <td>Under a partition: C or A</td>
+    </tr>
+    <tr>
+      <td>PACELC</td>
+      <td>Else: latency or consistency</td>
+    </tr>
+    <tr>
+      <td>Quorum</td>
+      <td>R + W &gt; N</td>
+    </tr>
+    <tr>
+      <td>Raft</td>
+      <td>Majority commit; 3 or 5 nodes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="table-formats-and-catalogs">Table formats and catalogs<a class="heading-anchor" href="#table-formats-and-catalogs" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Iceberg</th>
+      <th>Delta</th>
+      <th>Hudi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Strength</td>
+      <td>Engine-neutral, REST catalog</td>
+      <td>Spark/Databricks</td>
+      <td>Upserts, incremental</td>
+    </tr>
+    <tr>
+      <td>Catalogs</td>
+      <td>Polaris, Unity, Glue/S3 Tables, Nessie</td>
+      <td>Unity</td>
+      <td>Hive/Glue</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Iceberg v3: deletion vectors · row lineage · VARIANT · geo types · ns timestamps · defaults.</p>
+<h2 id="data-protection-techniques">Data protection techniques<a class="heading-anchor" href="#data-protection-techniques" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>Reversible</th>
+      <th>Typical use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Encryption (AES-GCM)</td>
+      <td>Yes (key)</td>
+      <td>At rest, in transit, fields</td>
+    </tr>
+    <tr>
+      <td>Tokenisation</td>
+      <td>Via vault only</td>
+      <td>PAN, IDs, PCI scope reduction</td>
+    </tr>
+    <tr>
+      <td>FPE</td>
+      <td>Yes</td>
+      <td>Legacy format constraints</td>
+    </tr>
+    <tr>
+      <td>Static masking</td>
+      <td>No</td>
+      <td>Test data</td>
+    </tr>
+    <tr>
+      <td>Dynamic masking</td>
+      <td>View only</td>
+      <td>Analysts</td>
+    </tr>
+    <tr>
+      <td>Keyed hashing</td>
+      <td>No</td>
+      <td>Joins without revealing values</td>
+    </tr>
+    <tr>
+      <td>Crypto-shredding</td>
+      <td>Deletes access</td>
+      <td>Erasure from immutable stores</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="stride--controls">STRIDE → controls<a class="heading-anchor" href="#stride--controls" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Threat</th>
+      <th>Control</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Spoofing</td>
+      <td>MFA / passkeys, mTLS, workload identity</td>
+    </tr>
+    <tr>
+      <td>Tampering</td>
+      <td>TLS, signatures, MACs, validation, immutable logs</td>
+    </tr>
+    <tr>
+      <td>Repudiation</td>
+      <td>Signed audit logs, SCA evidence</td>
+    </tr>
+    <tr>
+      <td>Information disclosure</td>
+      <td>Authorisation per object, encryption, masking</td>
+    </tr>
+    <tr>
+      <td>Denial of service</td>
+      <td>Rate limits, quotas, autoscaling, WAF</td>
+    </tr>
+    <tr>
+      <td>Elevation of privilege</td>
+      <td>Least privilege, ABAC, sandboxing</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="owasp-lists">OWASP lists<a class="heading-anchor" href="#owasp-lists" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>OWASP Top 10:2025</th>
+      <th>LLM Top 10 2025</th>
+      <th>Agentic Top 10 2026</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A01 Broken Access Control</td>
+      <td>LLM01 Prompt Injection</td>
+      <td>ASI01 Agent Goal Hijack</td>
+    </tr>
+    <tr>
+      <td>A02 Security Misconfiguration</td>
+      <td>LLM02 Sensitive Info Disclosure</td>
+      <td>ASI02 Tool Misuse</td>
+    </tr>
+    <tr>
+      <td>A03 Software Supply Chain Failures</td>
+      <td>LLM03 Supply Chain</td>
+      <td>ASI03 Identity &amp; Privilege Abuse</td>
+    </tr>
+    <tr>
+      <td>A04 Cryptographic Failures</td>
+      <td>LLM04 Data &amp; Model Poisoning</td>
+      <td>ASI04 Agentic Supply Chain</td>
+    </tr>
+    <tr>
+      <td>A05 Injection</td>
+      <td>LLM05 Improper Output Handling</td>
+      <td>ASI05 Unexpected Code Execution</td>
+    </tr>
+    <tr>
+      <td>A06 Insecure Design</td>
+      <td>LLM06 Excessive Agency</td>
+      <td>ASI06 Memory &amp; Context Poisoning</td>
+    </tr>
+    <tr>
+      <td>A07 Authentication Failures</td>
+      <td>LLM07 System Prompt Leakage</td>
+      <td>ASI07 Insecure Inter-Agent Comms</td>
+    </tr>
+    <tr>
+      <td>A08 Software/Data Integrity Failures</td>
+      <td>LLM08 Vector &amp; Embedding Weaknesses</td>
+      <td>ASI08 Cascading Failures</td>
+    </tr>
+    <tr>
+      <td>A09 Logging &amp; Alerting Failures</td>
+      <td>LLM09 Misinformation</td>
+      <td>ASI09 Human–Agent Trust Exploitation</td>
+    </tr>
+    <tr>
+      <td>A10 Mishandling of Exceptional Conditions</td>
+      <td>LLM10 Unbounded Consumption</td>
+      <td>ASI10 Rogue Agents</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="regulatory-clocks-and-dates">Regulatory clocks and dates<a class="heading-anchor" href="#regulatory-clocks-and-dates" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Rule</th>
+      <th>Clock / date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DORA major incident</td>
+      <td>Initial within 4 h of classification (max 24 h from awareness) · intermediate within 72 h · final within 1 month</td>
+    </tr>
+    <tr>
+      <td>NIS2</td>
+      <td>Early warning within 24 h · notification within 72 h</td>
+    </tr>
+    <tr>
+      <td>GDPR breach</td>
+      <td>Within 72 h to the supervisory authority</td>
+    </tr>
+    <tr>
+      <td>RBI cyber incident</td>
+      <td>Within 6 h</td>
+    </tr>
+    <tr>
+      <td>CERT-In</td>
+      <td>Within 6 h; logs kept 180 days in India</td>
+    </tr>
+    <tr>
+      <td>SEC (US) material incident</td>
+      <td>Within 4 business days</td>
+    </tr>
+    <tr>
+      <td>PCI DSS v4 future-dated requirements</td>
+      <td>Mandatory since 31 Mar 2025</td>
+    </tr>
+    <tr>
+      <td>EU AI Act transparency (Art. 50)</td>
+      <td>2 Aug 2026</td>
+    </tr>
+    <tr>
+      <td>EU AI Act high-risk (Annex III, e.g. credit scoring)</td>
+      <td>2 Dec 2027</td>
+    </tr>
+    <tr>
+      <td>EU CRA reporting / full application</td>
+      <td>Sep 2026 / Dec 2027</td>
+    </tr>
+    <tr>
+      <td>DPDP Rules: Consent Managers / most obligations</td>
+      <td>Nov 2026 / May 2027</td>
+    </tr>
+    <tr>
+      <td>PSD3/PSR application</td>
+      <td>Expected 2027–28</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="decision-guide-sync-or-async">Decision guide: sync or async?<a class="heading-anchor" href="#decision-guide-sync-or-async" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Synchronous or event-driven?"><figcaption class="diagram__title">Synchronous or event-driven?</figcaption>
+  <pre class="mermaid">flowchart TB
+    Q1{&#34;Does the caller need&lt;br/&gt;the answer now?&#34;} --&gt;|&#34;yes&#34;| SYNC[&#34;Synchronous call&lt;br/&gt;(keep the chain short)&#34;]
+    Q1 --&gt;|&#34;no&#34;| Q2{&#34;Do several consumers care,&lt;br/&gt;or must it survive outages?&#34;}
+    Q2 --&gt;|&#34;yes&#34;| EVT[&#34;Publish an event&lt;br/&gt;(outbox)&#34;]
+    Q2 --&gt;|&#34;no, one receiver&#34;| CMD[&#34;Async command&lt;br/&gt;or queue (share group)&#34;]</pre>
+</figure>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/self-review/quick-check/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Quick check</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/about/">
+        <span class="card__eyebrow">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</span>
+        <span class="card__title">About</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/self-review/design-review-checklist/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Design review checklist</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/glossary/">
+        <span class="card__eyebrow">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</span>
+        <span class="card__title">Glossary</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/self-review/design-review-checklist/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Design review checklist</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#kafka-production-defaults">Kafka production defaults</a></li>
+    <li><a href="#delivery-semantics">Delivery semantics</a></li>
+    <li><a href="#which-pattern">Which pattern?</a></li>
+    <li><a href="#consistency-cheat-sheet">Consistency cheat sheet</a></li>
+    <li><a href="#table-formats-and-catalogs">Table formats and catalogs</a></li>
+    <li><a href="#data-protection-techniques">Data protection techniques</a></li>
+    <li><a href="#stride--controls">STRIDE → controls</a></li>
+    <li><a href="#owasp-lists">OWASP lists</a></li>
+    <li><a href="#regulatory-clocks-and-dates">Regulatory clocks and dates</a></li>
+    <li><a href="#decision-guide-sync-or-async">Decision guide: sync or async?</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

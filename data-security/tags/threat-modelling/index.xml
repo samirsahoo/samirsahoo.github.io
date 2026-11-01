@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Threat-Modelling on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/data-security/tags/threat-modelling/</link>
+		<description>Recent content in Threat-Modelling on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/data-security/tags/threat-modelling/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Threat Modelling</title>
+				<link>https://samirsahoo.github.io/data-security/security/threat-modelling/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/security/threat-modelling/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Threat modelling&lt;/strong&gt; is a structured way to answer: &lt;em&gt;what are we building, what can go wrong, what are we going to do about it, and did we do a good job?&lt;/em&gt; It finds &lt;strong&gt;design-level&lt;/strong&gt; security and privacy problems early, when fixing them is cheap.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quick Check: Data, Distributed Systems &amp; Cybersecurity · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="Over 80 short self-review questions with answers across Kafka, event-driven systems and stream processing; consistency, distributed transactions, sagas, CQRS and event sourcing; data platforms, governance and data security; threat modelling, security architecture, AI security and FinTech regulations.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/self-review/quick-check/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Quick Check: Data, Distributed Systems &amp; Cybersecurity">
+<meta property="og:description" content="Over 80 short self-review questions with answers across Kafka, event-driven systems and stream processing; consistency, distributed transactions, sagas, CQRS and event sourcing; data platforms, governance and data security; threat modelling, security architecture, AI security and FinTech regulations.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/self-review/quick-check/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Quick Check: Data, Distributed Systems &amp; Cybersecurity">
+<meta name="twitter:description" content="Over 80 short self-review questions with answers across Kafka, event-driven systems and stream processing; consistency, distributed transactions, sagas, CQRS and event sourcing; data platforms, governance and data security; threat modelling, security architecture, AI security and FinTech regulations.">
+<meta name="keywords" content="self-review">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Over 80 short self-review questions with answers across Kafka, event-driven systems and stream processing; consistency, distributed transactions, sagas, CQRS and event sourcing; data platforms, governance and data security; threat modelling, security architecture, AI security and FinTech regulations.","headline":"Quick Check: Data, Distributed Systems \u0026 Cybersecurity","inLanguage":"en","isAccessibleForFree":true,"keywords":"self-review","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/self-review/quick-check/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/self-review/","name":"Self Review","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/self-review/quick-check/","name":"Quick check","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-self-review">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/" aria-current="page">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/self-review/">Self Review</a></li>
+    <li><span aria-current="page">Quick check</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Quick Check: Data, Distributed Systems &amp; Cybersecurity</h1><p class="article__lede" itemprop="description">Over 80 short self-review questions with answers across Kafka, event-driven systems and stream processing; consistency, distributed transactions, sagas, CQRS and event sourcing; data platforms, governance and data security; threat modelling, security architecture, AI security and FinTech regulations.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/self-review/">#Self-Review</a>
+  </li>
+</ul>
+
+    </header>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#1-kafka-fundamentals">1. Kafka fundamentals</a></li>
+    <li><a href="#2-producers-consumers-and-guarantees">2. Producers, consumers and guarantees</a></li>
+    <li><a href="#3-event-driven-architecture-and-contracts">3. Event-driven architecture and contracts</a></li>
+    <li><a href="#4-stream-processing">4. Stream processing</a></li>
+    <li><a href="#5-consistency-and-transactions">5. Consistency and transactions</a></li>
+    <li><a href="#6-outbox-sagas-cqrs-and-event-sourcing">6. Outbox, sagas, CQRS and event sourcing</a></li>
+    <li><a href="#7-data-platforms-and-governance">7. Data platforms and governance</a></li>
+    <li><a href="#8-data-security-and-privacy">8. Data security and privacy</a></li>
+    <li><a href="#9-threat-modelling-and-security-architecture">9. Threat modelling and security architecture</a></li>
+    <li><a href="#10-ai-security">10. AI security</a></li>
+    <li><a href="#11-fintech-regulations">11. FinTech regulations</a></li>
+    <li><a href="#score-yourself">Score yourself</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <p>Answers are short, just enough to check your understanding. Each section links to the articles with the full explanations.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">How to use this page</span></p>
+  <div class="callout__body"><p>Cover the answer, explain it in your own words, then compare. Mark anything you hesitated on and reread the linked article. Aim for 80% before moving on.</p></div>
+</aside><h2 id="1-kafka-fundamentals">1. Kafka fundamentals<a class="heading-anchor" href="#1-kafka-fundamentals" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a>.</p>
+<p><strong>What is a Kafka partition?</strong>
+An ordered, append-only log. Topics are split into partitions for parallelism, and ordering holds only within one partition.</p>
+<p><strong>What decides which partition a record goes to?</strong>
+The record key, hashed by the partitioner. The same key always maps to the same partition, unless the partition count changes.</p>
+<p><strong>What is the ISR?</strong>
+The in-sync replicas: replicas fully caught up with the leader. Only these count towards <code>acks=all</code>.</p>
+<p><strong>What do RF=3 and min.insync.replicas=2 protect against?</strong>
+Losing one broker without losing acknowledged writes and without stopping writes.</p>
+<p><strong>Why disable unclean leader election?</strong>
+It can elect an out-of-sync replica and silently lose acknowledged data.</p>
+<p><strong>What replaced ZooKeeper, and since when exclusively?</strong>
+KRaft controllers (a Raft metadata quorum), exclusively since Kafka 4.0.</p>
+<p><strong>What do share groups add?</strong>
+Queue semantics: many consumers per partition, per-record acknowledgement, delivery counting. GA in Kafka 4.2.</p>
+<p><strong>What does a compacted topic keep?</strong>
+At least the latest record per key. Tombstones (null values) delete keys.</p>
+<p><strong>What is tiered storage for?</strong>
+Cheap long retention, by moving older segments to object storage.</p>
+<h2 id="2-producers-consumers-and-guarantees">2. Producers, consumers and guarantees<a class="heading-anchor" href="#2-producers-consumers-and-guarantees" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a>.</p>
+<p><strong>At-most-once vs at-least-once?</strong>
+At-most-once commits before processing, so events can be lost. At-least-once commits after processing, so events can be duplicated.</p>
+<p><strong>What does the idempotent producer do?</strong>
+De-duplicates producer retries using a producer ID and sequence numbers.</p>
+<p><strong>What do Kafka transactions make atomic?</strong>
+Writes to multiple partitions plus consumer offset commits.</p>
+<p><strong>Does Kafka exactly-once cover a write to PostgreSQL?</strong>
+No. Use an idempotent consumer, or the outbox pattern.</p>
+<p><strong>What happens if processing exceeds max.poll.interval.ms?</strong>
+The consumer is considered failed, and its partitions are rebalanced to other members.</p>
+<p><strong>What is a dead-letter topic?</strong>
+Where records that fail permanently go, with error details, so the stream keeps moving.</p>
+<p><strong>What does KIP-848 change?</strong>
+Rebalancing becomes broker-coordinated and incremental (<code>group.protocol=consumer</code>), avoiding stop-the-world rebalances.</p>
+<h2 id="3-event-driven-architecture-and-contracts">3. Event-driven architecture and contracts<a class="heading-anchor" href="#3-event-driven-architecture-and-contracts" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a> and <a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a>.</p>
+<p><strong>Event vs command?</strong>
+An event is a past fact for unknown consumers. A command asks a specific receiver to act.</p>
+<p><strong>What is event-carried state transfer?</strong>
+Events carry the data consumers need, so consumers do not call back to the producer.</p>
+<p><strong>When orchestrate instead of choreograph?</strong>
+For multi-step business processes with compensation, SLAs and audit needs.</p>
+<p><strong>What fields should every event have?</strong>
+A unique ID, type and version, source, event time, subject or key, and correlation and trace IDs.</p>
+<p><strong>What does BACKWARD compatibility mean?</strong>
+New consumers can read data written with the previous schema, so you upgrade consumers first.</p>
+<p><strong>How do you make a breaking schema change?</strong>
+Publish a new major-version topic, run v1 and v2 in parallel, migrate consumers, then retire v1.</p>
+<p><strong>What does a data contract include beyond the schema?</strong>
+Semantics, quality rules, SLOs, ownership, classification and policies.</p>
+<h2 id="4-stream-processing">4. Stream processing<a class="heading-anchor" href="#4-stream-processing" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/streaming/stream-processing/">Stream processing</a>.</p>
+<p><strong>Event time vs processing time?</strong>
+When the event happened, versus when the processor sees it. Use event time for correct business results.</p>
+<p><strong>What is a watermark?</strong>
+An estimate that no events older than T remain, which lets windows close.</p>
+<p><strong>Tumbling vs hopping vs session windows?</strong>
+Tumbling windows are fixed and non-overlapping. Hopping windows are fixed and overlapping. Session windows are bounded by inactivity gaps.</p>
+<p><strong>How does Flink recover state?</strong>
+From the latest checkpoint (a consistent snapshot of state plus source offsets).</p>
+<p><strong>When choose Kafka Streams over Flink?</strong>
+For Kafka-to-Kafka processing embedded in a microservice, with no separate cluster.</p>
+<p><strong>What did Flink 2.2 add for AI?</strong>
+<code>ML_PREDICT</code> model inference and <code>VECTOR_SEARCH</code> in Flink SQL.</p>
+<h2 id="5-consistency-and-transactions">5. Consistency and transactions<a class="heading-anchor" href="#5-consistency-and-transactions" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a> and <a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a>.</p>
+<p><strong>What does CAP really say?</strong>
+During a network partition, a replicated system must choose between consistency and availability.</p>
+<p><strong>What does PACELC add?</strong>
+Without a partition, there is still a latency versus consistency trade-off.</p>
+<p><strong>R + W &gt; N means what?</strong>
+Read and write quorums overlap, so reads see the latest acknowledged write.</p>
+<p><strong>How many Raft nodes, and why?</strong>
+3 or 5. A majority is needed, and odd sizes maximise tolerated failures.</p>
+<p><strong>What anomaly does snapshot isolation allow?</strong>
+Write skew.</p>
+<p><strong>What is the dual-write problem?</strong>
+Updating two systems without a shared transaction, so one can succeed while the other fails.</p>
+<p><strong>Why avoid 2PC across microservices?</strong>
+It blocks on coordinator failure, adds latency, lowers availability, couples services, and many systems do not support it.</p>
+<p><strong>What is TCC?</strong>
+Try (reserve, with expiry), then Confirm or Cancel.</p>
+<h2 id="6-outbox-sagas-cqrs-and-event-sourcing">6. Outbox, sagas, CQRS and event sourcing<a class="heading-anchor" href="#6-outbox-sagas-cqrs-and-event-sourcing" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a>, <a href="/data-security/distributed/saga-pattern/">Saga</a> and <a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a>.</p>
+<p><strong>How does the outbox pattern work?</strong>
+Write the state change and the event row in one local transaction, then relay outbox rows to the broker (polling or CDC).</p>
+<p><strong>Why prefer log-based CDC as the relay?</strong>
+Low latency, low database load and commit-order preservation.</p>
+<p><strong>How do you make a consumer idempotent?</strong>
+Record the event ID in the same transaction as the business change, or apply versioned, naturally idempotent updates.</p>
+<p><strong>What is a compensating transaction?</strong>
+A new business action that semantically undoes an earlier saga step.</p>
+<p><strong>What is a pivot step?</strong>
+The point of no return. Later steps must be retried until they succeed.</p>
+<p><strong>Which ACID property do sagas lack?</strong>
+Isolation. Mitigate with semantic locks, commutative updates and versioning.</p>
+<p><strong>What does CQRS separate?</strong>
+The write model (commands, invariants) from the read models (queries).</p>
+<p><strong>How is state rebuilt in event sourcing?</strong>
+By replaying the aggregate&rsquo;s events, optionally from a snapshot.</p>
+<p><strong>How do you erase personal data from an event store?</strong>
+Crypto-shredding: delete the subject&rsquo;s encryption key.</p>
+<h2 id="7-data-platforms-and-governance">7. Data platforms and governance<a class="heading-anchor" href="#7-data-platforms-and-governance" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a> and <a href="/data-security/data-platforms/data-governance/">Data governance</a>.</p>
+<p><strong>What is a lakehouse?</strong>
+Open table formats on object storage, with ACID, time travel and one catalog, queried by many engines.</p>
+<p><strong>Name three Iceberg v3 features.</strong>
+Deletion vectors, row lineage, the VARIANT type, geospatial types, nanosecond timestamps and default values.</p>
+<p><strong>What are the medallion layers?</strong>
+Bronze (raw), silver (cleaned and conformed) and gold (business data products).</p>
+<p><strong>The four data mesh principles?</strong>
+Domain ownership, data as a product, a self-serve platform, and federated computational governance.</p>
+<p><strong>What is OpenLineage?</strong>
+An open standard for lineage events emitted by pipelines and engines.</p>
+<p><strong>Name four data quality dimensions.</strong>
+Completeness, validity, accuracy, consistency, uniqueness and timeliness.</p>
+<p><strong>What does BCBS 239 cover?</strong>
+Risk data aggregation and reporting: governance, accuracy, completeness, timeliness and adaptability.</p>
+<h2 id="8-data-security-and-privacy">8. Data security and privacy<a class="heading-anchor" href="#8-data-security-and-privacy" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a>.</p>
+<p><strong>Tokenisation vs encryption?</strong>
+Tokens are random substitutes mapped in a vault. Encryption is reversible with a key. Tokenisation shrinks compliance scope.</p>
+<p><strong>What is envelope encryption?</strong>
+Data is encrypted with a DEK, and the DEK is encrypted with a KEK held in a KMS or HSM.</p>
+<p><strong>RBAC vs ABAC?</strong>
+RBAC grants by role. ABAC decides from attributes of the user, the data and the context.</p>
+<p><strong>Static vs dynamic masking?</strong>
+Static masking irreversibly changes copies (for test data). Dynamic masking hides values at query time based on the user.</p>
+<p><strong>Is pseudonymised data personal data under GDPR?</strong>
+Yes.</p>
+<p><strong>What does RBI require for payment data?</strong>
+Storage only in India.</p>
+<h2 id="9-threat-modelling-and-security-architecture">9. Threat modelling and security architecture<a class="heading-anchor" href="#9-threat-modelling-and-security-architecture" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/security/threat-modelling/">Threat modelling</a> and <a href="/data-security/security/security-architecture/">Security architecture</a>.</p>
+<p><strong>The four threat-modelling questions?</strong>
+What are we working on? What can go wrong? What will we do about it? Did we do a good job?</p>
+<p><strong>STRIDE?</strong>
+Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege.</p>
+<p><strong>Privacy threat-modelling method?</strong>
+LINDDUN.</p>
+<p><strong>Zero trust in one sentence?</strong>
+Verify identity, device and context for every request. No implicit trust from network location.</p>
+<p><strong>Two new OWASP Top 10:2025 categories?</strong>
+A03 Software Supply Chain Failures and A10 Mishandling of Exceptional Conditions.</p>
+<p><strong>What is BOLA?</strong>
+Broken object-level authorisation: missing per-object access checks in APIs.</p>
+<p><strong>SBOM vs SLSA?</strong>
+An SBOM inventories components. SLSA defines build integrity and provenance levels.</p>
+<p><strong>Which NIST PQC standards were published in 2024?</strong>
+FIPS 203 (ML-KEM), FIPS 204 (ML-DSA) and FIPS 205 (SLH-DSA).</p>
+<h2 id="10-ai-security">10. AI security<a class="heading-anchor" href="#10-ai-security" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/security/ai-security/">AI security</a>.</p>
+<p><strong>What is indirect prompt injection?</strong>
+Malicious instructions hidden in content the model processes, such as documents, web pages or tool output.</p>
+<p><strong>Main design principle against prompt injection?</strong>
+Assume it succeeds. Limit what the model can access and do (least agency, user-scoped tools, approvals).</p>
+<p><strong>OWASP LLM06?</strong>
+Excessive Agency.</p>
+<p><strong>How should RAG enforce permissions?</strong>
+Filter retrieval by the user&rsquo;s entitlements, using ACL metadata. Never rely on prompts.</p>
+<p><strong>ASI01 in the agentic Top 10?</strong>
+Agent Goal Hijack.</p>
+<p><strong>Two AI governance frameworks?</strong>
+The NIST AI RMF (with the GenAI profile) and ISO/IEC 42001.</p>
+<h2 id="11-fintech-regulations">11. FinTech regulations<a class="heading-anchor" href="#11-fintech-regulations" aria-label="Link to this section">#</a></h2>
+<p>Read: <a href="/data-security/security/fintech-regulations/">FinTech regulations</a>.</p>
+<p><strong>When did PCI DSS v4 future-dated requirements become mandatory?</strong>
+31 March 2025.</p>
+<p><strong>Best way to reduce PCI scope?</strong>
+Tokenise PAN at the edge (hosted fields), and segment a minimal CDE.</p>
+<p><strong>DORA&rsquo;s five pillars?</strong>
+ICT risk management, incident reporting, resilience testing, third-party risk and information sharing.</p>
+<p><strong>DORA initial notification for a major incident?</strong>
+Within 4 hours of classification, and no later than 24 hours from awareness.</p>
+<p><strong>PSD2 SCA factors?</strong>
+Two of knowledge, possession and inherence, with dynamic linking for remote payments.</p>
+<p><strong>PSD3/PSR status?</strong>
+Agreed in 2025, with texts published in 2026. Application is expected around 2027–28.</p>
+<p><strong>When do EU AI Act high-risk rules apply to credit scoring?</strong>
+From 2 December 2027, after the 2026 Digital Omnibus.</p>
+<p><strong>CERT-In requirements?</strong>
+Report incidents within 6 hours, and keep logs for 180 days in India.</p>
+<p><strong>What do the DPDP Rules 2025 phase in, and when?</strong>
+The Board immediately, Consent Managers from November 2026, and most obligations from May 2027.</p>
+<h2 id="score-yourself">Score yourself<a class="heading-anchor" href="#score-yourself" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Score</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>90%+</td>
+      <td>Ready to review designs. Use the <a href="/data-security/self-review/design-review-checklist/">design review checklist</a>.</td>
+    </tr>
+    <tr>
+      <td>70–89%</td>
+      <td>Reread the sections you hesitated on.</td>
+    </tr>
+    <tr>
+      <td>Below 70%</td>
+      <td>Follow the <a href="/data-security/learning-paths/data-security-architect/">learning path</a> from the start.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/self-review/design-review-checklist/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Design review checklist</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/self-review/quick-reference/">
+        <span class="card__eyebrow">Self Review</span>
+        <span class="card__title">Quick reference</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/self-review/design-review-checklist/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Design review checklist</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-kafka-fundamentals">1. Kafka fundamentals</a></li>
+    <li><a href="#2-producers-consumers-and-guarantees">2. Producers, consumers and guarantees</a></li>
+    <li><a href="#3-event-driven-architecture-and-contracts">3. Event-driven architecture and contracts</a></li>
+    <li><a href="#4-stream-processing">4. Stream processing</a></li>
+    <li><a href="#5-consistency-and-transactions">5. Consistency and transactions</a></li>
+    <li><a href="#6-outbox-sagas-cqrs-and-event-sourcing">6. Outbox, sagas, CQRS and event sourcing</a></li>
+    <li><a href="#7-data-platforms-and-governance">7. Data platforms and governance</a></li>
+    <li><a href="#8-data-security-and-privacy">8. Data security and privacy</a></li>
+    <li><a href="#9-threat-modelling-and-security-architecture">9. Threat modelling and security architecture</a></li>
+    <li><a href="#10-ai-security">10. AI security</a></li>
+    <li><a href="#11-fintech-regulations">11. FinTech regulations</a></li>
+    <li><a href="#score-yourself">Score yourself</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

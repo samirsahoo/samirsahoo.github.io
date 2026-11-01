@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Data-Platform on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/data-security/tags/data-platform/</link>
+		<description>Recent content in Data-Platform on Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<atom:link href="https://samirsahoo.github.io/data-security/tags/data-platform/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Modern Data Platform Architecture</title>
+				<link>https://samirsahoo.github.io/data-security/data-platforms/data-platform-architecture/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/data-platforms/data-platform-architecture/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;data platform&lt;/strong&gt; collects data from operational systems, stores it reliably and cheaply, and turns it into &lt;strong&gt;trusted data products&lt;/strong&gt; for reporting, analytics, machine learning and AI. The modern default is a &lt;strong&gt;lakehouse&lt;/strong&gt;: open table formats on object storage, queried by many engines under one governance catalog.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Data Governance: Catalog, Lineage, Quality and Contracts</title>
+				<link>https://samirsahoo.github.io/data-security/data-platforms/data-governance/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/data-platforms/data-governance/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Data governance&lt;/strong&gt; is the set of &lt;strong&gt;roles, policies, standards and tools&lt;/strong&gt; that make sure data is &lt;strong&gt;known&lt;/strong&gt; (catalogued and defined), &lt;strong&gt;trusted&lt;/strong&gt; (good quality with traceable lineage), &lt;strong&gt;protected&lt;/strong&gt; (secure and private) and &lt;strong&gt;used properly&lt;/strong&gt; (meeting regulation and ethics) across its lifecycle.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>System Design: A Governed Data Platform for a Bank</title>
+				<link>https://samirsahoo.github.io/data-security/data-platforms/case-study-regulated-data-platform/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/data-security/data-platforms/case-study-regulated-data-platform/</guid>
+				<description>&lt;h2 id=&#34;the-design-brief&#34;&gt;The design brief&lt;a class=&#34;heading-anchor&#34; href=&#34;#the-design-brief&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;em&gt;&amp;ldquo;A bank operating in the EU and India wants one data platform for regulatory reporting, risk, fraud analytics, customer insights and GenAI. Today it has three warehouses, a Hadoop lake and hundreds of spreadsheet reports with conflicting numbers. Regulators have criticised its risk data aggregation.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+	</channel>
+</rss>

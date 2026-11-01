@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Saga Pattern · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="Managing business transactions across services with sagas: local transactions and compensations, choreography vs orchestration, saga state machines, pivot and retriable steps, isolation countermeasures (semantic locks, commutative updates), durable execution with Temporal, and testing and observability.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/distributed/saga-pattern/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="The Saga Pattern">
+<meta property="og:description" content="Managing business transactions across services with sagas: local transactions and compensations, choreography vs orchestration, saga state machines, pivot and retriable steps, isolation countermeasures (semantic locks, commutative updates), durable execution with Temporal, and testing and observability.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/distributed/saga-pattern/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Saga Pattern">
+<meta name="twitter:description" content="Managing business transactions across services with sagas: local transactions and compensations, choreography vs orchestration, saga state machines, pivot and retriable steps, isolation countermeasures (semantic locks, commutative updates), durable execution with Temporal, and testing and observability.">
+<meta name="keywords" content="distributed-systems, saga, patterns">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Managing business transactions across services with sagas: local transactions and compensations, choreography vs orchestration, saga state machines, pivot and retriable steps, isolation countermeasures (semantic locks, commutative updates), durable execution with Temporal, and testing and observability.","headline":"The Saga Pattern","inLanguage":"en","isAccessibleForFree":true,"keywords":"distributed-systems, saga, patterns","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/distributed/saga-pattern/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/distributed/","name":"2 · Consistency \u0026 Sagas","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/distributed/saga-pattern/","name":"Saga pattern","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-distributed">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/" aria-current="page">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a></li>
+    <li><span aria-current="page">Saga pattern</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">The Saga Pattern</h1><p class="article__lede" itemprop="description">Managing business transactions across services with sagas: local transactions and compensations, choreography vs orchestration, saga state machines, pivot and retriable steps, isolation countermeasures (semantic locks, commutative updates), durable execution with Temporal, and testing and observability.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/distributed-systems/">#Distributed-Systems</a><a class="tag" href="/data-security/tags/saga/">#Saga</a><a class="tag" href="/data-security/tags/patterns/">#Patterns</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#anatomy-of-a-saga">Anatomy of a saga</a></li>
+    <li><a href="#choreography">Choreography</a></li>
+    <li><a href="#orchestration">Orchestration</a></li>
+    <li><a href="#the-saga-as-a-state-machine">The saga as a state machine</a></li>
+    <li><a href="#durable-execution-engines">Durable execution engines</a></li>
+    <li><a href="#isolation-the-anomalies-sagas-allow">Isolation: the anomalies sagas allow</a></li>
+    <li><a href="#making-sagas-reliable">Making sagas reliable</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>saga</strong> is a sequence of <strong>local transactions</strong>, one per service. If a step fails, the saga runs <strong>compensating transactions</strong> to semantically undo the steps that already succeeded. It replaces one big distributed transaction with steps that are each atomic, plus an explicit undo plan.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>Placing an order touches the order, payment, inventory and shipping services, each with its own database. 2PC is not an option (see <a href="/data-security/distributed/distributed-transactions/">distributed transactions</a>). Without a pattern, a failure halfway through leaves money taken with no stock reserved, or stock held for an order that was never paid.</p>
+<h2 id="anatomy-of-a-saga">Anatomy of a saga<a class="heading-anchor" href="#anatomy-of-a-saga" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Step type</th>
+      <th>Meaning</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Compensatable</strong></td>
+      <td>Can be undone by a compensating transaction</td>
+      <td>Reserve stock (release stock)</td>
+    </tr>
+    <tr>
+      <td><strong>Pivot</strong></td>
+      <td>The point of no return: after it, the saga must complete</td>
+      <td>Capture payment, ship goods</td>
+    </tr>
+    <tr>
+      <td><strong>Retriable</strong></td>
+      <td>After the pivot; must eventually succeed, so retry until it does</td>
+      <td>Send confirmation, update loyalty points</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Order your steps so that <strong>compensatable steps come first, then the pivot, then retriable steps</strong>.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Compensation is not rollback</span></p>
+  <div class="callout__body"><p>A compensation is a <strong>new business action</strong> (&ldquo;refund&rdquo;, &ldquo;release&rdquo;, &ldquo;cancel&rdquo;) that is visible and audited. It does not erase history. Some actions cannot be undone, such as an email that was sent; plan around them.</p></div>
+</aside><h2 id="choreography">Choreography<a class="heading-anchor" href="#choreography" aria-label="Link to this section">#</a></h2>
+<p>Each service listens for events and publishes its own.</p>
+<figure class="diagram" aria-label="Choreographed order saga"><figcaption class="diagram__title">Choreographed order saga</figcaption>
+  <pre class="mermaid">sequenceDiagram
+    participant O as Order
+    participant P as Payment
+    participant I as Inventory
+    O-&gt;&gt;P: OrderCreated (event)
+    P-&gt;&gt;I: PaymentAuthorised (event)
+    I--&gt;&gt;P: StockReservationFailed (event)
+    P--&gt;&gt;O: PaymentVoided (event)
+    O-&gt;&gt;O: mark order REJECTED</pre>
+</figure>
+<ul>
+<li><strong>Pros:</strong> no central coordinator; loose coupling; simple for 2–4 steps.</li>
+<li><strong>Cons:</strong> the flow is implicit and spread across services, so it is hard to see the state of one order. Cyclic dependencies and &ldquo;who compensates what&rdquo; get messy as steps grow.</li>
+</ul>
+<h2 id="orchestration">Orchestration<a class="heading-anchor" href="#orchestration" aria-label="Link to this section">#</a></h2>
+<p>An <strong>orchestrator</strong> owns the saga state and sends commands to each participant.</p>
+<figure class="archify-embed">
+  <iframe src="/data-security/diagrams/saga-orchestration.html" title="Orchestrated saga with compensation" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>Orchestrated saga with compensation · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/data-security/diagrams/saga-orchestration.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ul>
+<li><strong>Pros:</strong> an explicit, testable flow; one place for timeouts, retries and compensation; easy to see &ldquo;where is order 42?&rdquo;; audit-friendly.</li>
+<li><strong>Cons:</strong> the orchestrator is an extra component that must be durable and highly available, and logic can creep into it. Keep business rules in the participants.</li>
+</ul>
+<h2 id="the-saga-as-a-state-machine">The saga as a state machine<a class="heading-anchor" href="#the-saga-as-a-state-machine" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/data-security/diagrams/order-saga.html" title="Order saga state machine" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>Order saga state machine · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/data-security/diagrams/order-saga.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<p>Persist the saga state <strong>before</strong> each step. A crash then resumes from the last durable state instead of starting over or forgetting.</p>
+<h2 id="durable-execution-engines">Durable execution engines<a class="heading-anchor" href="#durable-execution-engines" aria-label="Link to this section">#</a></h2>
+<p>Writing a reliable orchestrator yourself (state persistence, timers, retries, versioning) is hard. <strong>Durable execution</strong> platforms do it for you:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Temporal</strong> (and Cadence)</td>
+      <td>Workflows as code (Java, Go, TypeScript, Python, .NET). Event-sourced history, automatic retries, timers, signals.</td>
+    </tr>
+    <tr>
+      <td><strong>Camunda 8 / Zeebe</strong></td>
+      <td>BPMN models; good when business analysts own the process</td>
+    </tr>
+    <tr>
+      <td><strong>AWS Step Functions, Azure Durable Functions, Google Workflows</strong></td>
+      <td>Managed state machines</td>
+    </tr>
+    <tr>
+      <td><strong>Restate, DBOS</strong></td>
+      <td>Lightweight durable execution embedded in services or the database</td>
+    </tr>
+    <tr>
+      <td><strong>Axon, Eventuate Tram</strong></td>
+      <td>Saga frameworks for event-driven Java</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// Temporal (Java): saga with compensation</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderWorkflowImpl</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">OrderWorkflow</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Activities</span><span class="w"> </span><span class="n">act</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Workflow</span><span class="p">.</span><span class="na">newActivityStub</span><span class="p">(</span><span class="n">Activities</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">ActivityOptions</span><span class="p">.</span><span class="na">newBuilder</span><span class="p">().</span><span class="na">setStartToCloseTimeout</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="n">30</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="p">.</span><span class="na">setRetryOptions</span><span class="p">(</span><span class="n">RetryOptions</span><span class="p">.</span><span class="na">newBuilder</span><span class="p">().</span><span class="na">setMaximumAttempts</span><span class="p">(</span><span class="n">5</span><span class="p">).</span><span class="na">build</span><span class="p">()).</span><span class="na">build</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="n">OrderResult</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">(</span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Saga</span><span class="w"> </span><span class="n">saga</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Saga</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Saga</span><span class="p">.</span><span class="na">Options</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">build</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">act</span><span class="p">.</span><span class="na">createOrder</span><span class="p">(</span><span class="n">order</span><span class="p">);</span><span class="w">              </span><span class="n">saga</span><span class="p">.</span><span class="na">addCompensation</span><span class="p">(</span><span class="n">act</span><span class="p">::</span><span class="n">rejectOrder</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">id</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">act</span><span class="p">.</span><span class="na">authorisePayment</span><span class="p">(</span><span class="n">order</span><span class="p">);</span><span class="w">         </span><span class="n">saga</span><span class="p">.</span><span class="na">addCompensation</span><span class="p">(</span><span class="n">act</span><span class="p">::</span><span class="n">voidPayment</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">id</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">act</span><span class="p">.</span><span class="na">reserveStock</span><span class="p">(</span><span class="n">order</span><span class="p">);</span><span class="w">             </span><span class="n">saga</span><span class="p">.</span><span class="na">addCompensation</span><span class="p">(</span><span class="n">act</span><span class="p">::</span><span class="n">releaseStock</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">id</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">act</span><span class="p">.</span><span class="na">capturePayment</span><span class="p">(</span><span class="n">order</span><span class="p">);</span><span class="w">           </span><span class="c1">// pivot: no compensation after this point</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">act</span><span class="p">.</span><span class="na">bookShipment</span><span class="p">(</span><span class="n">order</span><span class="p">);</span><span class="w">             </span><span class="c1">// retriable: retries until it succeeds</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">OrderResult</span><span class="p">.</span><span class="na">completed</span><span class="p">(</span><span class="n">order</span><span class="p">.</span><span class="na">id</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ActivityFailure</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">saga</span><span class="p">.</span><span class="na">compensate</span><span class="p">();</span><span class="w">                   </span><span class="c1">// runs compensations in reverse order</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">OrderResult</span><span class="p">.</span><span class="na">rejected</span><span class="p">(</span><span class="n">order</span><span class="p">.</span><span class="na">id</span><span class="p">(),</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><h2 id="isolation-the-anomalies-sagas-allow">Isolation: the anomalies sagas allow<a class="heading-anchor" href="#isolation-the-anomalies-sagas-allow" aria-label="Link to this section">#</a></h2>
+<p>Sagas give up the &ldquo;I&rdquo; in ACID. Other transactions can see intermediate states:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Anomaly</th>
+      <th>Example</th>
+      <th>Countermeasure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Dirty read</strong></td>
+      <td>Another service reads an order that will be rejected</td>
+      <td><strong>Semantic lock</strong>: a <code>PENDING</code> status that readers respect</td>
+    </tr>
+    <tr>
+      <td><strong>Lost update</strong></td>
+      <td>A compensation overwrites a concurrent change</td>
+      <td><strong>Commutative updates</strong> (debit/credit, not &ldquo;set balance&rdquo;), versioning</td>
+    </tr>
+    <tr>
+      <td><strong>Non-repeatable read</strong></td>
+      <td>Price changes between steps</td>
+      <td><strong>Reread value</strong>, or pass the snapshot in the command</td>
+    </tr>
+    <tr>
+      <td><strong>Ordering</strong></td>
+      <td>Cancel arrives before create</td>
+      <td>Handle empty compensation; idempotent, order-tolerant handlers</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="making-sagas-reliable">Making sagas reliable<a class="heading-anchor" href="#making-sagas-reliable" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Every command and event goes through an <a href="/data-security/distributed/outbox-cdc-idempotency/">outbox</a>. Every participant is idempotent.</li>
+<li>Every step has a <strong>timeout</strong>. &ldquo;No answer&rdquo; is a state you handle.</li>
+<li>Compensations must be <strong>idempotent and retriable</strong>, and must eventually succeed. If they cannot, go to <strong>manual review</strong> with an alert.</li>
+<li>Put a <strong>saga ID and correlation ID</strong> on every message, and trace them with OpenTelemetry.</li>
+<li><strong>Test</strong> failure at every step, including double delivery and out-of-order events. Durable execution frameworks offer replay and time-skipping tests.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No compensation design until production</span></p>
+  <div class="callout__body"><p>Write the compensation for each step at design time. Ask &ldquo;how do we undo this?&rdquo; for every step.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Pivot too early</span></p>
+  <div class="callout__body"><p>Capturing payment before stock is reserved forces refunds. Put compensatable steps first.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Choreographing 10 steps</span></p>
+  <div class="callout__body"><p>No one can see the flow and failures get lost. Use an orchestrator for long processes.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ignoring isolation</span></p>
+  <div class="callout__body"><p>Other services read half-finished sagas. Use semantic locks (pending states) and commutative updates.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is a compensating transaction?</strong>
+A new business action that semantically undoes an earlier step, such as a refund or a stock release. It is not a database rollback.</p>
+<p><strong>What is a pivot transaction?</strong>
+The point of no return in a saga. After it, the remaining steps must be retried until they succeed.</p>
+<p><strong>Choreography vs orchestration in one sentence each?</strong>
+In choreography, services react to each other&rsquo;s events with no coordinator. In orchestration, a central coordinator commands each step and tracks state.</p>
+<p><strong>Which ACID property do sagas give up, and how do you mitigate that?</strong>
+Isolation. Mitigate it with semantic locks (pending states), commutative updates, versioning and rereading values.</p>
+<p><strong>Why use Temporal or a similar engine?</strong>
+It provides durable state, retries, timers and history, so the orchestrator survives crashes without custom infrastructure.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>A saga is local transactions plus compensations. Order the steps: compensatable, then the pivot, then retriable.</li>
+<li>Choreograph short flows; orchestrate long business processes.</li>
+<li>Persist state, time out every step, and make everything idempotent.</li>
+<li>Handle the missing isolation with semantic locks and commutative updates.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Hector Garcia-Molina and Kenneth Salem, <a href="https://www.cs.cornell.edu/andru/cs711/2002fa/reading/sagas.pdf" rel="noopener">Sagas (1987)</a>.</li>
+<li>Chris Richardson, <a href="https://microservices.io/patterns/data/saga.html" rel="noopener">Pattern: Saga</a>.</li>
+<li>Temporal, <a href="https://docs.temporal.io/encyclopedia/application-design-patterns#saga" rel="noopener">Saga pattern documentation</a>.</li>
+<li>Microsoft, <a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/saga" rel="noopener">Saga distributed transactions pattern</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/case-study-order-saga/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Case study: order saga</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/event-driven-architecture/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Event-driven architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/cqrs-and-event-sourcing/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">CQRS &amp; event sourcing</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/outbox-cdc-idempotency/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Outbox, CDC &amp; idempotency</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/consistency-and-consensus/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Consistency &amp; consensus</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/distributed/outbox-cdc-idempotency/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Outbox, CDC &amp; idempotency</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/distributed/cqrs-and-event-sourcing/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">CQRS &amp; event sourcing</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#anatomy-of-a-saga">Anatomy of a saga</a></li>
+    <li><a href="#choreography">Choreography</a></li>
+    <li><a href="#orchestration">Orchestration</a></li>
+    <li><a href="#the-saga-as-a-state-machine">The saga as a state machine</a></li>
+    <li><a href="#durable-execution-engines">Durable execution engines</a></li>
+    <li><a href="#isolation-the-anomalies-sagas-allow">Isolation: the anomalies sagas allow</a></li>
+    <li><a href="#making-sagas-reliable">Making sagas reliable</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kafka Producers, Consumers and Delivery Guarantees · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="Producing and consuming safely: batching and partitioning, idempotent producers, at-most-once vs at-least-once vs exactly-once, Kafka transactions and read_committed, offset management, rebalancing, retries, dead-letter topics and backpressure, with Spring for Apache Kafka examples.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/streaming/kafka-producers-and-consumers/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Kafka Producers, Consumers and Delivery Guarantees">
+<meta property="og:description" content="Producing and consuming safely: batching and partitioning, idempotent producers, at-most-once vs at-least-once vs exactly-once, Kafka transactions and read_committed, offset management, rebalancing, retries, dead-letter topics and backpressure, with Spring for Apache Kafka examples.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/streaming/kafka-producers-and-consumers/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kafka Producers, Consumers and Delivery Guarantees">
+<meta name="twitter:description" content="Producing and consuming safely: batching and partitioning, idempotent producers, at-most-once vs at-least-once vs exactly-once, Kafka transactions and read_committed, offset management, rebalancing, retries, dead-letter topics and backpressure, with Spring for Apache Kafka examples.">
+<meta name="keywords" content="kafka, streaming, reliability">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Producing and consuming safely: batching and partitioning, idempotent producers, at-most-once vs at-least-once vs exactly-once, Kafka transactions and read_committed, offset management, rebalancing, retries, dead-letter topics and backpressure, with Spring for Apache Kafka examples.","headline":"Kafka Producers, Consumers and Delivery Guarantees","inLanguage":"en","isAccessibleForFree":true,"keywords":"kafka, streaming, reliability","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/streaming/kafka-producers-and-consumers/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/streaming/","name":"1 · Kafka \u0026 Streaming","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/streaming/kafka-producers-and-consumers/","name":"Producers, consumers \u0026 exactly-once","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-streaming">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/" aria-current="page">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a></li>
+    <li><span aria-current="page">Producers, consumers &amp; exactly-once</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Kafka Producers, Consumers and Delivery Guarantees</h1><p class="article__lede" itemprop="description">Producing and consuming safely: batching and partitioning, idempotent producers, at-most-once vs at-least-once vs exactly-once, Kafka transactions and read_committed, offset management, rebalancing, retries, dead-letter topics and backpressure, with Spring for Apache Kafka examples.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/kafka/">#Kafka</a><a class="tag" href="/data-security/tags/streaming/">#Streaming</a><a class="tag" href="/data-security/tags/reliability/">#Reliability</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#the-three-delivery-semantics">The three delivery semantics</a></li>
+    <li><a href="#the-producer">The producer</a></li>
+    <li><a href="#transactions-and-exactly-once">Transactions and exactly-once</a></li>
+    <li><a href="#the-consumer">The consumer</a></li>
+    <li><a href="#retries-dead-letters-and-poison-messages">Retries, dead letters and poison messages</a></li>
+    <li><a href="#example-spring-for-apache-kafka">Example: Spring for Apache Kafka</a></li>
+    <li><a href="#backpressure-and-flow-control">Backpressure and flow control</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>producer</strong> writes records to topic partitions. A <strong>consumer</strong> reads them and records its progress as <strong>offsets</strong>. <strong>Delivery guarantees</strong> describe what happens to a record when something fails in between: it can be lost, duplicated or processed exactly once.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>Networks drop acknowledgements, brokers fail over and consumers crash after doing work but before committing their offset. Without care you will <strong>lose</strong> events (a missed payment notification) or <strong>duplicate</strong> them (a double debit). You need to know which guarantee each flow needs and how to get it.</p>
+<h2 id="the-three-delivery-semantics">The three delivery semantics<a class="heading-anchor" href="#the-three-delivery-semantics" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Semantics</th>
+      <th>How it happens</th>
+      <th>Risk</th>
+      <th>Use for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>At most once</strong></td>
+      <td>Commit the offset <strong>before</strong> processing; no producer retries</td>
+      <td>Loss</td>
+      <td>Metrics where gaps do not matter</td>
+    </tr>
+    <tr>
+      <td><strong>At least once</strong></td>
+      <td>Process, <strong>then</strong> commit; producer retries</td>
+      <td>Duplicates</td>
+      <td>The default for most business events, with <strong>idempotent consumers</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Exactly once</strong></td>
+      <td>Idempotent producer + transactions + <code>read_committed</code></td>
+      <td>Complexity; Kafka-to-Kafka only</td>
+      <td>Stream processing pipelines inside Kafka</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Effectively-once is a design, not a setting</span></p>
+  <div class="callout__body"><p>Kafka&rsquo;s exactly-once covers <strong>reading from Kafka, processing and writing back to Kafka</strong>. When a side effect leaves Kafka (a database write, an email, a card network call), you get &ldquo;effectively once&rdquo; only with <strong>at-least-once delivery plus an idempotent consumer</strong>. See <a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC and idempotency</a>.</p></div>
+</aside><h2 id="the-producer">The producer<a class="heading-anchor" href="#the-producer" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Producer internals"><figcaption class="diagram__title">Producer internals</figcaption>
+  <pre class="mermaid">flowchart LR
+    APP[&#34;send(record)&#34;] --&gt; SER[&#34;Serialize&lt;br/&gt;key + value&#34;] --&gt; PART[&#34;Partitioner&lt;br/&gt;hash(key)&#34;] --&gt; ACC[&#34;Record accumulator&lt;br/&gt;batches per partition&#34;] --&gt; SENDER[&#34;Sender thread&lt;br/&gt;compress, send&#34;] --&gt; B[&#34;Leader broker&#34;]
+    B --&gt;|&#34;ack / error&#34;| SENDER</pre>
+</figure>
+<p>Important producer settings:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Recommendation</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>acks</code></td>
+      <td><code>all</code></td>
+      <td>Durable against a leader failure</td>
+    </tr>
+    <tr>
+      <td><code>enable.idempotence</code></td>
+      <td><code>true</code> (default since 3.0)</td>
+      <td>The broker de-duplicates retries using producer ID + sequence number</td>
+    </tr>
+    <tr>
+      <td><code>retries</code> / <code>delivery.timeout.ms</code></td>
+      <td>High retries, bounded total timeout (for example 120 s)</td>
+      <td>Retry transient errors without hanging forever</td>
+    </tr>
+    <tr>
+      <td><code>max.in.flight.requests.per.connection</code></td>
+      <td>≤ 5 with idempotence</td>
+      <td>Keeps ordering while pipelining</td>
+    </tr>
+    <tr>
+      <td><code>linger.ms</code> / <code>batch.size</code></td>
+      <td>5–20 ms, 64–256 KB</td>
+      <td>Bigger batches mean higher throughput</td>
+    </tr>
+    <tr>
+      <td><code>compression.type</code></td>
+      <td><code>zstd</code> or <code>lz4</code></td>
+      <td>Less network and disk use</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="transactions-and-exactly-once">Transactions and exactly-once<a class="heading-anchor" href="#transactions-and-exactly-once" aria-label="Link to this section">#</a></h2>
+<p>A <strong>transactional producer</strong> (<code>transactional.id</code>) writes to several partitions <strong>and</strong> commits consumer offsets atomically. Downstream consumers with <code>isolation.level=read_committed</code> see only committed data.</p>
+<figure class="archify-embed">
+  <iframe src="/data-security/diagrams/kafka-eos.html" title="Exactly-once consume, process, produce in Kafka" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>Exactly-once consume, process, produce in Kafka · drawn with Archify · zoom, guided views, search and SVG/PNG export.</span>
+    <a class="button" href="/data-security/diagrams/kafka-eos.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ul>
+<li><strong>Zombie fencing:</strong> a stable <code>transactional.id</code> plus an epoch means a restarted instance fences off an old &ldquo;zombie&rdquo; instance, which can no longer commit.</li>
+<li><strong>Transactions version 2</strong> (KIP-890, in the Kafka 4.x line) hardens the protocol against hanging transactions with server-side defences.</li>
+<li><strong>Cost:</strong> a little extra latency (commit markers) and throughput overhead. Kafka Streams and Flink use this under the hood when you configure <code>processing.guarantee=exactly_once_v2</code> or the exactly-once sink mode.</li>
+</ul>
+<h2 id="the-consumer">The consumer<a class="heading-anchor" href="#the-consumer" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Consumer loop (at-least-once)"><figcaption class="diagram__title">Consumer loop (at-least-once)</figcaption>
+  <pre class="mermaid">flowchart LR
+    POLL[&#34;poll()&#34;] --&gt; PROC[&#34;process records&lt;br/&gt;(idempotently)&#34;] --&gt; COMMIT[&#34;commit offsets&lt;br/&gt;after success&#34;] --&gt; POLL
+    PROC --&gt;|&#34;transient error&#34;| RETRY[&#34;retry with backoff&#34;]
+    RETRY --&gt;|&#34;still failing&#34;| DLT[&#34;dead-letter topic&#34;]</pre>
+</figure>
+<ul>
+<li><strong>Offsets:</strong> turn off auto-commit for business processing (<code>enable.auto.commit=false</code>) and commit after the work succeeds.</li>
+<li><strong><code>max.poll.interval.ms</code>:</strong> if processing a batch takes longer than this, the consumer is evicted and its partitions rebalance. Keep batches small, or hand slow work to a share group or a worker pool.</li>
+<li><strong>Rebalancing:</strong> prefer the new consumer protocol (<code>group.protocol=consumer</code>, KIP-848) for incremental, broker-coordinated assignment. With the classic protocol, use the cooperative-sticky assignor.</li>
+<li><strong>Static membership</strong> (<code>group.instance.id</code>) avoids rebalances during rolling restarts.</li>
+<li><strong>Lag</strong> (log-end offset minus committed offset) is the main health signal. Alert on lag growth and on time-based lag.</li>
+</ul>
+<h2 id="retries-dead-letters-and-poison-messages">Retries, dead letters and poison messages<a class="heading-anchor" href="#retries-dead-letters-and-poison-messages" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Error type</th>
+      <th>Handling</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Transient (timeout, 503)</td>
+      <td>Retry with exponential backoff and jitter; then a <strong>retry topic</strong> for longer delays</td>
+    </tr>
+    <tr>
+      <td>Permanent (validation, deserialisation)</td>
+      <td>Send straight to a <strong>dead-letter topic (DLT)</strong> with error headers; alert; fix and replay</td>
+    </tr>
+    <tr>
+      <td>Ordering-sensitive key</td>
+      <td>Blocking retry, or park all later events for that key; do not skip ahead</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Share groups</strong> (Kafka 4.2) add broker-side delivery counts. A record that keeps failing can be <code>REJECT</code>ed or sent to a dead-letter queue after N attempts, without custom retry topics.</p>
+<h2 id="example-spring-for-apache-kafka">Example: Spring for Apache Kafka<a class="heading-anchor" href="#example-spring-for-apache-kafka" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">KafkaConfig</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nd">@Bean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">DefaultErrorHandler</span><span class="w"> </span><span class="nf">errorHandler</span><span class="p">(</span><span class="n">KafkaTemplate</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">template</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">recoverer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DeadLetterPublishingRecoverer</span><span class="p">(</span><span class="n">template</span><span class="p">);</span><span class="w">            </span><span class="c1">// -&gt; payments.authorised.v1-dlt</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">backoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ExponentialBackOffWithMaxRetries</span><span class="p">(</span><span class="n">5</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">backoff</span><span class="p">.</span><span class="na">setInitialInterval</span><span class="p">(</span><span class="n">500</span><span class="p">);</span><span class="w"> </span><span class="n">backoff</span><span class="p">.</span><span class="na">setMultiplier</span><span class="p">(</span><span class="n">2</span><span class="p">.</span><span class="na">0</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DefaultErrorHandler</span><span class="p">(</span><span class="n">recoverer</span><span class="p">,</span><span class="w"> </span><span class="n">backoff</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">handler</span><span class="p">.</span><span class="na">addNotRetryableExceptions</span><span class="p">(</span><span class="n">ValidationException</span><span class="p">.</span><span class="na">class</span><span class="p">);</span><span class="w">           </span><span class="c1">// permanent: straight to DLT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">handler</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nd">@Component</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">PaymentListener</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ProcessedEventRepository</span><span class="w"> </span><span class="n">processed</span><span class="p">;</span><span class="w">   </span><span class="c1">// idempotency store</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">LedgerService</span><span class="w"> </span><span class="n">ledger</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nd">@KafkaListener</span><span class="p">(</span><span class="n">topics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;payments.authorised.v1&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">groupId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;ledger-posting&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nd">@Transactional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span><span class="n">PaymentAuthorised</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">processed</span><span class="p">.</span><span class="na">markIfNew</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">eventId</span><span class="p">()))</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c1">// duplicate: already handled</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ledger</span><span class="p">.</span><span class="na">post</span><span class="p">(</span><span class="n">event</span><span class="p">);</span><span class="w">                                  </span><span class="c1">// same DB transaction as the marker</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>The listener is <strong>at-least-once plus idempotent</strong>. The processed-event marker and the business update commit in <strong>one database transaction</strong>, so a redelivery after a crash is harmless.</p>
+<h2 id="backpressure-and-flow-control">Backpressure and flow control<a class="heading-anchor" href="#backpressure-and-flow-control" aria-label="Link to this section">#</a></h2>
+<p>Kafka consumers <strong>pull</strong>, so backpressure is natural: a slow consumer simply lags. Protect downstream systems by:</p>
+<ul>
+<li>capping concurrency (<code>concurrency</code> in Spring, the number of consumer instances)</li>
+<li>pausing partitions when a downstream circuit breaker opens (<code>consumer.pause()</code>)</li>
+<li>using quotas on brokers for noisy clients.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Auto-commit with slow or failing processing</span></p>
+  <div class="callout__body"><p>Auto-commit can mark records as done before they are processed, which loses them, or replay large batches after a crash. Commit explicitly after success.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Believing exactly-once covers your database</span></p>
+  <div class="callout__body"><p>Kafka transactions do not include your PostgreSQL write. Use idempotent consumers or the outbox pattern.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Infinite retries on a poison message</span></p>
+  <div class="callout__body"><p>One bad record blocks the partition forever. Classify errors and route permanent failures to a dead-letter topic.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Long processing inside the poll loop</span></p>
+  <div class="callout__body"><p>Exceeding <code>max.poll.interval.ms</code> causes rebalance storms. Keep work short or move it to a share group or worker pool.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What does the idempotent producer prevent?</strong>
+Duplicate records caused by producer retries. The broker de-duplicates using the producer ID and sequence numbers.</p>
+<p><strong>What do Kafka transactions make atomic?</strong>
+Writes to several partitions plus the consumer offset commit, so a consume-process-produce step either fully happens or not at all.</p>
+<p><strong>Why is exactly-once not enough when writing to a database?</strong>
+The database is outside the Kafka transaction. You need at-least-once delivery with an idempotent consumer, or the outbox pattern.</p>
+<p><strong>When should offsets be committed for at-least-once?</strong>
+After processing succeeds, never before.</p>
+<p><strong>What is a dead-letter topic?</strong>
+A topic for records that cannot be processed (permanent errors). It has error metadata, so the main flow continues and the bad records can be fixed and replayed.</p>
+<p><strong>What does <code>isolation.level=read_committed</code> do?</strong>
+The consumer skips records from aborted transactions and does not read past open transactions.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Pick a delivery guarantee per flow. At-least-once plus idempotent consumers is the workhorse.</li>
+<li>Producers: <code>acks=all</code>, idempotence on, bounded retries, sensible batching and compression.</li>
+<li>Transactions give exactly-once for Kafka-to-Kafka processing. Side effects need idempotency.</li>
+<li>Consumers: commit after success, watch lag, use the new rebalance protocol, and route poison messages to dead-letter topics.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Apache Kafka, <a href="https://kafka.apache.org/documentation/#semantics" rel="noopener">Design: message delivery semantics</a>.</li>
+<li><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-98&#43;-&#43;Exactly&#43;Once&#43;Delivery&#43;and&#43;Transactional&#43;Messaging" rel="noopener">KIP-98: Exactly Once Delivery and Transactional Messaging</a> and <a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-890%3A&#43;Transactions&#43;Server-Side&#43;Defense" rel="noopener">KIP-890: Transactions Server-Side Defense</a>.</li>
+<li>Spring, <a href="https://docs.spring.io/spring-kafka/reference/" rel="noopener">Spring for Apache Kafka reference</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/outbox-cdc-idempotency/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Outbox, CDC &amp; idempotency</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/stream-processing/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Stream processing</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/kafka-architecture/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Kafka architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/event-driven-architecture/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Event-driven architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/schemas-and-event-contracts/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Schemas &amp; event contracts</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/streaming/kafka-architecture/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Kafka architecture</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/streaming/event-driven-architecture/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Event-driven architecture</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#the-three-delivery-semantics">The three delivery semantics</a></li>
+    <li><a href="#the-producer">The producer</a></li>
+    <li><a href="#transactions-and-exactly-once">Transactions and exactly-once</a></li>
+    <li><a href="#the-consumer">The consumer</a></li>
+    <li><a href="#retries-dead-letters-and-poison-messages">Retries, dead letters and poison messages</a></li>
+    <li><a href="#example-spring-for-apache-kafka">Example: Spring for Apache Kafka</a></li>
+    <li><a href="#backpressure-and-flow-control">Backpressure and flow control</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Event-Driven Architecture · Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</title>
+<meta name="description" content="Designing systems around events: events vs commands vs queries, the four event patterns (notification, event-carried state transfer, event sourcing, CQRS), choreography vs orchestration, topic and event design, ordering, idempotency, versioning, observability, and when not to go event-driven.">
+<link rel="canonical" href="https://samirsahoo.github.io/data-security/streaming/event-driven-architecture/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub">
+<meta property="og:title" content="Event-Driven Architecture">
+<meta property="og:description" content="Designing systems around events: events vs commands vs queries, the four event patterns (notification, event-carried state transfer, event sourcing, CQRS), choreography vs orchestration, topic and event design, ordering, idempotency, versioning, observability, and when not to go event-driven.">
+<meta property="og:url" content="https://samirsahoo.github.io/data-security/streaming/event-driven-architecture/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Event-Driven Architecture">
+<meta name="twitter:description" content="Designing systems around events: events vs commands vs queries, the four event patterns (notification, event-carried state transfer, event sourcing, CQRS), choreography vs orchestration, topic and event design, ordering, idempotency, versioning, observability, and when not to go event-driven.">
+<meta name="keywords" content="event-driven, architecture, kafka">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-01","description":"Designing systems around events: events vs commands vs queries, the four event patterns (notification, event-carried state transfer, event sourcing, CQRS), choreography vs orchestration, topic and event design, ordering, idempotency, versioning, observability, and when not to go event-driven.","headline":"Event-Driven Architecture","inLanguage":"en","isAccessibleForFree":true,"keywords":"event-driven, architecture, kafka","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub"},"url":"https://samirsahoo.github.io/data-security/streaming/event-driven-architecture/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/","name":"Data, Distributed Systems \u0026 Cybersecurity Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/streaming/","name":"1 · Kafka \u0026 Streaming","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/data-security/streaming/event-driven-architecture/","name":"Event-driven architecture","position":3}]}
+</script>
+
+<link rel="icon" href="/data-security/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/data-security/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-streaming">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/data-security/" aria-label="Data, Distributed Systems &amp; Cybersecurity Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M16 6.5 24.5 11.5v9L16 25.5 7.5 20.5v-9z" stroke="var(--accent-contrast)" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M16 16v9.5M16 16l8.5-4.5M16 16 7.5 11.5" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+      <span class="brand__text"><span class="brand__name">Data, Distributed Systems &amp; Cybersecurity</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/data-security/search/" method="get" data-index="/data-security/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/data-security/learning-paths/">Learning paths</a>
+      <a href="/data-security/glossary/">Glossary</a>
+      <a href="/data-security/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/learning-paths/data-security-architect/">Data &amp; Security Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/kafka-producers-and-consumers/">Producers, consumers &amp; exactly-once</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/event-driven-architecture/" aria-current="page">Event-driven architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/schemas-and-event-contracts/">Schemas &amp; event contracts</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/stream-processing/">Stream processing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/streaming/case-study-real-time-payments/">Case study: real-time payments</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/distributed/">2 · Consistency &amp; Sagas</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/distributed/consistency-and-consensus/">Consistency &amp; consensus</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/distributed-transactions/">Distributed transactions</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/outbox-cdc-idempotency/">Outbox, CDC &amp; idempotency</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/saga-pattern/">Saga pattern</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS &amp; event sourcing</a></li>
+      <li class="nav-tree__item"><a href="/data-security/distributed/case-study-order-saga/">Case study: order saga</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/data-platforms/">3 · Data Platforms</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-platform-architecture/">Data platform architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-governance/">Data governance</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/data-security-and-privacy/">Data security &amp; privacy</a></li>
+      <li class="nav-tree__item"><a href="/data-security/data-platforms/case-study-regulated-data-platform/">Case study: regulated data platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/security/">4 · Security &amp; Regulation</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/security/threat-modelling/">Threat modelling</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/security-architecture/">Security architecture</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/fintech-regulations/">FinTech regulations</a></li>
+      <li class="nav-tree__item"><a href="/data-security/security/case-study-secure-payments-platform/">Case study: secure payments platform</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/data-security/self-review/">Self Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-check/">Quick check</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/design-review-checklist/">Design review checklist</a></li>
+      <li class="nav-tree__item"><a href="/data-security/self-review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/data-security/">Home</a></li>
+    <li><a href="/data-security/streaming/">1 · Kafka &amp; Streaming</a></li>
+    <li><span aria-current="page">Event-driven architecture</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Event-Driven Architecture</h1><p class="article__lede" itemprop="description">Designing systems around events: events vs commands vs queries, the four event patterns (notification, event-carried state transfer, event sourcing, CQRS), choreography vs orchestration, topic and event design, ordering, idempotency, versioning, observability, and when not to go event-driven.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/data-security/tags/event-driven/">#Event-Driven</a><a class="tag" href="/data-security/tags/architecture/">#Architecture</a><a class="tag" href="/data-security/tags/kafka/">#Kafka</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/data-security/streaming/kafka-architecture/">Kafka architecture</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#messages-events-commands-and-queries">Messages: events, commands and queries</a></li>
+    <li><a href="#the-four-event-patterns-martin-fowler">The four event patterns (Martin Fowler)</a></li>
+    <li><a href="#choreography-vs-orchestration">Choreography vs orchestration</a></li>
+    <li><a href="#designing-events-and-topics">Designing events and topics</a></li>
+    <li><a href="#reliability-building-blocks">Reliability building blocks</a></li>
+    <li><a href="#observability-for-asynchronous-flows">Observability for asynchronous flows</a></li>
+    <li><a href="#when-not-to-use-eda">When not to use EDA</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>In an <strong>event-driven architecture (EDA)</strong>, services announce <strong>facts that happened</strong> (&ldquo;PaymentAuthorised&rdquo;) instead of telling other services what to do. Interested services <strong>react</strong> to those events in their own time. The producer does not know, or need to know, who is listening.</p>
+<h2 id="the-problem">The problem<a class="heading-anchor" href="#the-problem" aria-label="Link to this section">#</a></h2>
+<p>With synchronous REST chains, every service must be up for the request to succeed. Latencies add up, and adding a new consumer means changing the caller. A checkout that calls payments, then inventory, then loyalty, then email fails if email is slow. EDA <strong>decouples in time and in knowledge</strong>, so services can scale, fail and evolve independently.</p>
+<h2 id="messages-events-commands-and-queries">Messages: events, commands and queries<a class="heading-anchor" href="#messages-events-commands-and-queries" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Meaning</th>
+      <th>Naming</th>
+      <th>Coupling</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Event</strong></td>
+      <td>A fact that happened; immutable</td>
+      <td>Past tense: <code>OrderPlaced</code></td>
+      <td>Producer does not know the consumers</td>
+    </tr>
+    <tr>
+      <td><strong>Command</strong></td>
+      <td>A request for one specific receiver to do something; may be refused</td>
+      <td>Imperative: <code>ReserveStock</code></td>
+      <td>Sender knows the receiver</td>
+    </tr>
+    <tr>
+      <td><strong>Query</strong></td>
+      <td>A request for data</td>
+      <td><code>GetBalance</code></td>
+      <td>Synchronous, usually</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>A common split is <strong>domain events</strong>, which stay inside a bounded context, and <strong>integration events</strong>, which form the published, versioned contract for other teams. Do not leak internal domain events as public contracts.</p>
+<h2 id="the-four-event-patterns-martin-fowler">The four event patterns (Martin Fowler)<a class="heading-anchor" href="#the-four-event-patterns-martin-fowler" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Four things people mean by event-driven"><figcaption class="diagram__title">Four things people mean by event-driven</figcaption>
+  <pre class="mermaid">flowchart TB
+    EN[&#34;Event notification&lt;br/&gt;&#39;OrderPlaced id=42&#39; — consumer calls back for details&#34;]
+    ECST[&#34;Event-carried state transfer&lt;br/&gt;event carries the data consumers need&#34;]
+    ES[&#34;Event sourcing&lt;br/&gt;events ARE the system of record&#34;]
+    CQRS[&#34;CQRS&lt;br/&gt;separate write and read models&#34;]</pre>
+</figure>
+<ol>
+<li><strong>Event notification:</strong> a thin event with an ID. It is simple, but consumers call back for the details, which reintroduces coupling and load.</li>
+<li><strong>Event-carried state transfer (ECST):</strong> the event carries the data consumers need, so they keep a local copy and stay available when the producer is down. Data is duplicated and eventually consistent.</li>
+<li><strong>Event sourcing:</strong> state is derived from an append-only sequence of events. See <a href="/data-security/distributed/cqrs-and-event-sourcing/">CQRS and event sourcing</a>.</li>
+<li><strong>CQRS:</strong> separate models for writes and reads, often fed by events.</li>
+</ol>
+<h2 id="choreography-vs-orchestration">Choreography vs orchestration<a class="heading-anchor" href="#choreography-vs-orchestration" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Choreography</th>
+      <th>Orchestration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>How</td>
+      <td>Each service reacts to events and emits new ones</td>
+      <td>A coordinator tells each service what to do</td>
+    </tr>
+    <tr>
+      <td>Strengths</td>
+      <td>Loose coupling, no central component</td>
+      <td>Visible flow, easy to change, clear error handling</td>
+    </tr>
+    <tr>
+      <td>Weaknesses</td>
+      <td>The flow is implicit and spread across services, so it is hard to see and debug</td>
+      <td>The orchestrator is a component you must make reliable</td>
+    </tr>
+    <tr>
+      <td>Use when</td>
+      <td>Few steps, simple reactions, broadcast facts</td>
+      <td>Multi-step business processes with compensation, SLAs and audit</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Most real systems mix the two: <strong>orchestrate a business process</strong> (see <a href="/data-security/distributed/saga-pattern/">sagas</a>) and <strong>choreograph notifications</strong> around it.</p>
+<h2 id="designing-events-and-topics">Designing events and topics<a class="heading-anchor" href="#designing-events-and-topics" aria-label="Link to this section">#</a></h2>
+<p><strong>Event envelope.</strong> Use a consistent envelope, for example aligned with <strong>CloudEvents</strong> (a CNCF graduated specification):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;specversion&#34;</span><span class="p">:</span> <span class="s2">&#34;1.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;8f3c2a8e-6d7b-4e39-9b58-2a1f0c3d9e11&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;payments-service&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;com.bank.payments.PaymentAuthorised.v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2026-11-01T09:14:03.120Z&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;subject&#34;</span><span class="p">:</span> <span class="s2">&#34;payment/PAY-20261101-000042&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;datacontenttype&#34;</span><span class="p">:</span> <span class="s2">&#34;application/avro&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;paymentId&#34;</span><span class="p">:</span> <span class="s2">&#34;PAY-20261101-000042&#34;</span><span class="p">,</span> <span class="nt">&#34;accountId&#34;</span><span class="p">:</span> <span class="s2">&#34;ACC-42&#34;</span><span class="p">,</span> <span class="nt">&#34;amount&#34;</span><span class="p">:</span> <span class="s2">&#34;125.00&#34;</span><span class="p">,</span> <span class="nt">&#34;currency&#34;</span><span class="p">:</span> <span class="s2">&#34;EUR&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>Checklist:</strong></p>
+<ul>
+<li><strong>Unique event ID</strong> for de-duplication; <strong>event time</strong> as well as processing time.</li>
+<li><strong>Key</strong> by the entity whose order matters (<code>accountId</code>, <code>orderId</code>).</li>
+<li><strong>Topic naming:</strong> <code>&lt;domain&gt;.&lt;entity&gt;.&lt;event&gt;.v&lt;major&gt;</code>, for example <code>payments.payment.authorised.v1</code>. Alternatively use one topic per aggregate stream with typed events, if consumers need cross-event order for that entity.</li>
+<li><strong>No secrets or unnecessary PII</strong> in events. Tokenise or reference sensitive data. Events are copied widely and retained.</li>
+<li><strong>Correlation and causation IDs</strong> plus W3C <code>traceparent</code> headers, for tracing across services.</li>
+<li><strong>Document</strong> with AsyncAPI (version 3.x) and register schemas. See <a href="/data-security/streaming/schemas-and-event-contracts/">Schemas and event contracts</a>.</li>
+</ul>
+<h2 id="reliability-building-blocks">Reliability building blocks<a class="heading-anchor" href="#reliability-building-blocks" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Problem</th>
+      <th>Pattern</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&ldquo;I updated my DB but the event was lost&rdquo;</td>
+      <td><a href="/data-security/distributed/outbox-cdc-idempotency/">Transactional outbox + CDC</a></td>
+    </tr>
+    <tr>
+      <td>Duplicates from retries</td>
+      <td>Idempotent consumer (processed-event table, natural keys, upserts)</td>
+    </tr>
+    <tr>
+      <td>Events arrive out of order</td>
+      <td>Key by entity; version numbers; ignore stale versions</td>
+    </tr>
+    <tr>
+      <td>Poison events</td>
+      <td>Retry topics plus a dead-letter topic</td>
+    </tr>
+    <tr>
+      <td>Multi-step business process</td>
+      <td><a href="/data-security/distributed/saga-pattern/">Saga</a> with compensations</td>
+    </tr>
+    <tr>
+      <td>Consumers need history</td>
+      <td>Retention, compaction or an event store, plus replay</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="observability-for-asynchronous-flows">Observability for asynchronous flows<a class="heading-anchor" href="#observability-for-asynchronous-flows" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Propagate <strong>trace context</strong> in headers. OpenTelemetry instrumentations for Kafka clients create producer and consumer spans linked across topics.</li>
+<li>Measure <strong>end-to-end latency</strong> (event time to processed time), <strong>consumer lag</strong>, DLT rates and retry rates per consumer group.</li>
+<li>Keep an <strong>event catalog</strong>: which services produce and consume which events and versions. Backstage, an EventCatalog or AsyncAPI docs can serve.</li>
+</ul>
+<h2 id="when-not-to-use-eda">When not to use EDA<a class="heading-anchor" href="#when-not-to-use-eda" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>When you need an <strong>immediate answer</strong> to the user (balance checks, validations): use a synchronous query.</li>
+<li>For <strong>simple CRUD</strong> with one consumer: a direct call is clearer.</li>
+<li>When the team cannot yet operate the platform, monitor lag or reason about eventual consistency.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Commands disguised as events</span></p>
+  <div class="callout__body"><p>&ldquo;SendEmailRequested&rdquo; consumed by exactly one service is a command. That is fine, but name and own it as one; it couples sender to receiver.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Event notification everywhere</span></p>
+  <div class="callout__body"><p>Thin events cause call-back storms to the producer. Carry the state consumers need (ECST) where availability matters.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Publishing your internal model</span></p>
+  <div class="callout__body"><p>Leaking database-shaped or internal domain events as public contracts freezes your internals. Publish deliberate, versioned integration events.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Choreography for long business processes</span></p>
+  <div class="callout__body"><p>Ten services reacting to each other produce a flow no one can see. Orchestrate the process.</p></div>
+</aside><h2 id="quick-check">Quick check<a class="heading-anchor" href="#quick-check" aria-label="Link to this section">#</a></h2>
+<p><strong>What is the difference between an event and a command?</strong>
+An event is an immutable fact that already happened, and the producer does not know its consumers. A command asks one specific receiver to do something and can be refused.</p>
+<p><strong>What is event-carried state transfer?</strong>
+Events carry the data consumers need, so consumers keep local copies and do not call the producer back.</p>
+<p><strong>Choreography or orchestration for a 6-step payment process with refunds?</strong>
+Orchestration. The flow, timeouts and compensations are explicit and auditable.</p>
+<p><strong>Why include a unique event ID?</strong>
+So consumers can de-duplicate redelivered events (idempotency) and so events can be traced.</p>
+<p><strong>What is CloudEvents?</strong>
+A CNCF specification for a common event envelope (<code>id</code>, <code>source</code>, <code>type</code>, <code>time</code> and more) that works across brokers and protocols.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>EDA publishes immutable facts. Consumers react independently, which decouples availability, scaling and change.</li>
+<li>Choose a pattern deliberately: notification, ECST, event sourcing or CQRS.</li>
+<li>Orchestrate business processes; choreograph simple reactions.</li>
+<li>Design events as contracts: IDs, keys, versions, schemas, no secrets, and trace context.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Martin Fowler, <a href="https://martinfowler.com/articles/201701-event-driven.html" rel="noopener">What do you mean by &ldquo;Event-Driven&rdquo;?</a>.</li>
+<li><a href="https://cloudevents.io/" rel="noopener">CloudEvents specification</a> and <a href="https://www.asyncapi.com/" rel="noopener">AsyncAPI</a>.</li>
+<li>Confluent, <a href="https://developer.confluent.io/patterns/" rel="noopener">Event-driven architecture patterns</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/schemas-and-event-contracts/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Schemas &amp; event contracts</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/saga-pattern/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">Saga pattern</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/distributed/cqrs-and-event-sourcing/">
+        <span class="card__eyebrow">2 · Consistency &amp; Sagas</span>
+        <span class="card__title">CQRS &amp; event sourcing</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/kafka-architecture/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Kafka architecture</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/data-security/streaming/kafka-producers-and-consumers/">
+        <span class="card__eyebrow">1 · Kafka &amp; Streaming</span>
+        <span class="card__title">Producers, consumers &amp; exactly-once</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/data-security/streaming/kafka-producers-and-consumers/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Producers, consumers &amp; exactly-once</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/data-security/streaming/schemas-and-event-contracts/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Schemas &amp; event contracts</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#messages-events-commands-and-queries">Messages: events, commands and queries</a></li>
+    <li><a href="#the-four-event-patterns-martin-fowler">The four event patterns (Martin Fowler)</a></li>
+    <li><a href="#choreography-vs-orchestration">Choreography vs orchestration</a></li>
+    <li><a href="#designing-events-and-topics">Designing events and topics</a></li>
+    <li><a href="#reliability-building-blocks">Reliability building blocks</a></li>
+    <li><a href="#observability-for-asynchronous-flows">Observability for asynchronous flows</a></li>
+    <li><a href="#when-not-to-use-eda">When not to use EDA</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#quick-check">Quick check</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Data, Distributed Systems &amp; Cybersecurity Knowledge Hub</p>
+      <p>Understand the data. Trust the system. Check yourself.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/data-security/about/">About &amp; conventions</a></li><li><a href="/data-security/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/data-security/index.xml">RSS feed</a></li>
+      <li><a href="/data-security/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">Text licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>; code examples under the MIT License. Kafka examples target Apache Kafka 4.2.</p>
+  </div>
+</footer>
+
+<script src="/data-security/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/data-security/js/vendor/mermaid.min.js" defer></script>
+<script src="/data-security/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>
