@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Best Practices Cheatsheet · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="A one-page reference for working well with Claude Code: tell it what it can&#39;t see, give it a check to run, enforce rules that can&#39;t have exceptions, change defaults only with evidence, steer the session, and run it safely unattended — plus the old advice you can stop following.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Best Practices Cheatsheet">
+<meta property="og:description" content="A one-page reference for working well with Claude Code: tell it what it can&#39;t see, give it a check to run, enforce rules that can&#39;t have exceptions, change defaults only with evidence, steer the session, and run it safely unattended — plus the old advice you can stop following.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Best Practices Cheatsheet">
+<meta name="twitter:description" content="A one-page reference for working well with Claude Code: tell it what it can&#39;t see, give it a check to run, enforce rules that can&#39;t have exceptions, change defaults only with evidence, steer the session, and run it safely unattended — plus the old advice you can stop following.">
+<meta name="keywords" content="claude, developer-tools, cheatsheet, best-practices">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"A one-page reference for working well with Claude Code: tell it what it can't see, give it a check to run, enforce rules that can't have exceptions, change defaults only with evidence, steer the session, and run it safely unattended — plus the old advice you can stop following.","headline":"Claude Code Best Practices Cheatsheet","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, cheatsheet, best-practices","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-best-practices-cheatsheet/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-best-practices-cheatsheet/","name":"Cheatsheet: best practices","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/" aria-current="page">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Cheatsheet: best practices</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Best Practices Cheatsheet</h1><p class="article__lede" itemprop="description">A one-page reference for working well with Claude Code: tell it what it can&#39;t see, give it a check to run, enforce rules that can&#39;t have exceptions, change defaults only with evidence, steer the session, and run it safely unattended — plus the old advice you can stop following.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>9 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/cheatsheet/">#Cheatsheet</a><a class="tag" href="/enterprise-ai/tags/best-practices/">#Best-Practices</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#when-a-session-goes-wrong-it-is-one-of-four-things">When a session goes wrong, it is one of four things</a></li>
+    <li><a href="#advise-or-enforce">Advise or enforce?</a></li>
+    <li><a href="#1-tell-claude-what-it-cant-see">1. Tell Claude what it can&rsquo;t see</a></li>
+    <li><a href="#2-give-claude-a-check-to-run">2. Give Claude a check to run</a></li>
+    <li><a href="#3-enforce-rules-that-cant-have-exceptions">3. Enforce rules that can&rsquo;t have exceptions</a></li>
+    <li><a href="#4-change-a-default-only-with-evidence">4. Change a default only with evidence</a></li>
+    <li><a href="#5-steer-the-session">5. Steer the session</a></li>
+    <li><a href="#6-run-it-unattended--five-questions-first">6. Run it unattended — five questions first</a></li>
+    <li><a href="#old-advice-you-can-stop-following">Old advice you can stop following</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Claude Code&rsquo;s defaults already do the right thing for most prompts: <strong>auto mode</strong>, <strong>Opus 5.5 at medium effort</strong>, <strong>automatic sub-agents</strong> and <strong>automatic compaction</strong>. Best practice is mostly about the few things no default can know — what is not in your repo, how to check the work, which rules can never bend, and what you are willing to spend.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Distilled from Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/best-practices" rel="noopener">Best practices for Claude Code</a> and linked pages, read on 7 November 2026. Print this page; re-check it when <code>/release-notes</code> shows a major change.</p></div>
+</aside><h2 id="when-a-session-goes-wrong-it-is-one-of-four-things">When a session goes wrong, it is one of four things<a class="heading-anchor" href="#when-a-session-goes-wrong-it-is-one-of-four-things" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Root cause</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Built the wrong thing, or rediscovers the same fact every session</td>
+      <td>Missing information that is not in the repo</td>
+      <td><a href="#1-tell-claude-what-it-cant-see">Tell it what it can&rsquo;t see</a></td>
+    </tr>
+    <tr>
+      <td>Said &ldquo;done&rdquo; and it wasn&rsquo;t</td>
+      <td>No check to run</td>
+      <td><a href="#2-give-claude-a-check-to-run">Give it a check</a></td>
+    </tr>
+    <tr>
+      <td>Did something that must never happen, or skipped a mandatory step</td>
+      <td>A rule written as advice</td>
+      <td><a href="#3-enforce-rules-that-cant-have-exceptions">Enforce it</a></td>
+    </tr>
+    <tr>
+      <td>Right answer, but too slow, costly or prompt-heavy</td>
+      <td>A default that doesn&rsquo;t fit this task</td>
+      <td><a href="#4-change-a-default-only-with-evidence">Change a default</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-code-loop.html" title="From task to merged change: plan, build, check, review" loading="lazy" style="height: 760px"></iframe>
+  <figcaption>
+    <span>From task to merged change: plan, build, check, review · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-code-loop.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h2 id="advise-or-enforce">Advise or enforce?<a class="heading-anchor" href="#advise-or-enforce" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Advise — Claude decides</th>
+      <th>Enforce — the harness decides</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>What to do</strong></td>
+      <td>Prompt, <code>CLAUDE.md</code>, skills</td>
+      <td>Hooks; skills only you can start (<code>disable-model-invocation</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>What it can touch</strong></td>
+      <td>Auto mode&rsquo;s classifier</td>
+      <td>Deny rules, sandbox in strict mode, managed settings</td>
+    </tr>
+    <tr>
+      <td><strong>When it&rsquo;s done</strong></td>
+      <td>Ask for evidence, <code>/goal</code>, <code>/code-review</code></td>
+      <td>Tests, typecheck, a <code>Stop</code> hook, CI</td>
+    </tr>
+    <tr>
+      <td><strong>How much it spends</strong></td>
+      <td>Effort level</td>
+      <td><code>--max-turns</code>, <code>--max-budget-usd</code>, spend limits</td>
+    </tr>
+    <tr>
+      <td><strong>Who has the last word</strong></td>
+      <td>Claude&rsquo;s summary</td>
+      <td>Branch protection, a human approving the merge</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Rule of thumb</span></p>
+  <div class="callout__body"><p>Guidelines with exceptions go in advice — Claude reading the actual code usually judges them better than a rule written in advance. Rules with <strong>zero</strong> exceptions go in enforcement. If you keep adding emphasis to a <code>CLAUDE.md</code> line, it belongs in a hook. If you have hooks for mere preferences, delete them.</p></div>
+</aside><h2 id="1-tell-claude-what-it-cant-see">1. Tell Claude what it can&rsquo;t see<a class="heading-anchor" href="#1-tell-claude-what-it-cant-see" aria-label="Link to this section">#</a></h2>
+<p><strong>The test before writing anything down:</strong> <em>Could Claude find this by reading the code? Would it actually go and look?</em> If both are yes, leave it out.</p>
+<p><strong>Write specific prompts</strong> — name the file, the symptom, and what &ldquo;fixed&rdquo; looks like.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Instead of</th>
+      <th>Try</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&ldquo;fix the login bug&rdquo;</td>
+      <td>&ldquo;users report login fails after the session times out. Look at token refresh in <code>src/auth/</code>, write a failing test that reproduces it, then fix it&rdquo;</td>
+    </tr>
+    <tr>
+      <td>&ldquo;add a calendar widget&rdquo;</td>
+      <td>&ldquo;follow the pattern in <code>HotDogWidget.php</code>; build a calendar widget with month picker and year paging. No new libraries&rdquo;</td>
+    </tr>
+    <tr>
+      <td>&ldquo;build the settings page&rdquo;</td>
+      <td>&ldquo;build the settings page from the mockup. <strong>Be ambitious</strong>: empty and error states, save flow, keyboard navigation&rdquo;</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<ul>
+<li><strong>Hand over, don&rsquo;t describe:</strong> <code>@path/to/file</code>, paste a screenshot, or pipe output: <code>cat error.log | claude -p &quot;what's going on here&quot;</code>.</li>
+<li><strong>Brainstorm first</strong> when unsure: <em>&ldquo;Interview me until you could write the spec, then write it to <code>SPEC.md</code>.&rdquo;</em> Then build from a fresh session.</li>
+<li><strong><code>be ambitious</code></strong> still helps — it tells Claude about scope, which only you know. <code>think step by step</code> and <code>be thorough</code> do not raise effort.</li>
+</ul>
+<p><strong>Keep <code>CLAUDE.md</code> short (under 200 lines).</strong> Put in it only:</p>
+<ul>
+<li>How to confirm work: exact test, typecheck, lint and single-test commands.</li>
+<li>Where the code misleads: legacy patterns not to copy, directories that look dead but aren&rsquo;t.</li>
+<li>Decisions not in the repo: the error helper you chose, how deploys work, what needs migration review.</li>
+<li>Anything you have corrected twice.</li>
+</ul>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Where</th>
+      <th>What goes there</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CLAUDE.md</code></td>
+      <td>Every-session facts for the whole project</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE.local.md</code> (gitignored)</td>
+      <td>Your personal preferences</td>
+    </tr>
+    <tr>
+      <td><code>.claude/rules/*.md</code> with <code>paths:</code></td>
+      <td>Rules for one part of the codebase</td>
+    </tr>
+    <tr>
+      <td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td>
+      <td>Procedures and team knowledge — loaded only when needed</td>
+    </tr>
+    <tr>
+      <td>MCP server or a CLI (<code>gh</code>, <code>--help</code>)</td>
+      <td>Systems Claude can&rsquo;t see: tracker, dashboards, databases</td>
+    </tr>
+    <tr>
+      <td>Code-intelligence plugin</td>
+      <td>Go-to-definition for typed languages</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Tooling: <code>/init</code> drafts it, <code>/doctor</code> suggests cuts, <code>/doctor prompt-audit</code> finds stale or contradictory lines, <code>/context all</code> confirms it loaded.</p>
+<h2 id="2-give-claude-a-check-to-run">2. Give Claude a check to run<a class="heading-anchor" href="#2-give-claude-a-check-to-run" aria-label="Link to this section">#</a></h2>
+<p>Claude stops when the work <em>looks</em> done. Give it something that returns <strong>pass or fail</strong> — a test, a build exit code, a linter, a fixture diff, a screenshot next to the mockup — and it closes the loop itself.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Strictness</th>
+      <th>How</th>
+      <th>Who decides</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>In the prompt</td>
+      <td>&ldquo;run the auth tests after, and keep going until they pass&rdquo;</td>
+      <td>Claude</td>
+    </tr>
+    <tr>
+      <td>As a goal</td>
+      <td><code>/goal all tests in tests/auth pass and lint is clean</code></td>
+      <td>A separate evaluator model, after every turn</td>
+    </tr>
+    <tr>
+      <td>As a <code>Stop</code> hook</td>
+      <td>Script exits <code>2</code> → Claude must keep working</td>
+      <td>The harness</td>
+    </tr>
+    <tr>
+      <td>By a fresh reviewer</td>
+      <td><code>/code-review</code>, or a read-only reviewer sub-agent</td>
+      <td>A context that never saw the reasoning</td>
+    </tr>
+    <tr>
+      <td>By running the app</td>
+      <td><code>/verify</code> builds, runs and observes the change</td>
+      <td>Claude, with real evidence</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;Stop&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;command&#34;</span><span class="p">,</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;pnpm tsc --noEmit 1&gt;&amp;2 || exit 2&#34;</span> <span class="p">}]</span> <span class="p">}]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li><strong>Ask for evidence:</strong> the command it ran and its output. &ldquo;All tests pass&rdquo; alone tells you little.</li>
+<li><strong>Review against the spec, and say &ldquo;skip style&rdquo;</strong> — a reviewer asked to find problems always finds something.</li>
+<li>A <code>Stop</code> hook that blocks 8 stops in a row with no tool call between is overridden; raise it with <code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP</code>.</li>
+</ul>
+<h2 id="3-enforce-rules-that-cant-have-exceptions">3. Enforce rules that can&rsquo;t have exceptions<a class="heading-anchor" href="#3-enforce-rules-that-cant-have-exceptions" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Rule</th>
+      <th>Enforce with</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Never read <code>.env</code> or secrets</td>
+      <td><code>deny: [&quot;Read(./.env)&quot;, &quot;Read(./secrets/**)&quot;]</code> + <code>/sandbox</code></td>
+    </tr>
+    <tr>
+      <td>Always format after editing</td>
+      <td><code>PostToolUse</code> hook on <code>Edit|Write</code></td>
+    </tr>
+    <tr>
+      <td>Never touch <code>migrations/</code> or <code>src/gen/</code></td>
+      <td><code>PreToolUse</code> hook that exits <code>2</code> for those paths</td>
+    </tr>
+    <tr>
+      <td>Never push without review</td>
+      <td><code>ask: [&quot;Bash(git push *)&quot;]</code>, branch protection</td>
+    </tr>
+    <tr>
+      <td>Scan commits for secrets, even if the scanner is down</td>
+      <td><code>command</code> hook with <code>onFailure: &quot;block&quot;</code></td>
+    </tr>
+    <tr>
+      <td>Org-wide security policy</td>
+      <td>Managed settings</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<ul>
+<li><strong>Deny rules hold in every mode</strong>, including auto and <code>bypassPermissions</code>.</li>
+<li><strong>Rules match tool calls, not intent</strong>: a <code>Read</code> deny catches <code>cat .env</code> but not a script that opens it; a <code>WebFetch</code> deny doesn&rsquo;t stop <code>curl</code> unless the sandbox is on. For security, use <strong>both</strong> deny rules and the sandbox.</li>
+<li><strong><code>prompt</code> and <code>agent</code> hooks are not deterministic</strong> — use <code>command</code> or <code>http</code> hooks for enforcement.</li>
+<li><strong>Ask Claude to write the hook:</strong> &ldquo;write a hook that blocks edits to the migrations folder&rdquo;, then check <code>/hooks</code>.</li>
+<li><strong>Keep the enforced set small.</strong> At forty hooks and deny rules, most are preferences.</li>
+</ul>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Applies to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>~/.claude/settings.json</code>, <code>.claude/settings.local.json</code></td>
+      <td>You only</td>
+    </tr>
+    <tr>
+      <td><code>.claude/settings.json</code> (committed)</td>
+      <td>Everyone in the repo (allow rules and hooks after workspace trust)</td>
+    </tr>
+    <tr>
+      <td>Managed settings</td>
+      <td>The organisation; cannot be overridden</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="4-change-a-default-only-with-evidence">4. Change a default only with evidence<a class="heading-anchor" href="#4-change-a-default-only-with-evidence" aria-label="Link to this section">#</a></h2>
+<p>Run <strong><code>/usage</code></strong> first — it shows where time, tokens and prompts went, by skill, sub-agent, plugin and MCP server.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Default</th>
+      <th>Change it when</th>
+      <th>How</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Auto mode</td>
+      <td>You want to see every action → Manual; classifier blocks routine work → tune it</td>
+      <td><code>Shift+Tab</code>; <code>autoMode.environment</code> / <code>allow</code> in <code>~/.claude/settings.json</code> (keep <code>&quot;$defaults&quot;</code>); <code>/auto-mode-setup</code></td>
+    </tr>
+    <tr>
+      <td>Medium effort</td>
+      <td>Easy-to-miss cases (unfamiliar code, flaky test, schema change) → <code>high</code>/<code>xhigh</code>; fast back-and-forth → <code>low</code>; hard unattended problem → <code>max</code></td>
+      <td><code>/effort</code>, or <code>ultrathink</code> for one prompt</td>
+    </tr>
+    <tr>
+      <td>Opus 5.5</td>
+      <td>Routine work → Sonnet; hardest problems → Fable; simple sub-agents → Haiku</td>
+      <td><code>/model</code>, <code>model: haiku</code> in an agent file</td>
+    </tr>
+    <tr>
+      <td>Auto sub-agents</td>
+      <td>They cost more than they save</td>
+      <td>Short summaries back, <code>model: haiku</code>, read-only <code>tools:</code>, check <code>/usage</code></td>
+    </tr>
+    <tr>
+      <td>Auto compaction</td>
+      <td>A long session is paying for stale history</td>
+      <td><code>/clear</code> between tasks; <code>/compact &lt;focus&gt;</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Cost in one line</span></p>
+  <div class="callout__body"><p>Every request resends the whole conversation. <code>/clear</code> between unrelated tasks is free and is the single biggest saving; the prompt cache lasts about an hour on a subscription and five minutes on API keys.</p></div>
+</aside><h2 id="5-steer-the-session">5. Steer the session<a class="heading-anchor" href="#5-steer-the-session" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Watch the first minute.</strong> Press <code>Esc</code> the moment Claude drifts; work so far is kept.</li>
+<li><strong>Rewind freely:</strong> <code>Esc Esc</code> or <code>/rewind</code> rolls back code, conversation or both — so try the bold approach first. Checkpoints don&rsquo;t cover files changed only by Bash; keep using Git.</li>
+<li><strong>Two failed corrections → <code>/clear</code></strong> and one better prompt that folds in what you learned.</li>
+<li><strong>Side questions:</strong> <code>/btw</code> answers without adding to history.</li>
+<li><strong>Multi-day work:</strong> <code>/rename oauth-migration</code>, later <code>claude --resume oauth-migration</code>.</li>
+</ul>
+<h2 id="6-run-it-unattended--five-questions-first">6. Run it unattended — five questions first<a class="heading-anchor" href="#6-run-it-unattended--five-questions-first" aria-label="Link to this section">#</a></h2>
+<ol>
+<li><strong>Does it know what done looks like?</strong> A goal, a spec, or a failing test.</li>
+<li><strong>Can it check its own work?</strong> Test suite, <code>Stop</code> hook, review step.</li>
+<li><strong>What may it touch?</strong> Permission rules, <code>dontAsk</code>, sandbox, worktree, one branch.</li>
+<li><strong>What stops it?</strong> <code>--max-turns</code>, <code>--max-budget-usd</code>, a spend limit.</li>
+<li><strong>Where does the result go, and who signs off?</strong> A PR and a human merge.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude --bare -p <span class="s2">&#34;Migrate </span><span class="nv">$file</span><span class="s2"> to the new logger API and commit. Reply OK or FAIL.&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --allowedTools <span class="s2">&#34;Read,Edit,Bash(git add *),Bash(git commit *)&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --permission-mode dontAsk --max-turns <span class="m">20</span>
+</span></span></code></pre></div><p>Try three files, fix the prompt, then run the rest. See <a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation and parallel work</a> for CI, schedules, worktrees and teams.</p>
+<h2 id="old-advice-you-can-stop-following">Old advice you can stop following<a class="heading-anchor" href="#old-advice-you-can-stop-following" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Old advice</th>
+      <th>Why it&rsquo;s gone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Manage the context window aggressively</td>
+      <td>1M-token windows and auto-compaction make running out rare. Still <code>/clear</code> between tasks for focus and cost.</td>
+    </tr>
+    <tr>
+      <td>IMPORTANT / ALL CAPS on missed rules</td>
+      <td>Current models follow plain wording; emphasis causes over-application. Shorten the file or make it a hook.</td>
+    </tr>
+    <tr>
+      <td>Sub-agents to protect context</td>
+      <td>Use them for parallelism, noisy output and independent review — and pay knowingly.</td>
+    </tr>
+    <tr>
+      <td>Delegate for a better answer</td>
+      <td>Same or smaller model, less context. A <em>fresh reviewer</em> helps; plain delegation doesn&rsquo;t.</td>
+    </tr>
+    <tr>
+      <td>&ldquo;think hard&rdquo;, &ldquo;be thorough&rdquo;</td>
+      <td>Effort is the control. <code>ultrathink</code> still works for one turn.</td>
+    </tr>
+    <tr>
+      <td>&ldquo;Keep going, don&rsquo;t be lazy&rdquo;</td>
+      <td>Causes over-work. Give a check to pass; for unattended runs use <code>/goal</code> or a <code>Stop</code> hook.</td>
+    </tr>
+    <tr>
+      <td>Describe architecture in <code>CLAUDE.md</code></td>
+      <td>Claude reads the repo. Write only what isn&rsquo;t there.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Being the test suite</span></p>
+  <div class="callout__body"><p>If Claude has nothing to run, you find every mistake by hand. The most valuable line in <code>CLAUDE.md</code> is the command that runs your checks.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Fixing every review finding</span></p>
+  <div class="callout__body"><p>Reviewers always find something. Fix what affects correctness against the spec; otherwise you accumulate abstraction layers and tests for impossible cases.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One endless session</span></p>
+  <div class="callout__body"><p>Three unrelated tasks in one conversation means the fourth pays for all three on every turn. Clear, name and resume instead.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>A rule in <code>CLAUDE.md</code> is ignored once in twenty sessions. What do you do?</strong>
+If it is a guideline, accept it or shorten the file so the line isn&rsquo;t lost. If it can have no exceptions, move it to a hook or deny rule.</p>
+<p><strong>What is the difference between <code>/goal</code> and a <code>Stop</code> hook?</strong>
+<code>/goal</code> is session-scoped and judged by a separate model reading the transcript; a <code>Stop</code> hook lives in settings, applies to every session in scope, and can run a deterministic script.</p>
+<p><strong>When should you raise effort, and when lower it?</strong>
+Raise for work where overlooked cases matter (unfamiliar code, flaky tests, schema changes); lower for quick iterative work you review each step; reserve <code>max</code> for hard unattended problems.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Write down only what Claude can&rsquo;t find; keep <code>CLAUDE.md</code> short; use rules, skills and MCP for the rest.</li>
+<li>Give Claude a pass/fail check and ask for evidence.</li>
+<li>Enforce zero-exception rules with hooks, deny rules, the sandbox and managed settings.</li>
+<li>Change defaults only after <code>/usage</code> shows a reason; <code>/clear</code> between tasks.</li>
+<li>Before going unattended: define done, a check, a scope, a cap and a human sign-off.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/best-practices" rel="noopener">Best practices for Claude Code</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/memory" rel="noopener">How Claude remembers your project</a> and <a href="https://code.claude.com/docs/en/features-overview" rel="noopener">Extend Claude Code</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/goal" rel="noopener">Keep Claude working toward a goal</a> and <a href="https://code.claude.com/docs/en/hooks" rel="noopener">Hooks reference</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/permissions" rel="noopener">Configure permissions</a>, <a href="https://code.claude.com/docs/en/sandboxing" rel="noopener">Sandboxing</a> and <a href="https://code.claude.com/docs/en/costs" rel="noopener">Manage costs effectively</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-hooks-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: hooks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Cheatsheet: commands</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Automation &amp; parallel work</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-for-teams/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Code for teams</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/using-claude-intelligently/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Using Claude intelligently</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-in-practice/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Claude Code in practice</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-commands-cheatsheet/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Cheatsheet: commands</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#when-a-session-goes-wrong-it-is-one-of-four-things">When a session goes wrong, it is one of four things</a></li>
+    <li><a href="#advise-or-enforce">Advise or enforce?</a></li>
+    <li><a href="#1-tell-claude-what-it-cant-see">1. Tell Claude what it can&rsquo;t see</a></li>
+    <li><a href="#2-give-claude-a-check-to-run">2. Give Claude a check to run</a></li>
+    <li><a href="#3-enforce-rules-that-cant-have-exceptions">3. Enforce rules that can&rsquo;t have exceptions</a></li>
+    <li><a href="#4-change-a-default-only-with-evidence">4. Change a default only with evidence</a></li>
+    <li><a href="#5-steer-the-session">5. Steer the session</a></li>
+    <li><a href="#6-run-it-unattended--five-questions-first">6. Run it unattended — five questions first</a></li>
+    <li><a href="#old-advice-you-can-stop-following">Old advice you can stop following</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

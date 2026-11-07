@@ -35,6 +35,13 @@
 				<description></description>
 			</item>
 			<item>
+				<title>Api</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/api/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/api/</guid>
+				<description></description>
+			</item>
+			<item>
 				<title>Architecture</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/architecture/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -56,10 +63,24 @@
 				<description></description>
 			</item>
 			<item>
+				<title>Best-Practices</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/best-practices/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/best-practices/</guid>
+				<description></description>
+			</item>
+			<item>
 				<title>Case-Study</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/case-study/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/tags/case-study/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Cheatsheet</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/cheatsheet/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/cheatsheet/</guid>
 				<description></description>
 			</item>
 			<item>
@@ -70,10 +91,38 @@
 				<description></description>
 			</item>
 			<item>
+				<title>Ci-Cd</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/ci-cd/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/ci-cd/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Claude</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/claude/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/claude/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Cli</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/cli/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/cli/</guid>
+				<description></description>
+			</item>
+			<item>
 				<title>Compliance</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/compliance/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/tags/compliance/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Configuration</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/configuration/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/configuration/</guid>
 				<description></description>
 			</item>
 			<item>
@@ -102,6 +151,13 @@
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/deployment/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/tags/deployment/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Developer-Tools</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/developer-tools/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/developer-tools/</guid>
 				<description></description>
 			</item>
 			<item>
@@ -168,6 +224,13 @@
 				<description></description>
 			</item>
 			<item>
+				<title>Hooks</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/hooks/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/hooks/</guid>
+				<description></description>
+			</item>
+			<item>
 				<title>Implementation</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/implementation/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -179,6 +242,13 @@
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/inference/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/tags/inference/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Integration</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/integration/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/integration/</guid>
 				<description></description>
 			</item>
 			<item>
@@ -224,6 +294,13 @@
 				<description></description>
 			</item>
 			<item>
+				<title>Model-Selection</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/model-selection/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/model-selection/</guid>
+				<description></description>
+			</item>
+			<item>
 				<title>Multi-Agent</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/multi-agent/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -263,6 +340,13 @@
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/platform/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/tags/platform/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Plugins</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/plugins/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/plugins/</guid>
 				<description></description>
 			</item>
 			<item>
@@ -336,6 +420,20 @@
 				<description></description>
 			</item>
 			<item>
+				<title>Sdk</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/sdk/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/sdk/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Sdlc</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/sdlc/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/sdlc/</guid>
+				<description></description>
+			</item>
+			<item>
 				<title>Search</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/search/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -347,6 +445,13 @@
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/security/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/tags/security/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Skills</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/skills/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/skills/</guid>
 				<description></description>
 			</item>
 			<item>
@@ -389,6 +494,13 @@
 				<link>https://samirsahoo.github.io/enterprise-ai/tags/transformer/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>https://samirsahoo.github.io/enterprise-ai/tags/transformer/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Troubleshooting</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/tags/troubleshooting/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/tags/troubleshooting/</guid>
 				<description></description>
 			</item>
 			<item>

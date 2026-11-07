@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Hooks Reference · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Everything needed to write Claude Code hooks: where they live, every event and whether it can block, matchers and the if filter, the five handler types, input JSON, exit codes, JSON decision fields, how hooks interact with permissions, ready-to-use recipes, security and debugging.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-hooks-reference/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Hooks Reference">
+<meta property="og:description" content="Everything needed to write Claude Code hooks: where they live, every event and whether it can block, matchers and the if filter, the five handler types, input JSON, exit codes, JSON decision fields, how hooks interact with permissions, ready-to-use recipes, security and debugging.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-hooks-reference/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Hooks Reference">
+<meta name="twitter:description" content="Everything needed to write Claude Code hooks: where they live, every event and whether it can block, matchers and the if filter, the five handler types, input JSON, exit codes, JSON decision fields, how hooks interact with permissions, ready-to-use recipes, security and debugging.">
+<meta name="keywords" content="claude, developer-tools, reference, hooks, governance">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"Everything needed to write Claude Code hooks: where they live, every event and whether it can block, matchers and the if filter, the five handler types, input JSON, exit codes, JSON decision fields, how hooks interact with permissions, ready-to-use recipes, security and debugging.","headline":"Claude Code Hooks Reference","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, reference, hooks, governance","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-hooks-reference/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-hooks-reference/","name":"Reference: hooks","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/" aria-current="page">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Reference: hooks</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Hooks Reference</h1><p class="article__lede" itemprop="description">Everything needed to write Claude Code hooks: where they live, every event and whether it can block, matchers and the if filter, the five handler types, input JSON, exit codes, JSON decision fields, how hooks interact with permissions, ready-to-use recipes, security and debugging.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>10 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a><a class="tag" href="/enterprise-ai/tags/hooks/">#Hooks</a><a class="tag" href="/enterprise-ai/tags/governance/">#Governance</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#anatomy-of-a-hook">Anatomy of a hook</a></li>
+    <li><a href="#where-hooks-live">Where hooks live</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#matchers-and-the-if-filter">Matchers and the <code>if</code> filter</a></li>
+    <li><a href="#handler-types">Handler types</a></li>
+    <li><a href="#input">Input</a></li>
+    <li><a href="#output-exit-codes">Output: exit codes</a></li>
+    <li><a href="#output-json-fields">Output: JSON fields</a></li>
+    <li><a href="#hooks-and-permissions">Hooks and permissions</a></li>
+    <li><a href="#recipes">Recipes</a></li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#debugging">Debugging</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>hook</strong> is your own handler — a shell command, an HTTP endpoint, an MCP tool, or a model prompt — that Claude Code runs at a fixed point in its loop, such as before a tool call or when Claude tries to finish. Unlike <code>CLAUDE.md</code>, a command or HTTP hook is <strong>deterministic</strong>: the harness runs it every time, whatever the model decided. Hooks are how you make a rule hold with <strong>zero exceptions</strong>.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Condensed from Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/hooks" rel="noopener">Hooks reference</a> and <a href="https://code.claude.com/docs/en/hooks-guide" rel="noopener">hooks guide</a>, read on 7 November 2026. Event lists and fields change between releases; the official reference has the full JSON schema for each event.</p></div>
+</aside><h2 id="anatomy-of-a-hook">Anatomy of a hook<a class="heading-anchor" href="#anatomy-of-a-hook" aria-label="Link to this section">#</a></h2>
+<p>Configuration has three levels: <strong>event</strong> → <strong>matcher group</strong> → <strong>handlers</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-jsonc" data-lang="jsonc"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;PreToolUse&#34;</span><span class="p">:</span> <span class="p">[</span>                                    <span class="c1">// 1. event
+</span></span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;matcher&#34;</span><span class="p">:</span> <span class="s2">&#34;Bash&#34;</span><span class="p">,</span>                             <span class="c1">// 2. matcher group: which tool
+</span></span></span><span class="line"><span class="cl">        <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">[</span>                                     <span class="c1">// 3. one or more handlers
+</span></span></span><span class="line"><span class="cl">          <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;command&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;if&#34;</span><span class="p">:</span> <span class="s2">&#34;Bash(rm *)&#34;</span><span class="p">,</span>                        <span class="c1">//    optional: one permission-rule filter
+</span></span></span><span class="line"><span class="cl">            <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;${CLAUDE_PROJECT_DIR}/.claude/hooks/block-rm.sh&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;timeout&#34;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;onFailure&#34;</span><span class="p">:</span> <span class="s2">&#34;block&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">]</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Your handler receives the event as <strong>JSON on stdin</strong> (or as the POST body for HTTP hooks) and answers with an <strong>exit code</strong> and optionally <strong>JSON on stdout</strong>. All matching handlers for an event run in parallel; an identical handler defined in several settings files runs once.</p>
+<h2 id="where-hooks-live">Where hooks live<a class="heading-anchor" href="#where-hooks-live" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Scope</th>
+      <th>Shared</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>~/.claude/settings.json</code></td>
+      <td>All your projects</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><code>.claude/settings.json</code></td>
+      <td>This project</td>
+      <td>Yes, committed</td>
+    </tr>
+    <tr>
+      <td><code>.claude/settings.local.json</code></td>
+      <td>This project</td>
+      <td>No (gitignored)</td>
+    </tr>
+    <tr>
+      <td>Managed settings</td>
+      <td>Organisation</td>
+      <td>Admin-controlled</td>
+    </tr>
+    <tr>
+      <td>Plugin <code>hooks/hooks.json</code></td>
+      <td>While the plugin is enabled</td>
+      <td>With the plugin</td>
+    </tr>
+    <tr>
+      <td>Skill frontmatter (<code>hooks:</code>)</td>
+      <td>Rest of the session once the skill runs</td>
+      <td>With the skill</td>
+    </tr>
+    <tr>
+      <td>Sub-agent frontmatter</td>
+      <td>While that sub-agent runs</td>
+      <td>With the agent</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<ul>
+<li>Hooks <strong>merge</strong> across levels — your hooks add to managed ones, never remove them.</li>
+<li>Hooks from settings and plugins also fire inside sub-agents (input carries <code>agent_id</code>, <code>agent_type</code>).</li>
+<li><code>/hooks</code> shows what&rsquo;s configured; <code>disableAllHooks: true</code> turns off non-managed hooks.</li>
+<li>Admins can allow only managed hooks (<code>allowManagedHooksOnly</code>) and restrict HTTP hook URLs (<code>allowedHttpHookUrls</code>).</li>
+<li>Cloud sessions don&rsquo;t read your <code>~/.claude/settings.json</code> — commit project hooks you need there.</li>
+</ul>
+<h2 id="events">Events<a class="heading-anchor" href="#events" aria-label="Link to this section">#</a></h2>
+<p>Cadence: <strong>per session</strong> (<code>SessionStart</code>, <code>SessionEnd</code>), <strong>per turn</strong> (<code>UserPromptSubmit</code>, <code>Stop</code>, <code>StopFailure</code>), and <strong>per tool call</strong> (<code>PreToolUse</code>, <code>PostToolUse</code> …).</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Fires</th>
+      <th>Exit 2 does</th>
+      <th>Matcher filters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SessionStart</code></td>
+      <td>Session begins or resumes</td>
+      <td>— (stdout becomes context)</td>
+      <td><code>startup</code>, <code>resume</code>, <code>clear</code>, <code>compact</code>, <code>fork</code></td>
+    </tr>
+    <tr>
+      <td><code>Setup</code></td>
+      <td><code>--init-only</code>, or <code>-p</code> with <code>--init</code>/<code>--maintenance</code></td>
+      <td>—</td>
+      <td><code>init</code>, <code>maintenance</code></td>
+    </tr>
+    <tr>
+      <td><code>InstructionsLoaded</code></td>
+      <td>A <code>CLAUDE.md</code> or rule file loads</td>
+      <td>—</td>
+      <td>Load reason: <code>session_start</code>, <code>path_glob_match</code>, <code>compact</code> …</td>
+    </tr>
+    <tr>
+      <td><code>UserPromptSubmit</code></td>
+      <td>Before Claude sees your prompt</td>
+      <td><strong>Blocks the prompt</strong></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code>UserPromptExpansion</code></td>
+      <td>A typed command expands to a prompt</td>
+      <td><strong>Blocks the expansion</strong></td>
+      <td>Command name</td>
+    </tr>
+    <tr>
+      <td><code>PreToolUse</code></td>
+      <td>Before a tool runs</td>
+      <td><strong>Blocks the call</strong></td>
+      <td>Tool name</td>
+    </tr>
+    <tr>
+      <td><code>PermissionRequest</code></td>
+      <td>A permission decision is needed</td>
+      <td>Not honoured — use JSON <code>decision</code></td>
+      <td>Tool name</td>
+    </tr>
+    <tr>
+      <td><code>PermissionDenied</code></td>
+      <td>Auto mode denied a call</td>
+      <td>— (JSON <code>retry: true</code> allows retry)</td>
+      <td>Tool name</td>
+    </tr>
+    <tr>
+      <td><code>PostToolUse</code></td>
+      <td>Tool succeeded</td>
+      <td>Stderr shown to Claude</td>
+      <td>Tool name</td>
+    </tr>
+    <tr>
+      <td><code>PostToolUseFailure</code></td>
+      <td>Tool failed</td>
+      <td>Stderr shown to Claude</td>
+      <td>Tool name</td>
+    </tr>
+    <tr>
+      <td><code>PostToolBatch</code></td>
+      <td>A batch of parallel calls resolved</td>
+      <td><strong>Stops the loop</strong> before the next model call</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code>SubagentStart</code> / <code>SubagentStop</code></td>
+      <td>Sub-agent spawned / finishing</td>
+      <td>— / <strong>Keeps it working</strong></td>
+      <td>Agent type</td>
+    </tr>
+    <tr>
+      <td><code>TaskCreated</code> / <code>TaskCompleted</code></td>
+      <td>Task created / marked done</td>
+      <td><strong>Rolls back</strong> / <strong>prevents completion</strong></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code>TeammateIdle</code></td>
+      <td>Agent-team teammate about to go idle</td>
+      <td><strong>Keeps it working</strong></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code>Stop</code></td>
+      <td>Claude finishes responding</td>
+      <td><strong>Keeps Claude working</strong></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code>StopFailure</code></td>
+      <td>Turn ended by an API error</td>
+      <td>Ignored</td>
+      <td>Error type: <code>rate_limit</code>, <code>overloaded</code>, …</td>
+    </tr>
+    <tr>
+      <td><code>Notification</code></td>
+      <td>Claude Code sends a notification</td>
+      <td>Ignored</td>
+      <td><code>permission_prompt</code>, <code>idle_prompt</code>, …</td>
+    </tr>
+    <tr>
+      <td><code>MessageDisplay</code></td>
+      <td>Assistant text displayed</td>
+      <td>— (can change on-screen text only)</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code>PreCompact</code> / <code>PostCompact</code></td>
+      <td>Around compaction</td>
+      <td><strong>Blocks compaction</strong> / —</td>
+      <td><code>manual</code>, <code>auto</code></td>
+    </tr>
+    <tr>
+      <td><code>PreModelSwitch</code> / <code>PostModelSwitch</code></td>
+      <td>Model change</td>
+      <td><strong>Blocks the switch</strong> / —</td>
+      <td>Target model</td>
+    </tr>
+    <tr>
+      <td><code>ConfigChange</code></td>
+      <td>A config file changes mid-session</td>
+      <td><strong>Blocks the change</strong> (except policy)</td>
+      <td><code>user_settings</code>, <code>project_settings</code>, <code>skills</code> …</td>
+    </tr>
+    <tr>
+      <td><code>CwdChanged</code>, <code>DirectoryAdded</code>, <code>FileChanged</code></td>
+      <td>Directory or watched file changes</td>
+      <td>—</td>
+      <td><code>FileChanged</code>: filenames, e.g. <code>.envrc|.env</code></td>
+    </tr>
+    <tr>
+      <td><code>WorktreeCreate</code> / <code>WorktreeRemove</code></td>
+      <td>Worktree created / removed</td>
+      <td>Any non-zero exit fails it</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code>Elicitation</code> / <code>ElicitationResult</code></td>
+      <td>MCP server asks for user input</td>
+      <td><strong>Declines</strong> / <strong>blocks the response</strong></td>
+      <td>MCP server name</td>
+    </tr>
+    <tr>
+      <td><code>SessionEnd</code></td>
+      <td>Session terminates (1.5 s budget)</td>
+      <td>—</td>
+      <td><code>clear</code>, <code>logout</code>, …</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>In the <em>Exit 2</em> column, &ldquo;—&rdquo; means the hook can&rsquo;t block; stderr is shown to the user or logged. In the <em>Matcher</em> column, &ldquo;—&rdquo; means the event has no matcher and always fires.</p>
+<h2 id="matchers-and-the-if-filter">Matchers and the <code>if</code> filter<a class="heading-anchor" href="#matchers-and-the-if-filter" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Matcher</th>
+      <th>Evaluated as</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>&quot;*&quot;</code>, <code>&quot;&quot;</code> or omitted</td>
+      <td>Everything</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Letters, digits, <code>_</code>, <code>-</code>, spaces, <code>,</code>, <code>|</code> only</td>
+      <td>Exact names, <code>|</code> or <code>,</code> separated</td>
+      <td><code>Edit|Write</code>, <code>Bash</code></td>
+    </tr>
+    <tr>
+      <td>Any other character</td>
+      <td>Unanchored JavaScript regex</td>
+      <td><code>mcp__github__.*</code>, <code>^Notebook</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><code>Edit.*</code> also matches <code>NotebookEdit</code> — anchor with <code>^Edit$</code> for a whole-name match.</p>
+<p>The handler-level <strong><code>if</code></strong> holds exactly one permission rule (<code>&quot;Bash(git *)&quot;</code>, <code>&quot;Edit(*.ts)&quot;</code>) and only applies to tool events. For Bash it checks each subcommand, including those inside <code>$()</code> and backticks, and runs the hook anyway when it can&rsquo;t tell. It is <strong>best-effort</strong> — use permission rules for hard allow and deny.</p>
+<h2 id="handler-types">Handler types<a class="heading-anchor" href="#handler-types" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Runs</th>
+      <th>Deterministic?</th>
+      <th>Default timeout</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>command</code></td>
+      <td>Shell command or executable (<code>args</code> = exec form, no shell)</td>
+      <td>Yes</td>
+      <td>600 s (30 s on <code>UserPromptSubmit</code> and model-switch events)</td>
+    </tr>
+    <tr>
+      <td><code>http</code></td>
+      <td>POST of the event JSON to a URL</td>
+      <td>Yes</td>
+      <td>600 s</td>
+    </tr>
+    <tr>
+      <td><code>mcp_tool</code></td>
+      <td>A tool on a configured MCP server</td>
+      <td>Yes</td>
+      <td>600 s</td>
+    </tr>
+    <tr>
+      <td><code>prompt</code></td>
+      <td>Single-turn model evaluation returning JSON</td>
+      <td><strong>No</strong></td>
+      <td>30 s</td>
+    </tr>
+    <tr>
+      <td><code>agent</code></td>
+      <td>Sub-agent that can Read/Grep/Glob before deciding (experimental)</td>
+      <td><strong>No</strong></td>
+      <td>60 s</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Useful fields: <code>timeout</code>, <code>statusMessage</code>, <code>async</code> (run in background), <code>asyncRewake</code> (background, wake Claude on exit 2), <code>shell</code> (<code>bash</code> or <code>powershell</code>), <code>once</code> (skill hooks only), <strong><code>onFailure: &quot;continue&quot; | &quot;block&quot;</code></strong>.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Fail closed when it matters</span></p>
+  <div class="callout__body"><p>By default a hook that crashes, times out or prints invalid JSON lets the action through. For a policy hook — a secret scanner, a production guard — set <code>&quot;onFailure&quot;: &quot;block&quot;</code> so a broken hook stops the action instead of silently allowing it.</p></div>
+</aside><h2 id="input">Input<a class="heading-anchor" href="#input" aria-label="Link to this section">#</a></h2>
+<p>Every event receives common fields plus event-specific ones:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;session_id&#34;</span><span class="p">:</span> <span class="s2">&#34;abc123&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;prompt_id&#34;</span><span class="p">:</span> <span class="s2">&#34;550e8400-…&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;transcript_path&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/.claude/projects/…/transcript.jsonl&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/my-project&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;permission_mode&#34;</span><span class="p">:</span> <span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;hook_event_name&#34;</span><span class="p">:</span> <span class="s2">&#34;PreToolUse&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tool_name&#34;</span><span class="p">:</span> <span class="s2">&#34;Bash&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tool_input&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npm test&#34;</span><span class="p">,</span> <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Run test suite&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tool_use_id&#34;</span><span class="p">:</span> <span class="s2">&#34;toolu_01ABC…&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Also available: <code>agent_id</code>/<code>agent_type</code> inside sub-agents, <code>effort.level</code> on tool and stop events, <code>last_assistant_message</code> on <code>Stop</code>. Environment: <code>$CLAUDE_PROJECT_DIR</code>, <code>${CLAUDE_PLUGIN_ROOT}</code> in plugins, <code>$CLAUDE_ENV_FILE</code> in <code>SessionStart</code> (append <code>export</code> lines to set env vars for later commands), <code>$CLAUDE_CODE_REMOTE</code> in cloud sessions. There is no <code>$CLAUDE_MODEL</code>; use <code>PostModelSwitch</code> to track the model.</p>
+<h2 id="output-exit-codes">Output: exit codes<a class="heading-anchor" href="#output-exit-codes" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Exit</th>
+      <th>Meaning</th>
+      <th>Effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>0</code></td>
+      <td>Success</td>
+      <td>JSON on stdout is applied; plain stdout is logged (and added as context on <code>SessionStart</code>, <code>UserPromptSubmit</code>, <code>UserPromptExpansion</code>, <code>PostModelSwitch</code>)</td>
+    </tr>
+    <tr>
+      <td><code>2</code></td>
+      <td>Blocking error</td>
+      <td>Blocks on events that can block; <strong>stderr is the reason</strong> Claude sees. JSON can&rsquo;t override the block</td>
+    </tr>
+    <tr>
+      <td>other</td>
+      <td>Non-blocking error</td>
+      <td>Action proceeds (unless <code>onFailure: &quot;block&quot;</code>); first stderr line shown as a notice</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Choose one style per hook: exit codes alone, <strong>or</strong> exit 0 with JSON. Print <strong>only</strong> the JSON object to stdout — a shell profile that echoes text breaks parsing. <code>additionalContext</code>, <code>systemMessage</code> and plain stdout are capped at 10,000 characters each.</p>
+<h2 id="output-json-fields">Output: JSON fields<a class="heading-anchor" href="#output-json-fields" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Where</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>continue: false</code> + <code>stopReason</code></td>
+      <td>Any event</td>
+      <td>Stop Claude entirely</td>
+    </tr>
+    <tr>
+      <td><code>systemMessage</code></td>
+      <td>Any event</td>
+      <td>Warning shown to the user</td>
+    </tr>
+    <tr>
+      <td><code>terminalSequence</code></td>
+      <td>Any event</td>
+      <td>Desktop notification, title or bell (allowlisted OSC sequences)</td>
+    </tr>
+    <tr>
+      <td><code>decision: &quot;block&quot;</code> + <code>reason</code></td>
+      <td><code>UserPromptSubmit</code>, <code>PostToolUse</code>, <code>PostToolBatch</code>, <code>Stop</code>, <code>SubagentStop</code>, <code>ConfigChange</code>, <code>PreCompact</code> …</td>
+      <td>Block with feedback</td>
+    </tr>
+    <tr>
+      <td><code>hookSpecificOutput.permissionDecision</code></td>
+      <td><code>PreToolUse</code></td>
+      <td><code>allow</code>, <code>deny</code>, <code>ask</code>, <code>defer</code> (+ <code>permissionDecisionReason</code>)</td>
+    </tr>
+    <tr>
+      <td><code>hookSpecificOutput.updatedInput</code></td>
+      <td><code>PreToolUse</code></td>
+      <td>Replace the tool&rsquo;s whole input before it runs</td>
+    </tr>
+    <tr>
+      <td><code>hookSpecificOutput.updatedToolOutput</code></td>
+      <td><code>PostToolUse</code></td>
+      <td>Replace the tool&rsquo;s result (redaction)</td>
+    </tr>
+    <tr>
+      <td><code>hookSpecificOutput.decision.behavior</code></td>
+      <td><code>PermissionRequest</code></td>
+      <td><code>allow</code> or <code>deny</code> the prompt</td>
+    </tr>
+    <tr>
+      <td><code>hookSpecificOutput.additionalContext</code></td>
+      <td><code>SessionStart</code>, <code>PreToolUse</code>, <code>Stop</code>, …</td>
+      <td>Text injected as a system reminder</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>When several <code>PreToolUse</code> hooks disagree: <strong><code>deny</code> &gt; <code>defer</code> &gt; <code>ask</code> &gt; <code>allow</code></strong>.</p>
+<h2 id="hooks-and-permissions">Hooks and permissions<a class="heading-anchor" href="#hooks-and-permissions" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-code-tool-decision.html" title="How a tool call is decided: hooks, rules, mode" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>How a tool call is decided: hooks, rules, mode · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-code-tool-decision.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<ul>
+<li><code>PreToolUse</code> hooks run <strong>before</strong> the permission prompt, for every tool.</li>
+<li>A hook that exits 2 blocks <strong>even if an allow rule matches</strong>.</li>
+<li>A hook returning <code>&quot;allow&quot;</code> <strong>does not bypass</strong> deny or ask rules — they are always evaluated. Hooks can tighten, never loosen.</li>
+<li>A hook&rsquo;s <code>&quot;deny&quot;</code> holds in every permission mode.</li>
+</ul>
+<h2 id="recipes">Recipes<a class="heading-anchor" href="#recipes" aria-label="Link to this section">#</a></h2>
+<p><strong>Format every edited file</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;PostToolUse&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;matcher&#34;</span><span class="p">:</span> <span class="s2">&#34;Edit|Write&#34;</span><span class="p">,</span> <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;command&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npx prettier --write --ignore-unknown \&#34;$(jq -r &#39;.tool_input.file_path&#39;)\&#34;&#34;</span> <span class="p">}]</span> <span class="p">}]</span> <span class="p">}</span> <span class="p">}</span>
+</span></span></code></pre></div><p><strong>Don&rsquo;t finish until the typecheck passes</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;Stop&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;command&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;pnpm tsc --noEmit 1&gt;&amp;2 || exit 2&#34;</span> <span class="p">}]</span> <span class="p">}]</span> <span class="p">}</span> <span class="p">}</span>
+</span></span></code></pre></div><p>Claude Code overrides a <code>Stop</code> hook after 8 consecutive blocks with no tool call between (<code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP</code>).</p>
+<p><strong>Protect paths</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="c1"># .claude/hooks/protect.sh — PreToolUse on Edit|Write</span>
+</span></span><span class="line"><span class="cl"><span class="nv">path</span><span class="o">=</span><span class="k">$(</span>jq -r <span class="s1">&#39;.tool_input.file_path // empty&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="s2">&#34;</span><span class="nv">$path</span><span class="s2">&#34;</span> in
+</span></span><span class="line"><span class="cl">  *migrations/*<span class="p">|</span>*src/gen/*<span class="p">|</span>*.env*<span class="o">)</span> <span class="nb">echo</span> <span class="s2">&#34;Protected path: </span><span class="nv">$path</span><span class="s2">&#34;</span> &gt;<span class="p">&amp;</span>2<span class="p">;</span> <span class="nb">exit</span> <span class="m">2</span> <span class="p">;;</span>
+</span></span><span class="line"><span class="cl"><span class="k">esac</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span> <span class="m">0</span>
+</span></span></code></pre></div><p><strong>Re-inject key context after compaction</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;SessionStart&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;matcher&#34;</span><span class="p">:</span> <span class="s2">&#34;compact&#34;</span><span class="p">,</span> <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;command&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;echo &#39;Reminder: use Bun, not npm. Run bun test before committing.&#39;; git log --oneline -5&#34;</span> <span class="p">}]</span> <span class="p">}]</span> <span class="p">}</span> <span class="p">}</span>
+</span></span></code></pre></div><p><strong>Desktop notification when Claude needs you</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="c1"># Notification hook</span>
+</span></span><span class="line"><span class="cl"><span class="nv">body</span><span class="o">=</span><span class="k">$(</span>jq -r <span class="s1">&#39;.message // &#34;Needs your attention&#34;&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">seq</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s1">&#39;\033]777;notify;%s;%s\007&#39;</span> <span class="s2">&#34;Claude Code&#34;</span> <span class="s2">&#34;</span><span class="nv">$body</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">jq -nc --arg seq <span class="s2">&#34;</span><span class="nv">$seq</span><span class="s2">&#34;</span> <span class="s1">&#39;{terminalSequence: $seq}&#39;</span>
+</span></span></code></pre></div><p><strong>Rewrite a command before it runs</strong> (<code>PreToolUse</code>, exit 0):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;hookSpecificOutput&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;hookEventName&#34;</span><span class="p">:</span> <span class="s2">&#34;PreToolUse&#34;</span><span class="p">,</span> <span class="nt">&#34;permissionDecision&#34;</span><span class="p">:</span> <span class="s2">&#34;allow&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;updatedInput&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npm test -- --runInBand&#34;</span><span class="p">,</span> <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Run tests serially&#34;</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
+</span></span></code></pre></div><p><strong>Audit configuration changes</strong> — a <code>ConfigChange</code> hook that appends the event JSON to a log, or exits 2 to block unapproved edits. <strong>Reload the environment on directory change</strong> — a <code>CwdChanged</code> hook running <code>direnv export bash &gt;&gt; &quot;$CLAUDE_ENV_FILE&quot;</code>.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Let Claude write it</span></p>
+  <div class="callout__body"><p>&ldquo;Write a hook that blocks edits to the migrations folder&rdquo; works as a prompt. Check the result with <code>/hooks</code>, then test it by asking Claude to do the forbidden thing.</p></div>
+</aside><h2 id="security">Security<a class="heading-anchor" href="#security" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Command hooks run with <strong>your full user permissions</strong>. Review every hook before adding it.</li>
+<li>Interactive sessions hold back settings-file hooks until you accept <strong>workspace trust</strong> for the folder. <strong><code>-p</code> and SDK runs treat the folder as trusted</strong> — before scripting over a repository you didn&rsquo;t write, review its <code>.claude/</code>, use <code>--bare</code>, or pass <code>--settings '{&quot;disableAllHooks&quot;: true}'</code>.</li>
+<li>Quote variables (<code>&quot;$VAR&quot;</code>), reject <code>..</code> in paths, use absolute paths (<code>${CLAUDE_PROJECT_DIR}</code>), skip <code>.env</code>, <code>.git/</code> and keys.</li>
+<li>Prefer exec form (<code>args</code>) when passing paths — no shell quoting problems.</li>
+<li><code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1</code> strips credentials from the environment of hooks, Bash and stdio MCP servers.</li>
+</ul>
+<h2 id="debugging">Debugging<a class="heading-anchor" href="#debugging" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><code>claude --debug</code> (log at <code>~/.claude/debug/&lt;session-id&gt;.txt</code>) or <code>--debug-file &lt;path&gt;</code>; search for your event name and <code>Hooks:</code> timing lines.</li>
+<li><code>Ctrl+O</code> transcript view shows hook notices.</li>
+<li><strong>Hook not firing:</strong> check the matcher (case-sensitive tool names), workspace trust, and <code>/hooks</code>.</li>
+<li><strong>JSON ignored:</strong> something else printed to stdout, or a field is at the wrong level (<code>permissionDecision</code> belongs inside <code>hookSpecificOutput</code>).</li>
+<li><strong><code>Stop</code> loop:</strong> your check never passes — fix it, or the block cap ends the turn.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Prompt hooks for enforcement</span></p>
+  <div class="callout__body"><p><code>prompt</code> and <code>agent</code> hooks ask a model; they can be wrong. Use <code>command</code> or <code>http</code> hooks for rules that must hold.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Expecting <code>PostToolUse</code> to prevent damage</span></p>
+  <div class="callout__body"><p>The tool already ran. Block in <code>PreToolUse</code>; use <code>PostToolUse</code> for formatting, linting and feedback.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Using <code>if</code> as a security boundary</span></p>
+  <div class="callout__body"><p>The <code>if</code> filter is best-effort and the hook runs anyway when the command can&rsquo;t be parsed. Hard limits belong in deny rules and the sandbox.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Hooks for preferences</span></p>
+  <div class="callout__body"><p>Every hook fires sometimes when it shouldn&rsquo;t and must be maintained. Keep hooks for zero-exception rules; leave preferences to <code>CLAUDE.md</code>.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>A <code>PreToolUse</code> hook returns <code>&quot;allow&quot;</code> for <code>git push</code>, but a project rule says <code>ask: [&quot;Bash(git push *)&quot;]</code>. What happens?</strong>
+The user is still prompted. Hooks can&rsquo;t bypass deny or ask rules; they can only tighten.</p>
+<p><strong>Your secret-scanning hook crashes. Does the commit go through?</strong>
+Yes, by default — a crash is a non-blocking error. Set <code>&quot;onFailure&quot;: &quot;block&quot;</code> so a failed hook blocks the action.</p>
+<p><strong>How does a <code>Stop</code> hook keep Claude working?</strong>
+It exits 2 (or returns <code>decision: &quot;block&quot;</code>); Claude Code feeds stderr or the reason back to Claude, which continues until the hook passes or the block cap is reached.</p>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/hooks" rel="noopener">Hooks reference</a> and <a href="https://code.claude.com/docs/en/hooks-guide" rel="noopener">Automate workflows with hooks</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/permissions" rel="noopener">Configure permissions — extend permissions with hooks</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/env-vars" rel="noopener">Environment variables</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-settings-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: settings</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Cheatsheet: best practices</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-for-teams/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Code for teams</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-mcp-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: output styles &amp; status line</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-commands-cheatsheet/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Cheatsheet: commands</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-settings-reference/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Reference: settings</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#anatomy-of-a-hook">Anatomy of a hook</a></li>
+    <li><a href="#where-hooks-live">Where hooks live</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#matchers-and-the-if-filter">Matchers and the <code>if</code> filter</a></li>
+    <li><a href="#handler-types">Handler types</a></li>
+    <li><a href="#input">Input</a></li>
+    <li><a href="#output-exit-codes">Output: exit codes</a></li>
+    <li><a href="#output-json-fields">Output: JSON fields</a></li>
+    <li><a href="#hooks-and-permissions">Hooks and permissions</a></li>
+    <li><a href="#recipes">Recipes</a></li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#debugging">Debugging</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

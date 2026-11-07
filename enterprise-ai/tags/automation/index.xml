@@ -20,5 +20,12 @@
 				<guid>https://samirsahoo.github.io/enterprise-ai/agentic-ai/computer-use-agents/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;A &lt;strong&gt;computer-use agent&lt;/strong&gt; operates software the way a person does: it looks at the screen (screenshots or the page structure), decides what to click or type, performs the action, and repeats. &lt;strong&gt;Browser agents&lt;/strong&gt; are the web-only variant. They let agents work with applications that have no API.&lt;/p&gt;</description>
 			</item>
+			<item>
+				<title>Claude Code Automation and Parallel Work</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-automation-and-parallel-work/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-automation-and-parallel-work/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Once Claude Code can check its own work, it no longer needs you at the keyboard. &lt;strong&gt;Automation&lt;/strong&gt; means starting runs from a script, a timer or an event (&lt;code&gt;claude -p&lt;/code&gt;, GitHub Actions, &lt;code&gt;/schedule&lt;/code&gt;). &lt;strong&gt;Parallel work&lt;/strong&gt; means running several Claude workers at once — sub-agents inside a session, background sessions in agent view, coordinated agent teams, or a scripted dynamic workflow — usually each in its own git worktree.&lt;/p&gt;</description>
+			</item>
 	</channel>
 </rss>

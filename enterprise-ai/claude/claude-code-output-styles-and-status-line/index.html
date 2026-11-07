@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Output Styles and Status Line · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Shaping how Claude Code responds and what you see while it works: the built-in output styles (Proactive, Concise, Explanatory, Learning), writing custom styles and when to use another feature instead, and building a status line that shows model, context, cost, git and rate limits.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-output-styles-and-status-line/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Output Styles and Status Line">
+<meta property="og:description" content="Shaping how Claude Code responds and what you see while it works: the built-in output styles (Proactive, Concise, Explanatory, Learning), writing custom styles and when to use another feature instead, and building a status line that shows model, context, cost, git and rate limits.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-output-styles-and-status-line/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Output Styles and Status Line">
+<meta name="twitter:description" content="Shaping how Claude Code responds and what you see while it works: the built-in output styles (Proactive, Concise, Explanatory, Learning), writing custom styles and when to use another feature instead, and building a status line that shows model, context, cost, git and rate limits.">
+<meta name="keywords" content="claude, developer-tools, reference, configuration">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"Shaping how Claude Code responds and what you see while it works: the built-in output styles (Proactive, Concise, Explanatory, Learning), writing custom styles and when to use another feature instead, and building a status line that shows model, context, cost, git and rate limits.","headline":"Claude Code Output Styles and Status Line","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, reference, configuration","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-output-styles-and-status-line/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-output-styles-and-status-line/","name":"Reference: output styles \u0026 status line","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/" aria-current="page">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Reference: output styles &amp; status line</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Output Styles and Status Line</h1><p class="article__lede" itemprop="description">Shaping how Claude Code responds and what you see while it works: the built-in output styles (Proactive, Concise, Explanatory, Learning), writing custom styles and when to use another feature instead, and building a status line that shows model, context, cost, git and rate limits.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>5 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a><a class="tag" href="/enterprise-ai/tags/configuration/">#Configuration</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#built-in-output-styles">Built-in output styles</a></li>
+    <li><a href="#switching">Switching</a></li>
+    <li><a href="#custom-output-styles">Custom output styles</a></li>
+    <li><a href="#output-style-or-something-else">Output style or something else?</a></li>
+    <li><a href="#status-line">Status line</a>
+      <ul>
+        <li><a href="#most-useful-fields">Most useful fields</a></li>
+        <li><a href="#example-script">Example script</a></li>
+        <li><a href="#troubleshooting-the-status-line">Troubleshooting the status line</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>An <strong>output style</strong> changes <em>how Claude talks to you</em> for a whole session — its role, tone, length and format — by adding instructions to every request. The <strong>status line</strong> changes <em>what you see</em> while it works: a bar under the prompt rendered by your own script from live session data (model, context use, cost, git branch, rate limits). Neither changes what Claude is allowed to do.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Condensed from Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/output-styles" rel="noopener">Output styles</a> and <a href="https://code.claude.com/docs/en/statusline" rel="noopener">Customize your status line</a>, read on 7 November 2026.</p></div>
+</aside><h2 id="built-in-output-styles">Built-in output styles<a class="heading-anchor" href="#built-in-output-styles" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Style</th>
+      <th>What changes</th>
+      <th>Use it when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Default</strong></td>
+      <td>No extra instructions — Claude Code&rsquo;s standard software-engineering prompt</td>
+      <td>Most work</td>
+    </tr>
+    <tr>
+      <td><strong>Proactive</strong></td>
+      <td>Starts work at once, makes reasonable assumptions instead of asking about routine decisions; still checks before deleting data or touching shared/production systems</td>
+      <td>You&rsquo;d rather correct a wrong assumption than answer questions</td>
+    </tr>
+    <tr>
+      <td><strong>Concise</strong></td>
+      <td>Leads with the result; no preamble, narration or recap; simple answers in 1–3 sentences (errors, test output and safety warnings stay full)</td>
+      <td>Default answers are longer than you want</td>
+    </tr>
+    <tr>
+      <td><strong>Explanatory</strong></td>
+      <td>Adds short <code>★ Insight</code> blocks explaining the choices behind the code</td>
+      <td>Learning a codebase; wanting the reasoning</td>
+    </tr>
+    <tr>
+      <td><strong>Learning</strong></td>
+      <td>Insights plus <code>TODO(human)</code> spots where <em>you</em> write the interesting part, then Claude continues</td>
+      <td>Hands-on practice while the task still gets done</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Proactive does <strong>not</strong> change your permission mode; prompts still appear as before.</p>
+<h2 id="switching">Switching<a class="heading-anchor" href="#switching" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Where</th>
+      <th>How</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Terminal</td>
+      <td><code>/output-style concise</code>, or <code>/config</code> → <em>Output style</em></td>
+    </tr>
+    <tr>
+      <td>Settings</td>
+      <td><code>&quot;outputStyle&quot;: &quot;Explanatory&quot;</code> — <strong>case-sensitive</strong> (<code>explanatory</code> silently means Default)</td>
+    </tr>
+    <tr>
+      <td>Default everywhere</td>
+      <td><code>outputStyle</code> in <code>~/.claude/settings.json</code> (project files override it)</td>
+    </tr>
+    <tr>
+      <td>VS Code</td>
+      <td><code>/</code> → <em>Output styles</em></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>The command and menu save to <code>.claude/settings.local.json</code>. A switch applies from your next message (the first message after a switch is an uncached turn).</p>
+<h2 id="custom-output-styles">Custom output styles<a class="heading-anchor" href="#custom-output-styles" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Diagrams first</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l">Lead every explanation with a diagram</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">keep-coding-instructions</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl">When explaining code, architecture or data flow, start with a Mermaid diagram of the
+</span></span><span class="line"><span class="cl">structure, then explain in prose. Use flowchart TD for control flow and sequenceDiagram
+</span></span><span class="line"><span class="cl">for request paths. Keep diagrams under 15 nodes.
+</span></span></code></pre></div><div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Scope</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>~/.claude/output-styles/*.md</code></td>
+      <td>You, all projects</td>
+    </tr>
+    <tr>
+      <td><code>.claude/output-styles/*.md</code></td>
+      <td>The project (nearest directory wins)</td>
+    </tr>
+    <tr>
+      <td>Managed settings directory <code>.claude/output-styles/</code></td>
+      <td>Organisation</td>
+    </tr>
+    <tr>
+      <td>Plugin <code>output-styles/</code></td>
+      <td>As <code>plugin:name</code>; <code>force-for-plugin: true</code> applies it automatically</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Frontmatter</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>name</code>, <code>description</code></td>
+      <td>Shown in the picker (name defaults to the file name)</td>
+    </tr>
+    <tr>
+      <td><code>keep-coding-instructions</code></td>
+      <td><code>true</code> keeps Claude Code&rsquo;s built-in engineering instructions (scoping changes, comments, verifying work). <strong>Default <code>false</code></strong> — leave it out only if Claude won&rsquo;t be writing code</td>
+    </tr>
+    <tr>
+      <td><code>force-for-plugin</code></td>
+      <td>Plugin styles only: apply whenever the plugin is enabled</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Keep the coding instructions</span></p>
+  <div class="callout__body"><p>A custom style without <code>keep-coding-instructions: true</code> drops Claude Code&rsquo;s own guidance on how to scope and verify changes. For a style that changes <em>tone</em> on a coding project, always set it.</p></div>
+</aside><p>Styles apply to the main conversation and to forks; ordinary sub-agents keep their own system prompts. Style files are read at start-up — restart after editing one.</p>
+<h2 id="output-style-or-something-else">Output style or something else?<a class="heading-anchor" href="#output-style-or-something-else" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>You want</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Every response in a voice, length or format; Claude in a different role</td>
+      <td><strong>Output style</strong></td>
+    </tr>
+    <tr>
+      <td>Claude to know project conventions and commands</td>
+      <td><code>CLAUDE.md</code></td>
+    </tr>
+    <tr>
+      <td>Instructions for one kind of task</td>
+      <td>A skill</td>
+    </tr>
+    <tr>
+      <td>Something that must always happen</td>
+      <td>A hook</td>
+    </tr>
+    <tr>
+      <td>A focused helper with its own tools and model</td>
+      <td>A sub-agent</td>
+    </tr>
+    <tr>
+      <td>An addition to the system prompt for one launch</td>
+      <td><code>--append-system-prompt</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="status-line">Status line<a class="heading-anchor" href="#status-line" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/statusline show model, git branch, context % as a bar, and session cost
+</span></span></code></pre></div><p><code>/statusline</code> writes a script in <code>~/.claude/</code> and wires it up. Or configure it yourself:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;statusLine&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;command&#34;</span><span class="p">,</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;~/.claude/statusline.sh&#34;</span><span class="p">,</span> <span class="nt">&#34;padding&#34;</span><span class="p">:</span> <span class="mi">2</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Your command receives <strong>session JSON on stdin</strong> and prints one or more lines (ANSI colours and OSC 8 links work). It runs at session start, then after each assistant message, <code>/compact</code>, mode or vim changes, and on an optional <code>refreshInterval</code>, debounced at 300 ms. Read <code>COLUMNS</code> for width — <code>tput cols</code> doesn&rsquo;t work inside it.</p>
+<h3 id="most-useful-fields">Most useful fields<a class="heading-anchor" href="#most-useful-fields" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Contains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>model.display_name</code></td>
+      <td>Current model</td>
+    </tr>
+    <tr>
+      <td><code>workspace.current_dir</code>, <code>workspace.project_dir</code></td>
+      <td>Where you are; where you started</td>
+    </tr>
+    <tr>
+      <td><code>context_window.used_percentage</code></td>
+      <td>Context used (pre-calculated)</td>
+    </tr>
+    <tr>
+      <td><code>context_window.context_window_size</code></td>
+      <td>200k or 1M</td>
+    </tr>
+    <tr>
+      <td><code>cost.total_cost_usd</code></td>
+      <td>Estimated session cost (client-side, list price)</td>
+    </tr>
+    <tr>
+      <td><code>cost.total_duration_ms</code>, <code>cost.total_lines_added/removed</code></td>
+      <td>Time and churn</td>
+    </tr>
+    <tr>
+      <td><code>effort.level</code>, <code>fast_mode</code>, <code>output_style.name</code></td>
+      <td>Session settings</td>
+    </tr>
+    <tr>
+      <td><code>rate_limits.five_hour.used_percentage</code>, <code>.seven_day…</code></td>
+      <td>Plan limit use</td>
+    </tr>
+    <tr>
+      <td><code>prompt_cache.warm</code>, <code>prompt_cache.expires_at</code></td>
+      <td>Whether the cache is still warm</td>
+    </tr>
+    <tr>
+      <td><code>pr.number</code>, <code>pr.review_state</code></td>
+      <td>Open PR for this branch</td>
+    </tr>
+    <tr>
+      <td><code>worktree.name</code>, <code>session_name</code>, <code>agent.name</code>, <code>vim.mode</code></td>
+      <td>Session identity</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="example-script">Example script<a class="heading-anchor" href="#example-script" aria-label="Link to this section">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="nv">input</span><span class="o">=</span><span class="k">$(</span>cat<span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">MODEL</span><span class="o">=</span><span class="k">$(</span>jq -r <span class="s1">&#39;.model.display_name&#39;</span> <span class="o">&lt;&lt;&lt;</span><span class="s2">&#34;</span><span class="nv">$input</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PCT</span><span class="o">=</span><span class="k">$(</span>jq -r <span class="s1">&#39;.context_window.used_percentage // 0&#39;</span> <span class="o">&lt;&lt;&lt;</span><span class="s2">&#34;</span><span class="nv">$input</span><span class="s2">&#34;</span> <span class="p">|</span> cut -d. -f1<span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">COST</span><span class="o">=</span><span class="k">$(</span>jq -r <span class="s1">&#39;.cost.total_cost_usd // 0&#39;</span> <span class="o">&lt;&lt;&lt;</span><span class="s2">&#34;</span><span class="nv">$input</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">BRANCH</span><span class="o">=</span><span class="k">$(</span>git -C <span class="s2">&#34;</span><span class="k">$(</span>jq -r <span class="s1">&#39;.workspace.current_dir&#39;</span> <span class="o">&lt;&lt;&lt;</span><span class="s2">&#34;</span><span class="nv">$input</span><span class="s2">&#34;</span><span class="k">)</span><span class="s2">&#34;</span> branch --show-current 2&gt;/dev/null<span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">FILLED</span><span class="o">=</span><span class="k">$((</span>PCT <span class="o">/</span> <span class="m">10</span><span class="k">))</span><span class="p">;</span> <span class="nv">BAR</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s1">&#39;%*s&#39;</span> <span class="s2">&#34;</span><span class="nv">$FILLED</span><span class="s2">&#34;</span> <span class="s1">&#39;&#39;</span> <span class="p">|</span> tr <span class="s1">&#39; &#39;</span> <span class="s1">&#39;▓&#39;</span><span class="k">)$(</span><span class="nb">printf</span> <span class="s1">&#39;%*s&#39;</span> <span class="k">$((</span><span class="m">10</span><span class="o">-</span>FILLED<span class="k">))</span> <span class="s1">&#39;&#39;</span> <span class="p">|</span> tr <span class="s1">&#39; &#39;</span> <span class="s1">&#39;░&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s1">&#39;%s · %s · %s %s%% · $%.2f\n&#39;</span> <span class="s2">&#34;</span><span class="nv">$MODEL</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BRANCH</span><span class="k">:-</span><span class="nv">no</span><span class="p">-git</span><span class="si">}</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$BAR</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$PCT</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$COST</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>Cache slow operations (git status in a big repo, API calls) to a temp file keyed by session ID. <code>subagentStatusLine</code> lets a second script rewrite the sub-agent task rows.</p>
+<h3 id="troubleshooting-the-status-line">Troubleshooting the status line<a class="heading-anchor" href="#troubleshooting-the-status-line" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Check</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Nothing appears</td>
+      <td>Script executable? Prints to stdout? <code>disableAllHooks</code> also disables it</td>
+    </tr>
+    <tr>
+      <td><code>--</code> or empty values</td>
+      <td>Field absent until the first API response; use <code>// 0</code> defaults</td>
+    </tr>
+    <tr>
+      <td>Links not clickable</td>
+      <td>Terminal must support OSC 8 (iTerm2, Kitty, WezTerm)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Using a style as a rule</span></p>
+  <div class="callout__body"><p>A style is an instruction; nothing enforces it. &ldquo;Never edit migrations&rdquo; belongs in a hook or deny rule, not a style.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Lowercase style names in settings</span></p>
+  <div class="callout__body"><p><code>&quot;outputStyle&quot;: &quot;concise&quot;</code> doesn&rsquo;t match <code>Concise</code> and silently gives you Default.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Expensive status lines</span></p>
+  <div class="callout__body"><p>The script runs after every message. A slow <code>git status</code> or network call makes the UI lag — cache it.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What does <code>keep-coding-instructions: true</code> do?</strong>
+Keeps Claude Code&rsquo;s built-in software-engineering instructions alongside your custom style; without it a custom style replaces them.</p>
+<p><strong>Does the Proactive style let Claude run commands without asking?</strong>
+No. It changes how readily Claude makes decisions; your permission mode still decides what runs without a prompt.</p>
+<p><strong>Where does the status line get its data?</strong>
+From session JSON that Claude Code passes to your command on stdin each time it refreshes.</p>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/output-styles" rel="noopener">Output styles</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/statusline" rel="noopener">Customize your status line</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-settings-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: settings</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-skills-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: skills</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-plugins-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: plugins</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-hooks-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: hooks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-mcp-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: MCP</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-plugins-reference/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Reference: plugins</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-agent-sdk/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Claude Agent SDK</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#built-in-output-styles">Built-in output styles</a></li>
+    <li><a href="#switching">Switching</a></li>
+    <li><a href="#custom-output-styles">Custom output styles</a></li>
+    <li><a href="#output-style-or-something-else">Output style or something else?</a></li>
+    <li><a href="#status-line">Status line</a>
+      <ul>
+        <li><a href="#most-useful-fields">Most useful fields</a></li>
+        <li><a href="#example-script">Example script</a></li>
+        <li><a href="#troubleshooting-the-status-line">Troubleshooting the status line</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

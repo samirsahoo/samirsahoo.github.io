@@ -181,6 +181,34 @@
 <li class="nav-tree__item">
   <details>
     <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
       <a href="/enterprise-ai/review/">Review</a>
     </summary>
     <ul>
@@ -262,6 +290,10 @@
 <dd>A classic keyword relevance ranking function used in sparse/keyword search. See <a href="/enterprise-ai/rag/advanced-retrieval/#hybrid-search">Advanced retrieval</a>.</dd>
 <dt><strong>Chunking</strong></dt>
 <dd>Splitting documents into passages for retrieval. See <a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking and embeddings</a>.</dd>
+<dt><strong>Claude Code</strong></dt>
+<dd>Anthropic&rsquo;s agentic coding tool for the terminal, IDEs, desktop, web and CI; it reads, edits, runs and verifies code. See <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>.</dd>
+<dt><strong>CLAUDE.md</strong></dt>
+<dd>A project memory file loaded into every Claude Code session — commands, architecture rules and conventions. See <a href="/enterprise-ai/claude/claude-code-in-practice/#project-memory-claudemd">Claude Code in practice</a>.</dd>
 <dt><strong>Computer-use agent</strong></dt>
 <dd>An agent that operates graphical interfaces from screenshots with clicks and keystrokes. See <a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a>.</dd>
 <dt><strong>Context engineering</strong></dt>
@@ -283,6 +315,8 @@
 <dl>
 <dt><strong>Distillation</strong></dt>
 <dd>Training a small model on a large model&rsquo;s outputs. See <a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a>.</dd>
+<dt><strong>Effort (Claude)</strong></dt>
+<dd>A per-request setting (<code>low</code> to <code>max</code>) controlling how thoroughly a Claude model thinks, calls tools and writes — the quality-versus-cost dial within one model. See <a href="/enterprise-ai/claude/claude-models-and-selection/#thinking-and-effort">Claude models and model selection</a>.</dd>
 <dt><strong>Embedding</strong></dt>
 <dd>A vector representing the meaning of text. See <a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking and embeddings</a>.</dd>
 <dt><strong>EU AI Act</strong></dt>
@@ -324,6 +358,8 @@
 <dd>RAG over a knowledge graph of entities, relationships and community summaries. See <a href="/enterprise-ai/rag/graphrag/">GraphRAG</a>.</dd>
 <dt><strong>Guardrails</strong></dt>
 <dd>Checks on inputs, actions and outputs that keep an AI system within policy. See <a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/#layered-guardrails">Agent reliability</a>.</dd>
+<dt><strong>Hook (Claude Code)</strong></dt>
+<dd>A script the Claude Code harness runs on lifecycle events, such as after every file edit; enforced, unlike instructions. See <a href="/enterprise-ai/claude/claude-code-in-practice/#extending-claude-code">Claude Code in practice</a>.</dd>
 <dt><strong>Hallucination</strong></dt>
 <dd>Fluent but unsupported or false model output. See <a href="/enterprise-ai/foundations/how-llms-work/#why-models-hallucinate">How LLMs work</a>.</dd>
 <dt><strong>HNSW</strong></dt>
@@ -465,9 +501,27 @@
       </a>
     </li>
     <li class="card">
-      <a class="card__link" href="/enterprise-ai/review/quick-reference/">
-        <span class="card__eyebrow">Review</span>
-        <span class="card__title">Quick reference</span>
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-hooks-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: hooks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-mcp-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: output styles &amp; status line</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-plugins-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: plugins</span>
       </a>
     </li>
   </ul>

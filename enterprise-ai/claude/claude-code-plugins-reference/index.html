@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Plugins Reference · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Packaging and sharing Claude Code extensions as plugins: what a plugin contains, directory layout and components, the plugin.json manifest, namespacing, install scopes, marketplaces and marketplace.json, /plugin and claude plugin commands, developing with --plugin-dir, evals and cost, security and trust, and organisation controls.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-plugins-reference/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Plugins Reference">
+<meta property="og:description" content="Packaging and sharing Claude Code extensions as plugins: what a plugin contains, directory layout and components, the plugin.json manifest, namespacing, install scopes, marketplaces and marketplace.json, /plugin and claude plugin commands, developing with --plugin-dir, evals and cost, security and trust, and organisation controls.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-plugins-reference/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Plugins Reference">
+<meta name="twitter:description" content="Packaging and sharing Claude Code extensions as plugins: what a plugin contains, directory layout and components, the plugin.json manifest, namespacing, install scopes, marketplaces and marketplace.json, /plugin and claude plugin commands, developing with --plugin-dir, evals and cost, security and trust, and organisation controls.">
+<meta name="keywords" content="claude, developer-tools, reference, plugins">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"Packaging and sharing Claude Code extensions as plugins: what a plugin contains, directory layout and components, the plugin.json manifest, namespacing, install scopes, marketplaces and marketplace.json, /plugin and claude plugin commands, developing with --plugin-dir, evals and cost, security and trust, and organisation controls.","headline":"Claude Code Plugins Reference","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, reference, plugins","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-plugins-reference/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-plugins-reference/","name":"Reference: plugins","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/" aria-current="page">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Reference: plugins</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Plugins Reference</h1><p class="article__lede" itemprop="description">Packaging and sharing Claude Code extensions as plugins: what a plugin contains, directory layout and components, the plugin.json manifest, namespacing, install scopes, marketplaces and marketplace.json, /plugin and claude plugin commands, developing with --plugin-dir, evals and cost, security and trust, and organisation controls.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a><a class="tag" href="/enterprise-ai/tags/plugins/">#Plugins</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#do-you-need-a-plugin">Do you need a plugin?</a></li>
+    <li><a href="#directory-layout">Directory layout</a></li>
+    <li><a href="#pluginjson"><code>plugin.json</code></a></li>
+    <li><a href="#installing-and-managing">Installing and managing</a></li>
+    <li><a href="#creating-a-marketplace">Creating a marketplace</a></li>
+    <li><a href="#developing-a-plugin">Developing a plugin</a></li>
+    <li><a href="#what-an-enabled-plugin-costs">What an enabled plugin costs</a></li>
+    <li><a href="#security-and-trust">Security and trust</a></li>
+    <li><a href="#organisation-controls">Organisation controls</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>plugin</strong> is a directory that bundles Claude Code extensions — skills, sub-agents, hooks, MCP servers, language servers, output styles and more — so they install, update and enable <strong>as one unit</strong>. A <strong>marketplace</strong> is a catalogue (usually a Git repository with a <code>marketplace.json</code>) that lists plugins and where to fetch them. Plugins are how a team or organisation shares one Claude Code setup across many repositories and machines.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Condensed from Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/plugins/overview" rel="noopener">Plugins overview</a>, <a href="https://code.claude.com/docs/en/plugins/components" rel="noopener">Plugin components</a>, <a href="https://code.claude.com/docs/en/plugins/manifest-reference" rel="noopener">Manifest reference</a>, <a href="https://code.claude.com/docs/en/plugin-marketplaces" rel="noopener">Plugin marketplaces</a> and <a href="https://code.claude.com/docs/en/plugins/cli-reference" rel="noopener">Plugin CLI reference</a>, read on 7 November 2026.</p></div>
+</aside><h2 id="do-you-need-a-plugin">Do you need a plugin?<a class="heading-anchor" href="#do-you-need-a-plugin" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>You want…</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>One skill, agent, hook or server for yourself or one repo</td>
+      <td>The standalone file (<code>.claude/skills/</code>, <code>.claude/agents/</code>, settings, <code>.mcp.json</code>)</td>
+    </tr>
+    <tr>
+      <td>The same setup in many repos, or for a whole team</td>
+      <td>A <strong>plugin</strong> in a marketplace</td>
+    </tr>
+    <tr>
+      <td>Someone else&rsquo;s tooling with one command and updates</td>
+      <td>Install their plugin</td>
+    </tr>
+    <tr>
+      <td>Policy that users can&rsquo;t remove</td>
+      <td>Managed settings (which can force-install plugins)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="directory-layout">Directory layout<a class="heading-anchor" href="#directory-layout" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">my-plugin/
+</span></span><span class="line"><span class="cl">├── .claude-plugin/
+</span></span><span class="line"><span class="cl">│   └── plugin.json        # manifest (only &#34;name&#34; is required; optional altogether)
+</span></span><span class="line"><span class="cl">├── skills/
+</span></span><span class="line"><span class="cl">│   └── review/SKILL.md    # → /my-plugin:review
+</span></span><span class="line"><span class="cl">├── commands/about.md      # older single-file commands
+</span></span><span class="line"><span class="cl">├── agents/security-reviewer.md
+</span></span><span class="line"><span class="cl">├── hooks/hooks.json       # same format as settings &#34;hooks&#34;
+</span></span><span class="line"><span class="cl">├── .mcp.json              # MCP servers started while enabled
+</span></span><span class="line"><span class="cl">├── .lsp.json              # language servers (code intelligence)
+</span></span><span class="line"><span class="cl">├── monitors/monitors.json # background commands whose output reaches Claude
+</span></span><span class="line"><span class="cl">├── output-styles/terse.md
+</span></span><span class="line"><span class="cl">├── themes/dracula.json
+</span></span><span class="line"><span class="cl">├── workflows/             # dynamic workflow scripts
+</span></span><span class="line"><span class="cl">├── scripts/format.sh      # called by hooks via ${CLAUDE_PLUGIN_ROOT}
+</span></span><span class="line"><span class="cl">└── evals/                 # cases for claude plugin eval
+</span></span></code></pre></div><div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Appears as</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Skill / command</td>
+      <td><code>/my-plugin:name</code></td>
+    </tr>
+    <tr>
+      <td>Agent</td>
+      <td><code>my-plugin:security-reviewer</code></td>
+    </tr>
+    <tr>
+      <td>Hook</td>
+      <td>Runs at its event while enabled</td>
+    </tr>
+    <tr>
+      <td>MCP server</td>
+      <td><code>mcp__plugin_my-plugin_&lt;server&gt;__&lt;tool&gt;</code></td>
+    </tr>
+    <tr>
+      <td>LSP server</td>
+      <td>Go-to-definition and diagnostics for its language</td>
+    </tr>
+    <tr>
+      <td>Output style</td>
+      <td><code>/output-style my-plugin:terse</code></td>
+    </tr>
+    <tr>
+      <td>Theme</td>
+      <td>In <code>/theme</code></td>
+    </tr>
+    <tr>
+      <td>Monitor</td>
+      <td>Notifications from a background command</td>
+    </tr>
+    <tr>
+      <td>Hooks module (JavaScript)</td>
+      <td>A <strong>mod</strong> — can also draw panes and add commands</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Every component is <strong>namespaced</strong> under the plugin name, so two plugins can both have a <code>review</code> skill.</p>
+<h2 id="pluginjson"><code>plugin.json</code><a class="heading-anchor" href="#pluginjson" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;acme-dev&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;displayName&#34;</span><span class="p">:</span> <span class="s2">&#34;Acme developer toolkit&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;1.4.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Review, release and database tools for Acme services&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;author&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Platform Team&#34;</span><span class="p">,</span> <span class="nt">&#34;email&#34;</span><span class="p">:</span> <span class="s2">&#34;platform@acme.example&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;license&#34;</span><span class="p">:</span> <span class="s2">&#34;MIT&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;keywords&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;review&#34;</span><span class="p">,</span> <span class="s2">&#34;release&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;dependencies&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;acme-security&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;userConfig&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;webhook_url&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span> <span class="nt">&#34;title&#34;</span><span class="p">:</span> <span class="s2">&#34;Slack webhook&#34;</span><span class="p">,</span> <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Team channel webhook&#34;</span><span class="p">,</span> <span class="nt">&#34;sensitive&#34;</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>name</code></td>
+      <td>Required; kebab-case; the namespace for every component</td>
+    </tr>
+    <tr>
+      <td><code>version</code></td>
+      <td>Pins users to that version until you change it</td>
+    </tr>
+    <tr>
+      <td><code>description</code>, <code>displayName</code>, <code>author</code>, <code>homepage</code>, <code>repository</code>, <code>license</code>, <code>keywords</code></td>
+      <td>Metadata (<code>homepage</code> must be a valid URL)</td>
+    </tr>
+    <tr>
+      <td><code>defaultEnabled</code></td>
+      <td>Start enabled unless the user says otherwise (default <code>true</code>)</td>
+    </tr>
+    <tr>
+      <td><code>dependencies</code></td>
+      <td>Other plugins that must be enabled</td>
+    </tr>
+    <tr>
+      <td><code>userConfig</code></td>
+      <td>Values Claude Code prompts for at enable time (available to hooks and servers as <code>CLAUDE_PLUGIN_OPTION_*</code>)</td>
+    </tr>
+    <tr>
+      <td><code>settings</code></td>
+      <td>Settings applied while enabled — only <code>agent</code> and <code>subagentStatusLine</code> take effect</td>
+    </tr>
+    <tr>
+      <td><code>skills</code>, <code>commands</code>, <code>agents</code>, <code>hooks</code>, <code>mcpServers</code>, <code>lspServers</code>, <code>outputStyles</code>, <code>workflows</code></td>
+      <td>Custom paths or inline config; most <strong>replace</strong> the default folder scan (<code>skills</code> adds to it; <code>hooks</code> and <code>mcpServers</code> load alongside the defaults)</td>
+    </tr>
+    <tr>
+      <td><code>experimental.themes</code>, <code>.monitors</code>, <code>.evals</code></td>
+      <td>Shapes may change</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Use <code>${CLAUDE_PLUGIN_ROOT}</code> for paths inside the plugin and <code>${CLAUDE_PLUGIN_DATA}</code> for persistent data.</p>
+<h2 id="installing-and-managing">Installing and managing<a class="heading-anchor" href="#installing-and-managing" aria-label="Link to this section">#</a></h2>
+<p><strong>In a session:</strong> <code>/plugin</code> opens Discover, Installed and Marketplaces tabs. <code>/reload-plugins</code> applies changes without restarting.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/plugin marketplace add acme/claude-plugins          # GitHub repo, git URL, local path or URL
+</span></span><span class="line"><span class="cl">/plugin install acme-dev@acme-tools
+</span></span></code></pre></div><p><strong>From the shell:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude plugin install acme-dev@acme-tools --scope project
+</span></span><span class="line"><span class="cl">claude plugin enable<span class="p">|</span>disable<span class="p">|</span>uninstall acme-dev
+</span></span><span class="line"><span class="cl">claude plugin update acme-dev@acme-tools
+</span></span><span class="line"><span class="cl">claude plugin list · claude plugin details acme-dev
+</span></span><span class="line"><span class="cl">claude plugin configure acme-dev@acme-tools          <span class="c1"># set userConfig values</span>
+</span></span><span class="line"><span class="cl">claude plugin marketplace list<span class="p">|</span>add<span class="p">|</span>remove
+</span></span><span class="line"><span class="cl">claude plugin prune --dry-run                        <span class="c1"># remove unused installs</span>
+</span></span></code></pre></div><div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Install scope</th>
+      <th>Enabled for</th>
+      <th>Recorded in</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>user</td>
+      <td>You, every project</td>
+      <td><code>~/.claude/settings.json</code></td>
+    </tr>
+    <tr>
+      <td>project</td>
+      <td>Everyone in the repo (each still installs locally)</td>
+      <td><code>.claude/settings.json</code></td>
+    </tr>
+    <tr>
+      <td>local</td>
+      <td>You, this repo</td>
+      <td><code>.claude/settings.local.json</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Anthropic&rsquo;s official marketplace is added automatically on first interactive start (unless policy blocks it). Cloud sessions don&rsquo;t load plugins from your local settings.</p>
+<h2 id="creating-a-marketplace">Creating a marketplace<a class="heading-anchor" href="#creating-a-marketplace" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;acme-tools&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Acme&#39;s internal Claude Code plugins&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;owner&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Platform Team&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;plugins&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;acme-dev&#34;</span><span class="p">,</span> <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;./plugins/acme-dev&#34;</span><span class="p">,</span> <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Review and release tools&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;acme-security&#34;</span><span class="p">,</span> <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;github&#34;</span><span class="p">,</span> <span class="nt">&#34;repo&#34;</span><span class="p">:</span> <span class="s2">&#34;acme/security-plugin&#34;</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Save as <code>.claude-plugin/marketplace.json</code> at the repository root. Then make it automatic for a repo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;extraKnownMarketplaces&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;acme-tools&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;github&#34;</span><span class="p">,</span> <span class="nt">&#34;repo&#34;</span><span class="p">:</span> <span class="s2">&#34;acme/claude-plugins&#34;</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;enabledPlugins&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;acme-dev@acme-tools&#34;</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Committed in <code>.claude/settings.json</code>, this offers the marketplace and plugin to each developer once they trust the folder.</p>
+<h2 id="developing-a-plugin">Developing a plugin<a class="heading-anchor" href="#developing-a-plugin" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude plugin init acme-dev --with skills hooks   <span class="c1"># scaffold</span>
+</span></span><span class="line"><span class="cl">claude --plugin-dir ./acme-dev                    <span class="c1"># load for one session, no marketplace</span>
+</span></span><span class="line"><span class="cl">claude plugin validate .                          <span class="c1"># check manifest and components</span>
+</span></span><span class="line"><span class="cl">claude plugin <span class="nb">eval</span>                                <span class="c1"># run eval cases with and without the plugin</span>
+</span></span><span class="line"><span class="cl">claude plugin tag plugins/acme-dev --dry-run      <span class="c1"># version tagging for releases</span>
+</span></span></code></pre></div><ul>
+<li><code>/reload-plugins</code> picks up edits in a running session.</li>
+<li><code>claude plugin eval</code> measures whether skills and agents trigger on realistic prompts and improve results.</li>
+<li><code>/skill-doctor</code> and <code>/usage</code> show context cost and usage after release; the Installed tab groups plugins <em>Not used recently</em>.</li>
+</ul>
+<h2 id="what-an-enabled-plugin-costs">What an enabled plugin costs<a class="heading-anchor" href="#what-an-enabled-plugin-costs" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Context:</strong> each model-invocable skill, agent and command adds its name and description to <strong>every</strong> turn.</li>
+<li><strong>Processes:</strong> its MCP servers and monitors run alongside every session; its hooks fire at their events.</li>
+<li><strong>Permissions:</strong> everything it runs, runs <strong>as you</strong>.</li>
+</ul>
+<p>Disable plugins you aren&rsquo;t using rather than leaving them on.</p>
+<h2 id="security-and-trust">Security and trust<a class="heading-anchor" href="#security-and-trust" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic&rsquo;s names (<code>claude-plugins-official</code>, <code>claude-code-plugins</code>, community names) are accepted only from <code>github.com/anthropics/</code> repositories; every other marketplace is third-party.</li>
+<li>Before installing: read the manifest, hooks, MCP server commands and any scripts. A plugin is code with your privileges.</li>
+<li>Plugin MCP servers can&rsquo;t read credential variables through <code>${VAR}</code> expansion in remote URLs and headers.</li>
+<li>Prefer pinned <code>version</code>s and a marketplace your organisation controls.</li>
+</ul>
+<h2 id="organisation-controls">Organisation controls<a class="heading-anchor" href="#organisation-controls" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>strictKnownMarketplaces</code></td>
+      <td>Allowlist of marketplace sources users may add</td>
+    </tr>
+    <tr>
+      <td><code>blockedMarketplaces</code></td>
+      <td>Block specific sources</td>
+    </tr>
+    <tr>
+      <td><code>enabledPlugins</code> (managed)</td>
+      <td>Force-install and enable plugins on every machine</td>
+    </tr>
+    <tr>
+      <td><code>disableSideloadFlags</code></td>
+      <td>Reject <code>--plugin-dir</code>, <code>--plugin-url</code> and similar one-session loading</td>
+    </tr>
+    <tr>
+      <td><code>disableCommandPluginSources</code></td>
+      <td>Block plugins that install by running a command</td>
+    </tr>
+    <tr>
+      <td><code>strictPluginOnlyCustomization</code></td>
+      <td>Skills, agents, hooks, MCP only from plugins or policy</td>
+    </tr>
+    <tr>
+      <td><code>pluginSuggestionMarketplaces</code></td>
+      <td>Which marketplaces can suggest plugins</td>
+    </tr>
+    <tr>
+      <td><code>syncClaudeAiPlugins</code></td>
+      <td>Stop loading plugins enabled on claude.ai</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Copy-pasting <code>.claude/</code> between repos</span></p>
+  <div class="callout__body"><p>Copies drift. Package the shared setup as a plugin in an internal marketplace and enable it per repo.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One giant plugin</span></p>
+  <div class="callout__body"><p>Every enabled skill and agent costs context. Split by audience (backend, data, security) so teams enable only what they use.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Unpinned third-party plugins</span></p>
+  <div class="callout__body"><p>An update can change hooks that run on your machine. Pin versions and review changes, or mirror into your own marketplace.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How is a plugin&rsquo;s skill named once installed?</strong>
+<code>/plugin-name:skill-name</code> — every component is namespaced under the plugin&rsquo;s <code>name</code>.</p>
+<p><strong>How do you make every developer in a repo get your team&rsquo;s plugin?</strong>
+Declare the marketplace in <code>extraKnownMarketplaces</code> and the plugin in <code>enabledPlugins</code> in the committed <code>.claude/settings.json</code>.</p>
+<p><strong>How do you test a plugin without publishing it?</strong>
+<code>claude --plugin-dir ./my-plugin</code>, plus <code>claude plugin validate .</code> and <code>claude plugin eval</code>.</p>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/plugins/overview" rel="noopener">Plugins overview</a> and <a href="https://code.claude.com/docs/en/plugins/components" rel="noopener">Add components to a plugin</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/plugins/manifest-reference" rel="noopener">Plugin manifest reference</a> and <a href="https://code.claude.com/docs/en/plugins/cli-reference" rel="noopener">Plugin CLI reference</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/plugin-marketplaces" rel="noopener">Plugin marketplaces</a>, <a href="https://code.claude.com/docs/en/plugins/security" rel="noopener">Plugin security and trust</a> and <a href="https://code.claude.com/docs/en/plugins/org" rel="noopener">Manage plugins for your organization</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-subagents-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: sub-agents</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-mcp-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-for-teams/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Code for teams</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-hooks-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: hooks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: output styles &amp; status line</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-mcp-reference/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Reference: MCP</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Reference: output styles &amp; status line</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#do-you-need-a-plugin">Do you need a plugin?</a></li>
+    <li><a href="#directory-layout">Directory layout</a></li>
+    <li><a href="#pluginjson"><code>plugin.json</code></a></li>
+    <li><a href="#installing-and-managing">Installing and managing</a></li>
+    <li><a href="#creating-a-marketplace">Creating a marketplace</a></li>
+    <li><a href="#developing-a-plugin">Developing a plugin</a></li>
+    <li><a href="#what-an-enabled-plugin-costs">What an enabled plugin costs</a></li>
+    <li><a href="#security-and-trust">Security and trust</a></li>
+    <li><a href="#organisation-controls">Organisation controls</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

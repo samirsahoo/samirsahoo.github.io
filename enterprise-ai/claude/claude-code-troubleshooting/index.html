@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Troubleshooting · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="A practical guide to fixing Claude Code: a triage method (/doctor, /context, safe mode, clean config, debug logs), and symptom tables for installation and login, configuration that doesn&#39;t load (CLAUDE.md, settings, hooks, MCP, skills), API and usage-limit errors, permissions in scripts, performance, context thrashing, search, terminal and clipboard problems.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-troubleshooting/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Troubleshooting">
+<meta property="og:description" content="A practical guide to fixing Claude Code: a triage method (/doctor, /context, safe mode, clean config, debug logs), and symptom tables for installation and login, configuration that doesn&#39;t load (CLAUDE.md, settings, hooks, MCP, skills), API and usage-limit errors, permissions in scripts, performance, context thrashing, search, terminal and clipboard problems.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-troubleshooting/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Troubleshooting">
+<meta name="twitter:description" content="A practical guide to fixing Claude Code: a triage method (/doctor, /context, safe mode, clean config, debug logs), and symptom tables for installation and login, configuration that doesn&#39;t load (CLAUDE.md, settings, hooks, MCP, skills), API and usage-limit errors, permissions in scripts, performance, context thrashing, search, terminal and clipboard problems.">
+<meta name="keywords" content="claude, developer-tools, troubleshooting, reference">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"A practical guide to fixing Claude Code: a triage method (/doctor, /context, safe mode, clean config, debug logs), and symptom tables for installation and login, configuration that doesn't load (CLAUDE.md, settings, hooks, MCP, skills), API and usage-limit errors, permissions in scripts, performance, context thrashing, search, terminal and clipboard problems.","headline":"Claude Code Troubleshooting","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, troubleshooting, reference","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-troubleshooting/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-troubleshooting/","name":"Troubleshooting","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/" aria-current="page">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Troubleshooting</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Troubleshooting</h1><p class="article__lede" itemprop="description">A practical guide to fixing Claude Code: a triage method (/doctor, /context, safe mode, clean config, debug logs), and symptom tables for installation and login, configuration that doesn&#39;t load (CLAUDE.md, settings, hooks, MCP, skills), API and usage-limit errors, permissions in scripts, performance, context thrashing, search, terminal and clipboard problems.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/troubleshooting/">#Troubleshooting</a><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-triage-method">The triage method</a></li>
+    <li><a href="#installation-and-login">Installation and login</a></li>
+    <li><a href="#configuration-that-doesnt-take-effect">Configuration that doesn&rsquo;t take effect</a></li>
+    <li><a href="#permissions-in-scripts-and-the-sdk">Permissions in scripts and the SDK</a></li>
+    <li><a href="#api-and-usage-errors">API and usage errors</a></li>
+    <li><a href="#performance-and-stability">Performance and stability</a></li>
+    <li><a href="#search-terminal-and-environment">Search, terminal and environment</a></li>
+    <li><a href="#getting-help">Getting help</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Most Claude Code problems are one of three things: <strong>something didn&rsquo;t load</strong> (a file in the wrong place, a typo, an unapproved server), <strong>something else overrode it</strong> (a higher-precedence setting, a managed policy), or <strong>the environment is in the way</strong> (PATH, network, proxy, terminal). Look at what actually loaded before guessing, isolate with safe mode, and change one thing at a time.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Condensed from Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/troubleshooting" rel="noopener">Troubleshooting</a>, <a href="https://code.claude.com/docs/en/troubleshoot-install" rel="noopener">Troubleshoot installation and login</a>, <a href="https://code.claude.com/docs/en/debug-your-config" rel="noopener">Debug your configuration</a> and <a href="https://code.claude.com/docs/en/errors" rel="noopener">Error reference</a>, read on 7 November 2026. The error reference lists many more messages than fit here.</p></div>
+</aside><h2 id="the-triage-method">The triage method<a class="heading-anchor" href="#the-triage-method" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-code-troubleshoot.html" title="Troubleshooting triage: look, isolate, fix or report" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>Troubleshooting triage: look, isolate, fix or report · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-code-troubleshoot.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Command</th>
+      <th>Tells you</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1. Check the setup</td>
+      <td><code>/doctor</code> in a session, or <code>claude doctor</code> if it won&rsquo;t start</td>
+      <td>Install health, invalid settings files, unused extensions, stale <code>CLAUDE.md</code> content — and proposes fixes</td>
+    </tr>
+    <tr>
+      <td>2. See what loaded</td>
+      <td><code>/context all</code></td>
+      <td>System prompt, tools, MCP tools, agents, memory files, skills — with sources</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><code>/status</code></td>
+      <td>Version, account, model, <strong>setting sources</strong> (managed or not)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><code>/memory</code>, <code>/skills</code>, <code>/hooks</code>, <code>/mcp</code>, <code>/permissions</code></td>
+      <td>Each surface in detail</td>
+    </tr>
+    <tr>
+      <td>3. Isolate</td>
+      <td><code>claude --safe-mode</code></td>
+      <td>Same session with all customisations off (<code>CLAUDE.md</code>, skills, plugins, hooks, MCP, agents, styles, keybindings); managed policy still applies</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><code>CLAUDE_CONFIG_DIR=~/claude-clean/config claude --setting-sources user</code> in an empty directory</td>
+      <td>Fresh user config and no project config</td>
+    </tr>
+    <tr>
+      <td>4. Watch it happen</td>
+      <td><code>claude --debug=mcp,hooks</code> or <code>/debug &lt;issue&gt;</code></td>
+      <td>Debug log at <code>~/.claude/debug/&lt;session&gt;.txt</code></td>
+    </tr>
+    <tr>
+      <td>5. Report</td>
+      <td><code>/feedback</code> (consent screen first)</td>
+      <td>Sends the report; GitHub issues for known bugs</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Restarting is cheap</span></p>
+  <div class="callout__body"><p>Quitting doesn&rsquo;t lose work: <code>claude --continue</code> (or <code>--resume</code>) reopens the conversation in a fresh process.</p></div>
+</aside><h2 id="installation-and-login">Installation and login<a class="heading-anchor" href="#installation-and-login" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>You see</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>command not found: claude</code> / <code>'claude' is not recognized</code></td>
+      <td>Add the install directory to <code>PATH</code>, open a new terminal</td>
+    </tr>
+    <tr>
+      <td><code>syntax error near unexpected token '&lt;'</code> or HTML in PowerShell</td>
+      <td>The install URL returned a web page (proxy, captive portal) — check network, use an alternative installer</td>
+    </tr>
+    <tr>
+      <td><code>EACCES: permission denied</code></td>
+      <td>Take ownership of the install directory (e.g. <code>sudo chown -R $(whoami) ~/.local</code>)</td>
+    </tr>
+    <tr>
+      <td><code>TLS connect error</code>, <code>unable to get local issuer certificate</code></td>
+      <td>Update CA certificates, or configure your corporate CA (<code>NODE_EXTRA_CA_CERTS</code>)</td>
+    </tr>
+    <tr>
+      <td><code>Failed to fetch version</code>, download drops</td>
+      <td>Check proxy (<code>HTTPS_PROXY</code>), retry <code>claude update</code></td>
+    </tr>
+    <tr>
+      <td><code>Auto-update failed · Run claude doctor</code></td>
+      <td>Run <code>claude update</code> from your shell</td>
+    </tr>
+    <tr>
+      <td><code>Release verification failed</code></td>
+      <td>Run <code>claude update</code> or <code>claude install</code> again</td>
+    </tr>
+    <tr>
+      <td><code>Killed</code> during install on Linux</td>
+      <td>Free memory or add swap</td>
+    </tr>
+    <tr>
+      <td>Windows: <code>requires either Git for Windows … or PowerShell</code></td>
+      <td>Install Git for Windows or use PowerShell</td>
+    </tr>
+    <tr>
+      <td>Login loops, <code>403 Forbidden</code>, &ldquo;organization disabled&rdquo;</td>
+      <td><code>/logout</code> then <code>/login</code>; check the right account/org; <code>claude update</code> if the enterprise option is missing</td>
+    </tr>
+    <tr>
+      <td>&ldquo;You haven&rsquo;t been added to your organization yet&rdquo;</td>
+      <td>Your seat lacks Claude Code — ask an admin</td>
+    </tr>
+    <tr>
+      <td>Bedrock / Vertex / Foundry credential errors</td>
+      <td>Check the provider variables and cloud credentials; <code>/status</code> shows the active provider</td>
+    </tr>
+    <tr>
+      <td><code>ANTHROPIC_API_KEY</code> used instead of your subscription</td>
+      <td>Unset it — when set, it overrides your login</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="configuration-that-doesnt-take-effect">Configuration that doesn&rsquo;t take effect<a class="heading-anchor" href="#configuration-that-doesnt-take-effect" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Likely cause</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Claude ignores a <code>CLAUDE.md</code> rule</td>
+      <td>File didn&rsquo;t load, or the rule is vague, contradicted, or lost in a long file</td>
+      <td>Confirm in <code>/context</code>; shorten; <code>/doctor prompt-audit</code>; use a hook if it must always hold</td>
+    </tr>
+    <tr>
+      <td>Subdirectory <code>CLAUDE.md</code> seems ignored</td>
+      <td>Loads on demand when Claude works in that folder</td>
+      <td>Ask Claude to read a file there</td>
+    </tr>
+    <tr>
+      <td>Edited <code>CLAUDE.md</code> has no effect</td>
+      <td>Not re-read mid-session</td>
+      <td>Start a new session</td>
+    </tr>
+    <tr>
+      <td>A <code>settings.json</code> value seems ignored</td>
+      <td>Same key in <code>settings.local.json</code>, <code>--settings</code>, or managed settings</td>
+      <td><code>/status</code> for sources; check precedence</td>
+    </tr>
+    <tr>
+      <td>Global permissions or hooks ignored</td>
+      <td>Put in <code>~/.claude.json</code> (app state)</td>
+      <td>Move to <code>~/.claude/settings.json</code></td>
+    </tr>
+    <tr>
+      <td>Hook never fires</td>
+      <td><code>matcher</code> is an array, lowercase (<code>bash</code>), misspelled, or hooks are in a standalone file</td>
+      <td>One string, <code>&quot;Edit|Write&quot;</code>; tool names are capitalised; hooks go under <code>&quot;hooks&quot;</code> in settings</td>
+    </tr>
+    <tr>
+      <td>Hook listed but doesn&rsquo;t fire</td>
+      <td>Matcher doesn&rsquo;t match the tool, or the folder isn&rsquo;t trusted</td>
+      <td><code>claude --debug</code> and trigger it; accept workspace trust</td>
+    </tr>
+    <tr>
+      <td>Skill not in <code>/skills</code></td>
+      <td>File at <code>.claude/skills/name.md</code></td>
+      <td>Use <code>.claude/skills/name/SKILL.md</code></td>
+    </tr>
+    <tr>
+      <td>Skill listed but never used</td>
+      <td><code>disable-model-invocation: true</code>, or description doesn&rsquo;t match requests</td>
+      <td>Check the badge in <code>/skills</code>; put the use case first in the description</td>
+    </tr>
+    <tr>
+      <td>Sub-agent ignores <code>CLAUDE.md</code></td>
+      <td>Explore and Plan skip it; <code>omitClaudeMd</code> on custom agents</td>
+      <td>Put the needed context in the task prompt</td>
+    </tr>
+    <tr>
+      <td><code>.mcp.json</code> servers never load</td>
+      <td>File under <code>.claude/</code>, or key is <code>servers</code> instead of <code>mcpServers</code></td>
+      <td><code>.mcp.json</code> at the repo root with <code>mcpServers</code></td>
+    </tr>
+    <tr>
+      <td><code>mcpServers</code> in <code>settings.json</code> ignored</td>
+      <td>Settings don&rsquo;t read that key</td>
+      <td>Use <code>.mcp.json</code> or <code>claude mcp add --scope user</code></td>
+    </tr>
+    <tr>
+      <td>Project MCP server missing</td>
+      <td>Approval prompt was dismissed</td>
+      <td>Approve in <code>/mcp</code></td>
+    </tr>
+    <tr>
+      <td>MCP server fails from some directories</td>
+      <td>Relative path in <code>command</code>/<code>args</code></td>
+      <td>Absolute paths; <code>npx</code>/<code>uvx</code> are fine</td>
+    </tr>
+    <tr>
+      <td>MCP server connected but zero tools</td>
+      <td>Server not returning a tool list</td>
+      <td><strong>Reconnect</strong> in <code>/mcp</code>; <code>claude --debug=mcp</code> for its stderr</td>
+    </tr>
+    <tr>
+      <td><code>Bash(rm *)</code> deny doesn&rsquo;t stop <code>/bin/rm</code></td>
+      <td>Rules match the command string</td>
+      <td><code>PreToolUse</code> hook or the sandbox</td>
+    </tr>
+    <tr>
+      <td>Output style didn&rsquo;t apply</td>
+      <td>Lowercase name in settings, or file edited mid-session</td>
+      <td>Exact case (<code>Concise</code>); restart</td>
+    </tr>
+    <tr>
+      <td>Everything works in safe mode</td>
+      <td>One customisation is the cause</td>
+      <td>Re-enable one at a time</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="permissions-in-scripts-and-the-sdk">Permissions in scripts and the SDK<a class="heading-anchor" href="#permissions-in-scripts-and-the-sdk" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tool calls denied in <code>claude -p</code> or Agent SDK runs after an upgrade</td>
+      <td>Pass the mode explicitly: <code>--permission-mode</code> / <code>permissionMode</code> / <code>permission_mode</code>, and an allowlist</td>
+    </tr>
+    <tr>
+      <td>Run stops on a permission it can&rsquo;t ask about</td>
+      <td><code>--allowedTools</code> for what it needs, <code>--permission-mode dontAsk</code> to refuse the rest</td>
+    </tr>
+    <tr>
+      <td>SDK <code>canUseTool</code> never called</td>
+      <td>Bare tool names in <code>allowedTools</code> or <code>bypassPermissions</code> approve first — use specifiers</td>
+    </tr>
+    <tr>
+      <td>Auto mode keeps blocking routine work</td>
+      <td>Add context in <code>autoMode.environment</code> / <code>allow</code> (user settings, keep <code>&quot;$defaults&quot;</code>); <code>/auto-mode-setup</code></td>
+    </tr>
+    <tr>
+      <td>Session unexpectedly starts in auto mode</td>
+      <td>It&rsquo;s the interactive default; set <code>permissions.defaultMode</code> or cycle with <code>Shift+Tab</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="api-and-usage-errors">API and usage errors<a class="heading-anchor" href="#api-and-usage-errors" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>You see</th>
+      <th>Meaning</th>
+      <th>Do</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>API Error: 500</code></td>
+      <td>Server error (already retried)</td>
+      <td>Retry; check status.claude.com</td>
+    </tr>
+    <tr>
+      <td><code>Repeated 529 Overloaded errors</code></td>
+      <td>API at capacity — <strong>not</strong> your quota</td>
+      <td>Wait a few minutes; consider <code>--fallback-model</code></td>
+    </tr>
+    <tr>
+      <td><code>429</code> / &ldquo;temporarily limiting requests&rdquo;</td>
+      <td>Rate limited</td>
+      <td>Wait; reduce parallel agents</td>
+    </tr>
+    <tr>
+      <td>&ldquo;You&rsquo;ve hit your session limit&rdquo;</td>
+      <td>Plan usage limit</td>
+      <td><code>/rate-limit-options</code>: wait and auto-continue, usage credits, or upgrade</td>
+    </tr>
+    <tr>
+      <td>&ldquo;Credit balance is too low&rdquo;</td>
+      <td>API account out of credit</td>
+      <td>Top up in the Console</td>
+    </tr>
+    <tr>
+      <td><code>model not found</code> / no access</td>
+      <td>Model not available on your plan or provider</td>
+      <td><code>/model</code> to pick an available one; check <code>availableModels</code></td>
+    </tr>
+    <tr>
+      <td><code>Invalid API key</code>, <code>401</code></td>
+      <td>Wrong or expired credential</td>
+      <td>Fix the key or <code>apiKeyHelper</code>; <code>/login</code></td>
+    </tr>
+    <tr>
+      <td>&ldquo;The response above may be incomplete&rdquo;</td>
+      <td>Stream broke mid-response; not retried automatically because a resend could repeat a tool call</td>
+      <td>Check what completed, then ask Claude to continue</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Claude Code retries transient failures up to <strong>10 times</strong> with exponential backoff before showing an error.</p>
+<h2 id="performance-and-stability">Performance and stability<a class="heading-anchor" href="#performance-and-stability" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>High CPU or memory</td>
+      <td><code>/compact</code>; restart between big tasks; <code>.gitignore</code> build folders; <code>claude --safe-mode</code> to rule out plugins, MCP, hooks</td>
+    </tr>
+    <tr>
+      <td>&ldquo;Critical memory usage&rdquo; (heap &gt; 2.5 GB)</td>
+      <td>Restart and <code>claude --continue</code>; <code>/heapdump</code> writes diagnostics — share only the <code>-diagnostics.json</code>, never the <code>.heapsnapshot</code> (it contains your conversation and credentials)</td>
+    </tr>
+    <tr>
+      <td><code>Autocompact is thrashing</code></td>
+      <td>A file or output refills the window: read in chunks, <code>/compact keep only the plan and the diff</code>, move the work to a sub-agent, or <code>/clear</code>; check <code>/context</code> for what loads at start</td>
+    </tr>
+    <tr>
+      <td>Hangs or freezes</td>
+      <td><code>Ctrl+C</code>; if stuck, close the terminal and <code>claude --resume</code></td>
+    </tr>
+    <tr>
+      <td>Slow, expensive long sessions</td>
+      <td><code>/clear</code> between tasks; <code>/usage</code> to see where it goes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="search-terminal-and-environment">Search, terminal and environment<a class="heading-anchor" href="#search-terminal-and-environment" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Search, <code>@file</code>, agents or skills not found</td>
+      <td>Bundled ripgrep can&rsquo;t run: install <code>ripgrep</code> and set <code>USE_BUILTIN_RIPGREP=0</code>; <code>claude doctor</code> shows which one is used</td>
+    </tr>
+    <tr>
+      <td>Few search results on WSL</td>
+      <td>Project on <code>/mnt/c</code> — move it under <code>/home</code>, or search more specifically</td>
+    </tr>
+    <tr>
+      <td>Garbled text in VS Code/Cursor terminal</td>
+      <td><code>/terminal-setup</code> (GPU renderer setting)</td>
+    </tr>
+    <tr>
+      <td>Shift+Enter doesn&rsquo;t add a newline</td>
+      <td><code>/terminal-setup</code>, or <code>\</code> + Enter</td>
+    </tr>
+    <tr>
+      <td>Display broken</td>
+      <td><code>Ctrl+L</code> to redraw; <code>/tui default</code> for the classic renderer</td>
+    </tr>
+    <tr>
+      <td><code>pbcopy</code>/<code>xclip</code> fail with sandbox on</td>
+      <td>Ask Claude to print the text, then <code>/copy</code></td>
+    </tr>
+    <tr>
+      <td><code>/copy</code> over SSH doesn&rsquo;t reach your clipboard</td>
+      <td>Terminal must support OSC 52 (enable it in iTerm2), or hold the native-selection key, or <code>CLAUDE_CODE_DISABLE_MOUSE=1</code></td>
+    </tr>
+    <tr>
+      <td>Corporate proxy</td>
+      <td><code>HTTPS_PROXY</code>, custom CA, and allowlist Anthropic domains — see <a href="https://code.claude.com/docs/en/network-config" rel="noopener">network configuration</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="getting-help">Getting help<a class="heading-anchor" href="#getting-help" aria-label="Link to this section">#</a></h2>
+<ol>
+<li><code>/doctor</code>, then <code>/mcp</code> for server status.</li>
+<li>Ask Claude — it can read its own documentation (&ldquo;why isn&rsquo;t my hook firing?&rdquo;).</li>
+<li><code>/feedback</code> to report to Anthropic; search the GitHub issues.</li>
+<li>Account or billing: claude.ai (or platform.claude.com) → initials → <strong>Get help</strong>.</li>
+</ol>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Changing several things at once</span></p>
+  <div class="callout__body"><p>You won&rsquo;t know which one fixed it — or which one broke something else. One change, retest.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Emphasis instead of diagnosis</span></p>
+  <div class="callout__body"><p>If Claude ignores an instruction, first confirm it loaded in <code>/context</code>. Only then rewrite, shorten, or turn it into a hook.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Sharing heap snapshots</span></p>
+  <div class="callout__body"><p>A <code>.heapsnapshot</code> holds every string in memory, including credentials. Attach only the diagnostics JSON.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>A hook works for a teammate but not for you. What do you check first?</strong>
+<code>/hooks</code> to see if it loaded, then workspace trust for the folder, then the matcher&rsquo;s case and spelling with <code>claude --debug</code>.</p>
+<p><strong>The problem disappears with <code>claude --safe-mode</code>. What next?</strong>
+The cause is one of your customisations; re-enable them one at a time (<code>CLAUDE.md</code>, skills, plugins, hooks, MCP) until it returns.</p>
+<p><strong>Does a 529 error count against your usage limit?</strong>
+No — it means the API is at capacity; wait and retry.</p>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/troubleshooting" rel="noopener">Troubleshooting</a> and <a href="https://code.claude.com/docs/en/troubleshoot-install" rel="noopener">Troubleshoot installation and login</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/debug-your-config" rel="noopener">Debug your configuration</a> and <a href="https://code.claude.com/docs/en/errors" rel="noopener">Error reference</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/network-config" rel="noopener">Enterprise network configuration</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-settings-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: settings</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-hooks-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: hooks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-mcp-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Cheatsheet: commands</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: output styles &amp; status line</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-for-teams/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Claude Code for teams</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-across-the-sdlc/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Claude across the SDLC</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-triage-method">The triage method</a></li>
+    <li><a href="#installation-and-login">Installation and login</a></li>
+    <li><a href="#configuration-that-doesnt-take-effect">Configuration that doesn&rsquo;t take effect</a></li>
+    <li><a href="#permissions-in-scripts-and-the-sdk">Permissions in scripts and the SDK</a></li>
+    <li><a href="#api-and-usage-errors">API and usage errors</a></li>
+    <li><a href="#performance-and-stability">Performance and stability</a></li>
+    <li><a href="#search-terminal-and-environment">Search, terminal and environment</a></li>
+    <li><a href="#getting-help">Getting help</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

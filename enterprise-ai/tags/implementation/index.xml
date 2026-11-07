@@ -21,6 +21,13 @@
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Spring AI&lt;/strong&gt; is the Spring project for building AI applications in Java. It gives you &lt;strong&gt;portable APIs&lt;/strong&gt; for chat, embeddings, images, audio and vector stores across many providers, plus higher-level building blocks — a fluent &lt;code&gt;ChatClient&lt;/code&gt;, advisors for RAG and memory, tool calling, MCP, structured output and observability — all configured the Spring Boot way.&lt;/p&gt;</description>
 			</item>
 			<item>
+				<title>The Claude API for Builders</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/claude/claude-api-for-developers/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/claude/claude-api-for-developers/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;strong&gt;Claude API&lt;/strong&gt; is one HTTP endpoint, &lt;code&gt;POST /v1/messages&lt;/code&gt;: you send a model ID, optional system instructions, a list of messages and optional tools; Claude returns content blocks (text, tool calls, thinking). Everything else — tools, structured output, caching, citations, files — is a feature of that one endpoint or a small supporting API (Batches, Files, Models, Token counting). Official SDKs exist for Python, TypeScript, Java, Go, Ruby, C# and PHP.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>RAG with Spring AI</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-rag/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

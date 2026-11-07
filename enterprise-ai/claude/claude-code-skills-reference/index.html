@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Skills Reference · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="How to write and run Claude Code skills: where SKILL.md files load from, every frontmatter field, who can invoke a skill, arguments, supporting files, dynamic context with !commands, running in a forked sub-agent, pre-approving tools, how skill content stays in context, bundled skills, and troubleshooting.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-skills-reference/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Skills Reference">
+<meta property="og:description" content="How to write and run Claude Code skills: where SKILL.md files load from, every frontmatter field, who can invoke a skill, arguments, supporting files, dynamic context with !commands, running in a forked sub-agent, pre-approving tools, how skill content stays in context, bundled skills, and troubleshooting.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-skills-reference/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Skills Reference">
+<meta name="twitter:description" content="How to write and run Claude Code skills: where SKILL.md files load from, every frontmatter field, who can invoke a skill, arguments, supporting files, dynamic context with !commands, running in a forked sub-agent, pre-approving tools, how skill content stays in context, bundled skills, and troubleshooting.">
+<meta name="keywords" content="claude, developer-tools, reference, skills">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"How to write and run Claude Code skills: where SKILL.md files load from, every frontmatter field, who can invoke a skill, arguments, supporting files, dynamic context with !commands, running in a forked sub-agent, pre-approving tools, how skill content stays in context, bundled skills, and troubleshooting.","headline":"Claude Code Skills Reference","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, reference, skills","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-skills-reference/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-skills-reference/","name":"Reference: skills","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/" aria-current="page">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Reference: skills</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Skills Reference</h1><p class="article__lede" itemprop="description">How to write and run Claude Code skills: where SKILL.md files load from, every frontmatter field, who can invoke a skill, arguments, supporting files, dynamic context with !commands, running in a forked sub-agent, pre-approving tools, how skill content stays in context, bundled skills, and troubleshooting.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a><a class="tag" href="/enterprise-ai/tags/skills/">#Skills</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#your-first-skill">Your first skill</a></li>
+    <li><a href="#where-skills-load-from">Where skills load from</a></li>
+    <li><a href="#frontmatter">Frontmatter</a></li>
+    <li><a href="#who-can-invoke-a-skill">Who can invoke a skill</a></li>
+    <li><a href="#arguments">Arguments</a></li>
+    <li><a href="#supporting-files-and-dynamic-context">Supporting files and dynamic context</a></li>
+    <li><a href="#run-a-skill-in-a-sub-agent">Run a skill in a sub-agent</a></li>
+    <li><a href="#tools-and-permissions">Tools and permissions</a></li>
+    <li><a href="#how-skill-content-behaves-over-time">How skill content behaves over time</a></li>
+    <li><a href="#bundled-skills">Bundled skills</a></li>
+    <li><a href="#measuring-and-iterating">Measuring and iterating</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>skill</strong> is a folder with a <code>SKILL.md</code> file: YAML frontmatter saying what it is and when to use it, followed by Markdown instructions. Claude sees every skill&rsquo;s <strong>description</strong> in each session and loads the <strong>body</strong> only when the skill is invoked — by you typing <code>/skill-name</code>, or by Claude deciding it fits the task. Skills hold procedures and team knowledge that would otherwise bloat <code>CLAUDE.md</code>.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Condensed from Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/skills" rel="noopener">Skills</a> page, read on 7 November 2026. Skills follow the open <a href="https://agentskills.io" rel="noopener">Agent Skills</a> format; Claude Code adds extra frontmatter fields on top.</p></div>
+</aside><figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-code-skills-agents.html" title="How skills and sub-agents load into context" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>How skills and sub-agents load into context · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-code-skills-agents.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h2 id="your-first-skill">Your first skill<a class="heading-anchor" href="#your-first-skill" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">summarize-changes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l">Summarize uncommitted changes and flag risks. Use when asked what changed.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="gu">## Current changes
+</span></span></span><span class="line"><span class="cl">!<span class="sb">`git diff HEAD`</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gu">## Instructions
+</span></span></span><span class="line"><span class="cl">Summarize the changes above in two or three bullets, then list risks such as missing
+</span></span><span class="line"><span class="cl">error handling, hardcoded values or tests that need updating.
+</span></span></code></pre></div><p>Save as <code>.claude/skills/summarize-changes/SKILL.md</code>. Then either ask &ldquo;What did I change?&rdquo; (Claude invokes it) or type <code>/summarize-changes</code>.</p>
+<h2 id="where-skills-load-from">Where skills load from<a class="heading-anchor" href="#where-skills-load-from" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Path</th>
+      <th>Loads in</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Enterprise</td>
+      <td><code>.claude/skills/&lt;name&gt;/SKILL.md</code> in the managed settings directory</td>
+      <td>Every user on managed machines</td>
+    </tr>
+    <tr>
+      <td>Personal</td>
+      <td><code>~/.claude/skills/&lt;name&gt;/SKILL.md</code></td>
+      <td>All your projects (not cloud sessions)</td>
+    </tr>
+    <tr>
+      <td>Project</td>
+      <td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td>
+      <td>This repository — commit it for the team</td>
+    </tr>
+    <tr>
+      <td>Nested</td>
+      <td><code>&lt;subdir&gt;/.claude/skills/&lt;name&gt;/SKILL.md</code></td>
+      <td>Sessions in, or working on files under, <code>&lt;subdir&gt;</code> (monorepos)</td>
+    </tr>
+    <tr>
+      <td><code>--add-dir</code></td>
+      <td><code>.claude/skills/</code> in the added directory</td>
+      <td>That session</td>
+    </tr>
+    <tr>
+      <td>Plugin</td>
+      <td><code>&lt;plugin&gt;/skills/&lt;name&gt;/SKILL.md</code></td>
+      <td>Where enabled, as <code>/plugin-name:skill-name</code></td>
+    </tr>
+    <tr>
+      <td>claude.ai</td>
+      <td>Skills enabled on your account</td>
+      <td>Cowork, cloud, and terminal sessions signed in with that account</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><code>.claude/commands/&lt;name&gt;.md</code> is the older single-file format and still works; prefer skills for new work (they support supporting files). Edits on disk apply after <code>/reload-skills</code>.</p>
+<h2 id="frontmatter">Frontmatter<a class="heading-anchor" href="#frontmatter" aria-label="Link to this section">#</a></h2>
+<p>All fields are optional; <code>description</code> is the one that matters. Unknown fields are silently ignored — check spelling.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>name</code></td>
+      <td>Command name (defaults to the folder name)</td>
+    </tr>
+    <tr>
+      <td><code>description</code></td>
+      <td>What it does and <strong>when to use it</strong> — Claude matches requests against this. Put the key use first; <code>description</code> + <code>when_to_use</code> are truncated at 1,536 characters</td>
+    </tr>
+    <tr>
+      <td><code>when_to_use</code></td>
+      <td>Extra trigger phrases or example requests</td>
+    </tr>
+    <tr>
+      <td><code>argument-hint</code></td>
+      <td>Autocomplete hint, e.g. <code>issue-number</code></td>
+    </tr>
+    <tr>
+      <td><code>arguments</code></td>
+      <td>Named positional arguments for <code>$name</code> substitution</td>
+    </tr>
+    <tr>
+      <td><code>disable-model-invocation</code></td>
+      <td><code>true</code>: only you can run it (<code>/name</code>); its description leaves Claude&rsquo;s context</td>
+    </tr>
+    <tr>
+      <td><code>user-invocable</code></td>
+      <td><code>false</code>: only Claude can use it; hidden from the <code>/</code> menu</td>
+    </tr>
+    <tr>
+      <td><code>allowed-tools</code></td>
+      <td>Tools pre-approved for the turn that invokes the skill</td>
+    </tr>
+    <tr>
+      <td><code>disallowed-tools</code></td>
+      <td>Tools removed while the skill is active</td>
+    </tr>
+    <tr>
+      <td><code>model</code>, <code>effort</code></td>
+      <td>Model and effort for the rest of the current turn (or for the fork)</td>
+    </tr>
+    <tr>
+      <td><code>context: fork</code></td>
+      <td>Run in a sub-agent with the skill as its prompt</td>
+    </tr>
+    <tr>
+      <td><code>agent</code></td>
+      <td>Which sub-agent type runs the fork (e.g. <code>Explore</code>)</td>
+    </tr>
+    <tr>
+      <td><code>background</code></td>
+      <td>With <code>fork</code>: <code>false</code> waits for the result instead of running in the background</td>
+    </tr>
+    <tr>
+      <td><code>hooks</code></td>
+      <td>Hooks registered when the skill runs, for the rest of the session</td>
+    </tr>
+    <tr>
+      <td><code>paths</code></td>
+      <td>Glob patterns — auto-load only when working on matching files</td>
+    </tr>
+    <tr>
+      <td><code>shell</code></td>
+      <td><code>bash</code> (default) or <code>powershell</code> for <code>!</code> commands</td>
+    </tr>
+    <tr>
+      <td><code>metadata</code>, <code>license</code>, <code>compatibility</code></td>
+      <td>Accepted, not acted on (for your tooling and the open spec)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="who-can-invoke-a-skill">Who can invoke a skill<a class="heading-anchor" href="#who-can-invoke-a-skill" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Frontmatter</th>
+      <th>You (<code>/name</code>)</th>
+      <th>Claude</th>
+      <th>In context</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>default</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Description always; body when invoked</td>
+    </tr>
+    <tr>
+      <td><code>disable-model-invocation: true</code></td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Nothing until you invoke it</td>
+    </tr>
+    <tr>
+      <td><code>user-invocable: false</code></td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Description always; body when invoked</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Side effects need a human trigger</span></p>
+  <div class="callout__body"><p>Any skill that deploys, publishes, commits or messages people should set <code>disable-model-invocation: true</code>. If Claude tries anyway, Claude Code blocks the call and tells it not to reproduce the steps another way.</p></div>
+</aside><p><code>/deploy staging</code> at the <strong>start</strong> of a message runs the skill; <code>go ahead and /deploy</code> later in a sentence only <em>permits</em> Claude to run it. You can stack up to six inline skills at the start of one message in the terminal.</p>
+<h2 id="arguments">Arguments<a class="heading-anchor" href="#arguments" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder</th>
+      <th>Becomes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>$ARGUMENTS</code></td>
+      <td>Everything after the skill name</td>
+    </tr>
+    <tr>
+      <td><code>$0</code>, <code>$1</code>… or <code>$ARGUMENTS0</code>…</td>
+      <td>Positional arguments</td>
+    </tr>
+    <tr>
+      <td><code>$name</code></td>
+      <td>Named argument from <code>arguments:</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">migrate-component</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l">Migrate a component between languages</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">argument-hint</span><span class="p">:</span><span class="w"> </span><span class="l">component from-lang to-lang</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">disable-model-invocation</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl">Migrate the $0 component from $1 to $2. Preserve all existing behaviour and tests.
+</span></span></code></pre></div><p><code>/migrate-component SearchBar JavaScript TypeScript</code>. If no placeholder is used, Claude Code appends <code>ARGUMENTS: &lt;input&gt;</code> so nothing is lost.</p>
+<h2 id="supporting-files-and-dynamic-context">Supporting files and dynamic context<a class="heading-anchor" href="#supporting-files-and-dynamic-context" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">release/
+</span></span><span class="line"><span class="cl">├── SKILL.md          # overview and steps — keep under 500 lines
+</span></span><span class="line"><span class="cl">├── checklist.md      # loaded only when SKILL.md points Claude to it
+</span></span><span class="line"><span class="cl">└── scripts/bump.sh   # executed, not loaded
+</span></span></code></pre></div><ul>
+<li>Reference supporting files from <code>SKILL.md</code> (&ldquo;for the full checklist, see checklist.md&rdquo;) so Claude knows when to read them.</li>
+<li><strong><code>!`command`</code></strong> runs before Claude sees the skill and inlines the output — live <code>git diff</code>, <code>gh pr view</code>, environment facts. (<code>disableSkillShellExecution</code> turns this off.)</li>
+</ul>
+<h2 id="run-a-skill-in-a-sub-agent">Run a skill in a sub-agent<a class="heading-anchor" href="#run-a-skill-in-a-sub-agent" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">pr-summary</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l">Summarize the current pull request</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l">fork</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">agent</span><span class="p">:</span><span class="w"> </span><span class="l">Explore</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">allowed-tools</span><span class="p">:</span><span class="w"> </span><span class="l">Bash(gh *)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="gu">## Pull request
+</span></span></span><span class="line"><span class="cl">!<span class="sb">`gh pr view --json title,body,files`</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Summarize what changed and why, list risky files, and suggest reviewers.
+</span></span></code></pre></div><ul>
+<li>The sub-agent <strong>doesn&rsquo;t see your conversation</strong> — the skill must contain a complete task. A skill of pure guidelines under <code>fork</code> returns nothing useful.</li>
+<li>Forks run in the background by default (in <code>-p</code> and SDK runs they wait); set <code>background: false</code> to wait.</li>
+<li>A background fork&rsquo;s edits are outside your checkpoints — use Git to revert them.</li>
+<li>To hand over the whole conversation instead, use <code>/subtask</code> (a forked sub-agent), not <code>context: fork</code>.</li>
+</ul>
+<h2 id="tools-and-permissions">Tools and permissions<a class="heading-anchor" href="#tools-and-permissions" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">allowed-tools</span><span class="p">:</span><span class="w"> </span><span class="l">Bash(git add *) Bash(git commit *) Bash(git status *)</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li>The grant lasts for the <strong>turn that invokes</strong> the skill and clears on your next message; the skill text stays.</li>
+<li><strong>Workspace trust does not gate <code>allowed-tools</code></strong> — a project skill can pre-approve tools even in a <code>-p</code> run in an untrusted folder. Review committed skills before scripting over someone else&rsquo;s repository.</li>
+<li><code>allowManagedPermissionRulesOnly</code> makes Claude Code ignore <code>allowed-tools</code> in project and personal skills.</li>
+<li>Deny <code>Skill(name)</code> in permissions, or use <code>skillOverrides</code> in settings, to hide a skill without editing it.</li>
+</ul>
+<h2 id="how-skill-content-behaves-over-time">How skill content behaves over time<a class="heading-anchor" href="#how-skill-content-behaves-over-time" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>The rendered body enters the conversation <strong>once</strong> and stays across turns — every line is a recurring token cost, so state what to do, not why.</li>
+<li>Re-invoking with identical content adds a short note, not a second copy.</li>
+<li>After compaction, Claude Code re-attaches the latest invocation of each skill (first 5,000 tokens each, within a shared budget).</li>
+<li>Sub-agents with <code>skills:</code> in their definition get the <strong>full</strong> body at start-up, not just the description.</li>
+</ul>
+<h2 id="bundled-skills">Bundled skills<a class="heading-anchor" href="#bundled-skills" aria-label="Link to this section">#</a></h2>
+<p>Claude Code ships skills such as <code>/code-review</code>, <code>/simplify</code>, <code>/verify</code>, <code>/run</code>, <code>/debug</code>, <code>/doctor</code>, <code>/loop</code>, <code>/batch</code>, <code>/fewer-permission-prompts</code>, <code>/update-config</code> and <code>/claude-api</code>. Turn them off with <code>disableBundledSkills</code>. See the <a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">commands cheatsheet</a>.</p>
+<h2 id="measuring-and-iterating">Measuring and iterating<a class="heading-anchor" href="#measuring-and-iterating" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><code>/skills</code> lists skills; press <code>t</code> to sort by token cost; <code>Space</code> cycles visibility.</li>
+<li><code>/skill-doctor</code> shows each skill&rsquo;s context cost and how often it&rsquo;s used — retire the unused.</li>
+<li>The <code>skill-creator</code> skill runs evals: realistic prompts with and without the skill, scored, to tune descriptions.</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting<a class="heading-anchor" href="#troubleshooting" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Never triggers</td>
+      <td>Put the use case first in <code>description</code>; add <code>when_to_use</code> phrases; check frontmatter parses (opening <code>---</code> on line 1)</td>
+    </tr>
+    <tr>
+      <td>Triggers too often</td>
+      <td>Narrow the description, add <code>paths:</code>, or set <code>disable-model-invocation: true</code></td>
+    </tr>
+    <tr>
+      <td>Claude stops following it mid-session</td>
+      <td>The skill was compacted away or contradicted — re-invoke it, or shorten it</td>
+    </tr>
+    <tr>
+      <td>Description cut short</td>
+      <td>Too many skills; lower count or raise <code>skillListingBudgetFraction</code></td>
+    </tr>
+    <tr>
+      <td>Personal skills missing</td>
+      <td>Cloud sessions don&rsquo;t load <code>~/.claude/skills/</code>; commit to the repo or a plugin</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Writing a skill for what Claude can read</span></p>
+  <div class="callout__body"><p>The <code>CLAUDE.md</code> test applies: only write down what Claude can&rsquo;t find in the repo or would rediscover every session.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Vague descriptions</span></p>
+  <div class="callout__body"><p>&ldquo;Helpers for the API&rdquo; never triggers reliably. &ldquo;Generate an OpenAPI entry for a new endpoint. Use when adding or changing a route in src/api/&rdquo; does.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading"><code>context: fork</code> on reference content</span></p>
+  <div class="callout__body"><p>A forked sub-agent needs a task. Keep conventions and style guides inline.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>What does Claude see about a skill before it&rsquo;s invoked?</strong>
+Its name and description (unless <code>disable-model-invocation: true</code>, in which case nothing). The body loads only on invocation.</p>
+<p><strong>How do you make a release skill that only a human can start?</strong>
+Set <code>disable-model-invocation: true</code>; it then runs only when someone types <code>/release</code>.</p>
+<p><strong>Why review <code>allowed-tools</code> in a repository&rsquo;s skills before running <code>claude -p</code> there?</strong>
+Workspace trust doesn&rsquo;t gate it, so a committed skill can pre-approve tools in a non-interactive run.</p>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/skills" rel="noopener">Extend Claude with skills</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/best-practices" rel="noopener">Best practices for Claude Code — put team procedures in skills</a>.</li>
+<li><a href="https://agentskills.io" rel="noopener">Agent Skills specification</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-subagents-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: sub-agents</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-plugins-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: plugins</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Harnesses &amp; skills</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-hooks-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: hooks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-mcp-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: MCP</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-settings-reference/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Reference: settings</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-subagents-reference/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Reference: sub-agents</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#your-first-skill">Your first skill</a></li>
+    <li><a href="#where-skills-load-from">Where skills load from</a></li>
+    <li><a href="#frontmatter">Frontmatter</a></li>
+    <li><a href="#who-can-invoke-a-skill">Who can invoke a skill</a></li>
+    <li><a href="#arguments">Arguments</a></li>
+    <li><a href="#supporting-files-and-dynamic-context">Supporting files and dynamic context</a></li>
+    <li><a href="#run-a-skill-in-a-sub-agent">Run a skill in a sub-agent</a></li>
+    <li><a href="#tools-and-permissions">Tools and permissions</a></li>
+    <li><a href="#how-skill-content-behaves-over-time">How skill content behaves over time</a></li>
+    <li><a href="#bundled-skills">Bundled skills</a></li>
+    <li><a href="#measuring-and-iterating">Measuring and iterating</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

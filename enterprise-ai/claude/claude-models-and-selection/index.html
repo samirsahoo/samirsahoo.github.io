@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Models and Model Selection · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="The Claude model family in November 2026 — Fable, Opus, Sonnet and Haiku — with context windows and prices, how adaptive thinking and effort levels work, a task-to-model guide for product and engineering work, routing and fallbacks, and how to run your own selection.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-models-and-selection/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Models and Model Selection">
+<meta property="og:description" content="The Claude model family in November 2026 — Fable, Opus, Sonnet and Haiku — with context windows and prices, how adaptive thinking and effort levels work, a task-to-model guide for product and engineering work, routing and fallbacks, and how to run your own selection.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-models-and-selection/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Models and Model Selection">
+<meta name="twitter:description" content="The Claude model family in November 2026 — Fable, Opus, Sonnet and Haiku — with context windows and prices, how adaptive thinking and effort levels work, a task-to-model guide for product and engineering work, routing and fallbacks, and how to run your own selection.">
+<meta name="keywords" content="llm, claude, model-selection, architecture-decision">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-06","description":"The Claude model family in November 2026 — Fable, Opus, Sonnet and Haiku — with context windows and prices, how adaptive thinking and effort levels work, a task-to-model guide for product and engineering work, routing and fallbacks, and how to run your own selection.","headline":"Claude Models and Model Selection","inLanguage":"en","isAccessibleForFree":true,"keywords":"llm, claude, model-selection, architecture-decision","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-models-and-selection/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-models-and-selection/","name":"Claude models \u0026 selection","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/" aria-current="page">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Claude models &amp; selection</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Models and Model Selection</h1><p class="article__lede" itemprop="description">The Claude model family in November 2026 — Fable, Opus, Sonnet and Haiku — with context windows and prices, how adaptive thinking and effort levels work, a task-to-model guide for product and engineering work, routing and fallbacks, and how to run your own selection.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-06">November 6, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/llm/">#Llm</a><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/model-selection/">#Model-Selection</a><a class="tag" href="/enterprise-ai/tags/architecture-decision/">#Architecture-Decision</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/foundations/model-selection/">Model selection</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-matters">Why it matters</a></li>
+    <li><a href="#the-model-family-november-2026">The model family (November 2026)</a>
+      <ul>
+        <li><a href="#discounts-that-change-the-arithmetic">Discounts that change the arithmetic</a></li>
+      </ul>
+    </li>
+    <li><a href="#thinking-and-effort">Thinking and effort</a></li>
+    <li><a href="#which-model-for-which-task">Which model for which task</a></li>
+    <li><a href="#routing-fallbacks-and-lock-in">Routing, fallbacks and lock-in</a></li>
+    <li><a href="#running-your-own-selection">Running your own selection</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Anthropic sells Claude in <strong>tiers</strong>. Bigger tiers reason better and cost more; smaller tiers are faster and cheaper. Inside each model you also choose an <strong>effort level</strong> — how hard the model thinks before it answers. Model selection for Claude is therefore a two-dimensional choice: <em>which tier</em> and <em>how much effort</em>, made per task and checked against your own evaluation set.</p>
+<h2 id="why-it-matters">Why it matters<a class="heading-anchor" href="#why-it-matters" aria-label="Link to this section">#</a></h2>
+<p>Between the cheapest and the most capable current Claude model the price differs by <strong>100×</strong> per token. Effort changes token use within one model by several times again. Teams that pick &ldquo;the best model, maximum effort&rdquo; for everything overspend; teams that pick the cheapest for everything ship wrong answers. The general method is in <a href="/enterprise-ai/foundations/model-selection/">Model selection for the enterprise</a>; this article applies it to Claude.</p>
+<h2 id="the-model-family-november-2026">The model family (November 2026)<a class="heading-anchor" href="#the-model-family-november-2026" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>API model ID</th>
+      <th>Context</th>
+      <th>Max output</th>
+      <th>Input / output price per 1M tokens</th>
+      <th>Positioning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Claude Fable 5.1</strong></td>
+      <td><code>claude-fable-5-1</code></td>
+      <td>1M</td>
+      <td>128K</td>
+      <td>$10 / $50</td>
+      <td>Most capable widely released model: hardest reasoning, long-horizon autonomous work</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Opus 5.5</strong></td>
+      <td><code>claude-opus-5-5</code></td>
+      <td>1M</td>
+      <td>128K</td>
+      <td>$4 / $20</td>
+      <td>The default for serious work: complex coding, agents, analysis</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Sonnet 5.5</strong></td>
+      <td><code>claude-sonnet-5-5</code></td>
+      <td>1M</td>
+      <td>128K</td>
+      <td>$2 / $10</td>
+      <td>Speed and capability for everyday coding, agents and enterprise workloads</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Haiku 5.5</strong></td>
+      <td><code>claude-haiku-5-5</code></td>
+      <td>1M</td>
+      <td>128K</td>
+      <td>$0.10 / $0.50 (≤100K-token prompts)</td>
+      <td>High-volume, latency-sensitive tasks: classification, extraction, routing, sub-agents</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Prices are Anthropic first-party API list prices; Microsoft Foundry bills at the same rates, while Amazon Bedrock and Google Vertex AI publish their own pricing. Previous generations (Claude Fable 5, Opus 5, Opus 4.8, Sonnet 5, Haiku 4.5 and others) remain available for a time but should not be chosen for new work. Claude Mythos 5.1 has Fable-level capability but is available only to Project Glasswing participants.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Never hard-code what you can look up</span></p>
+  <div class="callout__body"><p>The Models API (<code>GET /v1/models</code>) returns each model&rsquo;s context window, output limit and capabilities. Read limits from it in tooling, and keep model IDs in configuration — not scattered through code — so an upgrade is a one-line change plus an evaluation run.</p></div>
+</aside><h3 id="discounts-that-change-the-arithmetic">Discounts that change the arithmetic<a class="heading-anchor" href="#discounts-that-change-the-arithmetic" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Mechanism</th>
+      <th>Effect</th>
+      <th>Use it for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Prompt caching</strong></td>
+      <td>Cache reads are billed at a small fraction of the input price (for example $0.20 per 1M on Opus 5.5 and Sonnet 5.5)</td>
+      <td>Long, stable system prompts, documents and tool definitions reused across requests</td>
+    </tr>
+    <tr>
+      <td><strong>Message Batches</strong></td>
+      <td>50% off, results within 24 hours</td>
+      <td>Offline work: back-fills, evaluations, bulk classification, nightly reports</td>
+    </tr>
+    <tr>
+      <td><strong>Fast mode</strong> (Opus 5.5, Claude API only)</td>
+      <td>Up to 2.5× faster output at 2× the price ($8 / $40)</td>
+      <td>Interactive coding sessions where waiting costs more than tokens</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="thinking-and-effort">Thinking and effort<a class="heading-anchor" href="#thinking-and-effort" aria-label="Link to this section">#</a></h2>
+<p>Current Claude models <strong>think before they answer</strong> — they reason internally, then respond. You do not set a thinking-token budget any more; instead:</p>
+<ul>
+<li><strong>Adaptive thinking</strong> lets the model decide how much to think per request. On Fable 5.1 and Opus 5.5 thinking is always on; on Sonnet 5.5 and Haiku 5.5 it is on by default.</li>
+<li><strong>Effort</strong> (<code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code>) sets the overall thoroughness: how much it thinks, how many tool calls it makes, how much it writes. It is the main <em>quality-versus-cost dial within one model</em>.</li>
+</ul>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Effort</th>
+      <th>Typical use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>low</code></td>
+      <td>Chat, classification, simple extraction, sub-agents doing narrow reading tasks</td>
+    </tr>
+    <tr>
+      <td><code>medium</code></td>
+      <td>Default on Opus 5.5 and Haiku 5.5; most product features; agentic coding on Sonnet 5.5</td>
+    </tr>
+    <tr>
+      <td><code>high</code></td>
+      <td>Intelligence-sensitive work: design, analysis, tricky debugging; default on Sonnet 5.5</td>
+    </tr>
+    <tr>
+      <td><code>xhigh</code></td>
+      <td>Long agentic coding and multi-step tool use; the default in Claude Code</td>
+    </tr>
+    <tr>
+      <td><code>max</code></td>
+      <td>When correctness matters far more than cost and measurement shows headroom above <code>xhigh</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Try a better model at lower effort before a cascade</span></p>
+  <div class="callout__body"><p>The newest models at low or medium effort often match or beat older models at high effort. Before building a multi-model cascade, measure the single most capable model at a lower effort on the same tasks — one model is simpler, and prompt caches are per model, so a cascade forfeits cache reuse.</p></div>
+</aside><h2 id="which-model-for-which-task">Which model for which task<a class="heading-anchor" href="#which-model-for-which-task" aria-label="Link to this section">#</a></h2>
+<figure class="diagram" aria-label="Choosing a Claude model and effort"><figcaption class="diagram__title">Choosing a Claude model and effort</figcaption>
+  <pre class="mermaid">flowchart TD
+    A{&#34;Is it a hard, open-ended problem&lt;br/&gt;where one wrong answer is expensive?&lt;br/&gt;(architecture, novel algorithms,&lt;br/&gt;multi-day autonomous work)&#34;} --&gt;|&#34;yes&#34;| F[&#34;Fable 5.1 · high–max&lt;br/&gt;or Opus 5.5 · xhigh–max&#34;]
+    A --&gt;|&#34;no&#34;| B{&#34;Multi-step reasoning, agentic coding,&lt;br/&gt;non-trivial analysis or writing?&#34;}
+    B --&gt;|&#34;yes&#34;| O[&#34;Opus 5.5 · medium–xhigh&lt;br/&gt;(Sonnet 5.5 · high if cost/latency bound)&#34;]
+    B --&gt;|&#34;no&#34;| C{&#34;High volume, latency-sensitive,&lt;br/&gt;or a well-specified narrow task?&#34;}
+    C --&gt;|&#34;yes&#34;| H[&#34;Haiku 5.5 · low–medium&#34;]
+    C --&gt;|&#34;no&#34;| S[&#34;Sonnet 5.5 · medium–high&#34;]
+    F --&gt; E[&#34;Confirm on your own evaluation set,&lt;br/&gt;then fix model + effort per route&#34;]
+    O --&gt; E
+    H --&gt; E
+    S --&gt; E</pre>
+</figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Starting point</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Architecture options, threat models, migration strategy</td>
+      <td>Opus 5.5 <code>high</code>/<code>xhigh</code>; Fable 5.1 for the hardest</td>
+      <td>Reasoning quality dominates cost; volume is low</td>
+    </tr>
+    <tr>
+      <td>Agentic coding (feature work, refactors, bug fixes)</td>
+      <td>Opus 5.5 <code>xhigh</code> in Claude Code; Sonnet 5.5 <code>medium</code>–<code>high</code> for routine changes</td>
+      <td>Long tool loops reward capability; routine edits do not need the top tier</td>
+    </tr>
+    <tr>
+      <td>Code review on every pull request</td>
+      <td>Sonnet 5.5 <code>high</code>; Opus 5.5 for security-critical repos</td>
+      <td>Runs often; must be good but not maximal</td>
+    </tr>
+    <tr>
+      <td>Test generation, documentation, changelogs</td>
+      <td>Sonnet 5.5 <code>medium</code></td>
+      <td>Well-specified, verifiable output</td>
+    </tr>
+    <tr>
+      <td>Log and ticket triage, classification, routing</td>
+      <td>Haiku 5.5 <code>low</code></td>
+      <td>High volume, short outputs, latency matters</td>
+    </tr>
+    <tr>
+      <td>RAG answer generation for employees</td>
+      <td>Sonnet 5.5 <code>medium</code>; Haiku 5.5 for simple FAQ</td>
+      <td>Grounded answers rarely need frontier reasoning</td>
+    </tr>
+    <tr>
+      <td>Bulk extraction from documents</td>
+      <td>Haiku 5.5 or Sonnet 5.5 via Batches</td>
+      <td>50% batch discount; quality checked by sampling</td>
+    </tr>
+    <tr>
+      <td>Sub-agents that read and summarise for a lead agent</td>
+      <td>Haiku 5.5 or Sonnet 5.5 <code>low</code></td>
+      <td>Keeps the expensive model&rsquo;s context and bill small</td>
+    </tr>
+    <tr>
+      <td>LLM-as-judge in evaluation pipelines</td>
+      <td>Same tier as, or above, the model being judged</td>
+      <td>A weaker judge cannot reliably grade a stronger model</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="routing-fallbacks-and-lock-in">Routing, fallbacks and lock-in<a class="heading-anchor" href="#routing-fallbacks-and-lock-in" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Route per use case, not per request</strong>, until you have data. A fixed model and effort for each route (review, triage, chat, extraction) is easy to evaluate and explain. Add dynamic routing only when traffic is varied enough to justify a classifier.</li>
+<li><strong>Handle refusals.</strong> Claude&rsquo;s safety classifiers can decline a request (HTTP 200, <code>stop_reason: &quot;refusal&quot;</code>). Always check <code>stop_reason</code> before reading content. On the Claude API you can enable <strong>server-side fallbacks</strong> so a declined request is retried automatically on a suitable model; on Bedrock, Vertex AI and Foundry the SDKs provide a client-side fallback middleware.</li>
+<li><strong>Plan for outages and rate limits</strong> with a second, pre-evaluated model — a different Claude tier, the same model through a different cloud, or another vendor behind your <a href="/enterprise-ai/foundations/enterprise-ai-stack/">AI gateway</a>.</li>
+<li><strong>Keep prompts portable.</strong> Model-specific tricks age badly; clear instructions, examples and schemas transfer.</li>
+</ul>
+<h2 id="running-your-own-selection">Running your own selection<a class="heading-anchor" href="#running-your-own-selection" aria-label="Link to this section">#</a></h2>
+<ol>
+<li><strong>Write down the route</strong>: input, output, quality bar, latency budget, monthly volume, data classification.</li>
+<li><strong>Build an evaluation set</strong> of 50–200 real examples with expected outputs or grading rubrics (<a href="/enterprise-ai/foundations/evaluation-methodology/">evaluation methodology</a>).</li>
+<li><strong>Sweep</strong> two or three models × two or three effort levels. Record quality, p50/p95 latency and <strong>cost per successfully completed task</strong> (retries and human fixes included), not cost per request.</li>
+<li><strong>Pick the cheapest cell that clears the bar</strong>, keep the runner-up as fallback, and store both in configuration.</li>
+<li><strong>Re-run on every new model release.</strong> The sweep is cheap once the harness exists.</li>
+</ol>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Choosing by vibes from a chat window</span></p>
+  <div class="callout__body"><p>A model that impresses in a few chats can fail on your edge cases. Decide with an evaluation set and the real prompt, tools and context.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Maximum effort everywhere</span></p>
+  <div class="callout__body"><p>Higher effort means more tokens and latency. Chat, classification and high-volume routes usually do well at <code>low</code>; measure before raising a default.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Copying prompts written for older models</span></p>
+  <div class="callout__body"><p>Prompts tuned for older, weaker models are often over-prescriptive (&ldquo;ALWAYS…&rdquo;, &ldquo;think step by step&rdquo;, long rule lists) and can reduce quality on current models. Re-test and simplify when you upgrade.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Ignoring the migration notes</span></p>
+  <div class="callout__body"><p>New models change API behaviour, not just quality — for example, current models reject assistant-message prefill, forced tool choice on some models, and fixed thinking budgets. Read the migration guide before switching a model ID in production.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How do you choose between Opus and Sonnet for a new feature?</strong>
+Start with the task: long multi-step reasoning and agentic loops favour Opus; well-specified, high-frequency work favours Sonnet. Then sweep both at two effort levels on an evaluation set and pick the cheapest configuration that clears the quality bar, measured as cost per completed task.</p>
+<p><strong>What is the effort parameter and when would you lower it?</strong>
+A per-request setting from <code>low</code> to <code>max</code> controlling how thoroughly the model thinks, calls tools and writes. Lower it for chat, classification, sub-agents and latency-sensitive routes; raise it only when evaluation shows quality headroom.</p>
+<p><strong>Why might one capable model at low effort beat a cascade of models?</strong>
+Newer models at low effort often match older or smaller models at high effort; a single model is simpler to operate and keeps one prompt-cache namespace, whereas a cascade pays to miss the cache on each hop.</p>
+<p><strong>How should an application handle a refusal?</strong>
+Check <code>stop_reason</code> before reading content; on <code>refusal</code>, use the server-side or client-side fallback, or return a clear message and log the category for review.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Four current tiers: Fable 5.1 (hardest), Opus 5.5 (default for serious work), Sonnet 5.5 (everyday), Haiku 5.5 (high volume).</li>
+<li>Choose tier <em>and</em> effort per route; measure cost per completed task on your own data.</li>
+<li>Use caching, batches and fast mode deliberately; read limits from the Models API.</li>
+<li>Keep model IDs in configuration, handle refusals, and keep a tested fallback.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/about-claude/models/overview" rel="noopener">Models overview</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/about-claude/pricing" rel="noopener">Pricing</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/build-with-claude/effort" rel="noopener">Effort</a> and <a href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" rel="noopener">Adaptive thinking</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" rel="noopener">Refusals and fallback</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-api-for-developers/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude API for builders</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/using-claude-intelligently/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Using Claude intelligently</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/inference-and-serving/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Inference, latency &amp; cost</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/evaluation-methodology/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Evaluation methodology</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-across-the-sdlc/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude across the SDLC</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles"><span></span>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-api-for-developers/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Claude API for builders</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#why-it-matters">Why it matters</a></li>
+    <li><a href="#the-model-family-november-2026">The model family (November 2026)</a>
+      <ul>
+        <li><a href="#discounts-that-change-the-arithmetic">Discounts that change the arithmetic</a></li>
+      </ul>
+    </li>
+    <li><a href="#thinking-and-effort">Thinking and effort</a></li>
+    <li><a href="#which-model-for-which-task">Which model for which task</a></li>
+    <li><a href="#routing-fallbacks-and-lock-in">Routing, fallbacks and lock-in</a></li>
+    <li><a href="#running-your-own-selection">Running your own selection</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

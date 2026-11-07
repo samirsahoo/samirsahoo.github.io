@@ -27,5 +27,12 @@
 				<guid>https://samirsahoo.github.io/enterprise-ai/foundations/inference-optimization/</guid>
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Inference optimisation&lt;/strong&gt; is making a model produce the same (or nearly the same) output &lt;strong&gt;faster, cheaper or for more users at once&lt;/strong&gt;. It happens at three levels: the &lt;strong&gt;model&lt;/strong&gt; (make it smaller or decode smarter), the &lt;strong&gt;hardware&lt;/strong&gt; (use the accelerator well) and the &lt;strong&gt;service&lt;/strong&gt; (schedule requests well).&lt;/p&gt;</description>
 			</item>
+			<item>
+				<title>Using Claude Intelligently</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/claude/using-claude-intelligently/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/claude/using-claude-intelligently/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Using Claude intelligently means getting &lt;strong&gt;reliable, verified results at the lowest sensible cost and risk&lt;/strong&gt;. It rests on five habits: give the right &lt;strong&gt;context&lt;/strong&gt;, ask for a clear &lt;strong&gt;outcome&lt;/strong&gt;, make the result &lt;strong&gt;verifiable&lt;/strong&gt;, pick the right &lt;strong&gt;model and effort&lt;/strong&gt;, and keep a &lt;strong&gt;human accountable&lt;/strong&gt; for what ships.&lt;/p&gt;</description>
+			</item>
 	</channel>
 </rss>

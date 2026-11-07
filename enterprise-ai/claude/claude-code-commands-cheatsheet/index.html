@@ -1,0 +1,1244 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Commands Cheatsheet · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Every Claude Code command worth knowing on one page: slash commands grouped by job, bundled skills, CLI subcommands and flags, keyboard shortcuts, input prefixes, MCP and plugin commands, and the configuration files they act on.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-commands-cheatsheet/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Commands Cheatsheet">
+<meta property="og:description" content="Every Claude Code command worth knowing on one page: slash commands grouped by job, bundled skills, CLI subcommands and flags, keyboard shortcuts, input prefixes, MCP and plugin commands, and the configuration files they act on.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-commands-cheatsheet/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Commands Cheatsheet">
+<meta name="twitter:description" content="Every Claude Code command worth knowing on one page: slash commands grouped by job, bundled skills, CLI subcommands and flags, keyboard shortcuts, input prefixes, MCP and plugin commands, and the configuration files they act on.">
+<meta name="keywords" content="claude, developer-tools, cheatsheet, cli">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"Every Claude Code command worth knowing on one page: slash commands grouped by job, bundled skills, CLI subcommands and flags, keyboard shortcuts, input prefixes, MCP and plugin commands, and the configuration files they act on.","headline":"Claude Code Commands Cheatsheet","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, cheatsheet, cli","proficiencyLevel":"Beginner","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-commands-cheatsheet/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-commands-cheatsheet/","name":"Cheatsheet: commands","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/" aria-current="page">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Cheatsheet: commands</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Commands Cheatsheet</h1><p class="article__lede" itemprop="description">Every Claude Code command worth knowing on one page: slash commands grouped by job, bundled skills, CLI subcommands and flags, keyboard shortcuts, input prefixes, MCP and plugin commands, and the configuration files they act on.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--beginner">Beginner</span></li>
+  <li>9 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/cheatsheet/">#Cheatsheet</a><a class="tag" href="/enterprise-ai/tags/cli/">#Cli</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-ten-youll-use-daily">The ten you&rsquo;ll use daily</a></li>
+    <li><a href="#slash-commands-by-job">Slash commands by job</a>
+      <ul>
+        <li><a href="#session-and-context">Session and context</a></li>
+        <li><a href="#model-effort-and-speed">Model, effort and speed</a></li>
+        <li><a href="#permissions-and-safety">Permissions and safety</a></li>
+        <li><a href="#memory-configuration-and-extensions">Memory, configuration and extensions</a></li>
+        <li><a href="#verify-and-review-bundled-skills">Verify and review (bundled skills)</a></li>
+        <li><a href="#long-running-parallel-and-scheduled-work">Long-running, parallel and scheduled work</a></li>
+        <li><a href="#remote-cloud-and-integrations">Remote, cloud and integrations</a></li>
+        <li><a href="#account-and-help">Account and help</a></li>
+      </ul>
+    </li>
+    <li><a href="#input-prefixes">Input prefixes</a></li>
+    <li><a href="#keyboard-shortcuts">Keyboard shortcuts</a></li>
+    <li><a href="#cli-starting-and-resuming">CLI: starting and resuming</a></li>
+    <li><a href="#cli-flags-for-scripts-and-ci">CLI: flags for scripts and CI</a></li>
+    <li><a href="#cli-subcommands">CLI: subcommands</a></li>
+    <li><a href="#mcp-in-four-lines">MCP in four lines</a></li>
+    <li><a href="#files-the-commands-act-on">Files the commands act on</a></li>
+    <li><a href="#removed-or-renamed--dont-be-confused-by-old-guides">Removed or renamed — don&rsquo;t be confused by old guides</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>You drive Claude Code three ways: <strong>slash commands</strong> inside a session (<code>/compact</code>, <code>/rewind</code>), <strong>CLI subcommands and flags</strong> from your shell (<code>claude -p</code>, <code>claude mcp add</code>), and <strong>keyboard shortcuts</strong> (<code>Esc</code>, <code>Shift+Tab</code>). Some slash commands are <strong>bundled skills</strong> (<code>/code-review</code>, <code>/loop</code>, <code>/batch</code>) — prompts Claude follows rather than fixed built-ins. Type <code>/</code> in a session to see everything available, including your own skills and plugin commands.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Compiled from the official <a href="https://code.claude.com/docs/en/commands" rel="noopener">Commands</a>, <a href="https://code.claude.com/docs/en/cli-reference" rel="noopener">CLI reference</a> and <a href="https://code.claude.com/docs/en/interactive-mode" rel="noopener">Interactive mode</a> pages on 7 November 2026. Commands change between releases: <code>/release-notes</code> and <code>/help</code> are authoritative for your version.</p></div>
+</aside><h2 id="the-ten-youll-use-daily">The ten you&rsquo;ll use daily<a class="heading-anchor" href="#the-ten-youll-use-daily" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Esc</code></td>
+      <td>Stop Claude mid-action; work so far is kept</td>
+    </tr>
+    <tr>
+      <td><code>Esc Esc</code> / <code>/rewind</code></td>
+      <td>Roll back code and/or conversation to an earlier prompt</td>
+    </tr>
+    <tr>
+      <td><code>Shift+Tab</code></td>
+      <td>Cycle permission modes (Manual, acceptEdits, plan, auto)</td>
+    </tr>
+    <tr>
+      <td><code>/clear [name]</code></td>
+      <td>Fresh context for a new task (names the old one for <code>/resume</code>)</td>
+    </tr>
+    <tr>
+      <td><code>/compact [focus]</code></td>
+      <td>Summarise the conversation to free context</td>
+    </tr>
+    <tr>
+      <td><code>/context</code></td>
+      <td>See what is filling the context window</td>
+    </tr>
+    <tr>
+      <td><code>/usage</code></td>
+      <td>Session cost, plan limits and where usage went (<code>/cost</code>, <code>/stats</code> are aliases)</td>
+    </tr>
+    <tr>
+      <td><code>/model</code>, <code>/effort</code></td>
+      <td>Switch model; set effort <code>low</code>…<code>max</code></td>
+    </tr>
+    <tr>
+      <td><code>/plan [task]</code></td>
+      <td>Enter plan mode — research and propose, no edits</td>
+    </tr>
+    <tr>
+      <td><code>/code-review</code></td>
+      <td>Review the current diff in a fresh context</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="slash-commands-by-job">Slash commands by job<a class="heading-anchor" href="#slash-commands-by-job" aria-label="Link to this section">#</a></h2>
+<h3 id="session-and-context">Session and context<a class="heading-anchor" href="#session-and-context" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/clear [name]</code></td>
+      <td>New conversation, empty context</td>
+    </tr>
+    <tr>
+      <td><code>/compact [instructions]</code></td>
+      <td>Summarise history with an optional focus</td>
+    </tr>
+    <tr>
+      <td><code>/autocompact [auto|&lt;tokens&gt;]</code></td>
+      <td>Set how full the window gets before auto-compaction</td>
+    </tr>
+    <tr>
+      <td><code>/context [all]</code></td>
+      <td>Coloured grid of context usage with optimisation hints</td>
+    </tr>
+    <tr>
+      <td><code>/btw [question]</code></td>
+      <td>Side question that doesn&rsquo;t enter history</td>
+    </tr>
+    <tr>
+      <td><code>/recap</code></td>
+      <td>One-line summary of the session</td>
+    </tr>
+    <tr>
+      <td><code>/rewind</code></td>
+      <td>Checkpoint menu (aliases <code>/checkpoint</code>, <code>/undo</code>)</td>
+    </tr>
+    <tr>
+      <td><code>/branch [name]</code></td>
+      <td>Branch the conversation to try another direction</td>
+    </tr>
+    <tr>
+      <td><code>/fork [prompt]</code></td>
+      <td>Copy the session into a new background session</td>
+    </tr>
+    <tr>
+      <td><code>/subtask &lt;task&gt;</code></td>
+      <td>Forked sub-agent that inherits the conversation and reports back</td>
+    </tr>
+    <tr>
+      <td><code>/resume [session]</code></td>
+      <td>Resume by ID or name, or open the picker</td>
+    </tr>
+    <tr>
+      <td><code>/rename [name]</code></td>
+      <td>Name the session (shown in <code>/resume</code>)</td>
+    </tr>
+    <tr>
+      <td><code>/export [file]</code></td>
+      <td>Export the conversation as text</td>
+    </tr>
+    <tr>
+      <td><code>/copy [N]</code></td>
+      <td>Copy the last (or Nth-latest) response or a code block</td>
+    </tr>
+    <tr>
+      <td><code>/diff</code></td>
+      <td>Review working-tree changes, including Claude&rsquo;s edits</td>
+    </tr>
+    <tr>
+      <td><code>/cd &lt;path&gt;</code>, <code>/add-dir &lt;path&gt;</code></td>
+      <td>Move the session, or add a working directory</td>
+    </tr>
+    <tr>
+      <td><code>/exit</code></td>
+      <td>Quit (detaches from a background session)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="model-effort-and-speed">Model, effort and speed<a class="heading-anchor" href="#model-effort-and-speed" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/model [model]</code></td>
+      <td>Pick <code>opus</code>, <code>sonnet</code>, <code>haiku</code>, <code>fable</code>, <code>opusplan</code>; arrows adjust effort</td>
+    </tr>
+    <tr>
+      <td><code>/effort [low…xhigh|max|auto|status]</code></td>
+      <td>Set effort; <code>ultracode</code> toggles a dedicated mode</td>
+    </tr>
+    <tr>
+      <td><code>/fast [on|off]</code></td>
+      <td>Fast mode on Opus</td>
+    </tr>
+    <tr>
+      <td><code>/advisor [model|off]</code></td>
+      <td>Consult a second model at key moments</td>
+    </tr>
+    <tr>
+      <td><code>ultrathink</code> (in a prompt)</td>
+      <td>Deeper reasoning for that one turn only</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="permissions-and-safety">Permissions and safety<a class="heading-anchor" href="#permissions-and-safety" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/permissions</code></td>
+      <td>Allow / ask / deny rules by scope; <em>Recently blocked</em> auto-mode actions</td>
+    </tr>
+    <tr>
+      <td><code>/sandbox</code></td>
+      <td>Toggle OS-level sandbox; <em>Overrides</em> tab enables strict mode</td>
+    </tr>
+    <tr>
+      <td><code>/auto-mode-setup</code></td>
+      <td>Draft <code>autoMode.environment</code> entries from your project</td>
+    </tr>
+    <tr>
+      <td><code>/fewer-permission-prompts</code></td>
+      <td>Add an allowlist of common read-only commands</td>
+    </tr>
+    <tr>
+      <td><code>/hooks</code></td>
+      <td>View configured hooks</td>
+    </tr>
+    <tr>
+      <td><code>/security-review</code></td>
+      <td>Security review of the branch diff against origin&rsquo;s default branch</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="memory-configuration-and-extensions">Memory, configuration and extensions<a class="heading-anchor" href="#memory-configuration-and-extensions" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/init</code></td>
+      <td>Draft a <code>CLAUDE.md</code> (<code>CLAUDE_CODE_NEW_INIT=1</code> for skills, hooks too)</td>
+    </tr>
+    <tr>
+      <td><code>/memory</code></td>
+      <td>Edit <code>CLAUDE.md</code> files; toggle and view auto memory</td>
+    </tr>
+    <tr>
+      <td><code>/config [key=value]</code></td>
+      <td>Settings UI, or set values directly</td>
+    </tr>
+    <tr>
+      <td><code>/update-config [request]</code></td>
+      <td>Describe a settings change; Claude edits <code>settings.json</code></td>
+    </tr>
+    <tr>
+      <td><code>/status</code></td>
+      <td>Version, model, account, setting sources</td>
+    </tr>
+    <tr>
+      <td><code>/doctor [prompt-audit]</code></td>
+      <td>Diagnose install, settings, extensions, stale <code>CLAUDE.md</code> lines</td>
+    </tr>
+    <tr>
+      <td><code>/skills</code>, <code>/reload-skills</code>, <code>/skill-doctor</code></td>
+      <td>List skills; rescan disk; see each skill&rsquo;s context cost and use</td>
+    </tr>
+    <tr>
+      <td><code>/agents</code></td>
+      <td>Where sub-agent files live (<code>.claude/agents/</code>)</td>
+    </tr>
+    <tr>
+      <td><code>/mcp [reconnect|enable|disable]</code></td>
+      <td>Manage MCP connections and OAuth</td>
+    </tr>
+    <tr>
+      <td><code>/plugin [subcommand]</code>, <code>/reload-plugins</code></td>
+      <td>Install, enable, disable plugins; apply changes</td>
+    </tr>
+    <tr>
+      <td><code>/output-style [style]</code></td>
+      <td>Switch response style</td>
+    </tr>
+    <tr>
+      <td><code>/statusline</code>, <code>/theme</code>, <code>/keybindings</code>, <code>/terminal-setup</code>, <code>/tui</code></td>
+      <td>Personalise the terminal</td>
+    </tr>
+    <tr>
+      <td><code>/import [codex|gemini|cursor]</code></td>
+      <td>Bring configuration from other coding agents</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="verify-and-review-bundled-skills">Verify and review (bundled skills)<a class="heading-anchor" href="#verify-and-review-bundled-skills" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/code-review [level] [--fix] [--comment] [target]</code></td>
+      <td>Review diff, PR, branch or path; <code>/review</code> is an alias</td>
+    </tr>
+    <tr>
+      <td><code>/code-review ultra</code>, <code>/ultrareview</code></td>
+      <td>Deep multi-agent cloud review (billed; user-triggered)</td>
+    </tr>
+    <tr>
+      <td><code>/simplify [target]</code></td>
+      <td>Four parallel agents find and apply cleanup</td>
+    </tr>
+    <tr>
+      <td><code>/verify</code></td>
+      <td>Build, run and observe the app to confirm a change</td>
+    </tr>
+    <tr>
+      <td><code>/run</code>, <code>/run-skill-generator</code></td>
+      <td>Launch your app; teach Claude how to launch it</td>
+    </tr>
+    <tr>
+      <td><code>/debug [description]</code></td>
+      <td>Turn on debug logging and read the log</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="long-running-parallel-and-scheduled-work">Long-running, parallel and scheduled work<a class="heading-anchor" href="#long-running-parallel-and-scheduled-work" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/goal [condition|clear]</code></td>
+      <td>Keep working across turns until an evaluator confirms the condition</td>
+    </tr>
+    <tr>
+      <td><code>/loop [interval] [prompt]</code></td>
+      <td>Repeat a prompt while the session is open (<code>5m</code>, <code>2h</code>, or self-paced)</td>
+    </tr>
+    <tr>
+      <td><code>/schedule [description]</code></td>
+      <td>Cloud scheduled task — runs with your laptop closed</td>
+    </tr>
+    <tr>
+      <td><code>/batch &lt;instruction&gt;</code></td>
+      <td>Split a big change into 5–30 worktree-isolated units, one PR each</td>
+    </tr>
+    <tr>
+      <td><code>/background [prompt]</code></td>
+      <td>Detach this session as a background agent</td>
+    </tr>
+    <tr>
+      <td><code>/tasks</code></td>
+      <td>Background work in this session (alias <code>/bashes</code>)</td>
+    </tr>
+    <tr>
+      <td><code>/workflows</code>, <code>/deep-research &lt;q&gt;</code></td>
+      <td>Watch dynamic workflows; run the bundled research workflow</td>
+    </tr>
+    <tr>
+      <td><code>/list-agents</code></td>
+      <td>Sub-agents, teammates and sessions Claude can message</td>
+    </tr>
+    <tr>
+      <td><code>/stop</code></td>
+      <td>Stop the background session you&rsquo;re attached to</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="remote-cloud-and-integrations">Remote, cloud and integrations<a class="heading-anchor" href="#remote-cloud-and-integrations" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/remote-control</code></td>
+      <td>Continue this session from claude.ai or the mobile app</td>
+    </tr>
+    <tr>
+      <td><code>/teleport</code> (<code>/tp</code>)</td>
+      <td>Pull a cloud session into this terminal</td>
+    </tr>
+    <tr>
+      <td><code>/remote-env</code>, <code>/web-setup</code></td>
+      <td>Default cloud environment; connect GitHub for cloud sessions</td>
+    </tr>
+    <tr>
+      <td><code>/autofix-pr [prompt]</code></td>
+      <td>Cloud session that watches the PR and pushes fixes for CI failures and comments</td>
+    </tr>
+    <tr>
+      <td><code>/desktop</code>, <code>/ide</code>, <code>/chrome</code></td>
+      <td>Move to desktop app; IDE integration; Claude in Chrome</td>
+    </tr>
+    <tr>
+      <td><code>/install-github-app</code>, <code>/install-slack-app</code></td>
+      <td>Set up GitHub Actions and the Slack app</td>
+    </tr>
+    <tr>
+      <td><code>/team-onboarding</code></td>
+      <td>Generate an onboarding guide from your last 30 days of usage</td>
+    </tr>
+    <tr>
+      <td><code>/insights</code></td>
+      <td>HTML report on how you use Claude Code</td>
+    </tr>
+    <tr>
+      <td><code>/artifacts</code></td>
+      <td>List, open or attach published artifacts</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="account-and-help">Account and help<a class="heading-anchor" href="#account-and-help" aria-label="Link to this section">#</a></h3>
+<p><code>/help</code>, <code>/login</code>, <code>/logout</code>, <code>/privacy-settings</code>, <code>/usage-credits</code>, <code>/rate-limit-options</code>, <code>/upgrade</code>, <code>/release-notes</code>, <code>/feedback</code> (<code>/bug</code>), <code>/powerup</code> (interactive lessons).</p>
+<h2 id="input-prefixes">Input prefixes<a class="heading-anchor" href="#input-prefixes" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/</code></td>
+      <td>Command or skill</td>
+    </tr>
+    <tr>
+      <td><code>!</code></td>
+      <td>Shell mode — run a command and add its output to the conversation</td>
+    </tr>
+    <tr>
+      <td><code>@</code></td>
+      <td>File path mention (includes the file)</td>
+    </tr>
+    <tr>
+      <td><code>?</code> on empty input</td>
+      <td>Shortcut help panel</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="keyboard-shortcuts">Keyboard shortcuts<a class="heading-anchor" href="#keyboard-shortcuts" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Keys</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Esc</code></td>
+      <td>Interrupt Claude, or close a dialog</td>
+    </tr>
+    <tr>
+      <td><code>Esc Esc</code></td>
+      <td>Clear the draft (text present) or open rewind (empty)</td>
+    </tr>
+    <tr>
+      <td><code>Shift+Tab</code> (<code>Alt+M</code> on some Windows terminals)</td>
+      <td>Cycle permission modes</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+C</code></td>
+      <td>Interrupt; press twice on empty input to exit</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+D</code></td>
+      <td>Exit (press twice)</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+B</code></td>
+      <td>Send running Bash or agent to the background</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+O</code></td>
+      <td>Transcript viewer with full tool detail</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+T</code></td>
+      <td>Toggle Claude&rsquo;s task checklist</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+R</code></td>
+      <td>Reverse-search prompt history</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+G</code> / <code>Ctrl+X Ctrl+E</code></td>
+      <td>Edit the prompt in your <code>$EDITOR</code></td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+S</code></td>
+      <td>Stash or restore the current prompt</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+V</code> (<code>Alt+V</code> on Windows)</td>
+      <td>Paste an image</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+Enter</code></td>
+      <td>Send queued messages now</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+L</code></td>
+      <td>Redraw the screen</td>
+    </tr>
+    <tr>
+      <td><code>Alt+P</code> / <code>Option+P</code></td>
+      <td>Switch model without clearing the prompt</td>
+    </tr>
+    <tr>
+      <td><code>Alt+O</code> / <code>Option+O</code></td>
+      <td>Toggle fast mode</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+X Ctrl+K</code></td>
+      <td>Stop all background sub-agents</td>
+    </tr>
+    <tr>
+      <td><code>Shift+Enter</code> (after <code>/terminal-setup</code>) or <code>\</code> + <code>Enter</code></td>
+      <td>New line</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl+A</code>/<code>Ctrl+E</code>, <code>Ctrl+K</code>/<code>Ctrl+U</code>/<code>Ctrl+W</code>, <code>Ctrl+Y</code></td>
+      <td>Readline-style editing</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Vim editing is under <code>/config</code> → <em>Editor mode</em>. Remap anything in <code>~/.claude/keybindings.json</code> via <code>/keybindings</code>.</p>
+<h2 id="cli-starting-and-resuming">CLI: starting and resuming<a class="heading-anchor" href="#cli-starting-and-resuming" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>claude</code></td>
+      <td>Interactive session</td>
+    </tr>
+    <tr>
+      <td><code>claude &quot;query&quot;</code></td>
+      <td>Interactive session with a first prompt</td>
+    </tr>
+    <tr>
+      <td><code>claude -p &quot;query&quot;</code></td>
+      <td>Print mode: run once and exit (scripts, CI)</td>
+    </tr>
+    <tr>
+      <td><code>cat log | claude -p &quot;explain&quot;</code></td>
+      <td>Pipe content in</td>
+    </tr>
+    <tr>
+      <td><code>claude -c</code></td>
+      <td>Continue the latest conversation in this directory</td>
+    </tr>
+    <tr>
+      <td><code>claude -r &lt;name|id&gt; [&quot;query&quot;]</code></td>
+      <td>Resume a named or specific session</td>
+    </tr>
+    <tr>
+      <td><code>claude --from-pr 123</code></td>
+      <td>Sessions linked to a PR</td>
+    </tr>
+    <tr>
+      <td><code>claude -n auth-refactor</code></td>
+      <td>Name the session at start</td>
+    </tr>
+    <tr>
+      <td><code>claude -w feature-auth [--tmux]</code></td>
+      <td>Start in a new git worktree</td>
+    </tr>
+    <tr>
+      <td><code>claude --cloud &quot;task&quot;</code> / <code>--teleport</code></td>
+      <td>Start a cloud session / pull one local</td>
+    </tr>
+    <tr>
+      <td><code>claude --bg &quot;task&quot;</code></td>
+      <td>Start as a background agent</td>
+    </tr>
+    <tr>
+      <td><code>claude --permission-mode plan|auto|dontAsk|…</code></td>
+      <td>Start in a permission mode</td>
+    </tr>
+    <tr>
+      <td><code>claude --model sonnet --effort high</code></td>
+      <td>Model and effort for this session</td>
+    </tr>
+    <tr>
+      <td><code>claude --safe-mode</code></td>
+      <td>Start with all customisations off (troubleshooting)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="cli-flags-for-scripts-and-ci">CLI: flags for scripts and CI<a class="heading-anchor" href="#cli-flags-for-scripts-and-ci" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>-p</code>, <code>--print</code></td>
+      <td>Non-interactive</td>
+    </tr>
+    <tr>
+      <td><code>--bare</code></td>
+      <td>Skip hooks, skills, plugins, MCP, <code>CLAUDE.md</code> — reproducible runs</td>
+    </tr>
+    <tr>
+      <td><code>--output-format text|json|stream-json</code></td>
+      <td>Parseable output (<code>stream-json</code> with <code>--verbose</code>)</td>
+    </tr>
+    <tr>
+      <td><code>--input-format stream-json</code></td>
+      <td>Stream messages in</td>
+    </tr>
+    <tr>
+      <td><code>--json-schema &lt;schema&gt;</code></td>
+      <td>Validated structured result</td>
+    </tr>
+    <tr>
+      <td><code>--allowedTools &quot;Read,Edit,Bash(npm test)&quot;</code></td>
+      <td>Pre-approve tools</td>
+    </tr>
+    <tr>
+      <td><code>--disallowedTools &quot;Bash(git push *)&quot;</code></td>
+      <td>Deny tools</td>
+    </tr>
+    <tr>
+      <td><code>--tools &quot;Bash,Edit,Read&quot;</code></td>
+      <td>Restrict built-in tools</td>
+    </tr>
+    <tr>
+      <td><code>--permission-mode dontAsk</code></td>
+      <td>Refuse anything not pre-approved</td>
+    </tr>
+    <tr>
+      <td><code>--max-turns N</code>, <code>--max-budget-usd N</code></td>
+      <td>Stop runaway runs</td>
+    </tr>
+    <tr>
+      <td><code>--append-system-prompt[-file]</code>, <code>--system-prompt[-file]</code></td>
+      <td>Add to or replace the system prompt</td>
+    </tr>
+    <tr>
+      <td><code>--settings &lt;file|json&gt;</code>, <code>--setting-sources user,project</code></td>
+      <td>Settings for this run</td>
+    </tr>
+    <tr>
+      <td><code>--mcp-config &lt;file&gt;</code>, <code>--strict-mcp-config</code></td>
+      <td>MCP servers for this run only</td>
+    </tr>
+    <tr>
+      <td><code>--agents '&lt;json&gt;'</code>, <code>--agent &lt;name&gt;</code></td>
+      <td>Define or select sub-agents</td>
+    </tr>
+    <tr>
+      <td><code>--add-dir &lt;path&gt;</code></td>
+      <td>Extra working directories</td>
+    </tr>
+    <tr>
+      <td><code>--fallback-model &lt;model&gt;</code></td>
+      <td>Use when the primary is overloaded</td>
+    </tr>
+    <tr>
+      <td><code>--no-session-persistence</code></td>
+      <td>Don&rsquo;t save the session</td>
+    </tr>
+    <tr>
+      <td><code>--debug=mcp,hooks</code>, <code>--verbose</code></td>
+      <td>Diagnose</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="cli-subcommands">CLI: subcommands<a class="heading-anchor" href="#cli-subcommands" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>claude update</code>, <code>claude install [version]</code></td>
+      <td>Update or pin the native binary</td>
+    </tr>
+    <tr>
+      <td><code>claude doctor</code></td>
+      <td>Read-only install and settings diagnostics</td>
+    </tr>
+    <tr>
+      <td><code>claude auth login [--sso|--console]</code>, <code>auth status</code>, <code>auth logout</code></td>
+      <td>Authentication</td>
+    </tr>
+    <tr>
+      <td><code>claude setup-token</code></td>
+      <td>Long-lived OAuth token for CI (subscription)</td>
+    </tr>
+    <tr>
+      <td><code>claude mcp add|list|get|remove|login</code></td>
+      <td>Manage MCP servers</td>
+    </tr>
+    <tr>
+      <td><code>claude plugin …</code></td>
+      <td>Manage plugins and marketplaces</td>
+    </tr>
+    <tr>
+      <td><code>claude agents</code></td>
+      <td>Agent view: dispatch and watch background sessions</td>
+    </tr>
+    <tr>
+      <td><code>claude attach|logs|stop|respawn|rm &lt;id&gt;</code></td>
+      <td>Manage background sessions</td>
+    </tr>
+    <tr>
+      <td><code>claude auto-mode defaults|reset</code></td>
+      <td>Inspect or reset auto-mode rules</td>
+    </tr>
+    <tr>
+      <td><code>claude ultrareview [target]</code></td>
+      <td>Non-interactive deep review</td>
+    </tr>
+    <tr>
+      <td><code>claude remote-control</code></td>
+      <td>Remote Control server mode</td>
+    </tr>
+    <tr>
+      <td><code>claude purge [path]</code></td>
+      <td>Delete all local state for a project</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="mcp-in-four-lines">MCP in four lines<a class="heading-anchor" href="#mcp-in-four-lines" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude mcp add --transport http sentry https://mcp.sentry.dev/mcp            <span class="c1"># remote HTTP server</span>
+</span></span><span class="line"><span class="cl">claude mcp add --transport stdio db -- npx -y @bytebase/dbhub --dsn <span class="s2">&#34;</span><span class="nv">$DSN</span><span class="s2">&#34;</span>    <span class="c1"># local process</span>
+</span></span><span class="line"><span class="cl">claude mcp add --transport http shared --scope project https://example.com/mcp <span class="c1"># team: .mcp.json</span>
+</span></span><span class="line"><span class="cl">claude mcp list                                                              <span class="c1"># then /mcp to auth</span>
+</span></span></code></pre></div><p>Scopes: <code>local</code> (default, you + this project), <code>project</code> (<code>.mcp.json</code>, committed), <code>user</code> (you, all projects).</p>
+<h2 id="files-the-commands-act-on">Files the commands act on<a class="heading-anchor" href="#files-the-commands-act-on" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Path</th>
+      <th>Holds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CLAUDE.md</code>, <code>.claude/CLAUDE.md</code>, <code>CLAUDE.local.md</code></td>
+      <td>Project and personal memory</td>
+    </tr>
+    <tr>
+      <td><code>.claude/rules/*.md</code></td>
+      <td>Rules, optionally <code>paths:</code>-scoped</td>
+    </tr>
+    <tr>
+      <td><code>.claude/settings.json</code> / <code>settings.local.json</code></td>
+      <td>Team / personal permissions, hooks, env</td>
+    </tr>
+    <tr>
+      <td><code>~/.claude/settings.json</code></td>
+      <td>User settings, <code>autoMode</code></td>
+    </tr>
+    <tr>
+      <td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td>
+      <td>Skills (<code>/name</code>)</td>
+    </tr>
+    <tr>
+      <td><code>.claude/agents/&lt;name&gt;.md</code></td>
+      <td>Sub-agents</td>
+    </tr>
+    <tr>
+      <td><code>.mcp.json</code></td>
+      <td>Project MCP servers</td>
+    </tr>
+    <tr>
+      <td><code>.worktreeinclude</code></td>
+      <td>Gitignored files copied into new worktrees</td>
+    </tr>
+    <tr>
+      <td><code>~/.claude/keybindings.json</code></td>
+      <td>Custom shortcuts</td>
+    </tr>
+    <tr>
+      <td><code>~/.claude.json</code></td>
+      <td>Local-scope MCP and per-project state</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="removed-or-renamed--dont-be-confused-by-old-guides">Removed or renamed — don&rsquo;t be confused by old guides<a class="heading-anchor" href="#removed-or-renamed--dont-be-confused-by-old-guides" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Old</th>
+      <th>Now</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/pr-comments</code></td>
+      <td>Ask Claude to read PR comments (uses <code>gh</code>)</td>
+    </tr>
+    <tr>
+      <td><code>/vim</code></td>
+      <td><code>/config</code> → Editor mode</td>
+    </tr>
+    <tr>
+      <td><code>/ultraplan</code></td>
+      <td>Plan mode</td>
+    </tr>
+    <tr>
+      <td><code>--enable-auto-mode</code></td>
+      <td><code>--permission-mode auto</code> (auto is in the <code>Shift+Tab</code> cycle)</td>
+    </tr>
+    <tr>
+      <td><code>--remote</code></td>
+      <td><code>--cloud</code></td>
+    </tr>
+    <tr>
+      <td><code>/agents</code> interactive builder</td>
+      <td>Ask Claude, or edit <code>.claude/agents/</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How do you run Claude Code reproducibly in CI, ignoring whatever is configured on the runner?</strong>
+<code>claude --bare -p &quot;…&quot;</code> with <code>--allowedTools</code>, <code>--permission-mode dontAsk</code>, <code>--max-turns</code>, and <code>--output-format json</code>; pass what the run needs with <code>--settings</code>, <code>--mcp-config</code> and <code>--append-system-prompt</code>.</p>
+<p><strong>What is the difference between <code>/fork</code>, <code>/subtask</code> and <code>/branch</code>?</strong>
+<code>/branch</code> branches the conversation in place; <code>/subtask</code> starts a forked sub-agent that reports back to this session; <code>/fork</code> copies the session into a separate background session.</p>
+<p><strong>Which commands repeat work, and which keep a session going until done?</strong>
+<code>/loop</code> repeats on an interval; <code>/goal</code> continues turn after turn until an evaluator confirms a condition; <code>/schedule</code> runs cloud tasks independent of any open session.</p>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/commands" rel="noopener">Commands</a> and <a href="https://code.claude.com/docs/en/cli-reference" rel="noopener">CLI reference</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/interactive-mode" rel="noopener">Interactive mode</a> and <a href="https://code.claude.com/docs/en/keybindings" rel="noopener">Keybindings</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/mcp" rel="noopener">Connect Claude Code to tools via MCP</a> and <a href="https://code.claude.com/docs/en/claude-directory" rel="noopener">Explore the .claude directory</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-troubleshooting/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Troubleshooting</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-settings-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: settings</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Cheatsheet: best practices</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Automation &amp; parallel work</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-for-teams/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Code for teams</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Cheatsheet: best practices</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-hooks-reference/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Reference: hooks</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-ten-youll-use-daily">The ten you&rsquo;ll use daily</a></li>
+    <li><a href="#slash-commands-by-job">Slash commands by job</a>
+      <ul>
+        <li><a href="#session-and-context">Session and context</a></li>
+        <li><a href="#model-effort-and-speed">Model, effort and speed</a></li>
+        <li><a href="#permissions-and-safety">Permissions and safety</a></li>
+        <li><a href="#memory-configuration-and-extensions">Memory, configuration and extensions</a></li>
+        <li><a href="#verify-and-review-bundled-skills">Verify and review (bundled skills)</a></li>
+        <li><a href="#long-running-parallel-and-scheduled-work">Long-running, parallel and scheduled work</a></li>
+        <li><a href="#remote-cloud-and-integrations">Remote, cloud and integrations</a></li>
+        <li><a href="#account-and-help">Account and help</a></li>
+      </ul>
+    </li>
+    <li><a href="#input-prefixes">Input prefixes</a></li>
+    <li><a href="#keyboard-shortcuts">Keyboard shortcuts</a></li>
+    <li><a href="#cli-starting-and-resuming">CLI: starting and resuming</a></li>
+    <li><a href="#cli-flags-for-scripts-and-ci">CLI: flags for scripts and CI</a></li>
+    <li><a href="#cli-subcommands">CLI: subcommands</a></li>
+    <li><a href="#mcp-in-four-lines">MCP in four lines</a></li>
+    <li><a href="#files-the-commands-act-on">Files the commands act on</a></li>
+    <li><a href="#removed-or-renamed--dont-be-confused-by-old-guides">Removed or renamed — don&rsquo;t be confused by old guides</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

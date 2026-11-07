@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Using Claude Intelligently · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="The practices that separate effective from wasteful Claude use: context engineering, prompting current models, verification loops, delegation and sub-agents, cost control, enterprise security and governance, measuring productivity, and the anti-patterns to avoid — with a one-page checklist.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/using-claude-intelligently/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Using Claude Intelligently">
+<meta property="og:description" content="The practices that separate effective from wasteful Claude use: context engineering, prompting current models, verification loops, delegation and sub-agents, cost control, enterprise security and governance, measuring productivity, and the anti-patterns to avoid — with a one-page checklist.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/using-claude-intelligently/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Using Claude Intelligently">
+<meta name="twitter:description" content="The practices that separate effective from wasteful Claude use: context engineering, prompting current models, verification loops, delegation and sub-agents, cost control, enterprise security and governance, measuring productivity, and the anti-patterns to avoid — with a one-page checklist.">
+<meta name="keywords" content="claude, best-practices, governance, cost">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-06","description":"The practices that separate effective from wasteful Claude use: context engineering, prompting current models, verification loops, delegation and sub-agents, cost control, enterprise security and governance, measuring productivity, and the anti-patterns to avoid — with a one-page checklist.","headline":"Using Claude Intelligently","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, best-practices, governance, cost","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/using-claude-intelligently/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/using-claude-intelligently/","name":"Using Claude intelligently","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/" aria-current="page">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Using Claude intelligently</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Using Claude Intelligently</h1><p class="article__lede" itemprop="description">The practices that separate effective from wasteful Claude use: context engineering, prompting current models, verification loops, delegation and sub-agents, cost control, enterprise security and governance, measuring productivity, and the anti-patterns to avoid — with a one-page checklist.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-11-06">November 6, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/best-practices/">#Best-Practices</a><a class="tag" href="/enterprise-ai/tags/governance/">#Governance</a><a class="tag" href="/enterprise-ai/tags/cost/">#Cost</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a>, <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#1-context-engineering-beats-prompt-tricks">1. Context engineering beats prompt tricks</a></li>
+    <li><a href="#2-prompting-current-models">2. Prompting current models</a></li>
+    <li><a href="#3-verification-is-the-multiplier">3. Verification is the multiplier</a></li>
+    <li><a href="#4-delegation-and-parallelism">4. Delegation and parallelism</a></li>
+    <li><a href="#5-cost-control">5. Cost control</a></li>
+    <li><a href="#6-security-privacy-and-governance">6. Security, privacy and governance</a></li>
+    <li><a href="#7-measuring-productivity-honestly">7. Measuring productivity honestly</a></li>
+    <li><a href="#anti-patterns">Anti-patterns</a></li>
+    <li><a href="#checklist">Checklist</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Using Claude intelligently means getting <strong>reliable, verified results at the lowest sensible cost and risk</strong>. It rests on five habits: give the right <strong>context</strong>, ask for a clear <strong>outcome</strong>, make the result <strong>verifiable</strong>, pick the right <strong>model and effort</strong>, and keep a <strong>human accountable</strong> for what ships.</p>
+<h2 id="1-context-engineering-beats-prompt-tricks">1. Context engineering beats prompt tricks<a class="heading-anchor" href="#1-context-engineering-beats-prompt-tricks" aria-label="Link to this section">#</a></h2>
+<p>Claude knows a lot about software in general and nothing about <em>your</em> system. Quality depends mostly on what you put in the context window (<a href="/enterprise-ai/foundations/prompt-engineering/">prompt and context engineering</a>).</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Give it</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>The goal and why</strong></td>
+      <td>&ldquo;We need partial refunds because finance reconciles daily; amounts must match the ledger to the cent.&rdquo;</td>
+    </tr>
+    <tr>
+      <td><strong>Constraints</strong></td>
+      <td>Framework versions, architecture rules, performance and compliance limits</td>
+    </tr>
+    <tr>
+      <td><strong>Definition of done</strong></td>
+      <td>Commands to run, behaviour to observe, files that must change</td>
+    </tr>
+    <tr>
+      <td><strong>Pointers, not dumps</strong></td>
+      <td>&ldquo;The refund flow starts in <code>RefundController</code>; rules are in <code>domain/refund</code>&rdquo; — let it read the rest</td>
+    </tr>
+    <tr>
+      <td><strong>Examples</strong></td>
+      <td>One good existing endpoint, test or ADR to imitate</td>
+    </tr>
+    <tr>
+      <td><strong>What not to do</strong></td>
+      <td>Paths not to touch, patterns the team has rejected, with the reason</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Explain the why</span></p>
+  <div class="callout__body"><p>Current models generalise from reasons far better than from rules. &ldquo;Never log card numbers — logs are shipped to a third-party SaaS&rdquo; produces better behaviour across cases than &ldquo;NEVER LOG PAN&rdquo; in capitals.</p></div>
+</aside><h2 id="2-prompting-current-models">2. Prompting current models<a class="heading-anchor" href="#2-prompting-current-models" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Be direct and specific.</strong> Say what you want, in what format, at what length. Ask for action (&ldquo;change the code&rdquo;) when you want action, and for analysis when you want options.</li>
+<li><strong>Drop old workarounds.</strong> Shouting (ALWAYS, MUST), &ldquo;think step by step&rdquo;, role-play scaffolding and long rule lists were for weaker models; on current models they can make output worse. Use effort to control depth.</li>
+<li><strong>Structure long inputs.</strong> Put large documents first and the question last; label sections (for example with XML-style tags) so instructions and data are not confused.</li>
+<li><strong>Ask for uncertainty.</strong> &ldquo;If something is ambiguous, list the assumption you made&rdquo; or &ldquo;say you don&rsquo;t know rather than guess&rdquo;.</li>
+<li><strong>Iterate on the prompt like code.</strong> Keep prompts in version control and evaluate changes on a fixed set of cases.</li>
+</ul>
+<h2 id="3-verification-is-the-multiplier">3. Verification is the multiplier<a class="heading-anchor" href="#3-verification-is-the-multiplier" aria-label="Link to this section">#</a></h2>
+<p>Claude&rsquo;s output is a <strong>draft until something checks it</strong>. The more automatic the check, the more you can delegate.</p>
+<figure class="diagram" aria-label="Delegation follows verifiability"><figcaption class="diagram__title">Delegation follows verifiability</figcaption>
+  <pre class="mermaid">flowchart LR
+    A[&#34;Easy to verify automatically&lt;br/&gt;(tests, compiler, schema, linter)&#34;] --&gt;|&#34;delegate fully,&lt;br/&gt;review the diff&#34;| X[&#34;High autonomy&#34;]
+    B[&#34;Verifiable by a human quickly&lt;br/&gt;(docs, small changes, summaries)&#34;] --&gt;|&#34;delegate,&lt;br/&gt;read before use&#34;| Y[&#34;Medium autonomy&#34;]
+    C[&#34;Hard to verify&lt;br/&gt;(security design, legal, numbers&lt;br/&gt;without a source)&#34;] --&gt;|&#34;assist only,&lt;br/&gt;expert decides&#34;| Z[&#34;Low autonomy&#34;]</pre>
+</figure>
+<ul>
+<li>Give Claude <strong>the means to check itself</strong>: test commands, a running app, browser automation, schemas.</li>
+<li>Ask it to <strong>show evidence</strong>: test output, quoted source lines, citations.</li>
+<li>For important answers, use an <strong>independent check</strong> — a second session reviewing the first, a different model as judge, or a deterministic tool.</li>
+<li>Be most sceptical of <strong>numbers, versions, API names and citations</strong> — the classic hallucination surface. Verify against source.</li>
+</ul>
+<h2 id="4-delegation-and-parallelism">4. Delegation and parallelism<a class="heading-anchor" href="#4-delegation-and-parallelism" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Right-size the task</strong>: one coherent outcome per session; split large work into reviewable pieces.</li>
+<li><strong>Use sub-agents</strong> for broad reading and narrow specialist checks, so the main context keeps conclusions only; give them cheaper models and read-only tools where possible.</li>
+<li><strong>Run independent tasks in parallel</strong> (worktrees, batch jobs) and merge through normal PR review.</li>
+<li><strong>Give long tasks a budget and checkpoints</strong>: progress notes, a task list, intermediate commits — so a failed run can resume, not restart.</li>
+</ul>
+<h2 id="5-cost-control">5. Cost control<a class="heading-anchor" href="#5-cost-control" aria-label="Link to this section">#</a></h2>
+<p>Free wins first, trade-offs second:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Order</th>
+      <th>Lever</th>
+      <th>Typical saving</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><strong>Prompt caching</strong> for stable prefixes (system prompt, tools, documents)</td>
+      <td>Large on repeated context; also faster</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><strong>Input hygiene</strong>: send pointers and relevant extracts, not whole repositories; clear old tool results</td>
+      <td>Proportional to context trimmed</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><strong>Batches</strong> for anything not interactive</td>
+      <td>50%</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><strong>Effort per route</strong>: <code>low</code> for chat and classification, higher only where measured</td>
+      <td>Often several × on output tokens</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><strong>Model per route</strong>: Haiku/Sonnet where they clear the bar</td>
+      <td>Up to 40× between tiers</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><strong>Loop hygiene</strong> in agents: stop conditions, task budgets, no retry storms</td>
+      <td>Prevents runaway bills</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Measure cost per completed task</span></p>
+  <div class="callout__body"><p>A cheaper request that needs three retries and a human fix is not cheaper. Track cost per <em>successfully completed</em> task, per route, from the <code>usage</code> fields you log.</p></div>
+</aside><p>Set <strong>spend limits and alerts</strong> per workspace or team, and review the top routes by cost monthly.</p>
+<h2 id="6-security-privacy-and-governance">6. Security, privacy and governance<a class="heading-anchor" href="#6-security-privacy-and-governance" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Practice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Data use</strong></td>
+      <td>Know your agreement: commercial API and enterprise plans are not used for training by default; zero data retention (ZDR) is available for eligible features and organisations — some newer features and models require standard retention, so check before you design.</td>
+    </tr>
+    <tr>
+      <td><strong>Residency and hosting</strong></td>
+      <td>Use <code>inference_geo</code>, or run through Bedrock, Vertex AI or Foundry to stay inside existing regions, networks and contracts.</td>
+    </tr>
+    <tr>
+      <td><strong>Secrets</strong></td>
+      <td>Never paste secrets into prompts; deny agent access to <code>.env</code> and key stores; use workload identity instead of static keys.</td>
+    </tr>
+    <tr>
+      <td><strong>Prompt injection</strong></td>
+      <td>Treat web pages, tickets, emails, files and tool output as untrusted; least-privilege tools; human approval for irreversible actions (<a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a>).</td>
+    </tr>
+    <tr>
+      <td><strong>Code provenance</strong></td>
+      <td>AI-written code goes through the same review, scanning and licence checks as human code; record AI assistance in PR templates if your policy requires it.</td>
+    </tr>
+    <tr>
+      <td><strong>Access control</strong></td>
+      <td>SSO, role-based access, workspace separation, admin-managed settings and MCP allowlists for Claude Code.</td>
+    </tr>
+    <tr>
+      <td><strong>Audit and observability</strong></td>
+      <td>Central logging of API usage and Claude Code telemetry (OpenTelemetry); retention per policy.</td>
+    </tr>
+    <tr>
+      <td><strong>Policy and regulation</strong></td>
+      <td>Map use cases to your AI policy and regulations such as the EU AI Act; keep a register of AI use cases and owners (<a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a>).</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="7-measuring-productivity-honestly">7. Measuring productivity honestly<a class="heading-anchor" href="#7-measuring-productivity-honestly" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Use <strong>delivery outcomes</strong>: lead time for changes, deployment frequency, change failure rate, time to restore, escaped defects, review turnaround.</li>
+<li>Add <strong>developer experience</strong> signals: survey satisfaction, time spent on toil versus design.</li>
+<li>Compare <strong>like with like</strong> — similar work, before and after, or teams with and without — and watch for quality regressions that show up weeks later.</li>
+<li>Avoid vanity metrics: lines generated, suggestions accepted, prompts sent.</li>
+</ul>
+<h2 id="anti-patterns">Anti-patterns<a class="heading-anchor" href="#anti-patterns" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Outsourcing understanding</span></p>
+  <div class="callout__body"><p>Merging code nobody on the team understands creates a maintenance liability. Ask Claude to explain the change; if you cannot explain it in review, do not merge it.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Trusting confidence instead of evidence</span></p>
+  <div class="callout__body"><p>Fluent, confident answers are not evidence. Require tests, sources or reproduction.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">One model, maximum effort, for everything</span></p>
+  <div class="callout__body"><p>Wastes money on easy work and adds latency. Tune model and effort per route.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Endless correction in one session</span></p>
+  <div class="callout__body"><p>After two failed corrections, the context is polluted with wrong attempts. Clear, restate the task with what you learned, and start again.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Agents with production power</span></p>
+  <div class="callout__body"><p>Unattended agents with write access to production, payments or customer communications turn small mistakes into incidents. Keep irreversible actions behind human approval.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Shadow AI</span></p>
+  <div class="callout__body"><p>Engineers pasting proprietary code into unapproved consumer tools. Provide an approved, convenient option with clear policy instead of only banning.</p></div>
+</aside><h2 id="checklist">Checklist<a class="heading-anchor" href="#checklist" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><input disabled="" type="checkbox"> Task has a goal, the reason, constraints and a definition of done.</li>
+<li><input disabled="" type="checkbox"> Context gives pointers and examples, not whole-repository dumps.</li>
+<li><input disabled="" type="checkbox"> Model and effort chosen per route and validated on an evaluation set.</li>
+<li><input disabled="" type="checkbox"> Output is verified by tests, tools or sources — not by the model&rsquo;s confidence.</li>
+<li><input disabled="" type="checkbox"> Prompt caching on stable prefixes; batches for offline work; <code>usage</code> logged.</li>
+<li><input disabled="" type="checkbox"> Secrets denied; untrusted inputs treated as data; irreversible actions need approval.</li>
+<li><input disabled="" type="checkbox"> A named human reviews and owns what ships.</li>
+<li><input disabled="" type="checkbox"> Success measured by delivery outcomes, not activity.</li>
+</ul>
+<h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>Why do outdated prompting techniques hurt current models?</strong>
+They were compensations for weaker models. Current models follow instructions closely, so shouted rules and rigid scaffolding cause over-literal or over-cautious behaviour; clear goals with reasons and the effort setting work better.</p>
+<p><strong>How do you decide how much to delegate to Claude?</strong>
+By how cheaply and reliably the output can be verified: fully delegate what tests or tools check, delegate with review what a human can check quickly, and use assistance only where verification needs expert judgement.</p>
+<p><strong>What are the first three levers to cut a Claude bill?</strong>
+Prompt caching on stable prefixes, trimming input to what the task needs, and moving non-interactive work to batches — before trading quality through lower effort or smaller models.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Context, clear outcomes and verification matter more than clever prompts.</li>
+<li>Delegate in proportion to how verifiable the result is.</li>
+<li>Cut cost with caching, input hygiene and batches first, then effort and model per route.</li>
+<li>Govern data, secrets, injection risk and accountability; measure outcomes, not activity.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview" rel="noopener">Prompt engineering overview</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" rel="noopener">Optimising for cost and intelligence</a>.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="noopener">Effective context engineering for AI agents</a>.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/engineering/claude-code-best-practices" rel="noopener">Claude Code best practices</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" rel="noopener">Usage and cost API</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/prompt-engineering/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompt &amp; context engineering</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-governance/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI governance</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agentic AI strategy</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Cheatsheet: best practices</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-across-the-sdlc/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Claude across the SDLC</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#1-context-engineering-beats-prompt-tricks">1. Context engineering beats prompt tricks</a></li>
+    <li><a href="#2-prompting-current-models">2. Prompting current models</a></li>
+    <li><a href="#3-verification-is-the-multiplier">3. Verification is the multiplier</a></li>
+    <li><a href="#4-delegation-and-parallelism">4. Delegation and parallelism</a></li>
+    <li><a href="#5-cost-control">5. Cost control</a></li>
+    <li><a href="#6-security-privacy-and-governance">6. Security, privacy and governance</a></li>
+    <li><a href="#7-measuring-productivity-honestly">7. Measuring productivity honestly</a></li>
+    <li><a href="#anti-patterns">Anti-patterns</a></li>
+    <li><a href="#checklist">Checklist</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+<script src="/enterprise-ai/js/vendor/mermaid.min.js" defer></script>
+<script src="/enterprise-ai/js/diagrams.min.058bf5a74dceabd9f2f0ed8d8c4f3689cc36c8ef0836a10f8b50315f12b23be2.js" defer></script>
+
+</body>
+</html>

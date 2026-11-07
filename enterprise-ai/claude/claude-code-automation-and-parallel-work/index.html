@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Automation and Parallel Work · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Running Claude Code beyond one interactive session: print mode in scripts and CI, GitHub Actions and Code Review, /goal, /loop and scheduled tasks, worktrees, sub-agents, agent view, agent teams, dynamic workflows and /batch — when to use each, and how to keep unattended runs safe.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-automation-and-parallel-work/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Automation and Parallel Work">
+<meta property="og:description" content="Running Claude Code beyond one interactive session: print mode in scripts and CI, GitHub Actions and Code Review, /goal, /loop and scheduled tasks, worktrees, sub-agents, agent view, agent teams, dynamic workflows and /batch — when to use each, and how to keep unattended runs safe.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-automation-and-parallel-work/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Automation and Parallel Work">
+<meta name="twitter:description" content="Running Claude Code beyond one interactive session: print mode in scripts and CI, GitHub Actions and Code Review, /goal, /loop and scheduled tasks, worktrees, sub-agents, agent view, agent teams, dynamic workflows and /batch — when to use each, and how to keep unattended runs safe.">
+<meta name="keywords" content="claude, developer-tools, agents, automation, ci-cd">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"Running Claude Code beyond one interactive session: print mode in scripts and CI, GitHub Actions and Code Review, /goal, /loop and scheduled tasks, worktrees, sub-agents, agent view, agent teams, dynamic workflows and /batch — when to use each, and how to keep unattended runs safe.","headline":"Claude Code Automation and Parallel Work","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, agents, automation, ci-cd","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-automation-and-parallel-work/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-automation-and-parallel-work/","name":"Automation \u0026 parallel work","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/" aria-current="page">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Automation &amp; parallel work</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Automation and Parallel Work</h1><p class="article__lede" itemprop="description">Running Claude Code beyond one interactive session: print mode in scripts and CI, GitHub Actions and Code Review, /goal, /loop and scheduled tasks, worktrees, sub-agents, agent view, agent teams, dynamic workflows and /batch — when to use each, and how to keep unattended runs safe.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>9 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/automation/">#Automation</a><a class="tag" href="/enterprise-ai/tags/ci-cd/">#Ci-Cd</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>, <a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-unattended-run-contract">The unattended-run contract</a></li>
+    <li><a href="#scripts-and-ci-print-mode">Scripts and CI: print mode</a></li>
+    <li><a href="#github-gitlab-and-pull-requests">GitHub, GitLab and pull requests</a></li>
+    <li><a href="#keeping-one-session-working">Keeping one session working</a></li>
+    <li><a href="#scheduling-work">Scheduling work</a></li>
+    <li><a href="#parallel-work-five-approaches">Parallel work: five approaches</a>
+      <ul>
+        <li><a href="#sub-agents">Sub-agents</a></li>
+        <li><a href="#agent-view-and-background-sessions">Agent view and background sessions</a></li>
+        <li><a href="#agent-teams">Agent teams</a></li>
+        <li><a href="#dynamic-workflows">Dynamic workflows</a></li>
+        <li><a href="#worktrees">Worktrees</a></li>
+      </ul>
+    </li>
+    <li><a href="#choosing-quickly">Choosing quickly</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Once Claude Code can check its own work, it no longer needs you at the keyboard. <strong>Automation</strong> means starting runs from a script, a timer or an event (<code>claude -p</code>, GitHub Actions, <code>/schedule</code>). <strong>Parallel work</strong> means running several Claude workers at once — sub-agents inside a session, background sessions in agent view, coordinated agent teams, or a scripted dynamic workflow — usually each in its own git worktree.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>From the official pages on <a href="https://code.claude.com/docs/en/headless" rel="noopener">headless mode</a>, <a href="https://code.claude.com/docs/en/github-actions" rel="noopener">GitHub Actions</a>, <a href="https://code.claude.com/docs/en/scheduled-tasks" rel="noopener">scheduled tasks</a>, <a href="https://code.claude.com/docs/en/goal" rel="noopener">/goal</a>, <a href="https://code.claude.com/docs/en/agents" rel="noopener">running agents in parallel</a>, <a href="https://code.claude.com/docs/en/agent-teams" rel="noopener">agent teams</a>, <a href="https://code.claude.com/docs/en/workflows" rel="noopener">dynamic workflows</a> and <a href="https://code.claude.com/docs/en/worktrees" rel="noopener">worktrees</a>, read on 7 November 2026. Agent view and agent teams are research previews / experimental.</p></div>
+</aside><h2 id="the-unattended-run-contract">The unattended-run contract<a class="heading-anchor" href="#the-unattended-run-contract" aria-label="Link to this section">#</a></h2>
+<p>Before anything runs without you, answer five questions for <em>that</em> task — the harness, not the prompt, should hold the answers where possible.</p>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-code-unattended.html" title="A safe unattended run: define done, bound it, check it, sign it off" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>A safe unattended run: define done, bound it, check it, sign it off · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-code-unattended.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Answer with</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>What does done look like?</td>
+      <td><code>/goal</code> condition, <code>SPEC.md</code>, a failing test to turn green</td>
+    </tr>
+    <tr>
+      <td>How does it check its work?</td>
+      <td>Test suite, <code>Stop</code> hook, <code>/code-review</code>, a reviewer sub-agent</td>
+    </tr>
+    <tr>
+      <td>What may it touch?</td>
+      <td><code>--allowedTools</code>, <code>--permission-mode dontAsk</code>, sandbox, a worktree, one pushable branch</td>
+    </tr>
+    <tr>
+      <td>What stops it?</td>
+      <td><code>--max-turns</code>, <code>--max-budget-usd</code>, an organisation spend limit</td>
+    </tr>
+    <tr>
+      <td>Who signs off?</td>
+      <td>A PR, branch protection, a person approving merge or deploy</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="scripts-and-ci-print-mode">Scripts and CI: print mode<a class="heading-anchor" href="#scripts-and-ci-print-mode" aria-label="Link to this section">#</a></h2>
+<p><code>claude -p</code> runs once and exits. In scripts you almost always add:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--bare</code></td>
+      <td>Ignore the machine&rsquo;s hooks, skills, plugins, MCP and <code>CLAUDE.md</code> — same behaviour everywhere. Auth must come from <code>ANTHROPIC_API_KEY</code>, an <code>apiKeyHelper</code>, or cloud credentials</td>
+    </tr>
+    <tr>
+      <td><code>--settings</code>, <code>--mcp-config</code>, <code>--append-system-prompt</code></td>
+      <td>Pass in exactly what the run needs (hooks passed via <code>--settings</code> don&rsquo;t run under <code>--bare</code>)</td>
+    </tr>
+    <tr>
+      <td><code>--allowedTools</code> + <code>--permission-mode dontAsk</code></td>
+      <td>Pre-approve the tools; refuse everything else</td>
+    </tr>
+    <tr>
+      <td><code>--max-turns</code>, <code>--max-budget-usd</code></td>
+      <td>Hard stops</td>
+    </tr>
+    <tr>
+      <td><code>--output-format json</code> or <code>stream-json --verbose</code></td>
+      <td>Parse the result or stream events</td>
+    </tr>
+    <tr>
+      <td><code>--json-schema</code></td>
+      <td>Validated structured output</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Fan out a migration, one bounded run per file</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> file in <span class="k">$(</span>cat files.txt<span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  claude --bare -p <span class="s2">&#34;Migrate </span><span class="nv">$file</span><span class="s2"> to the new logger API and commit. Reply OK or FAIL.&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --allowedTools <span class="s2">&#34;Read,Edit,Bash(git add *),Bash(git commit *)&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --permission-mode dontAsk --max-turns <span class="m">20</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Triage a log, get JSON back</span>
+</span></span><span class="line"><span class="cl">cat build.log <span class="p">|</span> claude -p <span class="s2">&#34;Classify the failure: flaky, infra or code. Return JSON.&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --output-format json --max-turns <span class="m">3</span>
+</span></span></code></pre></div><p>Auto mode also works with <code>-p</code> (<code>--permission-mode auto</code>): a classifier block denies that one action and the run continues — it does not pause for a human. For long-lived CI credentials on a subscription, use <code>claude setup-token</code>. For programmatic control in Python or TypeScript, use the <a href="/enterprise-ai/claude/claude-agent-sdk/"><strong>Agent SDK</strong></a>.</p>
+<h2 id="github-gitlab-and-pull-requests">GitHub, GitLab and pull requests<a class="heading-anchor" href="#github-gitlab-and-pull-requests" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Integration</th>
+      <th>What it does</th>
+      <th>Set up</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Claude Code GitHub Actions</strong></td>
+      <td>Responds to <code>@claude</code> in issues and PR comments; turns issues into PRs; runs any prompt in a workflow</td>
+      <td><code>/install-github-app</code>, or add <code>anthropics/claude-code-action@v1</code></td>
+    </tr>
+    <tr>
+      <td><strong>Code Review</strong> (Team/Enterprise)</td>
+      <td>Reviews every PR, verifies findings, comments inline</td>
+      <td>Admin enables it; billed through usage credits</td>
+    </tr>
+    <tr>
+      <td><strong><code>/code-review --comment</code></strong></td>
+      <td>Local review posted as inline PR comments</td>
+      <td>In a session</td>
+    </tr>
+    <tr>
+      <td><strong><code>/autofix-pr</code></strong></td>
+      <td>Cloud session that watches a PR and pushes fixes for CI failures and review comments</td>
+      <td>Needs a claude.ai login</td>
+    </tr>
+    <tr>
+      <td><strong>GitLab CI/CD</strong></td>
+      <td>Same patterns in GitLab pipelines</td>
+      <td><a href="https://code.claude.com/docs/en/gitlab-ci-cd" rel="noopener">GitLab CI/CD guide</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Claude Code</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">issue_comment</span><span class="p">:</span><span class="w">        </span>{<span class="w"> </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">created] }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pull_request_review_comment</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">created] }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">claude</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">contains(github.event.comment.body, &#39;@claude&#39;)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">permissions</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="nt">write, pull-requests</span><span class="p">:</span><span class="w"> </span><span class="nt">write, issues</span><span class="p">:</span><span class="w"> </span><span class="nt">write, id-token</span><span class="p">:</span><span class="w"> </span><span class="l">write }</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v6</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w"> </span>{<span class="w"> </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>}<span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">anthropics/claude-code-action@v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">anthropic_api_key</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.ANTHROPIC_API_KEY }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">claude_args</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;--max-turns 30 --model sonnet&#34;</span><span class="w">
+</span></span></span></code></pre></div><p>The action follows the repo&rsquo;s <code>CLAUDE.md</code> on every run, so keep it concise and the same conventions apply in CI as on laptops. Keep the API key in secrets, give the job the least GitHub permissions it needs, and protect <code>main</code> so the bot cannot merge its own work.</p>
+<h2 id="keeping-one-session-working">Keeping one session working<a class="heading-anchor" href="#keeping-one-session-working" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Mechanism</th>
+      <th>Next turn starts when</th>
+      <th>Stops when</th>
+      <th>Use for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Auto mode</strong></td>
+      <td>— (approves tools within a turn)</td>
+      <td>Claude judges the work done</td>
+      <td>Fewer prompts, not more turns</td>
+    </tr>
+    <tr>
+      <td><strong><code>/goal &lt;condition&gt;</code></strong></td>
+      <td>The previous turn finishes</td>
+      <td>A separate evaluator confirms the condition, or judges it impossible</td>
+      <td>Migrations, design docs with acceptance criteria, backlog burn-down</td>
+    </tr>
+    <tr>
+      <td><strong><code>Stop</code> hook</strong></td>
+      <td>The previous turn finishes</td>
+      <td>Your script passes</td>
+      <td>Deterministic &ldquo;done&rdquo; for every session</td>
+    </tr>
+    <tr>
+      <td><strong><code>/loop [interval] &lt;prompt&gt;</code></strong></td>
+      <td>An interval elapses (or Claude self-paces 1 min–1 h)</td>
+      <td>You stop it, or after 7 days</td>
+      <td>Babysitting CI, polling a deploy</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Write goal conditions as something Claude&rsquo;s own output can <em>demonstrate</em>: one measurable end state, the check that proves it, constraints that must hold, and a bound — <code>/goal all tests in test/auth pass and lint is clean; don't modify other test files; or stop after 20 turns</code>. The evaluator reads the transcript; it doesn&rsquo;t run commands itself.</p>
+<h2 id="scheduling-work">Scheduling work<a class="heading-anchor" href="#scheduling-work" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th><code>/loop</code></th>
+      <th>Desktop scheduled task</th>
+      <th>Cloud scheduled task (<code>/schedule</code>)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Runs on</td>
+      <td>Your machine, in the session</td>
+      <td>Your machine</td>
+      <td>Anthropic cloud (or self-hosted environment)</td>
+    </tr>
+    <tr>
+      <td>Needs machine on / session open</td>
+      <td>Yes / Yes</td>
+      <td>Yes / No</td>
+      <td>No / No</td>
+    </tr>
+    <tr>
+      <td>Local files</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No — fresh clone</td>
+    </tr>
+    <tr>
+      <td>Permissions</td>
+      <td>Inherits session</td>
+      <td>Per task</td>
+      <td>Auto mode by default</td>
+    </tr>
+    <tr>
+      <td>Minimum interval</td>
+      <td>1 minute</td>
+      <td>1 minute (1 hour in forms)</td>
+      <td>1 hour</td>
+    </tr>
+    <tr>
+      <td>Triggers</td>
+      <td>Time</td>
+      <td>Time</td>
+      <td>Time, GitHub events, API</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Before a cloud task runs alone</span></p>
+  <div class="callout__body"><p>Protect <code>main</code> with a branch rule the task cannot bypass, and watch the first few runs. A <code>/loop</code> in a long conversation resends that whole conversation every iteration — start it in a fresh session.</p></div>
+</aside><h2 id="parallel-work-five-approaches">Parallel work: five approaches<a class="heading-anchor" href="#parallel-work-five-approaches" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-code-parallel.html" title="Ways to run Claude Code in parallel" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>Ways to run Claude Code in parallel · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-code-parallel.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>Who coordinates</th>
+      <th>Workers talk?</th>
+      <th>Scale</th>
+      <th>Use when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Sub-agents</strong></td>
+      <td>Claude, turn by turn</td>
+      <td>Report back to caller</td>
+      <td>A few per turn</td>
+      <td>A side task would flood your context; you want a read-only reviewer</td>
+    </tr>
+    <tr>
+      <td><strong>Agent view</strong> (<code>claude agents</code>, <code>--bg</code>, <code>/background</code>)</td>
+      <td>You</td>
+      <td>Report to you</td>
+      <td>Many independent sessions</td>
+      <td>Hand off independent tasks, check status at a glance</td>
+    </tr>
+    <tr>
+      <td><strong>Agent teams</strong> (experimental)</td>
+      <td>A lead session</td>
+      <td>Directly, with a shared task list</td>
+      <td>A handful of long-running peers</td>
+      <td>Competing hypotheses, cross-layer features, research that must be challenged</td>
+    </tr>
+    <tr>
+      <td><strong>Dynamic workflows</strong></td>
+      <td>A script Claude writes</td>
+      <td>Via the script</td>
+      <td>Dozens to hundreds of agents</td>
+      <td>Codebase-wide audits, 500-file migrations, cross-checked research</td>
+    </tr>
+    <tr>
+      <td><strong>Projects</strong> (claude.ai/code, desktop; beta)</td>
+      <td>One ongoing conversation that starts threads</td>
+      <td>Via the project</td>
+      <td>Ongoing, days to weeks</td>
+      <td>Long programmes of work that should continue while your machine is off</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Supporting tools: <strong>worktrees</strong> (separate checkouts), <strong>cross-session messaging</strong> (sessions pass findings), <strong><code>/batch</code></strong> (one large change split into 5–30 worktree-isolated units, one PR each), and the <strong>desktop app</strong>&rsquo;s side-by-side sessions.</p>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">Parallel ≠ smarter</span></p>
+  <div class="callout__body"><p>Every worker is the same model (or a smaller one) and sends its own requests, so tokens multiply. You buy <strong>wall-clock time, clean context and independent review</strong> — not better reasoning. Agent teams cost the most; sub-agents with <code>model: haiku</code> and short summaries the least.</p></div>
+</aside><h3 id="sub-agents">Sub-agents<a class="heading-anchor" href="#sub-agents" aria-label="Link to this section">#</a></h3>
+<p>Claude already delegates broad searches to <strong>Explore</strong> and forks side tasks. Define your own in <code>.claude/agents/&lt;name&gt;.md</code> with restricted <code>tools</code>, a cheaper <code>model</code>, and <code>isolation: worktree</code> when they edit. <code>/subtask &lt;task&gt;</code> starts a forked sub-agent that inherits the conversation; <code>Ctrl+B</code> backgrounds a running one; <code>/tasks</code> lists them.</p>
+<h3 id="agent-view-and-background-sessions">Agent view and background sessions<a class="heading-anchor" href="#agent-view-and-background-sessions" aria-label="Link to this section">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude --bg <span class="s2">&#34;upgrade eslint to v10 and fix all new warnings&#34;</span>   <span class="c1"># start detached</span>
+</span></span><span class="line"><span class="cl">claude agents                                                  <span class="c1"># one screen for every session</span>
+</span></span><span class="line"><span class="cl">claude attach &lt;id&gt;   ·   claude logs &lt;id&gt;   ·   claude stop &lt;id&gt;
+</span></span></code></pre></div><p>A dispatched session moves into its own worktree before it edits. Admins can turn this off with <code>disableAgentView</code>.</p>
+<h3 id="agent-teams">Agent teams<a class="heading-anchor" href="#agent-teams" aria-label="Link to this section">#</a></h3>
+<p>Enable with <code>CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</code>, then describe the team: <em>&ldquo;Spawn three teammates to explore this: one on UX, one on architecture, one playing devil&rsquo;s advocate.&rdquo;</em> The lead creates a shared task list; teammates claim tasks and message each other; you can talk to any teammate directly. Teams don&rsquo;t isolate teammates in worktrees — <strong>partition files</strong> so each owns a different set. Interactive sessions only.</p>
+<h3 id="dynamic-workflows">Dynamic workflows<a class="heading-anchor" href="#dynamic-workflows" aria-label="Link to this section">#</a></h3>
+<p>The plan lives in a JavaScript script instead of Claude&rsquo;s turn-by-turn judgment, so intermediate results stay out of your context, runs are resumable, and agents can <strong>adversarially verify each other&rsquo;s findings</strong>. Try <code>/deep-research &lt;question&gt;</code>, then ask Claude to write one for your task; watch with <code>/workflows</code>, save a good run as your own command.</p>
+<h3 id="worktrees">Worktrees<a class="heading-anchor" href="#worktrees" aria-label="Link to this section">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude -w feature-auth            <span class="c1"># session in &lt;repo&gt;/.claude/worktrees/feature-auth</span>
+</span></span><span class="line"><span class="cl">claude -w feature-auth --tmux     <span class="c1"># in its own tmux pane</span>
+</span></span></code></pre></div><ul>
+<li>List gitignored files a fresh checkout needs (<code>.env</code>, dev credentials) in <strong><code>.worktreeinclude</code></strong>; it copies, so keep large folders out — use <code>worktree.symlinkDirectories</code> or an install command in <code>CLAUDE.md</code>.</li>
+<li>Unnamed, unchanged worktrees are removed on exit; sub-agent worktrees vanish if unchanged; leftovers are swept after <code>cleanupPeriodDays</code>.</li>
+<li><code>claude -p --worktree</code> runs don&rsquo;t clean up — <code>git worktree remove &lt;path&gt;</code>.</li>
+</ul>
+<h2 id="choosing-quickly">Choosing quickly<a class="heading-anchor" href="#choosing-quickly" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>You want…</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A one-off answer in a script</td>
+      <td><code>claude -p</code></td>
+    </tr>
+    <tr>
+      <td><code>@claude</code> on issues and PRs</td>
+      <td>GitHub Actions</td>
+    </tr>
+    <tr>
+      <td>Review on every PR</td>
+      <td>Code Review, or the action with <code>/code-review --comment</code></td>
+    </tr>
+    <tr>
+      <td>Keep going until tests pass</td>
+      <td><code>/goal</code> (session) or <code>Stop</code> hook (always)</td>
+    </tr>
+    <tr>
+      <td>Check something every 10 minutes while you work</td>
+      <td><code>/loop 10m …</code></td>
+    </tr>
+    <tr>
+      <td>A nightly job with your laptop shut</td>
+      <td><code>/schedule</code></td>
+    </tr>
+    <tr>
+      <td>One big mechanical change</td>
+      <td><code>/batch</code></td>
+    </tr>
+    <tr>
+      <td>Several unrelated tasks at once</td>
+      <td><code>claude --bg</code> + <code>claude agents</code>, or worktrees</td>
+    </tr>
+    <tr>
+      <td>Workers that debate and coordinate</td>
+      <td>Agent teams</td>
+    </tr>
+    <tr>
+      <td>A 500-file audit with cross-checking</td>
+      <td>Dynamic workflow</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Unbounded runs</span></p>
+  <div class="callout__body"><p>A run with no turn or budget cap and no check can work all night on a wrong assumption. Every unattended run needs a definition of done, a check, a scope and a cap.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Parallel workers on one checkout</span></p>
+  <div class="callout__body"><p>Two sessions editing the same files collide. Use worktrees, or partition files explicitly for agent teams.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Letting automation merge</span></p>
+  <div class="callout__body"><p>The bot opens the PR; branch protection and a person merge it. Anything irreversible needs human sign-off.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Starting at full scale</span></p>
+  <div class="callout__body"><p>Run the batch on three items, read what went wrong, fix the prompt, then run the rest.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>Why use <code>--bare</code> in CI?</strong>
+It skips the runner&rsquo;s hooks, skills, plugins, MCP servers and <code>CLAUDE.md</code>, making the run reproducible; you pass exactly what it needs with <code>--settings</code>, <code>--mcp-config</code> and <code>--append-system-prompt</code>.</p>
+<p><strong>How does <code>/goal</code> decide the work is finished?</strong>
+After each turn a separate evaluator model reads the conversation and judges whether the condition holds; Claude continues until it does, the evaluator judges it impossible, or an error clears it.</p>
+<p><strong>When would you choose a dynamic workflow over agent teams?</strong>
+When the job is large (dozens to hundreds of agents), repeatable, and benefits from scripted cross-checking, rather than a few peers that need to discuss and coordinate.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Automate with <code>claude -p</code> (bounded, <code>--bare</code>, <code>dontAsk</code>), GitHub Actions and Code Review.</li>
+<li>Keep a session going with <code>/goal</code> or a <code>Stop</code> hook; repeat with <code>/loop</code>; schedule with <code>/schedule</code>.</li>
+<li>Parallelise with sub-agents, agent view, agent teams or dynamic workflows — isolated in worktrees, and paid for knowingly.</li>
+<li>Every unattended run: done, check, scope, cap, human sign-off.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/headless" rel="noopener">Run Claude Code programmatically</a> and <a href="https://code.claude.com/docs/en/github-actions" rel="noopener">GitHub Actions</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/goal" rel="noopener">Keep Claude working toward a goal</a>, <a href="https://code.claude.com/docs/en/scheduled-tasks" rel="noopener">Run prompts on a schedule</a> and <a href="https://code.claude.com/docs/en/routines" rel="noopener">Cloud scheduled tasks</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/agents" rel="noopener">Run agents in parallel</a>, <a href="https://code.claude.com/docs/en/agent-view" rel="noopener">Agent view</a>, <a href="https://code.claude.com/docs/en/agent-teams" rel="noopener">Agent teams</a> and <a href="https://code.claude.com/docs/en/workflows" rel="noopener">Dynamic workflows</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/worktrees" rel="noopener">Worktrees</a> and <a href="https://code.claude.com/docs/en/code-review" rel="noopener">Code Review</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-agent-sdk/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Agent SDK</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-subagents-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: sub-agents</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Cheatsheet: commands</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-for-teams/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Code for teams</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/multi-agent-systems/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Multi-agent systems</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-agent-sdk/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Claude Agent SDK</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-for-teams/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Claude Code for teams</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-unattended-run-contract">The unattended-run contract</a></li>
+    <li><a href="#scripts-and-ci-print-mode">Scripts and CI: print mode</a></li>
+    <li><a href="#github-gitlab-and-pull-requests">GitHub, GitLab and pull requests</a></li>
+    <li><a href="#keeping-one-session-working">Keeping one session working</a></li>
+    <li><a href="#scheduling-work">Scheduling work</a></li>
+    <li><a href="#parallel-work-five-approaches">Parallel work: five approaches</a>
+      <ul>
+        <li><a href="#sub-agents">Sub-agents</a></li>
+        <li><a href="#agent-view-and-background-sessions">Agent view and background sessions</a></li>
+        <li><a href="#agent-teams">Agent teams</a></li>
+        <li><a href="#dynamic-workflows">Dynamic workflows</a></li>
+        <li><a href="#worktrees">Worktrees</a></li>
+      </ul>
+    </li>
+    <li><a href="#choosing-quickly">Choosing quickly</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

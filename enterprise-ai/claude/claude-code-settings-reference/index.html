@@ -1,0 +1,1156 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Settings Reference · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="A practical map of Claude Code configuration: settings files and precedence, how arrays and locks merge, permission rule syntax, the most useful settings keys by area (permissions, sandbox, model, memory, MCP, plugins, hooks, git, worktrees, enterprise), key environment variables, and copy-ready example files for a developer, a team and an organisation.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-settings-reference/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Settings Reference">
+<meta property="og:description" content="A practical map of Claude Code configuration: settings files and precedence, how arrays and locks merge, permission rule syntax, the most useful settings keys by area (permissions, sandbox, model, memory, MCP, plugins, hooks, git, worktrees, enterprise), key environment variables, and copy-ready example files for a developer, a team and an organisation.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-settings-reference/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Settings Reference">
+<meta name="twitter:description" content="A practical map of Claude Code configuration: settings files and precedence, how arrays and locks merge, permission rule syntax, the most useful settings keys by area (permissions, sandbox, model, memory, MCP, plugins, hooks, git, worktrees, enterprise), key environment variables, and copy-ready example files for a developer, a team and an organisation.">
+<meta name="keywords" content="claude, developer-tools, reference, configuration, governance">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"A practical map of Claude Code configuration: settings files and precedence, how arrays and locks merge, permission rule syntax, the most useful settings keys by area (permissions, sandbox, model, memory, MCP, plugins, hooks, git, worktrees, enterprise), key environment variables, and copy-ready example files for a developer, a team and an organisation.","headline":"Claude Code Settings Reference","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, reference, configuration, governance","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-settings-reference/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-settings-reference/","name":"Reference: settings","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/" aria-current="page">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Reference: settings</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Settings Reference</h1><p class="article__lede" itemprop="description">A practical map of Claude Code configuration: settings files and precedence, how arrays and locks merge, permission rule syntax, the most useful settings keys by area (permissions, sandbox, model, memory, MCP, plugins, hooks, git, worktrees, enterprise), key environment variables, and copy-ready example files for a developer, a team and an organisation.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>9 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a><a class="tag" href="/enterprise-ai/tags/configuration/">#Configuration</a><a class="tag" href="/enterprise-ai/tags/governance/">#Governance</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#files">Files</a></li>
+    <li><a href="#precedence-and-merging">Precedence and merging</a></li>
+    <li><a href="#permission-rule-syntax">Permission rule syntax</a></li>
+    <li><a href="#most-used-keys-by-area">Most-used keys by area</a>
+      <ul>
+        <li><a href="#permissions">Permissions</a></li>
+        <li><a href="#sandbox">Sandbox</a></li>
+        <li><a href="#model-and-responses">Model and responses</a></li>
+        <li><a href="#memory-and-context">Memory and context</a></li>
+        <li><a href="#mcp">MCP</a></li>
+        <li><a href="#plugins-and-skills">Plugins and skills</a></li>
+        <li><a href="#hooks-and-automation">Hooks and automation</a></li>
+        <li><a href="#git-worktrees-and-agents">Git, worktrees and agents</a></li>
+        <li><a href="#interface-personal">Interface (personal)</a></li>
+        <li><a href="#enterprise-and-updates">Enterprise and updates</a></li>
+      </ul>
+    </li>
+    <li><a href="#environment-variables-worth-knowing">Environment variables worth knowing</a></li>
+    <li><a href="#example-a-developers-user-settings">Example: a developer&rsquo;s user settings</a></li>
+    <li><a href="#example-a-teams-claudesettingsjson">Example: a team’s <code>.claude/settings.json</code></a></li>
+    <li><a href="#example-organisation-managed-settings">Example: organisation managed settings</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Claude Code reads <strong>JSON settings files</strong> at several levels — your user file, the project&rsquo;s shared and local files, and the organisation&rsquo;s managed settings — and combines them into one effective configuration. Settings control what Claude may do (permissions, sandbox), which model it uses, what loads into context, which extensions run, and what is reported. <strong>Environment variables</strong> cover authentication, providers and a few low-level limits.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Condensed from Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/settings" rel="noopener">Settings</a>, <a href="https://code.claude.com/docs/en/settings-reference" rel="noopener">All settings</a> (about 250 keys), <a href="https://code.claude.com/docs/en/permissions" rel="noopener">Configure permissions</a> and <a href="https://code.claude.com/docs/en/env-vars" rel="noopener">Environment variables</a>, read on 7 November 2026. This page covers the keys you are most likely to set; look up anything else in the official index.</p></div>
+</aside><h2 id="files">Files<a class="heading-anchor" href="#files" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Who</th>
+      <th>Committed</th>
+      <th>Typical contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>~/.claude/settings.json</code></td>
+      <td>You, every project</td>
+      <td>No</td>
+      <td>Model, effort, theme, status line, <code>autoMode</code>, personal hooks</td>
+    </tr>
+    <tr>
+      <td><code>.claude/settings.json</code></td>
+      <td>Everyone in the repo</td>
+      <td><strong>Yes</strong></td>
+      <td>Permissions, hooks, env, plugins, marketplaces</td>
+    </tr>
+    <tr>
+      <td><code>.claude/settings.local.json</code></td>
+      <td>You, this repo</td>
+      <td>No (gitignored)</td>
+      <td>Personal overrides; &ldquo;don&rsquo;t ask again&rdquo; approvals land here</td>
+    </tr>
+    <tr>
+      <td>Managed settings</td>
+      <td>Organisation</td>
+      <td>Deployed</td>
+      <td>Policy: deny rules, sandbox, MCP and plugin limits, versions</td>
+    </tr>
+    <tr>
+      <td><code>--settings &lt;file|json&gt;</code></td>
+      <td>One session</td>
+      <td>—</td>
+      <td>Script and CI overrides</td>
+    </tr>
+    <tr>
+      <td><code>~/.claude.json</code></td>
+      <td>You</td>
+      <td>No</td>
+      <td>Global config (IDE, UI toggles), local-scope MCP servers, per-project state</td>
+    </tr>
+    <tr>
+      <td><code>.mcp.json</code></td>
+      <td>Repo</td>
+      <td>Yes</td>
+      <td>Project MCP servers</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Edit with <code>/config</code> (UI or <code>key=value</code>), <code>/permissions</code>, <code>/hooks</code>, or ask Claude via <code>/update-config</code>. Add <code>&quot;$schema&quot;: &quot;https://json.schemastore.org/claude-code-settings.json&quot;</code> for editor completion. <code>/status</code> shows which sources loaded.</p>
+<h2 id="precedence-and-merging">Precedence and merging<a class="heading-anchor" href="#precedence-and-merging" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-code-team-settings.html" title="Managed, project, local and user settings combine into one effective configuration" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>Managed, project, local and user settings combine into one effective configuration · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-code-team-settings.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<p><strong>Highest first:</strong> managed → command line (<code>--settings</code>) → project local → shared project → user. A key set higher overrides the same key lower down — but not every key merges the same way:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Kind of key</th>
+      <th>Rule</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Arrays</td>
+      <td><strong>Merge</strong> across all scopes — lower levels can add, not remove</td>
+      <td><code>permissions.allow</code>, <code>permissions.deny</code>, <code>sandbox.network.allowedDomains</code></td>
+    </tr>
+    <tr>
+      <td>Locks</td>
+      <td>The <strong>strictest</strong> value any source sets wins</td>
+      <td><code>allowManagedPermissionRulesOnly</code>, <code>permissions.disableBypassPermissionsMode</code></td>
+    </tr>
+    <tr>
+      <td>Restrictive booleans</td>
+      <td>A restrictive <code>true</code> from <strong>any</strong> scope is honoured, even over managed</td>
+      <td><code>permissions.blockWritesOutsideWorkingDirectories</code>, <code>disableClaudeAiConnectors</code></td>
+    </tr>
+    <tr>
+      <td>Managed-replace lists</td>
+      <td>The managed value <strong>replaces</strong> lower ones</td>
+      <td><code>availableModels</code>, <code>fallbackModel</code>, <code>modelPicker</code></td>
+    </tr>
+    <tr>
+      <td>Highest source only</td>
+      <td>Read only from the top source with policy</td>
+      <td><code>apiKeyHelper</code>, <code>permissions.defaultMode</code></td>
+    </tr>
+    <tr>
+      <td>Everything else</td>
+      <td>Highest level that sets it</td>
+      <td><code>model</code>, <code>cleanupPeriodDays</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<ul>
+<li>Project <code>allow</code> rules, <code>additionalDirectories</code>, marketplaces and most <code>env</code> values wait for <strong>workspace trust</strong>; <code>deny</code> and <code>ask</code> apply immediately.</li>
+<li>Shell environment variables are not a level: some (<code>ANTHROPIC_MODEL</code>) beat the matching settings key, others don&rsquo;t — check the key&rsquo;s entry.</li>
+<li><code>CLAUDE.md</code> edits don&rsquo;t apply mid-session, because the system prompt is cached; start a new session to pick them up.</li>
+</ul>
+<h2 id="permission-rule-syntax">Permission rule syntax<a class="heading-anchor" href="#permission-rule-syntax" aria-label="Link to this section">#</a></h2>
+<p>Rules are <code>Tool</code> or <code>Tool(specifier)</code> in <code>permissions.allow</code>, <code>ask</code> or <code>deny</code>. <strong>Deny beats ask beats allow</strong>, in every mode.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Rule</th>
+      <th>Matches</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Bash</code></td>
+      <td>Every shell command</td>
+    </tr>
+    <tr>
+      <td><code>Bash(npm run build)</code></td>
+      <td>Exactly that command</td>
+    </tr>
+    <tr>
+      <td><code>Bash(npm run *)</code></td>
+      <td><code>npm run build</code>, <code>npm run test --watch</code> (not <code>npm install</code>)</td>
+    </tr>
+    <tr>
+      <td><code>Bash(git * main)</code></td>
+      <td><code>git merge main</code>, <code>git push origin main</code></td>
+    </tr>
+    <tr>
+      <td><code>Bash(ls *)</code> vs <code>Bash(ls*)</code></td>
+      <td><code>ls -la</code> / also <code>lsof</code> — the space matters</td>
+    </tr>
+    <tr>
+      <td><code>Read(./.env)</code>, <code>Read(**/.env)</code></td>
+      <td><code>.env</code> here / any <code>.env</code> under the working directory</td>
+    </tr>
+    <tr>
+      <td><code>Read(~/Documents/*.pdf)</code></td>
+      <td>Path from home</td>
+    </tr>
+    <tr>
+      <td><code>Read(//etc/**)</code></td>
+      <td>Absolute path from filesystem root</td>
+    </tr>
+    <tr>
+      <td><code>Edit(/src/**/*.ts)</code></td>
+      <td>Relative to the settings file&rsquo;s project root</td>
+    </tr>
+    <tr>
+      <td><code>Edit(**/src/**)</code></td>
+      <td>A <code>src</code> directory at any depth</td>
+    </tr>
+    <tr>
+      <td><code>WebFetch(domain:example.com)</code></td>
+      <td>Fetches to that domain</td>
+    </tr>
+    <tr>
+      <td><code>mcp__github</code>, <code>mcp__github__*</code></td>
+      <td>Every tool from the <code>github</code> server</td>
+    </tr>
+    <tr>
+      <td><code>mcp__github__create_issue</code></td>
+      <td>One MCP tool</td>
+    </tr>
+    <tr>
+      <td><code>Agent(Explore)</code>, <code>Agent(my-reviewer)</code></td>
+      <td>A sub-agent (deny to disable it)</td>
+    </tr>
+    <tr>
+      <td><code>Agent(model:opus)</code>, <code>Bash(run_in_background:true)</code></td>
+      <td>Calls with that input parameter</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Bash patterns are not a sandbox</span></p>
+  <div class="callout__body"><p><code>Bash(curl *)</code> doesn&rsquo;t match <code>/usr/bin/curl …</code> or <code>sh -c 'curl …'</code>; a <code>Read</code> deny doesn&rsquo;t stop a script that opens the file; a <code>WebFetch</code> deny doesn&rsquo;t stop <code>curl</code>. Use the sandbox for real filesystem and network limits.</p></div>
+</aside><h2 id="most-used-keys-by-area">Most-used keys by area<a class="heading-anchor" href="#most-used-keys-by-area" aria-label="Link to this section">#</a></h2>
+<h3 id="permissions">Permissions<a class="heading-anchor" href="#permissions" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>permissions.allow</code> / <code>ask</code> / <code>deny</code></td>
+      <td>Rule lists</td>
+    </tr>
+    <tr>
+      <td><code>permissions.defaultMode</code></td>
+      <td>Starting mode: <code>default</code>, <code>acceptEdits</code>, <code>plan</code>, <code>auto</code>, <code>dontAsk</code>, <code>bypassPermissions</code></td>
+    </tr>
+    <tr>
+      <td><code>permissions.additionalDirectories</code></td>
+      <td>Extra directories Claude may read and edit</td>
+    </tr>
+    <tr>
+      <td><code>permissions.disableBypassPermissionsMode</code></td>
+      <td><code>&quot;disable&quot;</code> — nobody can enter bypass mode</td>
+    </tr>
+    <tr>
+      <td><code>permissions.blockReadsOutsideWorkingDirectories</code>, <code>…Writes…</code></td>
+      <td>File tools refuse paths outside working dirs in every mode</td>
+    </tr>
+    <tr>
+      <td><code>disableAutoMode</code></td>
+      <td>Remove auto mode from the cycle</td>
+    </tr>
+    <tr>
+      <td><code>autoMode</code> (<code>environment</code>, <code>allow</code>, <code>soft_deny</code>)</td>
+      <td>Plain-English classifier context — user settings only; keep <code>&quot;$defaults&quot;</code></td>
+    </tr>
+    <tr>
+      <td><code>autoMode.classifyAllShell</code></td>
+      <td>Send every shell command through the classifier</td>
+    </tr>
+    <tr>
+      <td><code>useAutoModeDuringPlan</code></td>
+      <td>Classifier reviews shell commands in plan mode</td>
+    </tr>
+    <tr>
+      <td><code>allowManagedPermissionRulesOnly</code></td>
+      <td>Only managed rules apply (managed)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="sandbox">Sandbox<a class="heading-anchor" href="#sandbox" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>sandbox.enabled</code></td>
+      <td>OS sandbox for Bash (macOS, Linux, WSL2)</td>
+    </tr>
+    <tr>
+      <td><code>sandbox.failIfUnavailable</code></td>
+      <td>Refuse to start rather than run unsandboxed</td>
+    </tr>
+    <tr>
+      <td><code>sandbox.autoAllowBashIfSandboxed</code></td>
+      <td>Sandboxed commands don&rsquo;t prompt</td>
+    </tr>
+    <tr>
+      <td><code>sandbox.allowUnsandboxedCommands</code></td>
+      <td>Allow or forbid retrying outside the sandbox (strict mode)</td>
+    </tr>
+    <tr>
+      <td><code>sandbox.excludedCommands</code></td>
+      <td>Commands that run outside it, e.g. <code>[&quot;docker *&quot;]</code></td>
+    </tr>
+    <tr>
+      <td><code>sandbox.filesystem.allowWrite</code> / <code>denyRead</code> / <code>denyWrite</code></td>
+      <td>Path controls</td>
+    </tr>
+    <tr>
+      <td><code>sandbox.network.allowedDomains</code> / <code>deniedDomains</code></td>
+      <td>Domain allowlist / blocklist</td>
+    </tr>
+    <tr>
+      <td><code>sandbox.network.strictAllowlist</code></td>
+      <td>Deny unlisted hosts instead of prompting</td>
+    </tr>
+    <tr>
+      <td><code>sandbox.network.allowManagedDomainsOnly</code></td>
+      <td>Lock the allowlist to managed settings</td>
+    </tr>
+    <tr>
+      <td><code>sandbox.credentials.envVars</code> / <code>files</code></td>
+      <td>Hide or mask credentials inside the sandbox</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="model-and-responses">Model and responses<a class="heading-anchor" href="#model-and-responses" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>model</code></td>
+      <td>Starting model (<code>opus</code>, <code>sonnet</code>, <code>haiku</code>, <code>fable</code>, or an ID)</td>
+    </tr>
+    <tr>
+      <td><code>effortLevel</code></td>
+      <td>Default effort</td>
+    </tr>
+    <tr>
+      <td><code>maxEffortLevel</code></td>
+      <td>Cap effort, globally or per model in <code>modelSettings</code></td>
+    </tr>
+    <tr>
+      <td><code>availableModels</code>, <code>enforceAvailableModels</code>, <code>deniedModels</code></td>
+      <td>Restrict the picker and the default</td>
+    </tr>
+    <tr>
+      <td><code>fallbackModel</code></td>
+      <td>Backups when the primary is overloaded</td>
+    </tr>
+    <tr>
+      <td><code>modelOverrides</code></td>
+      <td>Map IDs to provider IDs (e.g. Bedrock ARNs)</td>
+    </tr>
+    <tr>
+      <td><code>fastMode</code></td>
+      <td>Fast mode on where available</td>
+    </tr>
+    <tr>
+      <td><code>outputStyle</code>, <code>language</code></td>
+      <td>Response style; response language</td>
+    </tr>
+    <tr>
+      <td><code>promptCacheTtl</code>, <code>subagentPromptCacheTtl</code></td>
+      <td>Prompt cache lifetime</td>
+    </tr>
+    <tr>
+      <td><code>modelPricing</code></td>
+      <td>Report cost at your contracted rates</td>
+    </tr>
+    <tr>
+      <td><code>advisorModel</code></td>
+      <td>Model the advisor tool consults</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="memory-and-context">Memory and context<a class="heading-anchor" href="#memory-and-context" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>autoCompactEnabled</code>, <code>autoCompactWindow</code>, <code>idleCompaction</code></td>
+      <td>Compaction behaviour</td>
+    </tr>
+    <tr>
+      <td><code>autoMemoryEnabled</code>, <code>autoMemoryDirectory</code></td>
+      <td>Auto memory on/off and location</td>
+    </tr>
+    <tr>
+      <td><code>claudeMdExcludes</code></td>
+      <td>Skip specific <code>CLAUDE.md</code> files (monorepos)</td>
+    </tr>
+    <tr>
+      <td><code>claudeMd</code></td>
+      <td>Organisation-wide instructions from managed settings</td>
+    </tr>
+    <tr>
+      <td><code>env</code></td>
+      <td>Environment variables for every session and subprocess</td>
+    </tr>
+    <tr>
+      <td><code>bashOutputMaxChars</code></td>
+      <td>How much command output Claude receives inline</td>
+    </tr>
+    <tr>
+      <td><code>fileCheckpointingEnabled</code></td>
+      <td>Snapshots that <code>/rewind</code> restores</td>
+    </tr>
+    <tr>
+      <td><code>plansDirectory</code></td>
+      <td>Where plan mode writes plans</td>
+    </tr>
+    <tr>
+      <td><code>skillListingBudgetFraction</code>, <code>skillListingMaxDescChars</code></td>
+      <td>Context reserved for the skill list</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="mcp">MCP<a class="heading-anchor" href="#mcp" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>enableAllProjectMcpServers</code></td>
+      <td>Approve every <code>.mcp.json</code> server without asking</td>
+    </tr>
+    <tr>
+      <td><code>enabledMcpjsonServers</code> / <code>disabledMcpjsonServers</code></td>
+      <td>Approve or reject specific project servers</td>
+    </tr>
+    <tr>
+      <td><code>allowedMcpServers</code> / <code>deniedMcpServers</code></td>
+      <td>Allow- and blocklists (by name, URL or command)</td>
+    </tr>
+    <tr>
+      <td><code>allowManagedMcpServersOnly</code>, <code>managedMcpServers</code></td>
+      <td>Lock to, or provide, managed servers</td>
+    </tr>
+    <tr>
+      <td><code>disableClaudeAiConnectors</code></td>
+      <td>Don&rsquo;t fetch claude.ai connectors</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="plugins-and-skills">Plugins and skills<a class="heading-anchor" href="#plugins-and-skills" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>enabledPlugins</code></td>
+      <td>Turn plugins on or off per scope (<code>name@marketplace</code>)</td>
+    </tr>
+    <tr>
+      <td><code>extraKnownMarketplaces</code></td>
+      <td>Register marketplaces for the repo or organisation</td>
+    </tr>
+    <tr>
+      <td><code>strictKnownMarketplaces</code>, <code>blockedMarketplaces</code></td>
+      <td>Restrict marketplace sources</td>
+    </tr>
+    <tr>
+      <td><code>strictPluginOnlyCustomization</code></td>
+      <td>Skills, agents, hooks, MCP only from plugins or policy</td>
+    </tr>
+    <tr>
+      <td><code>skillOverrides</code></td>
+      <td>Hide or collapse a skill without editing it</td>
+    </tr>
+    <tr>
+      <td><code>disableBundledSkills</code>, <code>disableSkillShellExecution</code></td>
+      <td>Turn off bundled skills; block inline shell in skills</td>
+    </tr>
+    <tr>
+      <td><code>syncClaudeAiSkills</code>, <code>syncClaudeAiPlugins</code></td>
+      <td>Stop syncing from claude.ai</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="hooks-and-automation">Hooks and automation<a class="heading-anchor" href="#hooks-and-automation" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>hooks</code></td>
+      <td>Hook configuration — see the <a href="/enterprise-ai/claude/claude-code-hooks-reference/">hooks reference</a></td>
+    </tr>
+    <tr>
+      <td><code>disableAllHooks</code></td>
+      <td>Turn off hooks, status line and custom file suggestion</td>
+    </tr>
+    <tr>
+      <td><code>allowManagedHooksOnly</code>, <code>allowedHttpHookUrls</code>, <code>httpHookAllowedEnvVars</code></td>
+      <td>Restrict hooks</td>
+    </tr>
+    <tr>
+      <td><code>enableWorkflows</code>, <code>disableWorkflows</code>, <code>workflowSizeGuideline</code></td>
+      <td>Dynamic workflows</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="git-worktrees-and-agents">Git, worktrees and agents<a class="heading-anchor" href="#git-worktrees-and-agents" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>attribution.commit</code>, <code>attribution.pr</code></td>
+      <td>Change or hide the commit trailer and PR line</td>
+    </tr>
+    <tr>
+      <td><code>includeGitInstructions</code></td>
+      <td>Remove built-in commit/PR instructions</td>
+    </tr>
+    <tr>
+      <td><code>prUrlTemplate</code></td>
+      <td>PR links to an internal review tool</td>
+    </tr>
+    <tr>
+      <td><code>worktree.symlinkDirectories</code>, <code>worktree.sparsePaths</code>, <code>worktree.baseRef</code></td>
+      <td>Worktree creation</td>
+    </tr>
+    <tr>
+      <td><code>agent</code></td>
+      <td>Start every session as a named sub-agent</td>
+    </tr>
+    <tr>
+      <td><code>teammateMode</code></td>
+      <td>How agent-team teammates display</td>
+    </tr>
+    <tr>
+      <td><code>disableAgentView</code>, <code>processWrapper</code></td>
+      <td>Background agents off, or via a corporate launcher</td>
+    </tr>
+    <tr>
+      <td><code>cleanupPeriodDays</code></td>
+      <td>Transcript retention</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="interface-personal">Interface (personal)<a class="heading-anchor" href="#interface-personal" aria-label="Link to this section">#</a></h3>
+<p><code>theme</code>, <code>tui</code>, <code>editorMode</code> (vim), <code>statusLine</code>, <code>viewMode</code>, <code>spinnerTipsEnabled</code>, <code>prefersReducedMotion</code>, <code>respectGitignore</code>, <code>preferredNotifChannel</code>, <code>voice</code>, <code>companyAnnouncements</code> (managed).</p>
+<h3 id="enterprise-and-updates">Enterprise and updates<a class="heading-anchor" href="#enterprise-and-updates" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>forceLoginMethod</code>, <code>forceLoginOrgUUID</code>, <code>allowedProviders</code></td>
+      <td>Who and how people sign in</td>
+    </tr>
+    <tr>
+      <td><code>apiKeyHelper</code>, <code>awsAuthRefresh</code>, <code>gcpAuthRefresh</code></td>
+      <td>Credentials from your own command</td>
+    </tr>
+    <tr>
+      <td><code>minimumVersion</code>, <code>requiredMinimumVersion</code>, <code>requiredMaximumVersion</code>, <code>autoUpdatesChannel</code></td>
+      <td>Versions</td>
+    </tr>
+    <tr>
+      <td><code>policyHelper</code></td>
+      <td>Executable that computes managed settings at start</td>
+    </tr>
+    <tr>
+      <td><code>forceRemoteSettingsRefresh</code></td>
+      <td>Block start until server-managed settings are fresh</td>
+    </tr>
+    <tr>
+      <td><code>wslInheritsWindowsSettings</code></td>
+      <td>WSL reads Windows policy</td>
+    </tr>
+    <tr>
+      <td><code>disableSideloadFlags</code></td>
+      <td>Reject CLI flags that sideload plugins, agents, MCP</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="environment-variables-worth-knowing">Environment variables worth knowing<a class="heading-anchor" href="#environment-variables-worth-knowing" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ANTHROPIC_API_KEY</code></td>
+      <td>API key — <strong>overrides your subscription login</strong> when set</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CODE_OAUTH_TOKEN</code></td>
+      <td>Subscription token for CI (<code>claude setup-token</code>)</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CODE_USE_BEDROCK</code> / <code>_VERTEX</code> / <code>_FOUNDRY</code></td>
+      <td>Select a cloud provider</td>
+    </tr>
+    <tr>
+      <td><code>ANTHROPIC_BASE_URL</code></td>
+      <td>Route through a proxy or LLM gateway</td>
+    </tr>
+    <tr>
+      <td><code>ANTHROPIC_MODEL</code>, <code>ANTHROPIC_DEFAULT_{OPUS,SONNET,HAIKU}_MODEL</code></td>
+      <td>Model and alias resolution</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CODE_SUBAGENT_MODEL</code></td>
+      <td>Default model for sub-agents, teammates and workflow agents</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CODE_MAX_OUTPUT_TOKENS</code></td>
+      <td>Output token cap</td>
+    </tr>
+    <tr>
+      <td><code>BASH_DEFAULT_TIMEOUT_MS</code></td>
+      <td>Foreground command timeout (default 2 min)</td>
+    </tr>
+    <tr>
+      <td><code>MCP_TIMEOUT</code>, <code>MAX_MCP_OUTPUT_TOKENS</code></td>
+      <td>MCP start-up timeout (30 s); MCP output cap (25,000 tokens)</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CODE_ENABLE_TELEMETRY</code> + <code>OTEL_*</code></td>
+      <td>OpenTelemetry export</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC</code></td>
+      <td>No auto-update, telemetry, error reports or feedback</td>
+    </tr>
+    <tr>
+      <td><code>DISABLE_AUTOUPDATER</code></td>
+      <td>Keep manual <code>claude update</code> only</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB</code></td>
+      <td>Strip credentials from Bash, hooks and stdio MCP environments</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP</code></td>
+      <td>Consecutive <code>Stop</code>-hook blocks allowed (default 8)</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS</code></td>
+      <td>Enable agent teams</td>
+    </tr>
+    <tr>
+      <td><code>CLAUDE_CONFIG_DIR</code></td>
+      <td>Use another config directory (isolated runs)</td>
+    </tr>
+    <tr>
+      <td><code>HTTPS_PROXY</code></td>
+      <td>Corporate proxy</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Put shared variables in a settings file&rsquo;s <code>env</code> block rather than shell profiles, so every session and subprocess gets them.</p>
+<h2 id="example-a-developers-user-settings">Example: a developer&rsquo;s user settings<a class="heading-anchor" href="#example-a-developers-user-settings" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;$schema&#34;</span><span class="p">:</span> <span class="s2">&#34;https://json.schemastore.org/claude-code-settings.json&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;model&#34;</span><span class="p">:</span> <span class="s2">&#34;opus&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;effortLevel&#34;</span><span class="p">:</span> <span class="s2">&#34;medium&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;theme&#34;</span><span class="p">:</span> <span class="s2">&#34;auto&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;statusLine&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;command&#34;</span><span class="p">,</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;~/.claude/statusline.sh&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;autoMode&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;environment&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;$defaults&#34;</span><span class="p">,</span> <span class="s2">&#34;Source control: github.com/example-org&#34;</span><span class="p">,</span> <span class="s2">&#34;Trusted internal domains: *.internal.example.com&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;allow&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;$defaults&#34;</span><span class="p">,</span> <span class="s2">&#34;Deploying to the staging namespace is fine; it resets nightly&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="example-a-teams-claudesettingsjson">Example: a team&rsquo;s <code>.claude/settings.json</code><a class="heading-anchor" href="#example-a-teams-claudesettingsjson" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;$schema&#34;</span><span class="p">:</span> <span class="s2">&#34;https://json.schemastore.org/claude-code-settings.json&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;permissions&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;allow&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;Bash(./mvnw *)&#34;</span><span class="p">,</span> <span class="s2">&#34;Bash(git diff *)&#34;</span><span class="p">,</span> <span class="s2">&#34;Bash(gh pr view *)&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;ask&#34;</span><span class="p">:</span>   <span class="p">[</span><span class="s2">&#34;Bash(git push *)&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;deny&#34;</span><span class="p">:</span>  <span class="p">[</span><span class="s2">&#34;Read(./.env)&#34;</span><span class="p">,</span> <span class="s2">&#34;Read(./.env.*)&#34;</span><span class="p">,</span> <span class="s2">&#34;Read(./secrets/**)&#34;</span><span class="p">,</span> <span class="s2">&#34;Edit(/src/gen/**)&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;SPRING_PROFILES_ACTIVE&#34;</span><span class="p">:</span> <span class="s2">&#34;local&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;PostToolUse&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;matcher&#34;</span><span class="p">:</span> <span class="s2">&#34;Edit|Write&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;command&#34;</span><span class="p">,</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;./mvnw -q spotless:apply&#34;</span> <span class="p">}]</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;Stop&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;hooks&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;command&#34;</span><span class="p">,</span> <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;./mvnw -q -DskipITs test 1&gt;&amp;2 || exit 2&#34;</span> <span class="p">}]</span> <span class="p">}]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;extraKnownMarketplaces&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;acme-tools&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;github&#34;</span><span class="p">,</span> <span class="nt">&#34;repo&#34;</span><span class="p">:</span> <span class="s2">&#34;acme/claude-plugins&#34;</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;enabledPlugins&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;acme-reviewer@acme-tools&#34;</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;attribution&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;commit&#34;</span><span class="p">:</span> <span class="s2">&#34;Co-Authored-By: Claude &lt;noreply@anthropic.com&gt;&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="example-organisation-managed-settings">Example: organisation managed settings<a class="heading-anchor" href="#example-organisation-managed-settings" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;permissions&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;deny&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;Read(**/.env)&#34;</span><span class="p">,</span> <span class="s2">&#34;Read(**/secrets/**)&#34;</span><span class="p">,</span> <span class="s2">&#34;Read(~/.aws/**)&#34;</span><span class="p">,</span> <span class="s2">&#34;Bash(curl * | bash)&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;disableBypassPermissionsMode&#34;</span><span class="p">:</span> <span class="s2">&#34;disable&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;sandbox&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;enabled&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;failIfUnavailable&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;network&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;allowedDomains&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;github.com&#34;</span><span class="p">,</span> <span class="s2">&#34;*.npmjs.org&#34;</span><span class="p">,</span> <span class="s2">&#34;*.internal.example.com&#34;</span><span class="p">]</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;allowManagedMcpServersOnly&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;strictKnownMarketplaces&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;github&#34;</span><span class="p">,</span> <span class="nt">&#34;repo&#34;</span><span class="p">:</span> <span class="s2">&#34;acme/claude-plugins&#34;</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;maxEffortLevel&#34;</span><span class="p">:</span> <span class="s2">&#34;xhigh&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;minimumVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;2.1.300&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;CLAUDE_CODE_ENABLE_TELEMETRY&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;OTEL_METRICS_EXPORTER&#34;</span><span class="p">:</span> <span class="s2">&#34;otlp&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;OTEL_EXPORTER_OTLP_ENDPOINT&#34;</span><span class="p">:</span> <span class="s2">&#34;https://otel.internal.example.com:4317&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Structured keys such as <code>strictKnownMarketplaces</code> accept more source types (<code>git</code>, <code>url</code>, host patterns) — see the reference before deploying.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading"><code>autoMode</code> in project settings</span></p>
+  <div class="callout__body"><p>The classifier ignores <code>autoMode</code> in project files, and omitting <code>&quot;$defaults&quot;</code> replaces the built-in rules — including the blocks on force pushes and production deploys.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Expecting a local allow to beat a project ask</span></p>
+  <div class="callout__body"><p>Permission rules combine by kind: deny beats ask beats allow across all files. &ldquo;Yes, and don&rsquo;t ask again&rdquo; saves an allow to your local file, which won&rsquo;t silence a team <code>ask</code> rule.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading"><code>ANTHROPIC_API_KEY</code> left in a shell profile</span></p>
+  <div class="callout__body"><p>It silently overrides your subscription login and bills the API key. Set it only where you mean to.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Secrets in committed <code>env</code></span></p>
+  <div class="callout__body"><p><code>.claude/settings.json</code> is in Git. Use <code>apiKeyHelper</code>, your secret manager, or <code>settings.local.json</code>.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>The organisation denies <code>Read(**/.env)</code>; a developer adds <code>Read(./.env)</code> to their local allow list. Can Claude read <code>.env</code>?</strong>
+No. Arrays merge across scopes and deny wins over allow.</p>
+<p><strong>Where must <code>autoMode</code> customisation go, and why keep <code>&quot;$defaults&quot;</code>?</strong>
+In <code>~/.claude/settings.json</code> (user settings); without <code>&quot;$defaults&quot;</code> your entries replace the built-in list rather than extend it.</p>
+<p><strong>Which keys are honoured from any scope even if managed settings disagree?</strong>
+Restrictive ones such as <code>permissions.blockWritesOutsideWorkingDirectories: true</code> and <code>disableClaudeAiConnectors: true</code> — a developer can always make their own session stricter.</p>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/settings" rel="noopener">Settings</a> and <a href="https://code.claude.com/docs/en/settings-reference" rel="noopener">All settings</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/permissions" rel="noopener">Configure permissions</a> and <a href="https://code.claude.com/docs/en/sandboxing" rel="noopener">Sandboxing</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/env-vars" rel="noopener">Environment variables</a> and <a href="https://code.claude.com/docs/en/settings-example" rel="noopener">Example settings files</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/managed-settings" rel="noopener">Managed settings</a> and <a href="https://code.claude.com/docs/en/managed-mcp" rel="noopener">Control MCP server access</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-mcp-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-hooks-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: hooks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-for-teams/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Code for teams</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Cheatsheet: commands</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: output styles &amp; status line</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-hooks-reference/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Reference: hooks</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-skills-reference/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Reference: skills</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#files">Files</a></li>
+    <li><a href="#precedence-and-merging">Precedence and merging</a></li>
+    <li><a href="#permission-rule-syntax">Permission rule syntax</a></li>
+    <li><a href="#most-used-keys-by-area">Most-used keys by area</a>
+      <ul>
+        <li><a href="#permissions">Permissions</a></li>
+        <li><a href="#sandbox">Sandbox</a></li>
+        <li><a href="#model-and-responses">Model and responses</a></li>
+        <li><a href="#memory-and-context">Memory and context</a></li>
+        <li><a href="#mcp">MCP</a></li>
+        <li><a href="#plugins-and-skills">Plugins and skills</a></li>
+        <li><a href="#hooks-and-automation">Hooks and automation</a></li>
+        <li><a href="#git-worktrees-and-agents">Git, worktrees and agents</a></li>
+        <li><a href="#interface-personal">Interface (personal)</a></li>
+        <li><a href="#enterprise-and-updates">Enterprise and updates</a></li>
+      </ul>
+    </li>
+    <li><a href="#environment-variables-worth-knowing">Environment variables worth knowing</a></li>
+    <li><a href="#example-a-developers-user-settings">Example: a developer&rsquo;s user settings</a></li>
+    <li><a href="#example-a-teams-claudesettingsjson">Example: a team’s <code>.claude/settings.json</code></a></li>
+    <li><a href="#example-organisation-managed-settings">Example: organisation managed settings</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

@@ -14,6 +14,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-models-and-selection/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/agent-frameworks/framework-landscape/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -38,6 +42,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-api-for-developers/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/foundations/how-llms-work/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -55,6 +63,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/spring-ai-rag/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-in-practice/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -86,6 +98,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-best-practices-cheatsheet/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/foundations/inference-and-serving/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -103,6 +119,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/spring-ai-governance/ai-security/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-commands-cheatsheet/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -130,6 +150,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-hooks-reference/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agentic-workflow-patterns/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -146,6 +170,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-settings-reference/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/foundations/finetuning-in-depth/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -154,7 +182,15 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-skills-reference/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/foundations/dataset-engineering/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-subagents-reference/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -174,11 +210,19 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-mcp-reference/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/foundations/evaluating-ai-systems/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-harness-and-skills/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-plugins-reference/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -190,7 +234,15 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-output-styles-and-status-line/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-identity-and-access/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-agent-sdk/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -206,7 +258,15 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-automation-and-parallel-work/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/agentic-ai/agent-building-playbook/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-for-teams/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -218,11 +278,23 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-troubleshooting/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/claude-across-the-sdlc/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/foundations/llmops/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/foundations/genai-adoption-strategy/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/using-claude-intelligently/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -250,6 +322,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/claude/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/review/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -270,6 +346,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/api/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/architecture/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -282,7 +362,15 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/best-practices/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/case-study/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/cheatsheet/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -290,7 +378,23 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/ci-cd/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/claude/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/cli/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/compliance/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/configuration/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -307,6 +411,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/deployment/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/developer-tools/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -354,11 +462,19 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/hooks/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/implementation/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/inference/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/integration/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -386,6 +502,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/model-selection/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/multi-agent/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -407,6 +527,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/platform/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/plugins/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -450,11 +574,23 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/sdk/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/sdlc/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/search/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/security/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/skills/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -483,6 +619,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://samirsahoo.github.io/enterprise-ai/tags/transformer/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://samirsahoo.github.io/enterprise-ai/tags/troubleshooting/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>

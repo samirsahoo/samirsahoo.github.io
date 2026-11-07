@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code for Teams and Organisations · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Rolling Claude Code out beyond one developer: what to commit to the repo, settings precedence, managed settings and what admins can enforce, API providers and gateways, plugin marketplaces, cost benchmarks and spend controls, analytics and OpenTelemetry, data handling, and a phased rollout plan.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-for-teams/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code for Teams and Organisations">
+<meta property="og:description" content="Rolling Claude Code out beyond one developer: what to commit to the repo, settings precedence, managed settings and what admins can enforce, API providers and gateways, plugin marketplaces, cost benchmarks and spend controls, analytics and OpenTelemetry, data handling, and a phased rollout plan.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-for-teams/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code for Teams and Organisations">
+<meta name="twitter:description" content="Rolling Claude Code out beyond one developer: what to commit to the repo, settings precedence, managed settings and what admins can enforce, API providers and gateways, plugin marketplaces, cost benchmarks and spend controls, analytics and OpenTelemetry, data handling, and a phased rollout plan.">
+<meta name="keywords" content="claude, developer-tools, governance, enterprise, security">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"Rolling Claude Code out beyond one developer: what to commit to the repo, settings precedence, managed settings and what admins can enforce, API providers and gateways, plugin marketplaces, cost benchmarks and spend controls, analytics and OpenTelemetry, data handling, and a phased rollout plan.","headline":"Claude Code for Teams and Organisations","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, governance, enterprise, security","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-for-teams/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-for-teams/","name":"Claude Code for teams","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/" aria-current="page">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Claude Code for teams</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code for Teams and Organisations</h1><p class="article__lede" itemprop="description">Rolling Claude Code out beyond one developer: what to commit to the repo, settings precedence, managed settings and what admins can enforce, API providers and gateways, plugin marketplaces, cost benchmarks and spend controls, analytics and OpenTelemetry, data handling, and a phased rollout plan.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/governance/">#Governance</a><a class="tag" href="/enterprise-ai/tags/enterprise/">#Enterprise</a><a class="tag" href="/enterprise-ai/tags/security/">#Security</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>, <a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#what-to-commit-to-the-repository">What to commit to the repository</a></li>
+    <li><a href="#settings-precedence">Settings precedence</a></li>
+    <li><a href="#managed-settings-delivery">Managed settings: delivery</a></li>
+    <li><a href="#managed-settings-what-admins-can-enforce">Managed settings: what admins can enforce</a></li>
+    <li><a href="#choosing-a-provider">Choosing a provider</a></li>
+    <li><a href="#sharing-extensions-with-plugins">Sharing extensions with plugins</a></li>
+    <li><a href="#cost-benchmarks-and-controls">Cost: benchmarks and controls</a></li>
+    <li><a href="#visibility-analytics-and-telemetry">Visibility: analytics and telemetry</a></li>
+    <li><a href="#data-handling">Data handling</a></li>
+    <li><a href="#a-phased-rollout">A phased rollout</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>For a team, Claude Code configuration has three owners. <strong>The repository</strong> carries shared conventions, permissions, hooks, skills, agents and MCP servers, committed like any other code. <strong>Each developer</strong> keeps personal preferences in local and user files. <strong>The organisation</strong> sets policy through <strong>managed settings</strong> that no one else can override, and watches usage and spend through analytics and telemetry.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>From Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/admin-setup" rel="noopener">Set up Claude Code for your organization</a>, <a href="https://code.claude.com/docs/en/settings" rel="noopener">Settings</a>, <a href="https://code.claude.com/docs/en/costs" rel="noopener">Costs</a>, <a href="https://code.claude.com/docs/en/analytics" rel="noopener">Analytics</a>, <a href="https://code.claude.com/docs/en/monitoring-usage" rel="noopener">Monitoring usage</a> and <a href="https://code.claude.com/docs/en/plugin-marketplaces" rel="noopener">Plugin marketplaces</a>, read on 7 November 2026.</p></div>
+</aside><figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-code-team-settings.html" title="How team, personal and managed settings combine — and where usage goes" loading="lazy" style="height: 720px"></iframe>
+  <figcaption>
+    <span>How team, personal and managed settings combine — and where usage goes · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-code-team-settings.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h2 id="what-to-commit-to-the-repository">What to commit to the repository<a class="heading-anchor" href="#what-to-commit-to-the-repository" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Path</th>
+      <th>Purpose</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CLAUDE.md</code></td>
+      <td>Commands, misleading code, decisions not in the repo</td>
+      <td>Under 200 lines; <code>CLAUDE.local.md</code> for personal notes (gitignored)</td>
+    </tr>
+    <tr>
+      <td><code>.claude/rules/*.md</code></td>
+      <td>Path-scoped rules (<code>paths:</code> frontmatter)</td>
+      <td>Load only when matching files are touched</td>
+    </tr>
+    <tr>
+      <td><code>.claude/settings.json</code></td>
+      <td>Permissions, hooks, env, enabled plugins, marketplaces</td>
+      <td><code>deny</code>/<code>ask</code> apply at once; <code>allow</code>, hooks, marketplaces and most <code>env</code> wait for each developer&rsquo;s workspace trust</td>
+    </tr>
+    <tr>
+      <td><code>.claude/skills/</code></td>
+      <td>Team procedures: release, incident runbook, API docs style</td>
+      <td><code>disable-model-invocation: true</code> for anything with side effects</td>
+    </tr>
+    <tr>
+      <td><code>.claude/agents/</code></td>
+      <td>Shared sub-agents (a read-only reviewer, a test writer)</td>
+      <td>Restrict <code>tools</code>; use <code>model: haiku</code> for simple jobs</td>
+    </tr>
+    <tr>
+      <td><code>.mcp.json</code></td>
+      <td>Team MCP servers</td>
+      <td>Each developer approves project servers; keep secrets in env vars</td>
+    </tr>
+    <tr>
+      <td><code>.worktreeinclude</code></td>
+      <td>Gitignored files new worktrees need</td>
+      <td>Small files only</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Bootstrap a teammate</span></p>
+  <div class="callout__body"><p><code>/team-onboarding</code> turns your last 30 days of sessions, commands and MCP usage into a guide a new teammate can paste as their first message. <code>/insights</code> shows how you use Claude Code and where it goes wrong.</p></div>
+</aside><h2 id="settings-precedence">Settings precedence<a class="heading-anchor" href="#settings-precedence" aria-label="Link to this section">#</a></h2>
+<p>Highest first — a key set higher overrides the same key lower down:</p>
+<ol>
+<li><strong>Managed settings</strong> — server-delivered, MDM/registry, or <code>managed-settings.json</code>. Nothing below can override them.</li>
+<li><strong>Command line</strong> — <code>--settings &lt;file|json&gt;</code> for one session.</li>
+<li><strong>Project local</strong> — <code>.claude/settings.local.json</code> (yours, gitignored).</li>
+<li><strong>Shared project</strong> — <code>.claude/settings.json</code> (committed).</li>
+<li><strong>User</strong> — <code>~/.claude/settings.json</code>.</li>
+</ol>
+<ul>
+<li><strong>Arrays merge across scopes.</strong> <code>permissions.allow</code> and <code>permissions.deny</code> collect entries from every level, so developers can <strong>add</strong> to managed lists but <strong>not remove</strong> from them.</li>
+<li><strong>Permission rules combine by kind, not only by level:</strong> a local <code>allow</code> doesn&rsquo;t outrank a project or managed <code>ask</code>. Deny always wins.</li>
+<li>A few restrictive keys (for example <code>blockWritesOutsideWorkingDirectories: true</code>) are honoured from any scope even if managed settings say otherwise.</li>
+<li><code>/status</code> shows which sources are active (<code>Setting sources</code>).</li>
+</ul>
+<h2 id="managed-settings-delivery">Managed settings: delivery<a class="heading-anchor" href="#managed-settings-delivery" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Mechanism</th>
+      <th>Where</th>
+      <th>Priority</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Server-managed</td>
+      <td>Claude admin console (Team/Enterprise), or a self-hosted Claude apps gateway</td>
+      <td>Highest; fetched at start, refreshed hourly</td>
+    </tr>
+    <tr>
+      <td>OS policy</td>
+      <td>macOS plist <code>com.anthropic.claudecode</code>; Windows <code>HKLM\SOFTWARE\Policies\ClaudeCode</code></td>
+      <td>High; admin-only, tamper-resistant</td>
+    </tr>
+    <tr>
+      <td>File</td>
+      <td><code>/Library/Application Support/ClaudeCode/</code>, <code>/etc/claude-code/</code>, <code>C:\Program Files\ClaudeCode\</code> → <code>managed-settings.json</code></td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td>Windows user registry</td>
+      <td><code>HKCU\SOFTWARE\Policies\ClaudeCode</code></td>
+      <td>Lowest; a convenience default, not enforcement</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>WSL reads only the Linux path unless <code>wslInheritsWindowsSettings: true</code> is set in an admin-only Windows source. Mixed providers: server-managed for claude.ai users <strong>plus</strong> a file or OS-policy fallback for everyone else.</p>
+<h2 id="managed-settings-what-admins-can-enforce">Managed settings: what admins can enforce<a class="heading-anchor" href="#managed-settings-what-admins-can-enforce" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Control</th>
+      <th>Keys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Permission rules, and make managed the only source</td>
+      <td><code>permissions.allow/deny</code>, <code>allowManagedPermissionRulesOnly</code></td>
+    </tr>
+    <tr>
+      <td>Ban <code>--dangerously-skip-permissions</code>; remove auto mode; set starting mode</td>
+      <td><code>permissions.disableBypassPermissionsMode</code>, <code>permissions.disableAutoMode</code>, <code>permissions.defaultMode</code></td>
+    </tr>
+    <tr>
+      <td>OS sandbox with a network allowlist</td>
+      <td><code>sandbox.enabled</code>, <code>sandbox.network.allowedDomains</code></td>
+    </tr>
+    <tr>
+      <td>MCP servers allowed, denied or provided</td>
+      <td><code>allowedMcpServers</code>, <code>deniedMcpServers</code>, <code>allowManagedMcpServersOnly</code>, <code>managedMcpServers</code></td>
+    </tr>
+    <tr>
+      <td>Plugin and marketplace sources</td>
+      <td><code>strictKnownMarketplaces</code>, <code>blockedMarketplaces</code>, <code>disableSideloadFlags</code></td>
+    </tr>
+    <tr>
+      <td>Customisations only from plugins or policy</td>
+      <td><code>strictPluginOnlyCustomization</code></td>
+    </tr>
+    <tr>
+      <td>Hooks</td>
+      <td><code>allowManagedHooksOnly</code>, <code>allowedHttpHookUrls</code></td>
+    </tr>
+    <tr>
+      <td>Login method, organisation and provider</td>
+      <td>login enforcement keys, <code>allowedProviders</code></td>
+    </tr>
+    <tr>
+      <td>Models and effort</td>
+      <td><code>availableModels</code>, <code>enforceAvailableModels</code>, <code>maxEffortLevel</code></td>
+    </tr>
+    <tr>
+      <td>Versions</td>
+      <td><code>minimumVersion</code>, <code>requiredMinimumVersion</code>, <code>requiredMaximumVersion</code></td>
+    </tr>
+    <tr>
+      <td>Background agents</td>
+      <td><code>disableAgentView</code>, or <code>processWrapper</code> for a corporate launcher</td>
+    </tr>
+    <tr>
+      <td>Telemetry to Anthropic off</td>
+      <td><code>env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1</code></td>
+    </tr>
+    <tr>
+      <td>Organisation-wide guidance</td>
+      <td>Managed-policy <code>CLAUDE.md</code> (advice, not enforcement)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;permissions&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;deny&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;Read(./.env)&#34;</span><span class="p">,</span> <span class="s2">&#34;Read(./.env.*)&#34;</span><span class="p">,</span> <span class="s2">&#34;Read(**/secrets/**)&#34;</span><span class="p">,</span> <span class="s2">&#34;Bash(curl * | bash)&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;disableBypassPermissionsMode&#34;</span><span class="p">:</span> <span class="s2">&#34;disable&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;sandbox&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;enabled&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nt">&#34;network&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;allowedDomains&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;github.com&#34;</span><span class="p">,</span> <span class="s2">&#34;*.internal.example.com&#34;</span><span class="p">]</span> <span class="p">}</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;maxEffortLevel&#34;</span><span class="p">:</span> <span class="s2">&#34;xhigh&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;minimumVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;2.1.300&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Permissions and sandbox are different layers</span></p>
+  <div class="callout__body"><p>Denying <code>WebFetch</code> blocks Claude&rsquo;s fetch tool, but if Bash is allowed, <code>curl</code> can still reach any URL. Only the sandbox&rsquo;s domain allowlist enforces network limits at the OS level. Use both.</p></div>
+</aside><h2 id="choosing-a-provider">Choosing a provider<a class="heading-anchor" href="#choosing-a-provider" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Provider</th>
+      <th>Choose when</th>
+      <th>Watch out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Claude for Teams / Enterprise</strong></td>
+      <td>Default: one per-seat subscription for Claude Code and claude.ai, nothing to run</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Console (API)</strong></td>
+      <td>API-first, pay-as-you-go</td>
+      <td>No cloud sessions, scheduled cloud tasks, Code Review, Remote Control or Chrome without a claude.ai login</td>
+    </tr>
+    <tr>
+      <td><strong>Amazon Bedrock / Google Cloud Agent Platform / Microsoft Foundry</strong></td>
+      <td>Inherit existing cloud compliance and billing</td>
+      <td>Same feature gaps; org model and effort controls on claude.ai don&rsquo;t apply — use <code>availableModels</code>, <code>model</code>, <code>maxEffortLevel</code> in managed settings</td>
+    </tr>
+    <tr>
+      <td><strong>LLM gateway / Claude apps gateway</strong></td>
+      <td>One endpoint, SSO, per-request audit log, per-user spend limits</td>
+      <td>Gateway sessions aren&rsquo;t eligible for the HIPAA configuration</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Proxies, custom CAs and mTLS: see <a href="https://code.claude.com/docs/en/network-config" rel="noopener">enterprise network configuration</a>.</p>
+<h2 id="sharing-extensions-with-plugins">Sharing extensions with plugins<a class="heading-anchor" href="#sharing-extensions-with-plugins" aria-label="Link to this section">#</a></h2>
+<p>A <strong>plugin</strong> bundles skills, sub-agents, hooks and MCP servers; a <strong>marketplace</strong> is a catalogue of plugins (often a Git repository). Teams publish an internal marketplace and declare it in <code>.claude/settings.json</code> (<code>extraKnownMarketplaces</code>, <code>enabledPlugins</code>), so a clone plus workspace trust installs the team&rsquo;s tooling. Admins restrict sources with <code>strictKnownMarketplaces</code> and can install shared plugins on every machine through managed settings. Review a plugin before trusting it — it runs code on the developer&rsquo;s machine. <code>/skill-doctor</code> shows each skill&rsquo;s context cost and use, so unused ones can be retired.</p>
+<h2 id="cost-benchmarks-and-controls">Cost: benchmarks and controls<a class="heading-anchor" href="#cost-benchmarks-and-controls" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The benchmark</span></p>
+  <div class="callout__body"><p>Across enterprise deployments Anthropic reports an average of about <strong>$13 per developer per active day</strong> and <strong>$150–250 per developer per month</strong>, with 90% of users below <strong>$30 per active day</strong>. Start with a pilot and measure your own.</p></div>
+</aside><div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Lever</th>
+      <th>How</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Biggest habits</td>
+      <td><code>/clear</code> between unrelated tasks; match the model to the job (Sonnet for routine work)</td>
+    </tr>
+    <tr>
+      <td>Context overhead</td>
+      <td>Disable unused MCP servers; move long <code>CLAUDE.md</code> sections into skills; code-intelligence plugins instead of grep-and-read</td>
+    </tr>
+    <tr>
+      <td>Effort</td>
+      <td>Lower for simple work; cap with <code>maxEffortLevel</code></td>
+    </tr>
+    <tr>
+      <td>Parallelism</td>
+      <td>Sub-agents, agent teams and <code>/loop</code> all multiply requests — <code>model: haiku</code>, short summaries</td>
+    </tr>
+    <tr>
+      <td>Hard limits</td>
+      <td>Organisation spend limits (Team/Enterprise), workspace limits (Console), cloud budgets, gateway per-user limits; <code>--max-budget-usd</code> in scripts</td>
+    </tr>
+    <tr>
+      <td>Per-developer view</td>
+      <td><code>/usage</code> breaks usage down by skill, sub-agent, plugin and MCP server</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="visibility-analytics-and-telemetry">Visibility: analytics and telemetry<a class="heading-anchor" href="#visibility-analytics-and-telemetry" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Capability</th>
+      <th>What you get</th>
+      <th>Where</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Analytics dashboard</td>
+      <td>Daily active users, sessions, lines accepted, accept rate; contribution metrics (PRs and lines shipped with Claude Code, via GitHub integration); leaderboard</td>
+      <td><code>claude.ai/analytics/claude-code</code> (Team/Enterprise), Console for API orgs</td>
+    </tr>
+    <tr>
+      <td>Spend report</td>
+      <td>Per-user usage and spend</td>
+      <td>Organisation analytics settings</td>
+    </tr>
+    <tr>
+      <td>Programmatic</td>
+      <td>Enterprise Analytics API, Claude Code Analytics API (Console)</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>OpenTelemetry</td>
+      <td>Metrics and events: sessions, tokens, cost, active time, commits, PRs, edit decisions, hooks, API errors</td>
+      <td>Your collector — all providers</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CLAUDE_CODE_ENABLE_TELEMETRY</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OTEL_METRICS_EXPORTER</span><span class="o">=</span>otlp
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OTEL_LOGS_EXPORTER</span><span class="o">=</span>otlp
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OTEL_EXPORTER_OTLP_ENDPOINT</span><span class="o">=</span>http://otel-collector:4317
+</span></span></code></pre></div><p>Put these in managed settings&rsquo; <code>env</code> so every machine reports. Measure outcomes (lead time, change failure rate, review load) alongside usage — see <a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a>.</p>
+<h2 id="data-handling">Data handling<a class="heading-anchor" href="#data-handling" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>On Team, Enterprise, API and cloud-provider plans, Anthropic <strong>does not train</strong> on your code or prompts; your provider determines retention.</li>
+<li><strong>Zero data retention</strong> is available to qualified Enterprise accounts; a <strong>HIPAA configuration</strong> exists for Enterprise organisations that have it enabled (some features off).</li>
+<li>For request-level audit logging or routing by data sensitivity, put a gateway in front of the provider.</li>
+<li>Code Review, cloud sessions and cloud scheduled tasks run on Anthropic infrastructure — include them in your data classification decisions.</li>
+</ul>
+<h2 id="a-phased-rollout">A phased rollout<a class="heading-anchor" href="#a-phased-rollout" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Do</th>
+      <th>Exit criterion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1. Pilot (2–4 weeks)</strong></td>
+      <td>10–20 volunteers across stacks; managed deny rules for secrets; OTel on</td>
+      <td>Measured cost per active day; top three friction points known</td>
+    </tr>
+    <tr>
+      <td><strong>2. Team baseline</strong></td>
+      <td>Commit <code>CLAUDE.md</code>, <code>.claude/settings.json</code>, a reviewer agent and a release skill to key repos; internal marketplace</td>
+      <td>New joiner productive from a clone</td>
+    </tr>
+    <tr>
+      <td><strong>3. Guardrails</strong></td>
+      <td>Sandbox, <code>disableBypassPermissionsMode</code>, MCP allowlist, version floor, spend limits; branch protection everywhere</td>
+      <td>Policy visible in <code>/status</code> on every machine</td>
+    </tr>
+    <tr>
+      <td><strong>4. Automation</strong></td>
+      <td>GitHub Actions / Code Review on PRs; <code>/schedule</code> for triage; <code>claude -p</code> jobs with caps</td>
+      <td>Automated PRs merged only after human review</td>
+    </tr>
+    <tr>
+      <td><strong>5. Scale and measure</strong></td>
+      <td>Seats for everyone; analytics review monthly; prune unused skills and MCP servers</td>
+      <td>Delivery metrics improve without rising change failure rate</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/communications-kit" rel="noopener">communications kit</a> has launch announcements and FAQ copy; developers can start with the <a href="https://code.claude.com/docs/en/quickstart" rel="noopener">Quickstart</a> and <a href="https://code.claude.com/docs/en/common-workflows" rel="noopener">Common workflows</a>.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Policy in <code>CLAUDE.md</code></span></p>
+  <div class="callout__body"><p>A managed <code>CLAUDE.md</code> is guidance the model weighs. Security policy belongs in managed permission rules, the sandbox and hook restrictions.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Relying on the Windows user registry</span></p>
+  <div class="callout__body"><p><code>HKCU</code> is writable without elevation. Use HKLM, plist, the file path or server-managed settings for anything you must enforce.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Choosing a cloud provider without checking features</span></p>
+  <div class="callout__body"><p>Bedrock, Agent Platform and Foundry credentials alone don&rsquo;t unlock cloud sessions, Code Review or Remote Control. Decide whether developers also need Team or Enterprise seats.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Measuring adoption instead of outcomes</span></p>
+  <div class="callout__body"><p>Lines accepted and active users show usage, not value. Pair them with lead time, defect and review metrics.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>A developer adds an <code>allow</code> rule locally for a command that the organisation lists under <code>deny</code>. What happens?</strong>
+The command is denied. Permission arrays merge across scopes and deny wins; developers can add to managed lists but not remove from them.</p>
+<p><strong>Your organisation uses Amazon Bedrock. How do you cap effort and restrict models?</strong>
+With managed settings — <code>availableModels</code> (plus <code>enforceAvailableModels</code>), <code>model</code> for a default, and <code>maxEffortLevel</code> — because claude.ai organisation model controls don&rsquo;t reach Bedrock sessions.</p>
+<p><strong>What is a reasonable starting budget per developer?</strong>
+About $150–250 a month on average (around $13 per active day), but measure your own in a pilot before committing.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Commit the team&rsquo;s Claude Code setup like code; keep personal preferences in local files.</li>
+<li>Managed settings sit at the top of precedence and merge arrays, so policy can&rsquo;t be removed locally.</li>
+<li>Enforce with permissions <em>and</em> the sandbox; restrict MCP, plugins, hooks, models, effort and versions centrally.</li>
+<li>Pick a provider knowing its feature gaps; add a gateway for audit and per-user limits.</li>
+<li>Pilot, measure cost and outcomes with analytics and OpenTelemetry, then scale in phases.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/admin-setup" rel="noopener">Set up Claude Code for your organization</a> and <a href="https://code.claude.com/docs/en/server-managed-settings" rel="noopener">Configure server-managed settings</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/settings" rel="noopener">Settings</a> and <a href="https://code.claude.com/docs/en/settings-example" rel="noopener">Example settings files</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/costs" rel="noopener">Manage costs effectively</a>, <a href="https://code.claude.com/docs/en/analytics" rel="noopener">Analytics</a> and <a href="https://code.claude.com/docs/en/monitoring-usage" rel="noopener">Monitoring usage</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/plugins" rel="noopener">Plugins</a> and <a href="https://code.claude.com/docs/en/plugin-marketplaces" rel="noopener">Plugin marketplaces</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/security" rel="noopener">Security</a>, <a href="https://code.claude.com/docs/en/zero-data-retention" rel="noopener">Zero data retention</a> and <a href="https://code.claude.com/docs/en/third-party-integrations" rel="noopener">Enterprise deployment overview</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-plugins-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: plugins</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-settings-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: settings</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Automation &amp; parallel work</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/using-claude-intelligently/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Using Claude intelligently</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/agent-identity-and-access/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Agent identity &amp; access</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Automation &amp; parallel work</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-troubleshooting/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Troubleshooting</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#what-to-commit-to-the-repository">What to commit to the repository</a></li>
+    <li><a href="#settings-precedence">Settings precedence</a></li>
+    <li><a href="#managed-settings-delivery">Managed settings: delivery</a></li>
+    <li><a href="#managed-settings-what-admins-can-enforce">Managed settings: what admins can enforce</a></li>
+    <li><a href="#choosing-a-provider">Choosing a provider</a></li>
+    <li><a href="#sharing-extensions-with-plugins">Sharing extensions with plugins</a></li>
+    <li><a href="#cost-benchmarks-and-controls">Cost: benchmarks and controls</a></li>
+    <li><a href="#visibility-analytics-and-telemetry">Visibility: analytics and telemetry</a></li>
+    <li><a href="#data-handling">Data handling</a></li>
+    <li><a href="#a-phased-rollout">A phased rollout</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

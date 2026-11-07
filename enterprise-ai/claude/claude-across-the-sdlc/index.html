@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Across the SDLC · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="A phase-by-phase playbook for using Claude in software delivery — discovery, requirements, architecture, implementation, testing, code review, security, documentation, CI/CD and release, operations and incidents, maintenance and migrations, plus IT activities beyond code — with the right model, example prompts, verification and human checkpoints for each.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-across-the-sdlc/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Across the SDLC">
+<meta property="og:description" content="A phase-by-phase playbook for using Claude in software delivery — discovery, requirements, architecture, implementation, testing, code review, security, documentation, CI/CD and release, operations and incidents, maintenance and migrations, plus IT activities beyond code — with the right model, example prompts, verification and human checkpoints for each.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-across-the-sdlc/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Across the SDLC">
+<meta name="twitter:description" content="A phase-by-phase playbook for using Claude in software delivery — discovery, requirements, architecture, implementation, testing, code review, security, documentation, CI/CD and release, operations and incidents, maintenance and migrations, plus IT activities beyond code — with the right model, example prompts, verification and human checkpoints for each.">
+<meta name="keywords" content="claude, sdlc, developer-tools, architecture-decision">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-06","description":"A phase-by-phase playbook for using Claude in software delivery — discovery, requirements, architecture, implementation, testing, code review, security, documentation, CI/CD and release, operations and incidents, maintenance and migrations, plus IT activities beyond code — with the right model, example prompts, verification and human checkpoints for each.","headline":"Claude Across the SDLC","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, sdlc, developer-tools, architecture-decision","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-across-the-sdlc/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-across-the-sdlc/","name":"Claude across the SDLC","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/" aria-current="page">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Claude across the SDLC</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Across the SDLC</h1><p class="article__lede" itemprop="description">A phase-by-phase playbook for using Claude in software delivery — discovery, requirements, architecture, implementation, testing, code review, security, documentation, CI/CD and release, operations and incidents, maintenance and migrations, plus IT activities beyond code — with the right model, example prompts, verification and human checkpoints for each.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-06">November 6, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/sdlc/">#Sdlc</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/architecture-decision/">#Architecture-Decision</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-lifecycle-at-a-glance">The lifecycle at a glance</a></li>
+    <li><a href="#discovery-and-requirements">Discovery and requirements</a></li>
+    <li><a href="#architecture-and-design">Architecture and design</a></li>
+    <li><a href="#build">Build</a></li>
+    <li><a href="#test">Test</a></li>
+    <li><a href="#code-review-and-security">Code review and security</a></li>
+    <li><a href="#cicd-and-release">CI/CD and release</a></li>
+    <li><a href="#operate-and-incidents">Operate and incidents</a></li>
+    <li><a href="#maintain-and-migrate">Maintain and migrate</a></li>
+    <li><a href="#beyond-code-other-it-activities">Beyond code: other IT activities</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>Using Claude across the <strong>software development lifecycle (SDLC)</strong> means giving it a defined job in each phase — not just autocomplete while coding. In every phase the pattern is the same: <strong>context in</strong> (the artefacts that phase needs), <strong>a specific task</strong>, <strong>a verification step</strong>, and <strong>a human decision</strong> where accountability sits.</p>
+<h2 id="the-lifecycle-at-a-glance">The lifecycle at a glance<a class="heading-anchor" href="#the-lifecycle-at-a-glance" aria-label="Link to this section">#</a></h2>
+<figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-sdlc.html" title="Claude across the SDLC: Claude assists, checks enforce, humans decide" loading="lazy" style="height: 760px"></iframe>
+  <figcaption>
+    <span>Claude across the SDLC: Claude assists, checks enforce, humans decide · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-sdlc.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Claude&rsquo;s job</th>
+      <th>Typical surface</th>
+      <th>Model · effort</th>
+      <th>Verification</th>
+      <th>Human owns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Discovery &amp; requirements</td>
+      <td>Synthesise inputs, draft stories and acceptance criteria, find gaps</td>
+      <td>Claude app, Projects</td>
+      <td>Opus <code>high</code></td>
+      <td>Stakeholder review, traceability</td>
+      <td>Scope and priority</td>
+    </tr>
+    <tr>
+      <td>Architecture &amp; design</td>
+      <td>Generate options, trade-offs, ADR drafts, threat models</td>
+      <td>Claude app, Claude Code (plan mode)</td>
+      <td>Opus/Fable <code>high</code>–<code>xhigh</code></td>
+      <td>Architecture review board</td>
+      <td>The decision</td>
+    </tr>
+    <tr>
+      <td>Build</td>
+      <td>Implement features, refactor, explain code</td>
+      <td>Claude Code</td>
+      <td>Opus <code>xhigh</code>; Sonnet for routine</td>
+      <td>Compile, tests, lint, run</td>
+      <td>The merge</td>
+    </tr>
+    <tr>
+      <td>Test</td>
+      <td>Generate unit/integration/property tests, test data, find gaps</td>
+      <td>Claude Code, CI</td>
+      <td>Sonnet <code>medium</code>–<code>high</code></td>
+      <td>Mutation score, coverage of risky paths</td>
+      <td>Test strategy</td>
+    </tr>
+    <tr>
+      <td>Review &amp; security</td>
+      <td>First-pass review, vulnerability analysis, dependency checks</td>
+      <td><code>/code-review</code>, <code>/security-review</code>, CI action</td>
+      <td>Sonnet/Opus <code>high</code></td>
+      <td>Reproduce each finding</td>
+      <td>Approval</td>
+    </tr>
+    <tr>
+      <td>CI/CD &amp; release</td>
+      <td>Write pipelines and IaC, explain failures, draft release notes</td>
+      <td>Claude Code, headless in CI</td>
+      <td>Sonnet <code>medium</code></td>
+      <td>Pipeline green, policy checks</td>
+      <td>Go/no-go</td>
+    </tr>
+    <tr>
+      <td>Operate &amp; incidents</td>
+      <td>Summarise alerts and logs, propose hypotheses, draft post-mortems</td>
+      <td>Agent with read-only MCP tools</td>
+      <td>Sonnet; Haiku for triage</td>
+      <td>Evidence from telemetry</td>
+      <td>Incident command</td>
+    </tr>
+    <tr>
+      <td>Maintain &amp; migrate</td>
+      <td>Upgrades, framework migrations, dead-code removal, docs refresh</td>
+      <td>Claude Code, batch + parallel worktrees</td>
+      <td>Opus <code>xhigh</code></td>
+      <td>Full test suite, canary</td>
+      <td>Rollout</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="discovery-and-requirements">Discovery and requirements<a class="heading-anchor" href="#discovery-and-requirements" aria-label="Link to this section">#</a></h2>
+<p><strong>Context in:</strong> interview notes, support tickets, process documents, existing API contracts, regulatory text.</p>
+<ul>
+<li>Turn raw notes into <strong>user stories with acceptance criteria</strong> in Given/When/Then form.</li>
+<li>Ask Claude to find <strong>ambiguities, contradictions and missing non-functional requirements</strong> (performance, availability, audit, data retention, accessibility).</li>
+<li>Generate <strong>edge cases</strong> from the business rules — these become test cases later.</li>
+<li>Use Claude Projects (or a shared knowledge base) so every conversation sees the same domain material.</li>
+</ul>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Example prompt</span></p>
+  <div class="callout__body"><p>&ldquo;Here are the refund policy, three support tickets and the current Refund API spec. Draft user stories with Given/When/Then acceptance criteria for partial refunds. Then list every question a product owner must answer before development can start, and every non-functional requirement the documents imply but do not state.&rdquo;</p></div>
+</aside><p><strong>Watch out:</strong> Claude will fill gaps with plausible assumptions. Ask it to <em>mark</em> assumptions explicitly, and have the product owner resolve them.</p>
+<h2 id="architecture-and-design">Architecture and design<a class="heading-anchor" href="#architecture-and-design" aria-label="Link to this section">#</a></h2>
+<p><strong>Context in:</strong> requirements, current architecture (C4 diagrams, ADRs), constraints (cloud, compliance, team skills), quality attribute targets.</p>
+<ul>
+<li><strong>Generate options, not answers</strong>: ask for two or three designs with explicit trade-offs against your quality attributes.</li>
+<li><strong>Draft ADRs</strong> in your template; <strong>draw diagrams</strong> as Mermaid or C4 from the codebase.</li>
+<li><strong>Threat-model</strong> the design (STRIDE per component and data flow).</li>
+<li><strong>Challenge a design</strong>: &ldquo;Act as the architecture review board. What fails first at 10× load? What is the blast radius of each dependency failing?&rdquo; — then check the answers against the <a href="/enterprise-ai/review/architecture-review-framework/">review framework</a>.</li>
+<li>In Claude Code, <strong>plan mode</strong> on the real repository grounds design in the code that exists.</li>
+</ul>
+<p><strong>Watch out:</strong> models are persuasive. Treat a confident trade-off analysis as a hypothesis; validate key numbers (latency, cost, limits) with spikes and documentation.</p>
+<h2 id="build">Build<a class="heading-anchor" href="#build" aria-label="Link to this section">#</a></h2>
+<p><strong>Context in:</strong> the repository, <code>CLAUDE.md</code>, the story and acceptance criteria, related tests.</p>
+<ul>
+<li>Follow the explore → plan → implement → verify loop (<a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>).</li>
+<li>Give one task per session with a clear definition of done: &ldquo;Implement partial refunds per story PAY-412. Done when <code>./mvnw verify</code> passes and the new endpoint is in <code>openapi.yaml</code>.&rdquo;</li>
+<li>Use <strong>test-first</strong> where possible: have Claude write failing tests from the acceptance criteria, review the tests, then implement.</li>
+<li>For refactoring, ask for <strong>behaviour-preserving steps</strong> with tests run after each.</li>
+<li>Use Claude to <strong>explain unfamiliar code</strong> before changing it — especially legacy modules with no documentation.</li>
+</ul>
+<h2 id="test">Test<a class="heading-anchor" href="#test" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Unit and integration tests</strong> from acceptance criteria and from the code&rsquo;s branches.</li>
+<li><strong>Property-based tests</strong> for business invariants (&ldquo;refund total never exceeds captured amount&rdquo;).</li>
+<li><strong>Test data</strong> that respects schemas and privacy rules (synthetic, never copied production PII).</li>
+<li><strong>Gap analysis</strong>: &ldquo;Which behaviours in <code>RefundService</code> have no test? Which tests would still pass if the logic were wrong?&rdquo; — then confirm with <strong>mutation testing</strong>.</li>
+<li><strong>End-to-end and UI checks</strong> with browser automation where it pays off.</li>
+</ul>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Tests that test the implementation</span></p>
+  <div class="callout__body"><p>Generated tests often mirror the code they were written from, so they pass even when the logic is wrong. Write tests from the <em>requirements</em>, review them before implementing, and use mutation testing to check they can fail.</p></div>
+</aside><h2 id="code-review-and-security">Code review and security<a class="heading-anchor" href="#code-review-and-security" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Run <strong>automated first-pass review</strong> on every PR (Claude Code action or <code>/code-review</code>): correctness, error handling, concurrency, API compatibility, adherence to <code>CLAUDE.md</code> rules.</li>
+<li>Run <strong><code>/security-review</code></strong> or a security sub-agent on changes that touch authentication, input handling, crypto, deserialisation or infrastructure.</li>
+<li>Ask for <strong>findings with evidence</strong> — file, line, failing scenario — and tell it to report nothing rather than style nits.</li>
+<li>Combine with deterministic tools (SAST, dependency and secret scanning, licence checks); Claude explains and prioritises their findings and proposes fixes.</li>
+</ul>
+<p><strong>Human owns:</strong> approval. AI review <em>adds</em> a reviewer; it does not replace the accountable one, especially for security-sensitive code.</p>
+<h2 id="cicd-and-release">CI/CD and release<a class="heading-anchor" href="#cicd-and-release" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Author and refactor <strong>pipelines</strong> (GitHub Actions, GitLab CI, Jenkins) and <strong>infrastructure as code</strong> (Terraform, Helm, Kubernetes manifests).</li>
+<li><strong>Explain failing builds</strong>: feed the log and diff; get a root-cause hypothesis and a fix.</li>
+<li>Generate <strong>release notes and changelogs</strong> from merged PRs; draft <strong>migration guides</strong> for breaking changes.</li>
+<li>Run Claude <strong>headless</strong> in CI for repeatable jobs (review, triage, dependency upgrade PRs) with least-privilege tokens.</li>
+</ul>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Plan before apply</span></p>
+  <div class="callout__body"><p>Never let an agent <code>terraform apply</code>, <code>kubectl apply</code> to production or rotate credentials unattended. Have it produce a plan or PR; a human (or a policy-checked pipeline) applies.</p></div>
+</aside><h2 id="operate-and-incidents">Operate and incidents<a class="heading-anchor" href="#operate-and-incidents" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Alert triage</strong>: summarise and group alerts, link them to recent deploys (Haiku is often enough).</li>
+<li><strong>Investigation</strong>: an agent with <strong>read-only</strong> MCP tools for logs, metrics, traces and deploy history proposes hypotheses ranked by evidence.</li>
+<li><strong>Runbooks</strong>: turn tribal knowledge into runbooks; keep them in Git and in a skill the agent can load.</li>
+<li><strong>Post-mortems</strong>: draft the timeline and contributing factors from the incident channel and telemetry; humans write the actions.</li>
+</ul>
+<p><strong>Human owns:</strong> the incident command and every change to production.</p>
+<h2 id="maintain-and-migrate">Maintain and migrate<a class="heading-anchor" href="#maintain-and-migrate" aria-label="Link to this section">#</a></h2>
+<p>Maintenance is where coding agents save the most time, because the work is large, repetitive and verifiable:</p>
+<ul>
+<li><strong>Framework and language upgrades</strong> (Spring Boot 3 → 4, Java 17 → 21, Python 2 leftovers), applied module by module with the test suite as the gate.</li>
+<li><strong>Dependency upgrades</strong> with release-note reading and breaking-change fixes.</li>
+<li><strong>Large mechanical changes</strong> across many repositories: split the work, run sessions in parallel worktrees or as batch jobs, and land small PRs.</li>
+<li><strong>Legacy understanding</strong>: document COBOL, PL/SQL or undocumented services; extract business rules before rewriting them.</li>
+<li><strong>Documentation refresh</strong>: keep READMEs, API docs and diagrams in sync with the code.</li>
+</ul>
+<h2 id="beyond-code-other-it-activities">Beyond code: other IT activities<a class="heading-anchor" href="#beyond-code-other-it-activities" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Activity</th>
+      <th>How Claude helps</th>
+      <th>Guardrail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Project and delivery management</strong></td>
+      <td>Status summaries from tickets and PRs, risk registers, sprint reports</td>
+      <td>Numbers come from the source systems, not the model</td>
+    </tr>
+    <tr>
+      <td><strong>Data and analytics</strong></td>
+      <td>SQL writing and review, query explanation, data-quality checks, notebook analysis</td>
+      <td>Read-only roles; verify results against known totals</td>
+    </tr>
+    <tr>
+      <td><strong>IT support and service desk</strong></td>
+      <td>Ticket classification, suggested replies, knowledge-base articles</td>
+      <td>Human sends replies to customers; PII handling</td>
+    </tr>
+    <tr>
+      <td><strong>Compliance and audit</strong></td>
+      <td>Map controls to evidence, draft policies, check changes against standards</td>
+      <td>Compliance owner signs off; cite sources</td>
+    </tr>
+    <tr>
+      <td><strong>Architecture governance</strong></td>
+      <td>Check designs and repositories against standards and ADRs at scale</td>
+      <td>Findings are reviewed, not auto-enforced</td>
+    </tr>
+    <tr>
+      <td><strong>Onboarding and knowledge</strong></td>
+      <td>Explain the codebase and architecture to new joiners; Q&amp;A over docs</td>
+      <td>Keep docs current; link to sources</td>
+    </tr>
+    <tr>
+      <td><strong>Vendor and technology evaluation</strong></td>
+      <td>Compare options against criteria, summarise documentation</td>
+      <td>Verify claims with the vendor and proofs of concept</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Using Claude only in the build phase</span></p>
+  <div class="callout__body"><p>Most defects and cost originate in requirements and design. An hour of Claude-assisted gap analysis on requirements can save weeks of rework.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">No human checkpoint at the risky step</span></p>
+  <div class="callout__body"><p>Automating review, release or production changes end-to-end removes accountability. Keep explicit human decisions at scope, design, merge, release and production change.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Measuring activity instead of outcomes</span></p>
+  <div class="callout__body"><p>More PRs and more lines are not the goal. Track lead time, change failure rate, escaped defects and time to restore.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>Where in the SDLC does Claude add the most value, and why?</strong>
+Usually in requirements and design (finding gaps early, generating options) and in maintenance (large, repetitive, test-verifiable change). Build-phase gains are real but depend on good tests and review.</p>
+<p><strong>How would you introduce AI code review without slowing teams down?</strong>
+Run it automatically on every PR as an additional reviewer, report only evidence-backed defects, tune it with <code>CLAUDE.md</code> rules, and keep human approval unchanged; measure false-positive rate and review time.</p>
+<p><strong>What should an incident-response agent be allowed to do?</strong>
+Read logs, metrics, traces and deploy history through read-only tools, propose hypotheses and draft communications — never change production without a human decision.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Give Claude a defined job per phase: context in, specific task, verification, human decision.</li>
+<li>Biggest leverage: requirements gap analysis, design options, maintenance and migrations.</li>
+<li>Keep humans at scope, design, merge, release and production change.</li>
+<li>Pair Claude with deterministic tools (tests, SAST, policy checks) — it explains and fixes; tools verify.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://www.anthropic.com/engineering/claude-code-best-practices" rel="noopener">Claude Code best practices</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/github-actions" rel="noopener">Claude Code GitHub Actions</a>.</li>
+<li>Forsgren, Humble, Kim, <em>Accelerate: The Science of Lean Software and DevOps</em>, IT Revolution, 2018 — the delivery metrics used above.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/using-claude-intelligently/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Using Claude intelligently</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/review/architecture-review-framework/">
+        <span class="card__eyebrow">Review</span>
+        <span class="card__title">Architecture review framework</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/llmops/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">LLMOps &amp; observability</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/ai-security/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">AI security</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-in-practice/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Code in practice</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-troubleshooting/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Troubleshooting</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/using-claude-intelligently/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Using Claude intelligently</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#the-lifecycle-at-a-glance">The lifecycle at a glance</a></li>
+    <li><a href="#discovery-and-requirements">Discovery and requirements</a></li>
+    <li><a href="#architecture-and-design">Architecture and design</a></li>
+    <li><a href="#build">Build</a></li>
+    <li><a href="#test">Test</a></li>
+    <li><a href="#code-review-and-security">Code review and security</a></li>
+    <li><a href="#cicd-and-release">CI/CD and release</a></li>
+    <li><a href="#operate-and-incidents">Operate and incidents</a></li>
+    <li><a href="#maintain-and-migrate">Maintain and migrate</a></li>
+    <li><a href="#beyond-code-other-it-activities">Beyond code: other IT activities</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

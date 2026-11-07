@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>The Claude API for Builders · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Building product features on Claude: the Messages API, effort and thinking, tool use and the tool runner, structured outputs, prompt caching, streaming, batches, long-running agents (compaction, Agent SDK, Managed Agents), Spring AI, cloud deployment options and production error handling.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-api-for-developers/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="The Claude API for Builders">
+<meta property="og:description" content="Building product features on Claude: the Messages API, effort and thinking, tool use and the tool runner, structured outputs, prompt caching, streaming, batches, long-running agents (compaction, Agent SDK, Managed Agents), Spring AI, cloud deployment options and production error handling.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-api-for-developers/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Claude API for Builders">
+<meta name="twitter:description" content="Building product features on Claude: the Messages API, effort and thinking, tool use and the tool runner, structured outputs, prompt caching, streaming, batches, long-running agents (compaction, Agent SDK, Managed Agents), Spring AI, cloud deployment options and production error handling.">
+<meta name="keywords" content="claude, api, llm, agents, implementation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-06","description":"Building product features on Claude: the Messages API, effort and thinking, tool use and the tool runner, structured outputs, prompt caching, streaming, batches, long-running agents (compaction, Agent SDK, Managed Agents), Spring AI, cloud deployment options and production error handling.","headline":"The Claude API for Builders","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, api, llm, agents, implementation","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-api-for-developers/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-api-for-developers/","name":"Claude API for builders","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/" aria-current="page">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Claude API for builders</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">The Claude API for Builders</h1><p class="article__lede" itemprop="description">Building product features on Claude: the Messages API, effort and thinking, tool use and the tool runner, structured outputs, prompt caching, streaming, batches, long-running agents (compaction, Agent SDK, Managed Agents), Spring AI, cloud deployment options and production error handling.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>8 min read</li>
+  <li>Reviewed <time datetime="2026-11-06">November 6, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/api/">#Api</a><a class="tag" href="/enterprise-ai/tags/llm/">#Llm</a><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/implementation/">#Implementation</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a>, <a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#start-simple-pick-the-right-surface">Start simple: pick the right surface</a></li>
+    <li><a href="#a-first-request">A first request</a></li>
+    <li><a href="#tools-and-agents">Tools and agents</a></li>
+    <li><a href="#structured-outputs">Structured outputs</a></li>
+    <li><a href="#prompt-caching-the-biggest-free-win">Prompt caching: the biggest free win</a></li>
+    <li><a href="#batches-files-citations-and-documents">Batches, files, citations and documents</a></li>
+    <li><a href="#long-running-work">Long-running work</a></li>
+    <li><a href="#in-java-with-spring-ai">In Java with Spring AI</a></li>
+    <li><a href="#where-claude-runs">Where Claude runs</a></li>
+    <li><a href="#production-checklist">Production checklist</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Claude API</strong> is one HTTP endpoint, <code>POST /v1/messages</code>: you send a model ID, optional system instructions, a list of messages and optional tools; Claude returns content blocks (text, tool calls, thinking). Everything else — tools, structured output, caching, citations, files — is a feature of that one endpoint or a small supporting API (Batches, Files, Models, Token counting). Official SDKs exist for Python, TypeScript, Java, Go, Ruby, C# and PHP.</p>
+<h2 id="start-simple-pick-the-right-surface">Start simple: pick the right surface<a class="heading-anchor" href="#start-simple-pick-the-right-surface" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Need</th>
+      <th>Surface</th>
+      <th>You own</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Classify, summarise, extract, answer</td>
+      <td><strong>Single Messages call</strong></td>
+      <td>The prompt and output handling</td>
+    </tr>
+    <tr>
+      <td>Multi-step pipeline with fixed steps</td>
+      <td><strong>Messages + your code</strong> (a <a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">workflow</a>)</td>
+      <td>The orchestration</td>
+    </tr>
+    <tr>
+      <td>Agent with your own tools</td>
+      <td><strong>Messages + tool runner</strong> (SDK helper that runs the loop)</td>
+      <td>Tools and hosting</td>
+    </tr>
+    <tr>
+      <td>Coding/filesystem agent on your infrastructure</td>
+      <td><strong>Claude Agent SDK</strong> (the Claude Code harness as a library)</td>
+      <td>Hosting and sandboxing</td>
+    </tr>
+    <tr>
+      <td>Hosted, stateful agent with a sandbox, schedules, memory</td>
+      <td><strong>Claude Managed Agents</strong> (Anthropic runs the loop and the container)</td>
+      <td>Agent configuration and tools you expose</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<aside class="callout callout--key" role="note">
+  <p class="callout__title"><span class="callout__label">Key concept</span><span class="callout__heading">The least code you own wins</span></p>
+  <div class="callout__body"><p>Choose the simplest surface that meets the need. Most features are a single call or a short workflow. Reach for an agent only when the task is genuinely open-ended, valuable enough to pay for many calls, and safe to get wrong because errors are caught (tests, review, rollback).</p></div>
+</aside><h2 id="a-first-request">A first request<a class="heading-anchor" href="#a-first-request" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">anthropic</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">()</span>  <span class="c1"># reads ANTHROPIC_API_KEY or an `ant auth login` profile</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;claude-opus-5-5&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">output_config</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;effort&#34;</span><span class="p">:</span> <span class="s2">&#34;medium&#34;</span><span class="p">},</span>   <span class="c1"># low | medium | high | xhigh | max</span>
+</span></span><span class="line"><span class="cl">    <span class="n">system</span><span class="o">=</span><span class="s2">&#34;You are a senior reviewer for a Java payments platform.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;Explain the risk in this diff: ...&#34;</span><span class="p">}],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">stop_reason</span> <span class="o">==</span> <span class="s2">&#34;refusal&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>  <span class="c1"># handle; see fallbacks below</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&#34;text&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">usage</span><span class="p">)</span>  <span class="c1"># input, output and cache token counts — log them</span>
+</span></span></code></pre></div><p>Things to know from the first day:</p>
+<ul>
+<li><strong>Thinking is built in.</strong> Current models think adaptively; control depth with <code>effort</code>, not a token budget (fixed <code>budget_tokens</code> is rejected on current models).</li>
+<li><strong>No prefill.</strong> You cannot start the assistant&rsquo;s reply for it on current models; use structured outputs or instructions instead.</li>
+<li><strong>Stream long work.</strong> For large <code>max_tokens</code> or long tasks, use <code>client.messages.stream(...)</code> and <code>get_final_message()</code> to avoid HTTP timeouts.</li>
+<li><strong>Sampling parameters are going away.</strong> <code>temperature</code>, <code>top_p</code> and <code>top_k</code> are rejected on the newest API version; steer with instructions and effort.</li>
+</ul>
+<h2 id="tools-and-agents">Tools and agents<a class="heading-anchor" href="#tools-and-agents" aria-label="Link to this section">#</a></h2>
+<p>Define tools with a name, description and JSON schema (or a typed function), and let the SDK&rsquo;s <strong>tool runner</strong> drive the call–execute–repeat loop:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">anthropic</span> <span class="kn">import</span> <span class="n">beta_tool</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@beta_tool</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Look up an order by ID and return status, amount and customer tier as JSON.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        order_id: The order identifier, e.g. &#34;ORD-10294&#34;.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">orders_service</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">order_id</span><span class="p">)</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">runner</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">tool_runner</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;claude-sonnet-5-5&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_order</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;Why was ORD-10294 not refunded?&#34;</span><span class="p">}],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">final</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">until_done</span><span class="p">()</span>
+</span></span></code></pre></div><p>Design rules (detail in <a href="/enterprise-ai/agentic-ai/tool-calling/">tool calling</a>):</p>
+<ul>
+<li><strong>Descriptions are prompts.</strong> Say what the tool does, when to use it, and what it returns. Keep the set small and non-overlapping; with many tools, use the <strong>tool search</strong> tool so definitions load on demand.</li>
+<li><strong>Use <code>strict: true</code></strong> on tool definitions to guarantee schema-valid arguments; validate again on the server side anyway.</li>
+<li><strong>Return errors as data</strong> (<code>is_error: true</code>) so the model can recover, and return all parallel tool results in one message.</li>
+<li><strong>Server tools</strong> run on Anthropic&rsquo;s side with no loop code: web search, web fetch, code execution. <strong>MCP servers</strong> can be attached directly through the MCP connector.</li>
+<li>On the newest models, forced tool choice (<code>any</code> / a named tool) is not supported — use <code>auto</code> plus a clear instruction, or structured outputs if you only wanted JSON.</li>
+</ul>
+<h2 id="structured-outputs">Structured outputs<a class="heading-anchor" href="#structured-outputs" aria-label="Link to this section">#</a></h2>
+<p>When you need JSON, constrain the response to a schema instead of asking politely:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Triage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">component</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">severity</span><span class="p">:</span> <span class="nb">str</span>        <span class="c1"># &#34;S1&#34;..&#34;S4&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">duplicate_of</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">summary</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;claude-haiku-5-5&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&#34;Triage this bug report:</span><span class="se">\n</span><span class="si">{</span><span class="n">report</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">}],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">output_format</span><span class="o">=</span><span class="n">Triage</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ticket</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">parsed_output</span>   <span class="c1"># a validated Triage instance</span>
+</span></span></code></pre></div><h2 id="prompt-caching-the-biggest-free-win">Prompt caching: the biggest free win<a class="heading-anchor" href="#prompt-caching-the-biggest-free-win" aria-label="Link to this section">#</a></h2>
+<p>Caching stores a <strong>prefix</strong> of the request (tools → system → messages) so later requests that start with the same bytes pay a fraction of the input price and get faster time to first token.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;claude-sonnet-5-5&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">system</span><span class="o">=</span><span class="p">[{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;text&#34;</span><span class="p">:</span> <span class="n">CODING_STANDARDS_AND_ARCHITECTURE_GUIDE</span><span class="p">,</span>   <span class="c1"># large and stable</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;cache_control&#34;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;ephemeral&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="n">diff_to_review</span><span class="p">}],</span>  <span class="c1"># varies per call</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">cache_read_input_tokens</span><span class="p">)</span>  <span class="c1"># should be &gt; 0 on repeat calls</span>
+</span></span></code></pre></div><ul>
+<li>Put <strong>stable content first</strong> and <strong>volatile content last</strong>. A timestamp, request ID or unsorted JSON in the system prompt silently breaks the cache.</li>
+<li>To add operator instructions mid-conversation on current models, append a <code>system</code>-role message to <code>messages</code> rather than editing the top-level system prompt — the cached prefix survives.</li>
+<li>Verify with <code>cache_read_input_tokens</code>; if it stays at zero, something in the prefix is changing.</li>
+</ul>
+<h2 id="batches-files-citations-and-documents">Batches, files, citations and documents<a class="heading-anchor" href="#batches-files-citations-and-documents" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>What it does</th>
+      <th>Typical engineering use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Message Batches</strong></td>
+      <td>Up to tens of thousands of requests, asynchronous, 50% cheaper</td>
+      <td>Evaluations, back-fills, bulk code or ticket analysis</td>
+    </tr>
+    <tr>
+      <td><strong>Files API</strong></td>
+      <td>Upload once, reference by <code>file_id</code></td>
+      <td>Large specs, PDFs and images reused across calls</td>
+    </tr>
+    <tr>
+      <td><strong>PDF and image input</strong></td>
+      <td>Documents and screenshots as content blocks</td>
+      <td>Reading design documents, architecture diagrams, UI screenshots</td>
+    </tr>
+    <tr>
+      <td><strong>Citations</strong></td>
+      <td>Answers carry exact quoted spans and page numbers</td>
+      <td>Grounded answers over policies and standards</td>
+    </tr>
+    <tr>
+      <td><strong>Token counting</strong></td>
+      <td>Exact token count before you send</td>
+      <td>Budgeting, chunking decisions</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="long-running-work">Long-running work<a class="heading-anchor" href="#long-running-work" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Problem</th>
+      <th>Feature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Conversation approaching the context window</td>
+      <td><strong>Compaction</strong> (server-side summarisation of earlier turns) or <strong>context editing</strong> (clearing old tool results)</td>
+    </tr>
+    <tr>
+      <td>Agent should pace itself within a budget</td>
+      <td><strong>Task budgets</strong> (advisory token budget the model sees)</td>
+    </tr>
+    <tr>
+      <td>Keep state between sessions</td>
+      <td><strong>Memory tool</strong> (file-like memory you store)</td>
+    </tr>
+    <tr>
+      <td>Many short requests in a long loop</td>
+      <td><strong>Message threads</strong> (the API keeps the conversation briefly so you send only new turns)</td>
+    </tr>
+    <tr>
+      <td>Want the full coding-agent harness in your code</td>
+      <td><a href="/enterprise-ai/claude/claude-agent-sdk/"><strong>Claude Agent SDK</strong></a> (<code>claude-agent-sdk</code> / <code>@anthropic-ai/claude-agent-sdk</code>)</td>
+    </tr>
+    <tr>
+      <td>Want Anthropic to host loop, sandbox, schedules and outcomes</td>
+      <td><strong>Claude Managed Agents</strong> — versioned agent configs, per-session containers, vault-held credentials, scheduled deployments, rubric-graded outcomes, multi-agent workflows</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="in-java-with-spring-ai">In Java with Spring AI<a class="heading-anchor" href="#in-java-with-spring-ai" aria-label="Link to this section">#</a></h2>
+<p>Most of this hub&rsquo;s Java examples use <a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI</a>. Switching the Anthropic starter to a current model is configuration:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">spring.ai.anthropic.api-key</span><span class="o">=</span><span class="s">${ANTHROPIC_API_KEY}</span>
+</span></span><span class="line"><span class="cl"><span class="na">spring.ai.anthropic.chat.model</span><span class="o">=</span><span class="s">claude-sonnet-5-5</span>
+</span></span></code></pre></div><p>Spring AI gives portability across vendors; the official Anthropic Java SDK (<code>com.anthropic</code>) gives first access to Claude-specific features such as effort, caching control, fallbacks and Managed Agents. A common pattern is Spring AI for standard chat and RAG, and the native SDK in the few services that need Claude-specific features.</p>
+<h2 id="where-claude-runs">Where Claude runs<a class="heading-anchor" href="#where-claude-runs" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Operated by</th>
+      <th>Choose it when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Claude API</strong> (platform.claude.com)</td>
+      <td>Anthropic</td>
+      <td>You want every feature first, including fast mode, server-side fallbacks and Managed Agents</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Platform on AWS</strong></td>
+      <td>Anthropic, billed through AWS</td>
+      <td>AWS procurement with first-party feature parity</td>
+    </tr>
+    <tr>
+      <td><strong>Amazon Bedrock</strong></td>
+      <td>AWS</td>
+      <td>Your controls, networking and data agreements are built around Bedrock</td>
+    </tr>
+    <tr>
+      <td><strong>Google Cloud</strong> — Vertex AI or Anthropic-managed</td>
+      <td>Google or Anthropic</td>
+      <td>Google Cloud estates</td>
+    </tr>
+    <tr>
+      <td><strong>Microsoft Foundry</strong></td>
+      <td>Microsoft, billed via Marketplace at API rates</td>
+      <td>Azure estates</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Feature availability differs by platform — some beta features, server tools and Managed Agents arrive on the Claude API first. Check the platform table in the documentation before you design around a feature. For residency, the <code>inference_geo</code> parameter pins where inference runs on supported models.</p>
+<h2 id="production-checklist">Production checklist<a class="heading-anchor" href="#production-checklist" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Errors:</strong> catch specific SDK errors (rate limit, overloaded, not found, bad request) and retry only the retryable ones; the SDKs already retry 408/409/429/5xx twice by default.</li>
+<li><strong>Refusals:</strong> check <code>stop_reason</code> before reading content; enable fallbacks on the Claude API (<code>fallbacks=&quot;default&quot;</code> with the <code>server-side-fallback-2026-07-01</code> beta) or the client-side middleware elsewhere.</li>
+<li><strong>Observability:</strong> log model, effort, <code>usage</code> (including cache reads), latency and stop reason per request; the SDKs emit OpenTelemetry spans.</li>
+<li><strong>Secrets:</strong> API keys in a secret manager; prefer workload identity federation over long-lived keys in CI and cloud workloads.</li>
+<li><strong>Prompt injection:</strong> treat tool results, web pages, files and emails as untrusted data; give agents least privilege (<a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a>).</li>
+<li><strong>Versioning:</strong> keep prompts, tool definitions and model IDs in version control and change them through the same review and evaluation gate as code.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Rebuilding what the SDK provides</span></p>
+  <div class="callout__body"><p>Hand-written retry loops, home-made message types and string-matched errors duplicate the SDK and lose type safety. Use the SDK&rsquo;s helpers, typed errors and tool runner.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Appending only the text of a response</span></p>
+  <div class="callout__body"><p>In multi-turn and tool loops, append the full <code>response.content</code> (thinking, tool calls, compaction blocks) back to the conversation. Keeping only the text silently breaks tool use, thinking continuity and compaction.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Volatile data at the top of the prompt</span></p>
+  <div class="callout__body"><p>A date or user ID in the system prompt invalidates the cache on every request — often the single largest avoidable cost in an LLM bill.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Lowballing <code>max_tokens</code></span></p>
+  <div class="callout__body"><p>Hitting the cap truncates the answer mid-thought. Default to about 16K for non-streaming and 64K for streaming requests, and lower only for deliberately short outputs.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>When would you use the Agent SDK instead of the API tool runner?</strong>
+When you want the full Claude Code harness — built-in file, shell and search tools, context management, sub-agents, hooks and permissions — in your own process. The tool runner only loops over tools you define.</p>
+<p><strong>What does Managed Agents add over the Agent SDK?</strong>
+Hosting. Anthropic runs the loop and a per-session sandbox, stores versioned agent configurations, holds credentials in vaults, and supports schedules and graded outcomes.</p>
+<p><strong>How do you make prompt caching effective?</strong>
+Stable content first, volatile content last, deterministic tool lists, no timestamps in the prefix, mid-conversation system messages instead of edits, and verification through <code>cache_read_input_tokens</code>.</p>
+<h2 id="summary">Summary<a class="heading-anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>One endpoint, many features: tools, structured outputs, caching, citations, files.</li>
+<li>Choose the simplest surface: single call → workflow → tool runner → Agent SDK → Managed Agents.</li>
+<li>Effort replaces thinking budgets; stream long work; handle refusals.</li>
+<li>Caching and batches are the biggest cost levers; log <code>usage</code> on every call.</li>
+</ul>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview" rel="noopener">Messages API and tool use overview</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" rel="noopener">Structured outputs</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" rel="noopener">Prompt caching</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" rel="noopener">Batch processing</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/build-with-claude/compaction" rel="noopener">Compaction</a>.</li>
+<li>Anthropic, <a href="https://platform.claude.com/docs/en/managed-agents/overview" rel="noopener">Claude Managed Agents overview</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/agent-sdk" rel="noopener">Claude Agent SDK</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-agent-sdk/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Agent SDK</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/foundations/prompt-engineering/">
+        <span class="card__eyebrow">1 · LLM Foundations</span>
+        <span class="card__title">Prompt &amp; context engineering</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/model-context-protocol/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Python &amp; TypeScript frameworks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">
+        <span class="card__eyebrow">4 · Spring AI &amp; Governance</span>
+        <span class="card__title">Spring AI fundamentals</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-models-and-selection/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Claude models &amp; selection</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-in-practice/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Claude Code in practice</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#start-simple-pick-the-right-surface">Start simple: pick the right surface</a></li>
+    <li><a href="#a-first-request">A first request</a></li>
+    <li><a href="#tools-and-agents">Tools and agents</a></li>
+    <li><a href="#structured-outputs">Structured outputs</a></li>
+    <li><a href="#prompt-caching-the-biggest-free-win">Prompt caching: the biggest free win</a></li>
+    <li><a href="#batches-files-citations-and-documents">Batches, files, citations and documents</a></li>
+    <li><a href="#long-running-work">Long-running work</a></li>
+    <li><a href="#in-java-with-spring-ai">In Java with Spring AI</a></li>
+    <li><a href="#where-claude-runs">Where Claude runs</a></li>
+    <li><a href="#production-checklist">Production checklist</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

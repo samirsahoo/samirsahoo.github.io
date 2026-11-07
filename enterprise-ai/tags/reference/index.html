@@ -178,6 +178,34 @@
 <li class="nav-tree__item">
   <details>
     <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
       <a href="/enterprise-ai/review/">Review</a>
     </summary>
     <ul>
@@ -206,12 +234,60 @@
 
     <header class="article__header">
       <h1>Tagged “Reference”</h1>
-      <p class="article__lede">3 articles with this tag.</p>
+      <p class="article__lede">11 articles with this tag.</p>
     </header><ul class="card-list">
   <li class="card">
     <a class="card__link" href="/enterprise-ai/about/">
       <span class="card__title">About</span><span class="card__desc">Purpose, structure, editorial conventions and versions of the Enterprise AI &amp; Agentic AI Knowledge Hub.</span>
       <span class="card__meta">2 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/claude/claude-code-hooks-reference/">
+      <span class="card__title">Reference: hooks</span><span class="card__desc">Everything needed to write Claude Code hooks: where they live, every event and whether it can block, matchers and the if filter, the five handler types, input JSON, exit codes, JSON decision fields, how hooks interact with permissions, ready-to-use recipes, security and debugging.</span>
+      <span class="card__meta">Advanced · 10 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/claude/claude-code-mcp-reference/">
+      <span class="card__title">Reference: MCP</span><span class="card__desc">Connecting Claude Code to external tools with the Model Context Protocol: transports, claude mcp commands, local, project and user scopes and their precedence, .mcp.json with environment variables, OAuth and headers, tool search, output limits, resources and prompts, permissions for MCP tools, claude.ai connectors, Claude Code as an MCP server, and organisation controls.</span>
+      <span class="card__meta">Intermediate · 7 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">
+      <span class="card__title">Reference: output styles &amp; status line</span><span class="card__desc">Shaping how Claude Code responds and what you see while it works: the built-in output styles (Proactive, Concise, Explanatory, Learning), writing custom styles and when to use another feature instead, and building a status line that shows model, context, cost, git and rate limits.</span>
+      <span class="card__meta">Beginner · 5 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/claude/claude-code-plugins-reference/">
+      <span class="card__title">Reference: plugins</span><span class="card__desc">Packaging and sharing Claude Code extensions as plugins: what a plugin contains, directory layout and components, the plugin.json manifest, namespacing, install scopes, marketplaces and marketplace.json, /plugin and claude plugin commands, developing with --plugin-dir, evals and cost, security and trust, and organisation controls.</span>
+      <span class="card__meta">Intermediate · 6 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/claude/claude-code-settings-reference/">
+      <span class="card__title">Reference: settings</span><span class="card__desc">A practical map of Claude Code configuration: settings files and precedence, how arrays and locks merge, permission rule syntax, the most useful settings keys by area (permissions, sandbox, model, memory, MCP, plugins, hooks, git, worktrees, enterprise), key environment variables, and copy-ready example files for a developer, a team and an organisation.</span>
+      <span class="card__meta">Intermediate · 9 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/claude/claude-code-skills-reference/">
+      <span class="card__title">Reference: skills</span><span class="card__desc">How to write and run Claude Code skills: where SKILL.md files load from, every frontmatter field, who can invoke a skill, arguments, supporting files, dynamic context with !commands, running in a forked sub-agent, pre-approving tools, how skill content stays in context, bundled skills, and troubleshooting.</span>
+      <span class="card__meta">Intermediate · 7 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/claude/claude-code-subagents-reference/">
+      <span class="card__title">Reference: sub-agents</span><span class="card__desc">Defining and using Claude Code sub-agents: built-in Explore, Plan and general-purpose agents, file locations and priority, every frontmatter field, model resolution order, tool restriction, foreground and background runs, forks, nesting and concurrency limits, memory, worktree isolation, example agents, and when not to use one.</span>
+      <span class="card__meta">Intermediate · 6 min read</span>
+    </a>
+  </li>
+  <li class="card">
+    <a class="card__link" href="/enterprise-ai/claude/claude-code-troubleshooting/">
+      <span class="card__title">Troubleshooting</span><span class="card__desc">A practical guide to fixing Claude Code: a triage method (/doctor, /context, safe mode, clean config, debug logs), and symptom tables for installation and login, configuration that doesn&#39;t load (CLAUDE.md, settings, hooks, MCP, skills), API and usage-limit errors, permissions in scripts, performance, context thrashing, search, terminal and clipboard problems.</span>
+      <span class="card__meta">Beginner · 8 min read</span>
     </a>
   </li>
   <li class="card">

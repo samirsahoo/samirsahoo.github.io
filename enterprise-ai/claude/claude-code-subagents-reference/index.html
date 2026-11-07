@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Code Sub-agents Reference · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Defining and using Claude Code sub-agents: built-in Explore, Plan and general-purpose agents, file locations and priority, every frontmatter field, model resolution order, tool restriction, foreground and background runs, forks, nesting and concurrency limits, memory, worktree isolation, example agents, and when not to use one.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-subagents-reference/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Code Sub-agents Reference">
+<meta property="og:description" content="Defining and using Claude Code sub-agents: built-in Explore, Plan and general-purpose agents, file locations and priority, every frontmatter field, model resolution order, tool restriction, foreground and background runs, forks, nesting and concurrency limits, memory, worktree isolation, example agents, and when not to use one.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-code-subagents-reference/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Code Sub-agents Reference">
+<meta name="twitter:description" content="Defining and using Claude Code sub-agents: built-in Explore, Plan and general-purpose agents, file locations and priority, every frontmatter field, model resolution order, tool restriction, foreground and background runs, forks, nesting and concurrency limits, memory, worktree isolation, example agents, and when not to use one.">
+<meta name="keywords" content="claude, developer-tools, reference, agents, multi-agent">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"Defining and using Claude Code sub-agents: built-in Explore, Plan and general-purpose agents, file locations and priority, every frontmatter field, model resolution order, tool restriction, foreground and background runs, forks, nesting and concurrency limits, memory, worktree isolation, example agents, and when not to use one.","headline":"Claude Code Sub-agents Reference","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, developer-tools, reference, agents, multi-agent","proficiencyLevel":"Intermediate","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-subagents-reference/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-code-subagents-reference/","name":"Reference: sub-agents","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/" aria-current="page">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Reference: sub-agents</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Code Sub-agents Reference</h1><p class="article__lede" itemprop="description">Defining and using Claude Code sub-agents: built-in Explore, Plan and general-purpose agents, file locations and priority, every frontmatter field, model resolution order, tool restriction, foreground and background runs, forks, nesting and concurrency limits, memory, worktree isolation, example agents, and when not to use one.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--intermediate">Intermediate</span></li>
+  <li>6 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/reference/">#Reference</a><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/multi-agent/">#Multi-Agent</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#built-in-sub-agents">Built-in sub-agents</a></li>
+    <li><a href="#where-definitions-live">Where definitions live</a></li>
+    <li><a href="#definition-format">Definition format</a></li>
+    <li><a href="#frontmatter">Frontmatter</a></li>
+    <li><a href="#which-model-runs-it">Which model runs it</a></li>
+    <li><a href="#invoking">Invoking</a></li>
+    <li><a href="#foreground-background-and-forks">Foreground, background and forks</a></li>
+    <li><a href="#limits">Limits</a></li>
+    <li><a href="#controlling-sub-agents">Controlling sub-agents</a></li>
+    <li><a href="#example-agents">Example agents</a></li>
+    <li><a href="#when-to-use-one--and-when-not">When to use one — and when not</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>A <strong>sub-agent</strong> is a separate Claude worker that the main conversation hands a task to. It has its <strong>own context window</strong>, its own system prompt, and optionally its own tools, model and permission mode. It does the work and returns a <strong>summary</strong>, so long searches, test logs or file dumps never enter your main conversation. Claude delegates on its own when a sub-agent&rsquo;s description fits; you can also ask for one by name.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Condensed from Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/sub-agents" rel="noopener">Create custom subagents</a> page, read on 7 November 2026.</p></div>
+</aside><h2 id="built-in-sub-agents">Built-in sub-agents<a class="heading-anchor" href="#built-in-sub-agents" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Agent</th>
+      <th>Tools</th>
+      <th>Model</th>
+      <th>Used for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Explore</strong></td>
+      <td>Read-only (no Write/Edit)</td>
+      <td>Main conversation&rsquo;s model</td>
+      <td>Fast codebase search; Claude picks <em>quick</em>, <em>medium</em> or <em>very thorough</em></td>
+    </tr>
+    <tr>
+      <td><strong>Plan</strong></td>
+      <td>Read-only</td>
+      <td>Inherits</td>
+      <td>Research during plan mode</td>
+    </tr>
+    <tr>
+      <td><strong>general-purpose</strong></td>
+      <td>All sub-agent tools</td>
+      <td><code>CLAUDE_CODE_SUBAGENT_MODEL</code> if set, else inherits</td>
+      <td>Multi-step tasks that explore <em>and</em> modify</td>
+    </tr>
+    <tr>
+      <td>claude, statusline-setup, claude-code-guide</td>
+      <td>Varies</td>
+      <td>Varies</td>
+      <td>Catch-all, <code>/statusline</code>, Claude Code questions</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Explore and Plan start <strong>without</strong> <code>CLAUDE.md</code> and git status to stay cheap. Define your own <code>Explore</code> with <code>model: haiku</code> to make exploration cheaper; deny <code>Agent(Explore)</code> to disable it; <code>CLAUDE_CODE_DISABLE_EXPLORE_PLAN_AGENTS=1</code> removes both.</p>
+<h2 id="where-definitions-live">Where definitions live<a class="heading-anchor" href="#where-definitions-live" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Scope</th>
+      <th>Priority</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Managed settings</td>
+      <td>Organisation</td>
+      <td>1 (highest)</td>
+    </tr>
+    <tr>
+      <td><code>--agents '&lt;json&gt;'</code></td>
+      <td>This session</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td><code>.claude/agents/</code></td>
+      <td>This project (commit it)</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td><code>~/.claude/agents/</code></td>
+      <td>All your projects</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>Plugin <code>agents/</code></td>
+      <td>Where the plugin is enabled (<code>plugin:name</code>)</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Same <code>name</code> in two places → the higher priority wins. Folders are scanned recursively, so <code>agents/review/security.md</code> is fine. Ask Claude to create one, or write the file.</p>
+<h2 id="definition-format">Definition format<a class="heading-anchor" href="#definition-format" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">reviewer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l">Reviews changed files against the spec. Use after implementing a feature, before the PR.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">tools</span><span class="p">:</span><span class="w"> </span><span class="l">Read, Grep, Glob</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l">sonnet</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">effort</span><span class="p">:</span><span class="w"> </span><span class="l">high</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">maxTurns</span><span class="p">:</span><span class="w"> </span><span class="m">30</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="l">purple</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl">You are reviewing code you didn&#39;t write. Compare the changed files with the spec you are given.
+</span></span><span class="line"><span class="cl">Check every requirement is implemented and edge cases have tests.
+</span></span><span class="line"><span class="cl">Report only gaps that affect correctness, as a numbered list with file:line. Skip style.
+</span></span></code></pre></div><p>The body is the sub-agent&rsquo;s <strong>system prompt</strong>. The delegating Claude writes the <strong>task prompt</strong> from your request.</p>
+<h2 id="frontmatter">Frontmatter<a class="heading-anchor" href="#frontmatter" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Required</th>
+      <th>Does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>name</code></td>
+      <td>Yes</td>
+      <td>Identifier (no <code>:</code>); hooks see it as <code>agent_type</code></td>
+    </tr>
+    <tr>
+      <td><code>description</code></td>
+      <td>Yes</td>
+      <td>When Claude should delegate — add &ldquo;use proactively&rdquo; to encourage it</td>
+    </tr>
+    <tr>
+      <td><code>tools</code></td>
+      <td>No</td>
+      <td>Allowlist, e.g. <code>Read, Grep, Bash</code>. Omit to inherit all sub-agent tools</td>
+    </tr>
+    <tr>
+      <td><code>disallowedTools</code></td>
+      <td>No</td>
+      <td>Remove tools (a specifier like <code>Bash(git push *)</code> removes the whole tool)</td>
+    </tr>
+    <tr>
+      <td><code>model</code></td>
+      <td>No</td>
+      <td><code>sonnet</code>, <code>opus</code>, <code>haiku</code>, <code>fable</code>, a full ID, or <code>inherit</code></td>
+    </tr>
+    <tr>
+      <td><code>effort</code></td>
+      <td>No</td>
+      <td><code>low</code> … <code>max</code></td>
+    </tr>
+    <tr>
+      <td><code>permissionMode</code></td>
+      <td>No</td>
+      <td><code>default</code>, <code>acceptEdits</code>, <code>auto</code>, <code>dontAsk</code>, <code>bypassPermissions</code>, <code>plan</code> (ignored for plugin agents)</td>
+    </tr>
+    <tr>
+      <td><code>maxTurns</code></td>
+      <td>No</td>
+      <td>Turn cap; output is returned marked partial</td>
+    </tr>
+    <tr>
+      <td><code>skills</code></td>
+      <td>No</td>
+      <td>Skills <strong>preloaded in full</strong> at start</td>
+    </tr>
+    <tr>
+      <td><code>mcpServers</code></td>
+      <td>No</td>
+      <td>Server names, or inline server configs, for this agent only</td>
+    </tr>
+    <tr>
+      <td><code>hooks</code></td>
+      <td>No</td>
+      <td>Hooks active while this agent runs</td>
+    </tr>
+    <tr>
+      <td><code>memory</code></td>
+      <td>No</td>
+      <td><code>user</code>, <code>project</code> or <code>local</code> — persistent learning across sessions</td>
+    </tr>
+    <tr>
+      <td><code>background</code></td>
+      <td>No</td>
+      <td><code>true</code> keeps it in the background even when Claude asks to wait</td>
+    </tr>
+    <tr>
+      <td><code>isolation</code></td>
+      <td>No</td>
+      <td><code>worktree</code> — temporary git worktree, removed if unchanged</td>
+    </tr>
+    <tr>
+      <td><code>omitClaudeMd</code></td>
+      <td>No</td>
+      <td>Start without user/project/local <code>CLAUDE.md</code></td>
+    </tr>
+    <tr>
+      <td><code>autoCompactWindow</code></td>
+      <td>No</td>
+      <td>Lower this agent&rsquo;s auto-compact threshold</td>
+    </tr>
+    <tr>
+      <td><code>color</code></td>
+      <td>No</td>
+      <td>Display colour</td>
+    </tr>
+    <tr>
+      <td><code>initialPrompt</code></td>
+      <td>No</td>
+      <td>First turn when run as the main agent (<code>--agent</code>)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="which-model-runs-it">Which model runs it<a class="heading-anchor" href="#which-model-runs-it" aria-label="Link to this section">#</a></h2>
+<ol>
+<li>The <code>model</code> Claude passes on that call (an alias).</li>
+<li>The definition&rsquo;s <code>model</code> (<code>inherit</code> = main model).</li>
+<li><code>CLAUDE_CODE_SUBAGENT_MODEL</code>.</li>
+<li>The main conversation&rsquo;s model.</li>
+</ol>
+<p>A family alias that matches the main model&rsquo;s family resolves to the <strong>exact</strong> main model (including a 1M-context variant). Organisation <code>availableModels</code> still applies — a blocked model is substituted with a warning.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">The cheapest lever</span></p>
+  <div class="callout__body"><p><code>model: haiku</code> for mechanical jobs — collecting importers of a module, checking links, summarising logs — costs a fraction of the main model and is just as good at them.</p></div>
+</aside><h2 id="invoking">Invoking<a class="heading-anchor" href="#invoking" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>How</th>
+      <th>Guarantee</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Automatic</td>
+      <td>Claude matches the task to a <code>description</code></td>
+    </tr>
+    <tr>
+      <td>&ldquo;Use the reviewer subagent to…&rdquo;</td>
+      <td>Claude usually delegates</td>
+    </tr>
+    <tr>
+      <td><code>@&quot;reviewer (agent)&quot; check the auth changes</code></td>
+      <td>That sub-agent runs for this task</td>
+    </tr>
+    <tr>
+      <td><code>claude --agent reviewer</code>, or <code>&quot;agent&quot;</code> setting</td>
+      <td>The whole session <em>is</em> that agent</td>
+    </tr>
+    <tr>
+      <td><code>/subtask &lt;task&gt;</code></td>
+      <td>A <strong>forked</strong> sub-agent that inherits your full conversation</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="foreground-background-and-forks">Foreground, background and forks<a class="heading-anchor" href="#foreground-background-and-forks" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Sub-agents Claude spawns from your main conversation start <strong>in the background</strong> by default (fork mode on); permission prompts surface in your session, naming the agent.</li>
+<li><code>Ctrl+B</code> backgrounds a running one; <code>/tasks</code> lists them; <code>Ctrl+X Ctrl+K</code> stops all.</li>
+<li>To let Claude wait for results, set <code>CLAUDE_CODE_FORK_SUBAGENT=0</code>. In <code>-p</code> and SDK runs, Claude can wait on its own judgment.</li>
+<li>A <strong>fork</strong> inherits the conversation instead of starting fresh — no re-gathering context, but it carries everything.</li>
+</ul>
+<h2 id="limits">Limits<a class="heading-anchor" href="#limits" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Limit</th>
+      <th>Default</th>
+      <th>Change with</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Nesting depth below main</td>
+      <td>3 layers</td>
+      <td><code>CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH</code> (<code>1</code> = no nesting)</td>
+    </tr>
+    <tr>
+      <td>Concurrent sub-agents</td>
+      <td>20</td>
+      <td><code>CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS</code></td>
+    </tr>
+    <tr>
+      <td>Combined descriptions</td>
+      <td>Warning above 15,000 tokens</td>
+      <td>Shorter descriptions</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Keep a reviewer from spawning more agents by omitting <code>Agent</code> from its <code>tools</code>.</p>
+<h2 id="controlling-sub-agents">Controlling sub-agents<a class="heading-anchor" href="#controlling-sub-agents" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;permissions&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;deny&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;Agent(Explore)&#34;</span><span class="p">,</span> <span class="s2">&#34;Agent(general-purpose)&#34;</span><span class="p">]</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;CLAUDE_CODE_SUBAGENT_MODEL&#34;</span><span class="p">:</span> <span class="s2">&#34;haiku&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>Deny <code>Agent</code> entirely to stop all delegation.</li>
+<li>Settings, managed and plugin hooks fire inside sub-agents too; <code>SubagentStart</code> / <code>SubagentStop</code> hooks see them start and finish.</li>
+<li><code>--append-subagent-system-prompt</code> adds text to every sub-agent&rsquo;s prompt (useful in CI).</li>
+</ul>
+<h2 id="example-agents">Example agents<a class="heading-anchor" href="#example-agents" aria-label="Link to this section">#</a></h2>
+<p>The first four follow Anthropic&rsquo;s published examples; the last two are common additions.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Agent</th>
+      <th>Tools</th>
+      <th>Prompt essentials</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>code-reviewer</strong></td>
+      <td>Read, Grep, Glob, Bash</td>
+      <td>Review recent changes; report by severity; skip style</td>
+    </tr>
+    <tr>
+      <td><strong>debugger</strong></td>
+      <td>Read, Edit, Bash, Grep, Glob</td>
+      <td>Reproduce, isolate, fix root cause, verify, report evidence</td>
+    </tr>
+    <tr>
+      <td><strong>data-scientist</strong></td>
+      <td>Bash, Read, Write; <code>model: sonnet</code></td>
+      <td>SQL and data analysis with summarised findings</td>
+    </tr>
+    <tr>
+      <td><strong>db-reader</strong></td>
+      <td>Bash, with a <code>PreToolUse</code> hook that allows only <code>SELECT</code></td>
+      <td>Read-only database queries</td>
+    </tr>
+    <tr>
+      <td>test-runner</td>
+      <td>Bash, Read</td>
+      <td>Run the suite; return only failures with file:line and first error lines</td>
+    </tr>
+    <tr>
+      <td>docs-checker</td>
+      <td>Read, Grep, WebFetch; <code>model: haiku</code></td>
+      <td>Find broken links and stale examples</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="when-to-use-one--and-when-not">When to use one — and when not<a class="heading-anchor" href="#when-to-use-one--and-when-not" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Use a sub-agent when</th>
+      <th>Stay in the main conversation when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Output is verbose and you only need the result</td>
+      <td>You iterate back and forth</td>
+    </tr>
+    <tr>
+      <td>You want enforced tool limits (read-only reviewer)</td>
+      <td>Phases share lots of context</td>
+    </tr>
+    <tr>
+      <td>Work is self-contained and can return a summary</td>
+      <td>It&rsquo;s a quick targeted change</td>
+    </tr>
+    <tr>
+      <td>You need an independent reviewer that didn&rsquo;t see the reasoning</td>
+      <td>Latency matters — a fresh agent must re-gather context</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>For a quick question about the current conversation, <code>/btw</code> is cheaper than any sub-agent. For a reusable prompt that should run <em>in</em> the main context, write a <a href="/enterprise-ai/claude/claude-code-skills-reference/">skill</a>. For many coordinated workers, see <a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">agent teams and dynamic workflows</a>.</p>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Delegating for a smarter answer</span></p>
+  <div class="callout__body"><p>A sub-agent is the same or a smaller model with less context. You get parallelism, clean context and a fresh pair of eyes — not better reasoning.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Asking for everything back</span></p>
+  <div class="callout__body"><p>Twenty full results in the summary flood your context anyway. Tell the sub-agent exactly what to return and how short.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Write access for reviewers</span></p>
+  <div class="callout__body"><p>A reviewer with Edit will &ldquo;fix&rdquo; things. <code>tools: Read, Grep, Glob</code> makes the limit enforced, not requested.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>Which model does a sub-agent with <code>model: opus</code> use when the main session runs Opus 5.5 with 1M context?</strong>
+The main session&rsquo;s exact model, including the 1M variant, because the alias matches the main model&rsquo;s family.</p>
+<p><strong>How do you guarantee a specific sub-agent runs for one task?</strong>
+@-mention it: <code>@&quot;reviewer (agent)&quot; …</code>.</p>
+<p><strong>What&rsquo;s the difference between a sub-agent and a fork?</strong>
+A sub-agent starts with only its system prompt and task; a fork inherits the whole conversation.</p>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/sub-agents" rel="noopener">Create custom subagents</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/agents" rel="noopener">Run agents in parallel</a> and <a href="https://code.claude.com/docs/en/best-practices" rel="noopener">Best practices — know what subagents cost</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-skills-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: skills</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Automation &amp; parallel work</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agentic-ai/multi-agent-systems/">
+        <span class="card__eyebrow">3 · Agentic AI &amp; MCP</span>
+        <span class="card__title">Multi-agent systems</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-in-practice/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Code in practice</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-agent-sdk/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Claude Agent SDK</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-skills-reference/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Reference: skills</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-mcp-reference/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Reference: MCP</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#built-in-sub-agents">Built-in sub-agents</a></li>
+    <li><a href="#where-definitions-live">Where definitions live</a></li>
+    <li><a href="#definition-format">Definition format</a></li>
+    <li><a href="#frontmatter">Frontmatter</a></li>
+    <li><a href="#which-model-runs-it">Which model runs it</a></li>
+    <li><a href="#invoking">Invoking</a></li>
+    <li><a href="#foreground-background-and-forks">Foreground, background and forks</a></li>
+    <li><a href="#limits">Limits</a></li>
+    <li><a href="#controlling-sub-agents">Controlling sub-agents</a></li>
+    <li><a href="#example-agents">Example agents</a></li>
+    <li><a href="#when-to-use-one--and-when-not">When to use one — and when not</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

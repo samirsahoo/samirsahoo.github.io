@@ -28,6 +28,13 @@
 				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Agent identity and access control&lt;/strong&gt; answers three questions for every action an agent takes: &lt;strong&gt;who&lt;/strong&gt; is acting (the agent, the user, or both), &lt;strong&gt;what&lt;/strong&gt; are they allowed to do, and &lt;strong&gt;how&lt;/strong&gt; can we prove later what happened. Agents are a new kind of non-human identity that often act &lt;em&gt;on behalf of&lt;/em&gt; a human, so classic service-account thinking is not enough.&lt;/p&gt;</description>
 			</item>
 			<item>
+				<title>Claude Code for Teams and Organisations</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-for-teams/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-for-teams/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;For a team, Claude Code configuration has three owners. &lt;strong&gt;The repository&lt;/strong&gt; carries shared conventions, permissions, hooks, skills, agents and MCP servers, committed like any other code. &lt;strong&gt;Each developer&lt;/strong&gt; keeps personal preferences in local and user files. &lt;strong&gt;The organisation&lt;/strong&gt; sets policy through &lt;strong&gt;managed settings&lt;/strong&gt; that no one else can override, and watches usage and spend through analytics and telemetry.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>On-Premise and Hybrid GenAI Deployment</title>
 				<link>https://samirsahoo.github.io/enterprise-ai/foundations/on-prem-and-hybrid-deployment/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

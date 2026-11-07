@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Configuration on Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+		<link>https://samirsahoo.github.io/enterprise-ai/tags/configuration/</link>
+		<description>Recent content in Configuration on Enterprise AI &amp; Agentic AI Knowledge Hub</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+			<copyright>© 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.</copyright>
+		
+		
+			<atom:link href="https://samirsahoo.github.io/enterprise-ai/tags/configuration/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Claude Code Settings Reference</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-settings-reference/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-settings-reference/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Claude Code reads &lt;strong&gt;JSON settings files&lt;/strong&gt; at several levels — your user file, the project&amp;rsquo;s shared and local files, and the organisation&amp;rsquo;s managed settings — and combines them into one effective configuration. Settings control what Claude may do (permissions, sandbox), which model it uses, what loads into context, which extensions run, and what is reported. &lt;strong&gt;Environment variables&lt;/strong&gt; cover authentication, providers and a few low-level limits.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Claude Code Output Styles and Status Line</title>
+				<link>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-output-styles-and-status-line/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://samirsahoo.github.io/enterprise-ai/claude/claude-code-output-styles-and-status-line/</guid>
+				<description>&lt;h2 id=&#34;simple-definition&#34;&gt;Simple definition&lt;a class=&#34;heading-anchor&#34; href=&#34;#simple-definition&#34; aria-label=&#34;Link to this section&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;An &lt;strong&gt;output style&lt;/strong&gt; changes &lt;em&gt;how Claude talks to you&lt;/em&gt; for a whole session — its role, tone, length and format — by adding instructions to every request. The &lt;strong&gt;status line&lt;/strong&gt; changes &lt;em&gt;what you see&lt;/em&gt; while it works: a bar under the prompt rendered by your own script from live session data (model, context use, cost, git branch, rate limits). Neither changes what Claude is allowed to do.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

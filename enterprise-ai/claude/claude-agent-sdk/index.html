@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en-US">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="&copy; 2026 Samir Kumar Sahoo (https://github.com/samirsahoo). All rights reserved.">
+<meta name="author" content="Samir Kumar Sahoo">
+<title>Claude Agent SDK · Enterprise AI &amp; Agentic AI Knowledge Hub</title>
+<meta name="description" content="Building your own agents on the Claude Code loop with the Claude Agent SDK for Python and TypeScript: when to choose it over the CLI, Client SDK or Managed Agents, query() and ClaudeSDKClient, options, permissions and canUseTool, custom tools as in-process MCP servers, hooks, sub-agents, sessions, structured output, configuration loading, and hosting in containers.">
+<link rel="canonical" href="https://samirsahoo.github.io/enterprise-ai/claude/claude-agent-sdk/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)">
+<meta property="og:site_name" content="Enterprise AI &amp; Agentic AI Knowledge Hub">
+<meta property="og:title" content="Claude Agent SDK">
+<meta property="og:description" content="Building your own agents on the Claude Code loop with the Claude Agent SDK for Python and TypeScript: when to choose it over the CLI, Client SDK or Managed Agents, query() and ClaudeSDKClient, options, permissions and canUseTool, custom tools as in-process MCP servers, hooks, sub-agents, sessions, structured output, configuration loading, and hosting in containers.">
+<meta property="og:url" content="https://samirsahoo.github.io/enterprise-ai/claude/claude-agent-sdk/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Agent SDK">
+<meta name="twitter:description" content="Building your own agents on the Claude Code loop with the Claude Agent SDK for Python and TypeScript: when to choose it over the CLI, Client SDK or Managed Agents, query() and ClaudeSDKClient, options, permissions and canUseTool, custom tools as in-process MCP servers, hooks, sub-agents, sessions, structured output, configuration loading, and hosting in containers.">
+<meta name="keywords" content="claude, agents, sdk, developer-tools, architecture">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","author":{"@type":"Organization","name":"Samir Kumar Sahoo"},"dateModified":"2026-11-07","description":"Building your own agents on the Claude Code loop with the Claude Agent SDK for Python and TypeScript: when to choose it over the CLI, Client SDK or Managed Agents, query() and ClaudeSDKClient, options, permissions and canUseTool, custom tools as in-process MCP servers, hooks, sub-agents, sessions, structured output, configuration loading, and hosting in containers.","headline":"Claude Agent SDK","inLanguage":"en","isAccessibleForFree":true,"keywords":"claude, agents, sdk, developer-tools, architecture","proficiencyLevel":"Advanced","publisher":{"@type":"Organization","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub"},"url":"https://samirsahoo.github.io/enterprise-ai/claude/claude-agent-sdk/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/","name":"Enterprise AI \u0026 Agentic AI Knowledge Hub","position":1},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/","name":"6 · Claude for Engineering","position":2},{"@type":"ListItem","item":"https://samirsahoo.github.io/enterprise-ai/claude/claude-agent-sdk/","name":"Claude Agent SDK","position":3}]}
+</script>
+
+<link rel="icon" href="/enterprise-ai/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="/enterprise-ai/css/site.min.90b582461dc18501830b01ee3f447d0a40aacbcb1bc9a0ddba86763cd9f2ba6f.css" integrity="sha256-kLWCRh3BhQGDCwHuP0R9CkCqy8sbyaDduoZ2PNnyum8=">
+<noscript><style>.sidebar{display:block!important;position:static!important;transform:none!important}.theme-toggle,.search,.nav-toggle{display:none!important}</style></noscript>
+
+</head>
+<body class="kind-page section-claude">
+  <a class="skip-link" href="#main">Skip to content</a><header class="site-header">
+  <div class="site-header__inner">
+    <button class="nav-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="/enterprise-ai/" aria-label="Enterprise AI &amp; Agentic AI Knowledge Hub home">
+      <svg class="brand__mark" aria-hidden="true" viewBox="0 0 32 32" width="28" height="28"><rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/><path d="M10 11 16 8l6 3M10 11v10M22 11v10M10 21l6 3 6-3M16 8v16M10 11l12 10M22 11 10 21" stroke="var(--accent-contrast)" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="16" cy="16" r="2.6" fill="var(--accent-contrast)"/></svg>
+      <span class="brand__text"><span class="brand__name">Enterprise AI &amp; Agentic AI</span> <span class="brand__sub">Knowledge Hub</span></span>
+    </a>
+    <form class="search" role="search" action="/enterprise-ai/search/" method="get" data-index="/enterprise-ai/search-index.json">
+      <label class="visually-hidden" for="search-input">Search the handbook</label>
+      <input id="search-input" class="search__input" type="search" name="q" placeholder="Search…" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" role="combobox">
+      <kbd class="search__hint" aria-hidden="true">/</kbd>
+      <div id="search-results" class="search__results" role="listbox" hidden></div>
+    </form>
+    <nav class="top-nav" aria-label="Site">
+      <a href="/enterprise-ai/learning-paths/">Learning paths</a>
+      <a href="/enterprise-ai/glossary/">Glossary</a>
+      <a href="/enterprise-ai/about/">About</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+<nav id="sidebar" class="sidebar" aria-label="Topics">
+  <div class="sidebar__inner">
+    <ul class="nav-tree">
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/learning-paths/">Learning Paths</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/learning-paths/ai-architect/">AI Architect Learning Path</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/foundations/">1 · LLM Foundations</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-fundamentals/">AI engineering fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/how-llms-work/">How LLMs work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/training-and-sampling/">Training, scaling &amp; sampling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-and-serving/">Inference, latency &amp; cost</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/inference-optimization/">Inference optimisation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/prompt-engineering/">Prompt &amp; context engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/customizing-models/">Prompting vs RAG vs fine-tuning</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/finetuning-in-depth/">Fine-tuning in depth</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/dataset-engineering/">Dataset engineering</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluation-methodology/">Evaluation methodology</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/evaluating-ai-systems/">Evaluating AI systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/model-selection/">Model selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/enterprise-ai-stack/">Enterprise AI stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/ai-engineering-architecture/">AI engineering architecture</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/user-feedback/">User feedback</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/on-prem-and-hybrid-deployment/">On-prem &amp; hybrid deployment</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/llmops/">LLMOps &amp; observability</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/genai-adoption-strategy/">GenAI adoption strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/foundations/financial-services-hybrid-ai/">Hybrid AI in financial services</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/rag/">2 · RAG &amp; GraphRAG</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-fundamentals/">RAG fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/chunking-and-embeddings/">Chunking &amp; embeddings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/vector-databases/">Vector databases</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/advanced-retrieval/">Advanced retrieval</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/graphrag/">GraphRAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/rag-evaluation/">RAG evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/rag/case-study-knowledge-assistant/">Case study: knowledge assistant</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agentic-ai/">3 · Agentic AI &amp; MCP</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/what-is-an-agent/">What is an agent?</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-progression-and-spar/">Levels, SPAR &amp; keystones</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/tool-calling/">Tool calling</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-planning-and-failure-modes/">Planning &amp; failure modes</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/model-context-protocol/">MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-workflow-patterns/">Workflow &amp; agent patterns</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/multi-agent-systems/">Multi-agent systems</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-memory-and-state/">Memory &amp; state</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-reliability-and-evaluation/">Reliability &amp; evaluation</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-protocols/">Agent protocol stack</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-harness-and-skills/">Harnesses &amp; skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/computer-use-agents/">Computer-use agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-identity-and-access/">Agent identity &amp; access</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agentic-ai-strategy/">Agentic AI strategy</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/agent-building-playbook/">Agent building playbook</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agentic-ai/case-study-support-agent/">Case study: support agent</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/spring-ai-governance/">4 · Spring AI &amp; Governance</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-fundamentals/">Spring AI fundamentals</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-rag/">Spring AI RAG</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-tools-mcp-memory/">Spring AI tools, MCP &amp; memory</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/spring-ai-production/">Spring AI in production</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-security/">AI security</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/spring-ai-governance/ai-governance/">AI governance</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/agent-frameworks/">5 · Agent Frameworks</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/framework-landscape/">Framework landscape</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/python-typescript-frameworks/">Python &amp; TypeScript frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/jvm-agent-frameworks/">JVM &amp; .NET frameworks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">Managed platforms</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item is-active-branch">
+  <details open>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/" aria-current="page">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/review/">Review</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/architecture-review-framework/">Architecture review framework</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/review-questions/">Review questions</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/review/quick-reference/">Quick reference</a></li>
+    </ul>
+  </details>
+</li>
+
+    </ul>
+  </div>
+</nav>
+<div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="main" tabindex="-1">
+<div class="page-grid has-toc">
+  <article class="article" itemscope itemtype="https://schema.org/TechArticle">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/enterprise-ai/">Home</a></li>
+    <li><a href="/enterprise-ai/claude/">6 · Claude for Engineering</a></li>
+    <li><span aria-current="page">Claude Agent SDK</span></li>
+  </ol>
+</nav>
+
+    <header class="article__header">
+      <h1 itemprop="headline">Claude Agent SDK</h1><p class="article__lede" itemprop="description">Building your own agents on the Claude Code loop with the Claude Agent SDK for Python and TypeScript: when to choose it over the CLI, Client SDK or Managed Agents, query() and ClaudeSDKClient, options, permissions and canUseTool, custom tools as in-process MCP servers, hooks, sub-agents, sessions, structured output, configuration loading, and hosting in containers.</p>
+<ul class="article-meta" aria-label="Article details">
+  <li><span class="badge badge--advanced">Advanced</span></li>
+  <li>7 min read</li>
+  <li>Reviewed <time datetime="2026-11-07">November 7, 2026</time></li>
+  <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/claude/">#Claude</a><a class="tag" href="/enterprise-ai/tags/agents/">#Agents</a><a class="tag" href="/enterprise-ai/tags/sdk/">#Sdk</a><a class="tag" href="/enterprise-ai/tags/developer-tools/">#Developer-Tools</a><a class="tag" href="/enterprise-ai/tags/architecture/">#Architecture</a>
+  </li>
+</ul>
+
+    </header>
+<aside class="prereqs" aria-label="Prerequisites">
+  <strong>Before you read:</strong>
+  <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a>, <a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a>
+</aside>
+
+    <details class="toc toc--inline">
+      <summary>On this page</summary>
+      <nav>
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#which-claude-tool-to-build-with">Which Claude tool to build with</a></li>
+    <li><a href="#install-and-authenticate">Install and authenticate</a></li>
+    <li><a href="#first-agent">First agent</a></li>
+    <li><a href="#key-options">Key options</a></li>
+    <li><a href="#permissions-evaluation-order">Permissions: evaluation order</a></li>
+    <li><a href="#custom-tools-in-process-mcp-servers">Custom tools: in-process MCP servers</a></li>
+    <li><a href="#hooks-as-callbacks">Hooks as callbacks</a></li>
+    <li><a href="#sessions">Sessions</a></li>
+    <li><a href="#configuration-loading">Configuration loading</a></li>
+    <li><a href="#hosting">Hosting</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="prose" itemprop="articleBody">
+      <h2 id="simple-definition">Simple definition<a class="heading-anchor" href="#simple-definition" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Claude Agent SDK</strong> is Claude Code as a library. From Python or TypeScript you call <code>query()</code>, and the SDK runs the same agent loop, built-in tools (read, edit, shell, search, web), permissions, sessions, hooks, sub-agents and MCP support that power the Claude Code CLI — inside a process <strong>you</strong> operate. You supply the prompt, the tools it may use, and callbacks that decide what it&rsquo;s allowed to do.</p>
+<aside class="callout callout--version" role="note">
+  <p class="callout__title"><span class="callout__label">Version note</span><span class="callout__heading">Source and date</span></p>
+  <div class="callout__body"><p>Condensed from Anthropic&rsquo;s <a href="https://code.claude.com/docs/en/agent-sdk/overview" rel="noopener">Agent SDK</a> documentation (overview, quickstart, permissions, custom tools, hooks, sessions, hosting), read on 7 November 2026. Check the Python and TypeScript references for exact signatures.</p></div>
+</aside><figure class="archify-embed">
+  <iframe src="/enterprise-ai/diagrams/claude-agent-sdk.html" title="Your application around the Claude Code agent loop" loading="lazy" style="height: 680px"></iframe>
+  <figcaption>
+    <span>Your application around the Claude Code agent loop · drawn with Archify · zoom, guided views, search and SVG/PNG export. &copy; 2026 Samir Kumar Sahoo, all rights reserved.</span>
+    <a class="button" href="/enterprise-ai/diagrams/claude-agent-sdk.html" target="_blank" rel="noopener">Open full screen ↗</a>
+  </figcaption>
+</figure>
+
+<h2 id="which-claude-tool-to-build-with">Which Claude tool to build with<a class="heading-anchor" href="#which-claude-tool-to-build-with" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>You want to</th>
+      <th>Use</th>
+      <th>You get</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Embed a capable coding/file agent in your own Python or TypeScript app</td>
+      <td><strong>Agent SDK</strong></td>
+      <td>Claude Code&rsquo;s loop, tools, permissions, sessions and hooks as a library</td>
+    </tr>
+    <tr>
+      <td>Interactive development, one-off tasks</td>
+      <td><strong>Claude Code CLI</strong></td>
+      <td>The terminal experience; <code>claude -p</code> for scripts</td>
+    </tr>
+    <tr>
+      <td>Call the model directly and own the loop</td>
+      <td><strong>Client SDK</strong> (Messages API)</td>
+      <td>Full control; you write tools and the loop (or use the tool runner)</td>
+    </tr>
+    <tr>
+      <td>Anthropic hosts the agent and its sandbox</td>
+      <td><strong>Managed Agents</strong></td>
+      <td>Hosted harness configured through the API</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Other languages: run <code>claude -p … --output-format json</code> as a subprocess. See <a href="/enterprise-ai/claude/claude-api-for-developers/">The Claude API for builders</a> for the Client SDK and Managed Agents.</p>
+<h2 id="install-and-authenticate">Install and authenticate<a class="heading-anchor" href="#install-and-authenticate" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip install claude-agent-sdk                  <span class="c1"># or: uv add claude-agent-sdk   (Python 3.10+)</span>
+</span></span><span class="line"><span class="cl">npm install @anthropic-ai/claude-agent-sdk    <span class="c1"># Node 18.14+</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span>sk-ant-…             <span class="c1"># read from the process environment, not .env</span>
+</span></span></code></pre></div><p>Both packages bundle a native Claude Code binary. Cloud providers work with the same variables as the CLI (<code>CLAUDE_CODE_USE_BEDROCK=1</code>, <code>CLAUDE_CODE_USE_VERTEX=1</code>, <code>CLAUDE_CODE_USE_FOUNDRY=1</code>).</p>
+<aside class="callout callout--warning" role="note">
+  <p class="callout__title"><span class="callout__label">Warning</span><span class="callout__heading">Authentication for products</span></p>
+  <div class="callout__body"><p>Unless Anthropic has approved it, third-party products built on the SDK may <strong>not</strong> offer claude.ai login or use claude.ai rate limits. Use API keys or a cloud provider. Branding rules also apply: &ldquo;Powered by Claude&rdquo; is fine; calling your product &ldquo;Claude Code&rdquo; is not.</p></div>
+</aside><h2 id="first-agent">First agent<a class="heading-anchor" href="#first-agent" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">asyncio</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">claude_agent_sdk</span> <span class="kn">import</span> <span class="n">query</span><span class="p">,</span> <span class="n">ClaudeAgentOptions</span><span class="p">,</span> <span class="n">AssistantMessage</span><span class="p">,</span> <span class="n">ResultMessage</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">async</span> <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">query</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">prompt</span><span class="o">=</span><span class="s2">&#34;Review utils.py for bugs that would cause crashes. Fix any you find.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">options</span><span class="o">=</span><span class="n">ClaudeAgentOptions</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">allowed_tools</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Read&#34;</span><span class="p">,</span> <span class="s2">&#34;Edit&#34;</span><span class="p">,</span> <span class="s2">&#34;Glob&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="n">permission_mode</span><span class="o">=</span><span class="s2">&#34;acceptEdits&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">max_turns</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">AssistantMessage</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="s2">&#34;text&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                    <span class="nb">print</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">ResultMessage</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Done: </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">subtype</span><span class="si">}</span><span class="s2">, cost $</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">total_cost_usd</span> <span class="ow">or</span> <span class="mi">0</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">query</span> <span class="p">}</span> <span class="kr">from</span> <span class="s2">&#34;@anthropic-ai/claude-agent-sdk&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="k">await</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">message</span> <span class="k">of</span> <span class="nx">query</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">prompt</span><span class="o">:</span> <span class="s2">&#34;Review utils.py for bugs that would cause crashes. Fix any you find.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">options</span><span class="o">:</span> <span class="p">{</span> <span class="nx">allowedTools</span><span class="o">:</span> <span class="p">[</span><span class="s2">&#34;Read&#34;</span><span class="p">,</span> <span class="s2">&#34;Edit&#34;</span><span class="p">,</span> <span class="s2">&#34;Glob&#34;</span><span class="p">],</span> <span class="nx">permissionMode</span><span class="o">:</span> <span class="s2">&#34;acceptEdits&#34;</span><span class="p">,</span> <span class="nx">maxTurns</span>: <span class="kt">20</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">}))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="kr">type</span> <span class="o">===</span> <span class="s2">&#34;result&#34;</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Done: </span><span class="si">${</span><span class="nx">message</span><span class="p">.</span><span class="nx">subtype</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><code>query()</code> returns an async stream of messages: system init, assistant text and tool calls, tool results, and a final <strong>result</strong> message (<code>subtype</code> is <code>success</code>, or e.g. <code>error_max_turns</code>; it carries cost and usage).</p>
+<h2 id="key-options">Key options<a class="heading-anchor" href="#key-options" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Option (Python / TypeScript)</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>allowed_tools</code> / <code>allowedTools</code></td>
+      <td>Pre-approve tools (adds allow rules)</td>
+    </tr>
+    <tr>
+      <td><code>disallowed_tools</code> / <code>disallowedTools</code></td>
+      <td>Deny tools</td>
+    </tr>
+    <tr>
+      <td><code>permission_mode</code> / <code>permissionMode</code></td>
+      <td><code>default</code>, <code>acceptEdits</code>, <code>plan</code>, <code>auto</code>, <code>dontAsk</code>, <code>bypassPermissions</code></td>
+    </tr>
+    <tr>
+      <td><code>can_use_tool</code> / <code>canUseTool</code></td>
+      <td>Your callback for anything not resolved earlier</td>
+    </tr>
+    <tr>
+      <td><code>system_prompt</code> / <code>systemPrompt</code></td>
+      <td>Replace or append to the system prompt</td>
+    </tr>
+    <tr>
+      <td><code>model</code>, <code>max_turns</code> / <code>maxTurns</code></td>
+      <td>Model and turn cap</td>
+    </tr>
+    <tr>
+      <td><code>cwd</code></td>
+      <td>Working directory — give each session its own</td>
+    </tr>
+    <tr>
+      <td><code>mcp_servers</code> / <code>mcpServers</code></td>
+      <td>External or in-process MCP servers</td>
+    </tr>
+    <tr>
+      <td><code>hooks</code></td>
+      <td>Hook callbacks by event</td>
+    </tr>
+    <tr>
+      <td><code>agents</code></td>
+      <td>Sub-agent definitions</td>
+    </tr>
+    <tr>
+      <td><code>setting_sources</code> / <code>settingSources</code></td>
+      <td>Which of <code>user</code>, <code>project</code>, <code>local</code> settings, <code>CLAUDE.md</code> and skills to load</td>
+    </tr>
+    <tr>
+      <td><code>resume</code>, <code>continue_conversation</code> / <code>continue</code>, <code>fork_session</code> / <code>forkSession</code></td>
+      <td>Sessions</td>
+    </tr>
+    <tr>
+      <td><code>output_format</code> / <code>outputFormat</code></td>
+      <td>Validated structured output against a JSON Schema</td>
+    </tr>
+    <tr>
+      <td><code>env</code></td>
+      <td>Environment for the subprocess</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="permissions-evaluation-order">Permissions: evaluation order<a class="heading-anchor" href="#permissions-evaluation-order" aria-label="Link to this section">#</a></h2>
+<ol>
+<li><strong>Hooks</strong> (<code>PreToolUse</code>) — can deny; an <code>allow</code> doesn&rsquo;t skip the next steps.</li>
+<li><strong>Deny rules</strong> — from <code>disallowed_tools</code> and settings.</li>
+<li><strong>Ask rules</strong>.</li>
+<li><strong>Permission mode</strong> — e.g. <code>acceptEdits</code> approves edits, <code>bypassPermissions</code> approves almost everything.</li>
+<li><strong>Allow rules</strong> — from <code>allowed_tools</code> and settings.</li>
+<li><strong><code>canUseTool</code> callback</strong> — your code decides (skipped and denied in <code>dontAsk</code>).</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">claude_agent_sdk</span> <span class="kn">import</span> <span class="n">ClaudeAgentOptions</span><span class="p">,</span> <span class="n">PermissionResultAllow</span><span class="p">,</span> <span class="n">PermissionResultDeny</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">can_use_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">input_data</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">tool_name</span> <span class="o">==</span> <span class="s2">&#34;Bash&#34;</span> <span class="ow">and</span> <span class="s2">&#34;rm -rf&#34;</span> <span class="ow">in</span> <span class="n">input_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;command&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">PermissionResultDeny</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&#34;Destructive commands are not allowed&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">PermissionResultAllow</span><span class="p">(</span><span class="n">updated_input</span><span class="o">=</span><span class="n">input_data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">options</span> <span class="o">=</span> <span class="n">ClaudeAgentOptions</span><span class="p">(</span><span class="n">can_use_tool</span><span class="o">=</span><span class="n">can_use_tool</span><span class="p">)</span>
+</span></span></code></pre></div><p>TypeScript returns <code>{ behavior: &quot;allow&quot;, updatedInput }</code> or <code>{ behavior: &quot;deny&quot;, message }</code>.</p>
+<aside class="callout callout--tip" role="note">
+  <p class="callout__title"><span class="callout__label">Tip</span><span class="callout__heading">Don&rsquo;t silence your own callback</span></p>
+  <div class="callout__body"><p>A bare tool name in <code>allowed_tools</code> (e.g. <code>&quot;Bash&quot;</code>), or <code>bypassPermissions</code>, approves calls <strong>before</strong> <code>canUseTool</code> is consulted. Use specifiers like <code>Bash(npm test)</code> if your callback must see the rest. The TypeScript SDK warns when this happens.</p></div>
+</aside><p><strong>Non-interactive runs need an explicit mode.</strong> If tool calls are unexpectedly denied after an upgrade, pass <code>permission_mode</code> / <code>permissionMode</code> explicitly rather than relying on the default.</p>
+<h2 id="custom-tools-in-process-mcp-servers">Custom tools: in-process MCP servers<a class="heading-anchor" href="#custom-tools-in-process-mcp-servers" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Any</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">claude_agent_sdk</span> <span class="kn">import</span> <span class="n">tool</span><span class="p">,</span> <span class="n">create_sdk_mcp_server</span><span class="p">,</span> <span class="n">ClaudeAgentOptions</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@tool</span><span class="p">(</span><span class="s2">&#34;get_order&#34;</span><span class="p">,</span> <span class="s2">&#34;Look up an order by ID&#34;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&#34;order_id&#34;</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&#34;Order ID&#34;</span><span class="p">]})</span>
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">get_order</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">order</span> <span class="o">=</span> <span class="k">await</span> <span class="n">orders_api</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&#34;order_id&#34;</span><span class="p">])</span>          <span class="c1"># your code</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span><span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span> <span class="s2">&#34;text&#34;</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">to_json</span><span class="p">()}]}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">shop</span> <span class="o">=</span> <span class="n">create_sdk_mcp_server</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;shop&#34;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&#34;1.0.0&#34;</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">get_order</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">options</span> <span class="o">=</span> <span class="n">ClaudeAgentOptions</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mcp_servers</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;shop&#34;</span><span class="p">:</span> <span class="n">shop</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">allowed_tools</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;mcp__shop__get_order&#34;</span><span class="p">],</span>                    <span class="c1"># mcp__&lt;server&gt;__&lt;tool&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>TypeScript uses <code>tool(name, description, zodSchema, handler)</code> and <code>createSdkMcpServer({...})</code>. External MCP servers (stdio, HTTP) are passed the same way as config objects.</p>
+<h2 id="hooks-as-callbacks">Hooks as callbacks<a class="heading-anchor" href="#hooks-as-callbacks" aria-label="Link to this section">#</a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">claude_agent_sdk</span> <span class="kn">import</span> <span class="n">ClaudeAgentOptions</span><span class="p">,</span> <span class="n">HookMatcher</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">protect_env</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">tool_use_id</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">path</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="s2">&#34;tool_input&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;file_path&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&#34;.env&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">{</span><span class="s2">&#34;hookSpecificOutput&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;hookEventName&#34;</span><span class="p">:</span> <span class="n">input_data</span><span class="p">[</span><span class="s2">&#34;hook_event_name&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;permissionDecision&#34;</span><span class="p">:</span> <span class="s2">&#34;deny&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;permissionDecisionReason&#34;</span><span class="p">:</span> <span class="s2">&#34;Cannot modify .env files&#34;</span><span class="p">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">options</span> <span class="o">=</span> <span class="n">ClaudeAgentOptions</span><span class="p">(</span><span class="n">hooks</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;PreToolUse&#34;</span><span class="p">:</span> <span class="p">[</span><span class="n">HookMatcher</span><span class="p">(</span><span class="n">matcher</span><span class="o">=</span><span class="s2">&#34;Write|Edit&#34;</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="p">[</span><span class="n">protect_env</span><span class="p">])]})</span>
+</span></span></code></pre></div><p>Same events and output fields as the <a href="/enterprise-ai/claude/claude-code-hooks-reference/">hooks reference</a>, as functions instead of shell commands — useful for audit logging, redaction (<code>updatedInput</code>, <code>updatedToolOutput</code>) and policy.</p>
+<h2 id="sessions">Sessions<a class="heading-anchor" href="#sessions" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Need</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Multi-turn chat in one process</td>
+      <td><code>ClaudeSDKClient</code> (Python) or streaming input (TypeScript)</td>
+    </tr>
+    <tr>
+      <td>Pick up the most recent session after a restart</td>
+      <td><code>continue_conversation=True</code> / <code>continue: true</code></td>
+    </tr>
+    <tr>
+      <td>Resume a specific session</td>
+      <td>Capture <code>session_id</code> from the init message, pass <code>resume</code></td>
+    </tr>
+    <tr>
+      <td>Branch from a past session</td>
+      <td><code>resume</code> + <code>fork_session</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">async</span> <span class="k">with</span> <span class="n">ClaudeSDKClient</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">ClaudeAgentOptions</span><span class="p">(</span><span class="n">allowed_tools</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;Read&#34;</span><span class="p">,</span> <span class="s2">&#34;Edit&#34;</span><span class="p">,</span> <span class="s2">&#34;Grep&#34;</span><span class="p">]))</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&#34;Analyze the auth module&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">async</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">receive_response</span><span class="p">():</span> <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&#34;Now refactor it to use JWT&#34;</span><span class="p">)</span>        <span class="c1"># same session, full context</span>
+</span></span><span class="line"><span class="cl">    <span class="k">async</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">receive_response</span><span class="p">():</span> <span class="o">...</span>
+</span></span></code></pre></div><p>Transcripts live on the container&rsquo;s disk; to resume on another host, persist them (session storage options exist for this).</p>
+<h2 id="configuration-loading">Configuration loading<a class="heading-anchor" href="#configuration-loading" aria-label="Link to this section">#</a></h2>
+<p>By default the SDK loads <code>.claude/</code> configuration like the CLI: settings, <code>CLAUDE.md</code>, skills, commands, sub-agents and hooks. For a product, be explicit:</p>
+<ul>
+<li><code>setting_sources=[]</code> / <code>settingSources: []</code> — ignore user, project and local settings for a reproducible agent; include <code>&quot;project&quot;</code> if you rely on <code>.claude/settings.json</code> permission rules.</li>
+<li>Auto memory loads regardless — set <code>CLAUDE_CODE_DISABLE_AUTO_MEMORY=1</code> in <code>env</code> if you don&rsquo;t want it.</li>
+<li>Define the system prompt, tools, agents and MCP servers in code.</li>
+</ul>
+<h2 id="hosting">Hosting<a class="heading-anchor" href="#hosting" aria-label="Link to this section">#</a></h2>
+<p>The SDK spawns a <strong><code>claude</code> subprocess per session</strong> and talks to it over stdio; that process owns the shell, working directory and transcript. So:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Fits</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Ephemeral</strong> — one container per task, destroyed after</td>
+      <td>Bug fixes, document extraction, translations</td>
+    </tr>
+    <tr>
+      <td><strong>Long-running</strong> — persistent containers serving many sessions</td>
+      <td>Email triage, chat bots, per-user site builders</td>
+    </tr>
+    <tr>
+      <td><strong>Hybrid</strong> — ephemeral containers that resume persisted sessions</td>
+      <td>Intermittent long tasks</td>
+    </tr>
+    <tr>
+      <td><strong>Multi-agent container</strong> — several SDK processes sharing a workspace</td>
+      <td>Cooperating agents</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<ul>
+<li>Start at <strong>1 GiB RAM, 5 GiB disk, 1 CPU per agent</strong>; memory grows with session length.</li>
+<li>Outbound HTTPS to the API (or your provider) and to any MCP servers; nothing listens except your app.</li>
+<li>Run each agent in a <strong>sandboxed container</strong> with scoped network egress; separate <code>cwd</code> per session; per-tenant isolation for multi-tenant products.</li>
+<li>Cap with <code>max_turns</code>, track <code>total_cost_usd</code>, and export OpenTelemetry for observability.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes<a class="heading-anchor" href="#common-mistakes" aria-label="Link to this section">#</a></h2>
+<aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Running the agent on your app server&rsquo;s filesystem</span></p>
+  <div class="callout__body"><p>The agent edits files and runs shell commands. Give it a container and a working directory it can&rsquo;t escape.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Inheriting a developer&rsquo;s configuration in production</span></p>
+  <div class="callout__body"><p>Default setting sources load whatever <code>.claude/</code> and <code>~/.claude/</code> exist. Set <code>setting_sources</code> explicitly and define behaviour in code.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Broad <code>allowed_tools</code> plus a <code>canUseTool</code> you expect to run</span></p>
+  <div class="callout__body"><p>Bare tool names approve calls before your callback sees them.</p></div>
+</aside><aside class="callout callout--mistake" role="note">
+  <p class="callout__title"><span class="callout__label">Common mistake</span><span class="callout__heading">Choosing the SDK when you need a plain model call</span></p>
+  <div class="callout__body"><p>For classification or extraction with no file or shell work, the Messages API is simpler and cheaper.</p></div>
+</aside><h2 id="review-questions">Review questions<a class="heading-anchor" href="#review-questions" aria-label="Link to this section">#</a></h2>
+<p><strong>How does the Agent SDK differ from the Client SDK?</strong>
+The Agent SDK runs Claude Code&rsquo;s full agent loop with built-in tools, permissions and sessions; the Client SDK calls the Messages API and leaves the loop and tools to you.</p>
+<p><strong>In what order are tool calls decided?</strong>
+Hooks → deny rules → ask rules → permission mode → allow rules → <code>canUseTool</code>.</p>
+<p><strong>How do you add your own business tool?</strong>
+Define it with <code>tool()</code>, wrap it in <code>create_sdk_mcp_server</code>, pass it in <code>mcp_servers</code>, and allow <code>mcp__&lt;server&gt;__&lt;tool&gt;</code>.</p>
+<h2 id="references">References<a class="heading-anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/agent-sdk/overview" rel="noopener">Agent SDK overview</a> and <a href="https://code.claude.com/docs/en/agent-sdk/quickstart" rel="noopener">Quickstart</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/agent-sdk/permissions" rel="noopener">Permissions</a>, <a href="https://code.claude.com/docs/en/agent-sdk/custom-tools" rel="noopener">Custom tools</a>, <a href="https://code.claude.com/docs/en/agent-sdk/hooks" rel="noopener">Hooks</a> and <a href="https://code.claude.com/docs/en/agent-sdk/sessions" rel="noopener">Sessions</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/agent-sdk/hosting" rel="noopener">Hosting the Agent SDK</a> and <a href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" rel="noopener">Secure deployment</a>.</li>
+<li>Anthropic, <a href="https://code.claude.com/docs/en/agent-sdk/python" rel="noopener">Python SDK reference</a> and <a href="https://code.claude.com/docs/en/agent-sdk/typescript" rel="noopener">TypeScript SDK reference</a>.</li>
+</ul>
+
+    </div>
+<section class="related" aria-labelledby="related-heading">
+  <h2 id="related-heading">Related articles</h2>
+  <ul class="card-list card-list--compact">
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/framework-landscape/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Framework landscape</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/agent-frameworks/managed-agent-platforms/">
+        <span class="card__eyebrow">5 · Agent Frameworks</span>
+        <span class="card__title">Managed platforms</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-hooks-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: hooks</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-mcp-reference/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Reference: MCP</span>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">
+        <span class="card__eyebrow">6 · Claude for Engineering</span>
+        <span class="card__title">Automation &amp; parallel work</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+
+<nav class="prev-next" aria-label="Previous and next articles">
+  <a class="prev-next__link prev-next__link--prev" href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/" rel="prev">
+    <span class="prev-next__label">← Previous</span>
+    <span class="prev-next__title">Reference: output styles &amp; status line</span>
+  </a>
+  <a class="prev-next__link prev-next__link--next" href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/" rel="next">
+    <span class="prev-next__label">Next →</span>
+    <span class="prev-next__title">Automation &amp; parallel work</span>
+  </a>
+</nav>
+
+  </article>
+  <aside class="toc toc--side" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#simple-definition">Simple definition</a></li>
+    <li><a href="#which-claude-tool-to-build-with">Which Claude tool to build with</a></li>
+    <li><a href="#install-and-authenticate">Install and authenticate</a></li>
+    <li><a href="#first-agent">First agent</a></li>
+    <li><a href="#key-options">Key options</a></li>
+    <li><a href="#permissions-evaluation-order">Permissions: evaluation order</a></li>
+    <li><a href="#custom-tools-in-process-mcp-servers">Custom tools: in-process MCP servers</a></li>
+    <li><a href="#hooks-as-callbacks">Hooks as callbacks</a></li>
+    <li><a href="#sessions">Sessions</a></li>
+    <li><a href="#configuration-loading">Configuration loading</a></li>
+    <li><a href="#hosting">Hosting</a></li>
+    <li><a href="#common-mistakes">Common mistakes</a></li>
+    <li><a href="#review-questions">Review questions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+  </aside>
+</div>
+
+    </main>
+  </div><footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__title">Enterprise AI &amp; Agentic AI Knowledge Hub</p>
+      <p>Understand the concepts. Draw the architecture. Review with confidence.</p>
+    </div>
+    <ul class="site-footer__links"><li><a href="/enterprise-ai/about/">About &amp; conventions</a></li><li><a href="/enterprise-ai/tags/">All tags</a></li>
+      <li><a href="/">samirsahoo.github.io</a></li>
+      <li><a href="/enterprise-ai/index.xml">RSS feed</a></li>
+      <li><a href="/enterprise-ai/sitemap.xml">Sitemap</a></li>
+    </ul>
+    <p class="site-footer__license">&copy; 2026 <a href="https://github.com/samirsahoo" rel="author noopener">Samir Kumar Sahoo</a>. All rights reserved. All content on this site, including text, code examples, images, diagrams and interactive Archify diagrams, may not be copied, reproduced or redistributed without written permission. Spring AI examples target Spring AI 2.0 on Java 21.</p>
+  </div>
+</footer>
+
+<script src="/enterprise-ai/js/main.min.b8880115c301c86b51e1d59805622e2e67af72ccf988badc1bf4a6835b473b0e.js" defer></script>
+
+</body>
+</html>

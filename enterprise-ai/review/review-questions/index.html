@@ -178,6 +178,34 @@
   </details>
 </li>
 
+<li class="nav-tree__item">
+  <details>
+    <summary>
+      <a href="/enterprise-ai/claude/">6 · Claude for Engineering</a>
+    </summary>
+    <ul>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models &amp; selection</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API for builders</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code in practice</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-best-practices-cheatsheet/">Cheatsheet: best practices</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-commands-cheatsheet/">Cheatsheet: commands</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-hooks-reference/">Reference: hooks</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-settings-reference/">Reference: settings</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-skills-reference/">Reference: skills</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-subagents-reference/">Reference: sub-agents</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-mcp-reference/">Reference: MCP</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-plugins-reference/">Reference: plugins</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-output-styles-and-status-line/">Reference: output styles &amp; status line</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-agent-sdk/">Claude Agent SDK</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-automation-and-parallel-work/">Automation &amp; parallel work</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-for-teams/">Claude Code for teams</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-code-troubleshooting/">Troubleshooting</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a></li>
+      <li class="nav-tree__item"><a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a></li>
+    </ul>
+  </details>
+</li>
+
 <li class="nav-tree__item is-active-branch">
   <details open>
     <summary>
@@ -211,7 +239,7 @@
       <h1 itemprop="headline">Review Questions: Enterprise and Agentic AI</h1><p class="article__lede" itemprop="description">Over 100 review questions with concise answers across LLM fundamentals, model selection, the enterprise AI stack, RAG, vector databases, GraphRAG, evaluation, agents, MCP, multi-agent systems, Spring AI, AI security and governance, agent frameworks and protocols — plus scenario and reflection questions.</p>
 <ul class="article-meta" aria-label="Article details">
   <li><span class="badge badge--intermediate">Intermediate</span></li>
-  <li>18 min read</li>
+  <li>19 min read</li>
   <li>Reviewed <time datetime="2026-11-01">November 1, 2026</time></li>
   <li class="article-meta__tags"><a class="tag" href="/enterprise-ai/tags/review/">#Review</a>
   </li>
@@ -237,6 +265,7 @@
     <li><a href="#11-agent-protocols-harnesses-and-identity">11. Agent protocols, harnesses and identity</a></li>
     <li><a href="#12-agent-frameworks-and-platforms">12. Agent frameworks and platforms</a></li>
     <li><a href="#13-agentic-ai-strategy">13. Agentic AI strategy</a></li>
+    <li><a href="#13a-claude-for-engineering-and-the-sdlc">13a. Claude for engineering and the SDLC</a></li>
     <li><a href="#14-scenario-questions">14. Scenario questions</a></li>
     <li><a href="#15-reflection-prompts">15. Reflection prompts</a></li>
     <li><a href="#summary">Summary</a></li>
@@ -516,6 +545,22 @@ Assist → automate steps → act with oversight → orchestrate across domains 
 Total cost per successfully completed task (including retries, review and failures) against the current process, plus quality, risk and adoption metrics.</p>
 <p><strong>What is AgentOps?</strong>
 Running agents like production services: SLOs, monitoring, incident response, cost management and continuous evaluation.</p>
+<h2 id="13a-claude-for-engineering-and-the-sdlc">13a. Claude for engineering and the SDLC<a class="heading-anchor" href="#13a-claude-for-engineering-and-the-sdlc" aria-label="Link to this section">#</a></h2>
+<p>Full explanations: <a href="/enterprise-ai/claude/claude-models-and-selection/">Claude models</a>, <a href="/enterprise-ai/claude/claude-api-for-developers/">Claude API</a>, <a href="/enterprise-ai/claude/claude-code-in-practice/">Claude Code</a>, <a href="/enterprise-ai/claude/claude-across-the-sdlc/">Claude across the SDLC</a>, <a href="/enterprise-ai/claude/using-claude-intelligently/">Using Claude intelligently</a>.</p>
+<p><strong>Name the current Claude tiers and when to use each.</strong>
+Fable 5.1 for the hardest reasoning and long autonomous work; Opus 5.5 as the default for complex coding, agents and analysis; Sonnet 5.5 for everyday coding and enterprise workloads; Haiku 5.5 for high-volume, latency-sensitive tasks and sub-agents.</p>
+<p><strong>What does the effort parameter control?</strong>
+How thoroughly the model thinks, how many tool calls it makes and how much it writes — the quality-versus-cost dial within one model, from <code>low</code> to <code>max</code>.</p>
+<p><strong>What is the single biggest free cost lever on the Claude API?</strong>
+Prompt caching of stable prefixes (tools, system prompt, documents), verified with <code>cache_read_input_tokens</code>.</p>
+<p><strong>Tool runner, Agent SDK or Managed Agents?</strong>
+Tool runner loops over your own tools; the Agent SDK embeds the full Claude Code harness in your process; Managed Agents adds Anthropic-hosted loop, sandbox, versioned configs, vaults and schedules.</p>
+<p><strong>What belongs in <code>CLAUDE.md</code>, and what belongs in hooks?</strong>
+<code>CLAUDE.md</code>: short project context — commands, architecture rules, conventions. Hooks and permission rules: anything that must always happen or never happen, because they are enforced, not advisory.</p>
+<p><strong>Where should humans stay in an AI-assisted SDLC?</strong>
+Scope sign-off, design decisions, PR approval, release go/no-go, incident command and every production change.</p>
+<p><strong>How do you measure whether Claude improves delivery?</strong>
+With delivery outcomes — lead time, change failure rate, time to restore, escaped defects, review time — plus developer experience, not lines generated or suggestions accepted.</p>
 <h2 id="14-scenario-questions">14. Scenario questions<a class="heading-anchor" href="#14-scenario-questions" aria-label="Link to this section">#</a></h2>
 <p><strong>The CFO says the AI bill tripled last month. What do you do?</strong>
 Break cost down by feature, model and tenant from gateway metrics; look for prompt growth (history not trimmed, too much retrieved context), a model change, missing caching, runaway agents or abuse. Fix with context trimming, prompt caching, routing, output limits, quotas and budgets; add cost alerts.</p>
@@ -589,6 +634,7 @@ Start with internal, lower-risk use cases (knowledge assistants, developer produ
     <li><a href="#11-agent-protocols-harnesses-and-identity">11. Agent protocols, harnesses and identity</a></li>
     <li><a href="#12-agent-frameworks-and-platforms">12. Agent frameworks and platforms</a></li>
     <li><a href="#13-agentic-ai-strategy">13. Agentic AI strategy</a></li>
+    <li><a href="#13a-claude-for-engineering-and-the-sdlc">13a. Claude for engineering and the SDLC</a></li>
     <li><a href="#14-scenario-questions">14. Scenario questions</a></li>
     <li><a href="#15-reflection-prompts">15. Reflection prompts</a></li>
     <li><a href="#summary">Summary</a></li>
